@@ -1,0 +1,40 @@
+<button
+  type="button"
+  class="group inline-flex items-center gap-2 rounded-full border border-white/25 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.04em] text-white/85 transition-colors hover:border-white/70 hover:text-white"
+  data-theme-toggle
+  aria-label="Cambiar a tema oscuro"
+  aria-pressed="false"
+>
+  <span class="relative h-3.5 w-6 rounded-full border border-current/60" aria-hidden="true">
+    <span class="absolute left-0.5 top-0.5 size-2 rounded-full bg-current transition-transform duration-200" data-theme-indicator></span>
+  </span>
+  <span data-theme-label>Oscuro</span>
+</button>
+
+<script is:inline>
+  const themeToggle = document.querySelector('[data-theme-toggle]')
+  const themeIndicator = themeToggle?.querySelector('[data-theme-indicator]')
+  const themeLabel = themeToggle?.querySelector('[data-theme-label]')
+  const root = document.documentElement
+
+  const updateThemeControl = (theme) => {
+    const isDark = theme === 'dark'
+    root.dataset.theme = isDark ? 'dark' : 'light'
+    themeToggle?.setAttribute('aria-pressed', String(isDark))
+    themeToggle?.setAttribute('aria-label', isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro')
+    if (themeLabel) themeLabel.textContent = isDark ? 'Claro' : 'Oscuro'
+    if (themeIndicator) themeIndicator.style.transform = isDark ? 'translateX(0.6rem)' : 'translateX(0)'
+  }
+
+  updateThemeControl(root.dataset.theme || 'light')
+
+  themeToggle?.addEventListener('click', () => {
+    const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark'
+    updateThemeControl(nextTheme)
+    try {
+      localStorage.setItem('sensei-theme', nextTheme)
+    } catch {
+      // The visual preference still applies when storage is unavailable.
+    }
+  })
+</script>

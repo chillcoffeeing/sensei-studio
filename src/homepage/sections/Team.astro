@@ -1,0 +1,41 @@
+---
+import Section from '../../components/layout/Section.astro'
+import TeamTile from '../../components/cards/TeamTile.astro'
+import AnimatedSection from '../../components-react/AnimatedSection'
+import { TEAM_HEADING, TEAM_TILES } from '../../data/content'
+---
+
+<Section id="equipo" class="pt-28 pb-24 md:pt-36 md:pb-32">
+  <div class="grid gap-12 md:grid-cols-[minmax(0,1fr)_410px] md:gap-20">
+    <AnimatedSection client:load>
+      <div class="mb-5 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.02em]">
+        <span class="size-3.5 rounded-full bg-lime" aria-hidden="true"></span>
+        <span>{TEAM_HEADING.label}</span>
+      </div>
+      <h2 class="text-4xl font-medium leading-[1.08] tracking-[-0.055em] md:text-5xl">
+        {TEAM_HEADING.headline}<br />
+        <span class="text-muted">{TEAM_HEADING.muted}</span>
+      </h2>
+    </AnimatedSection>
+
+    <AnimatedSection client:load delay={0.12} className="self-end md:pb-1">
+      <p class="text-base leading-[1.35] text-muted md:text-right">{TEAM_HEADING.sub}</p>
+    </AnimatedSection>
+  </div>
+
+  <div class="mt-16 grid grid-cols-2 gap-5 md:mt-20 md:grid-cols-4">
+    {TEAM_TILES.map((member, index) => (
+      <AnimatedSection client:load delay={index * 0.08}>
+        <TeamTile kind={member.kind} name={member.name} role={member.role} image={member.image} />
+      </AnimatedSection>
+    ))}
+  </div>
+
+  <div class="mt-10 flex flex-col justify-between gap-5 border-t border-line pt-6 md:flex-row md:items-center">
+    <p class="max-w-[42ch] text-base leading-relaxed text-muted">{TEAM_HEADING.ctaDescription}</p>
+    <a href="#cta" class="inline-flex items-center gap-4 text-xs font-medium uppercase text-muted transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime">
+      {TEAM_HEADING.ctaText}
+      <span class="text-lg leading-none" aria-hidden="true">+</span>
+    </a>
+  </div>
+</Section>

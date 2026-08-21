@@ -1,0 +1,43 @@
+---
+import Section from '../../components/layout/Section.astro'
+import ProjectCard from '../../components/cards/ProjectCard.astro'
+import AnimatedSection from '../../components-react/AnimatedSection'
+import { PROJECTS_HEADING, PROJECTS } from '../../data/content'
+---
+
+<Section id="proyectos" class="pt-24 pb-20 md:pt-32 md:pb-28">
+  <div class="mb-10 flex flex-col justify-between gap-7 md:mb-12 md:flex-row md:items-end md:gap-16">
+    <AnimatedSection client:load className="max-w-[790px]">
+      <div class="mb-5 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.02em]">
+        <span class="size-3.5 rounded-full bg-lime" aria-hidden="true"></span>
+        <span>{PROJECTS_HEADING.label}</span>
+      </div>
+      <h2 class="max-w-[780px] text-4xl font-medium leading-[1.08] tracking-[-0.055em] md:text-5xl">
+        {PROJECTS_HEADING.title}
+      </h2>
+      <p class="mt-5 max-w-[46ch] text-base leading-relaxed text-muted md:text-lg">{PROJECTS_HEADING.sub}</p>
+    </AnimatedSection>
+
+    <a href="#showcase" class="inline-flex shrink-0 items-center gap-4 text-xs font-medium uppercase text-muted transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime">
+      {PROJECTS_HEADING.link}
+      <span class="text-lg leading-none" aria-hidden="true">+</span>
+    </a>
+  </div>
+
+  <div class="grid gap-px bg-line md:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] md:grid-rows-2">
+    {PROJECTS.map((project, index) => (
+      <AnimatedSection client:load delay={(index % 2) * 0.1} className={index === 0 ? 'h-full md:row-span-2' : 'h-full'}>
+        <ProjectCard
+          title={project.title}
+          category={project.category}
+          image={project.image}
+          alt={project.alt}
+          tone={project.tone}
+          size={index === 0 ? 'feature' : 'standard'}
+          loadingPriority={index < 2}
+          class="h-full"
+        />
+      </AnimatedSection>
+    ))}
+  </div>
+</Section>

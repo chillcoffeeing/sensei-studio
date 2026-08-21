@@ -1,0 +1,38 @@
+---
+import { FOOTER } from '../../data/content'
+---
+
+<footer class="overflow-hidden border-t border-white/10 bg-panel text-white">
+  <div class="mx-auto grid w-full max-w-[1440px] gap-x-10 gap-y-12 px-6 py-12 lg:grid-cols-[1fr_1.2fr_1fr_1.3fr] lg:gap-12 lg:px-[60px] lg:py-16">
+    <nav aria-label="Páginas">
+      <p class="mb-5 text-xs uppercase tracking-[0.08em] text-white/55">Páginas</p>
+      <ul class="space-y-2 text-lg font-medium tracking-[-0.04em] md:text-xl">
+        {FOOTER.pages.map((page) => (
+          <li><a href={page.href} class="transition-colors hover:text-lime focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime">{page.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <nav aria-label="Trabajo reciente">
+      <p class="mb-5 text-xs uppercase tracking-[0.08em] text-white/55">Trabajo reciente</p>
+      <ul class="space-y-2 text-lg font-medium tracking-[-0.04em] md:text-xl">
+        {FOOTER.recentWork.map((work) => (
+          <li><a href={work.href} class="transition-colors hover:text-lime focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime">{work.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div>
+      <p class="mb-5 text-xs uppercase tracking-[0.08em] text-white/55">Contacto</p>
+      <a href={FOOTER.email.href} class="text-lg font-medium tracking-[-0.04em] transition-colors hover:text-lime focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime md:text-xl">{FOOTER.email.label}</a>
+    </div>
+
+    <div class="max-w-[320px]">
+      <p class="mb-5 text-xs uppercase tracking-[0.08em] text-white/55">Estudio</p>
+      <p class="text-lg font-medium leading-[1.12] tracking-[-0.04em] md:text-xl">{FOOTER.description}</p>
+      <ul class="mt-7 space-y-3 text-xs text-white/45">
+        {FOOTER.credits.map((credit) => <li>{credit}</li>)}
+      </ul>
+    </div>
+  </div>
+</footer>

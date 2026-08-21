@@ -1,0 +1,35 @@
+---
+import Section from '../../components/layout/Section.astro'
+import AnimatedSection from '../../components-react/AnimatedSection'
+import { SHOWCASE_PROJECTS, SHOWCASE_TITLE } from '../../data/content'
+---
+
+<Section id="showcase" bg="dark" class="overflow-hidden rounded-[10px] px-0 py-0 md:py-0">
+  <div class="relative min-h-[40rem] overflow-hidden py-16 md:min-h-[760px] md:py-24">
+    <h2 class="pointer-events-none absolute left-1/2 top-16 z-20 w-full max-w-[1200px] -translate-x-1/2 overflow-visible text-center text-balance text-[clamp(3.5rem,10vw,9rem)] font-semibold uppercase leading-[1.15] tracking-[-0.08em] break-normal text-white/45 md:top-24">
+      {SHOWCASE_TITLE}
+    </h2>
+
+    <AnimatedSection client:load className="relative z-10 mt-32 md:mt-40">
+      <div class="showcase-viewport overflow-hidden" aria-label="Proyectos destacados">
+        <div class="showcase-marquee flex min-w-max items-end gap-5 px-6 md:gap-5 md:px-[60px]" tabindex="0">
+          {[...SHOWCASE_PROJECTS, ...SHOWCASE_PROJECTS].map((project, index) => (
+            <a
+              href="#proyectos"
+              class="block w-[min(73vw,616px)] shrink-0 overflow-hidden rounded-[6px] bg-panel focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime md:w-[616px]"
+              aria-label={`Ver proyecto ${project.title}`}
+            >
+              <img
+                src={project.image}
+                alt={project.title}
+                class="aspect-[1.08] h-auto w-full object-cover transition-transform duration-700 ease-out hover:scale-[1.025]"
+                loading={index < 3 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+            </a>
+          ))}
+        </div>
+      </div>
+    </AnimatedSection>
+  </div>
+</Section>

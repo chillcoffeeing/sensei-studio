@@ -1,0 +1,51 @@
+---
+import Landing from '../layouts/Landing.astro'
+import Hero from './sections/Hero.astro'
+import Clients from './sections/Clients.astro'
+import Projects from './sections/Projects.astro'
+import WhyUs from './sections/WhyUs.astro'
+import HowWeWork from './sections/HowWeWork.astro'
+import Services from './sections/Services.astro'
+import Showcase from './sections/Showcase.astro'
+import Reviews from './sections/Reviews.astro'
+import Team from './sections/Team.astro'
+import FaqAccordion from '../components-react/FaqAccordion'
+import CtaFinal from './sections/CtaFinal.astro'
+import Footer from './sections/Footer.astro'
+import { FAQ_HEADING, FAQ } from '../data/content'
+---
+
+<Landing>
+  <Hero />
+  <main id="main-content">
+    <Clients />
+    <Projects />
+    <WhyUs />
+    <HowWeWork />
+    <Services />
+    <Showcase />
+    <Reviews />
+    <Team />
+
+    <section id="faq" class="min-h-[620px] bg-paper py-24 text-ink md:min-h-[760px] md:py-32" aria-labelledby="faq-heading">
+      <div class="mx-auto grid w-full max-w-[1440px] gap-12 px-6 lg:grid-cols-[minmax(0,1fr)_minmax(360px,520px)] lg:gap-20 lg:px-[60px]">
+        <div class="max-w-2xl">
+          <div class="mb-4 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.02em]">
+            <span class="size-3.5 rounded-full bg-lime" aria-hidden="true"></span>
+            <span>FAQ</span>
+          </div>
+          <h2 id="faq-heading" class="max-w-xl text-4xl font-medium leading-[1.04] tracking-[-0.055em] md:text-5xl">
+            {FAQ_HEADING.headline}<br />
+            <span class="text-muted">{FAQ_HEADING.sub}</span>
+          </h2>
+          <p class="mt-6 max-w-[40ch] text-base leading-relaxed text-muted">{FAQ_HEADING.description}</p>
+        </div>
+
+        <FaqAccordion items={FAQ} client:visible className="w-full lg:pt-2" />
+      </div>
+    </section>
+
+    <CtaFinal />
+  </main>
+  <Footer />
+</Landing>

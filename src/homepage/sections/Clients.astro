@@ -1,0 +1,15 @@
+---
+import Section from '../../components/layout/Section.astro'
+import ClientCard from '../../components/cards/ClientCard.astro'
+import { CLIENTS } from '../../data/content'
+---
+
+<Section id="clientes" class="overflow-hidden border-b border-line py-4 md:py-5">
+  <div class="overflow-hidden" aria-label="Clientes con los que trabajamos">
+    <div class="client-marquee flex min-w-full w-max items-center gap-10 md:gap-14" tabindex="0">
+      {[...CLIENTS, ...CLIENTS].map((client) => (
+        <ClientCard name={client.name} logo={client.logo} logoKind={client.logoKind} class="client-logo-wrap" />
+      ))}
+    </div>
+  </div>
+</Section>

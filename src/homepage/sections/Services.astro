@@ -1,0 +1,26 @@
+---
+import Section from '../../components/layout/Section.astro'
+import AnimatedSection from '../../components-react/AnimatedSection'
+import ServicesAccordion from '../../components-react/ServicesAccordion'
+import { SERVICES_HEADING, SERVICES } from '../../data/content'
+---
+
+<Section id="servicios" class="pt-24 pb-20 md:pt-32 md:pb-28">
+  <div class="grid gap-10 md:grid-cols-[minmax(0,1fr)_410px] md:gap-20">
+    <AnimatedSection client:load>
+      <div class="mb-5 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.02em]">
+        <span class="size-3.5 rounded-full bg-lime" aria-hidden="true"></span>
+        <span>{SERVICES_HEADING.label}</span>
+      </div>
+      <h2 class="max-w-[590px] text-4xl font-medium leading-[1.08] tracking-[-0.055em] md:text-5xl">
+        {SERVICES_HEADING.headline} <span class="text-muted">{SERVICES_HEADING.muted}</span>
+      </h2>
+    </AnimatedSection>
+
+    <AnimatedSection client:load delay={0.12} className="self-end md:pb-1">
+      <p class="text-base leading-[1.35] text-muted md:text-right">{SERVICES_HEADING.sub}</p>
+    </AnimatedSection>
+  </div>
+
+  <ServicesAccordion items={SERVICES} client:visible className="mt-12 md:mt-16" />
+</Section>

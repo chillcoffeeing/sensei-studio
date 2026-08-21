@@ -1,0 +1,48 @@
+---
+import Section from '../../components/layout/Section.astro'
+import AnimatedSection from '../../components-react/AnimatedSection'
+import { WHY_US, STATS } from '../../data/content'
+
+const featuredStat = STATS.find((stat) => stat.featured) ?? STATS[0]
+const supportingStats = STATS.filter((stat) => stat !== featuredStat)
+---
+
+<Section id="por-que-elegirnos" class="pt-20 pb-24 md:pt-24 md:pb-28">
+  <div class="grid overflow-hidden border border-line md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]">
+    <AnimatedSection client:load className="flex flex-col justify-between gap-12 p-6 md:border-r md:border-line md:p-10 lg:p-12">
+      <div>
+        <div class="mb-5 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.02em]">
+          <span class="size-3.5 rounded-full bg-lime" aria-hidden="true"></span>
+          <span>{WHY_US.label}</span>
+        </div>
+        <h2 class="max-w-[700px] text-4xl font-medium leading-[1.04] tracking-[-0.055em] md:text-5xl">
+          {WHY_US.headline} <span class="text-muted">{WHY_US.muted}</span>
+        </h2>
+      </div>
+      <p class="max-w-[38ch] text-base leading-[1.4] text-muted md:text-lg">{WHY_US.sub}</p>
+    </AnimatedSection>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3">
+      <AnimatedSection client:load className="col-span-full border-b border-line p-6 md:p-10">
+        <div class="flex items-end justify-between gap-6">
+          <div>
+            <span class="mb-4 block text-xs font-medium uppercase tracking-[0.08em] text-muted">La cifra que lo resume</span>
+            <div class="text-[clamp(4.5rem,10vw,8.5rem)] font-semibold leading-[0.82] tracking-[-0.1em] text-ink">{featuredStat.value}</div>
+          </div>
+          <p class="max-w-[12ch] pb-1 text-right text-sm font-medium leading-[1.2] text-muted md:text-base">{featuredStat.label}</p>
+        </div>
+      </AnimatedSection>
+
+      {supportingStats.map((stat, index) => (
+        <AnimatedSection
+          client:load
+          delay={(index + 1) * 0.08}
+          className={`min-h-[10.5rem] p-5 md:min-h-[13rem] md:p-8 ${index < supportingStats.length - 1 ? 'border-b border-line sm:border-b-0 sm:border-r' : ''}`}
+        >
+          <div class="text-3xl font-semibold leading-none tracking-[-0.07em] md:text-5xl">{stat.value}</div>
+          <p class="mt-5 max-w-[18ch] text-sm font-medium leading-[1.25] text-muted md:text-base">{stat.label}</p>
+        </AnimatedSection>
+      ))}
+    </div>
+  </div>
+</Section>

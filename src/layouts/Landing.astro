@@ -1,0 +1,42 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const {
+  title = 'Sensei Studio — Diseño, desarrollo y automatización',
+  description = 'Diseño, desarrollo y automatización para marcas que no quieren esperar meses para ver resultados.',
+} = Astro.props
+---
+
+<!doctype html>
+<html lang="es" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#090909" />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script is:inline>
+      try {
+        const storedTheme = localStorage.getItem('sensei-theme')
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        document.documentElement.dataset.theme = storedTheme || systemTheme
+      } catch {
+        document.documentElement.dataset.theme = 'light'
+      }
+    </script>
+  </head>
+  <body class="min-h-screen bg-paper text-ink antialiased">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-lime focus:px-4 focus:py-3 focus:text-sm focus:font-medium focus:text-ink">
+      Saltar al contenido
+    </a>
+    <slot />
+  </body>
+</html>

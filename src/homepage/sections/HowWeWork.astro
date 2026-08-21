@@ -1,0 +1,30 @@
+---
+import Section from '../../components/layout/Section.astro'
+import DecorativeCircle from '../../components/ui/DecorativeCircle.astro'
+import AnimatedSection from '../../components-react/AnimatedSection'
+import StepCard from '../../components/cards/StepCard.astro'
+import { HOW_WE_WORK, STEPS } from '../../data/content'
+---
+
+<Section id="como-trabajamos" bg="dark" class="py-0 md:py-0">
+  <AnimatedSection client:load className="h-full">
+    <div class="relative overflow-hidden rounded-[10px] bg-panel px-0 pb-0 pt-16 md:min-h-[638px] md:pt-0">
+      <span class="absolute left-6 top-7 z-10 text-xs font-medium uppercase tracking-[0.04em] text-white md:left-10 md:top-10">{HOW_WE_WORK.label}</span>
+
+      <ol class="grid grid-cols-1 md:grid-cols-2" aria-label="Pasos del proceso de trabajo">
+        {STEPS.map((step, index) => (
+          <StepCard
+            number={step.number}
+            title={step.title}
+            description={step.description}
+            class={`min-h-[14rem] border-white/15 ${index > 0 ? 'border-t' : ''} ${index % 2 === 1 ? 'md:border-l' : ''} ${index > 1 ? 'md:border-t' : 'md:border-t-0'}`}
+          />
+        ))}
+      </ol>
+
+      <div class="pointer-events-none absolute bottom-5 right-5 md:left-1/2 md:right-auto md:top-1/2 md:bottom-auto md:-translate-x-1/2 md:-translate-y-1/2">
+        <DecorativeCircle variant="second" class="scale-[0.72] md:scale-100" />
+      </div>
+    </div>
+  </AnimatedSection>
+</Section>

@@ -1,0 +1,41 @@
+---
+interface Props {
+  variant: 'first' | 'second'
+  class?: string
+  alt?: string
+  decorative?: boolean
+}
+
+const {
+  variant,
+  class: className = '',
+  alt = '',
+  decorative = true,
+} = Astro.props
+
+const assets = {
+  first: {
+    src: '/assets/figma/circle-letter-first.svg',
+    width: 165,
+    height: 165,
+  },
+  second: {
+    src: '/assets/figma/circle-letter-second.svg',
+    width: 158,
+    height: 158,
+  },
+} as const
+
+const asset = assets[variant]
+---
+
+<img
+  src={asset.src}
+  alt={decorative ? '' : alt}
+  aria-hidden={decorative ? 'true' : undefined}
+  width={asset.width}
+  height={asset.height}
+  loading="eager"
+  decoding="async"
+  class:list={['block h-auto w-[clamp(7rem,10vw,9rem)]', className]}
+/>

@@ -1,0 +1,14 @@
+---
+interface Props {
+  title: string
+  description?: string
+  class?: string
+}
+
+const { title, description, class: className = '' } = Astro.props
+---
+
+<div class:list={['group flex min-h-28 items-center border-t border-line py-8 transition-colors duration-300 first:border-t-0 hover:text-muted md:min-h-40 md:py-10', className]}>
+  <h3 class="text-2xl font-normal tracking-[-0.045em] md:text-[2.5rem] md:leading-none">{title}</h3>
+  {description && <p class="sr-only">{description}</p>}
+</div>

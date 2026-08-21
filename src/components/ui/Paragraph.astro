@@ -1,0 +1,18 @@
+---
+interface Props {
+  variant?: 'body' | 'small' | 'lead'
+  class?: string
+}
+
+const { variant = 'body', class: className = '' } = Astro.props
+
+const sizes = {
+  body: 'text-base text-muted leading-relaxed',
+  small: 'text-sm text-muted',
+  lead: 'text-lg md:text-xl text-ink/75 leading-relaxed',
+}
+---
+
+<p class:list={[sizes[variant], className]}>
+  <slot />
+</p>

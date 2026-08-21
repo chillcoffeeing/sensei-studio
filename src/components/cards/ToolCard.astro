@@ -1,0 +1,24 @@
+---
+interface Props {
+  name: string
+  icon: string
+  level?: string
+  variant?: 'dark' | 'light'
+  class?: string
+}
+
+const { name, icon, level, variant = 'dark', class: className = '' } = Astro.props
+
+const variants = {
+  dark: 'bg-neutral-800/50 border-neutral-700/50 hover:border-neutral-600 text-white',
+  light: 'bg-neutral-100 border-neutral-200 hover:border-neutral-400 text-black',
+}
+---
+
+<div class:list={['flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-200', variants[variant], className]}>
+  <span class="text-lg">{icon}</span>
+  <div class="flex-1 min-w-0">
+    <span class:list={['text-sm font-medium block truncate', variant === 'light' ? 'text-black' : 'text-white']}>{name}</span>
+    {level && <span class="text-xs text-neutral-500">{level}</span>}
+  </div>
+</div>

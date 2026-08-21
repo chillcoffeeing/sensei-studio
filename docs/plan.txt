@@ -1,0 +1,250 @@
+Perfecto. Ya tengo la info de Astro y el enfoque que buscas. Aquí está el plan final con estructura modular y escalable:
+Plan Final — Landing de Ventas Silexcraft Studio
+Stack
+Paquete	Rol
+astro latest	SSG, SEO, zero-JS base
+@astrojs/react ^6.0	Islands React
+react + react-dom ^19	Componentes interactivos
+motion ^13.1	Animaciones (scroll, gestures, layout)
+embla-carousel-react ^8.6	Carruseles
+tailwindcss ^4	Estilos
+Arquitectura Modular
+landing-de-ventas/
+├── astro.config.mjs
+├── package.json
+├── tsconfig.json
+├── tailwind.config.js
+├── public/
+│   └── assets/
+│       ├── logos/
+│       ├── projects/
+│       ├── team/
+│       └── videos/
+├── src/
+│   ├── styles/
+│   │   └── global.css
+│   │
+│   ├── data/
+│   │   └── content.ts              ← Todo el copy centralizado
+│   │
+│   ├── components/                 ← COMPONENTES GLOBALES (reutilizables en cualquier página)
+│   │   ├── ui/                     ← Primitivos de UI
+│   │   │   ├── Button.astro
+│   │   │   ├── Container.astro
+│   │   │   ├── Heading.astro       ← h1, h2, h3 con estilos standard
+│   │   │   ├── Paragraph.astro
+│   │   │   ├── SectionLabel.astro
+│   │   │   └── SectionHeader.astro
+│   │   ├── cards/                  ← Cards reutilizables
+│   │   │   ├── ProjectCard.astro
+│   │   │   ├── ClientCard.astro
+│   │   │   ├── ToolCard.astro      ← Herramientas destacadas de un miembro
+│   │   │   ├── ProfessionalCard.astro ← Perfil profesional
+│   │   │   ├── ServiceCard.astro
+│   │   │   ├── StepCard.astro
+│   │   │   ├── ReviewCard.astro
+│   │   │   └── FaqCard.astro
+│   │   └── layout/                 ← Componentes de layout
+│   │       └── Section.astro       ← Wrapper de sección con padding/id/className
+│   │
+│   ├── components-react/           ← ISLANDS interactivas
+│   │   ├── AnimatedSection.tsx     ← Wrapper Motion para scroll animations
+│   │   ├── FaqAccordion.tsx
+│   │   ├── Carousel.tsx            ← Embla wrapper genérico
+│   │   └── VideoBackground.tsx
+│   │
+│   ├── layouts/
+│   │   └── Landing.astro           ← Layout base (head, nav, slot, footer)
+│   │
+│   ├── homepage/                   ← MÓDULO HOME PAGE
+│   │   ├── index.astro             ← Página principal (importa sections)
+│   │   └── sections/               ← Secciones específicas de home
+│   │       ├── Hero.astro
+│   │       ├── Clients.astro
+│   │       ├── Projects.astro
+│   │       ├── WhyUs.astro
+│   │       ├── Services.astro
+│   │       ├── HowWeWork.astro
+│   │       ├── Reviews.astro
+│   │       ├── Team.astro
+│   │       ├── CtaFinal.astro
+│   │       └── Footer.astro
+│   │
+│   └── pages/                      ← RUTAS (solo lo que genera URLs)
+│       └── index.astro             ← → / (renderiza homepage/index.astro)
+│
+└── (futuras páginas)
+    └── src/
+        ├── sobre/                  ← /sobre
+        │   ├── index.astro
+        │   └── sections/
+        ├── proyectos/              ← /proyectos
+        │   ├── index.astro
+        │   └── sections/
+        └── contacto/               ← /contacto
+            ├── index.astro
+            └── sections/
+Flujo de Renderizado
+src/pages/index.astro
+  └─ importa → src/homepage/index.astro
+                  ├─ importa Landing.astro (layout)
+                  ├─ importa Hero.astro (sección)
+                  ├─ importa Clients.astro
+                  │     └─ usa ClientCard.astro (componente global)
+                  ├─ importa Projects.astro
+                  │     └─ usa ProjectCard.astro (componente global)
+                  ├─ ...
+                  └─ importa Footer.astro
+Separación de Responsabilidades
+Directorio	Contenido
+components/ui/	Primitivos básicos (Button, Heading, etc.)
+components/cards/	Cards especializadas
+components/layout/	Wrappers de sección
+components-react/	Islands interactivas (Motion, Embla)
+homepage/sections/	Secciones de la landing principal
+data/content.ts	Copy y datos
+Ejemplo: Cómo se usa una Card global en una sección
+<!-- homepage/sections/Clients.astro -->
+---
+import Section from '../../components/layout/Section.astro'
+import SectionHeader from '../../components/ui/SectionHeader.astro'
+import ClientCard from '../../components/cards/ClientCard.astro'
+import { CLIENTS } from '../../data/content'
+---
+
+<Section id="clientes">
+  <SectionHeader label="Nuestros clientes" />
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+    {CLIENTS.map(client => (
+      <ClientCard name={client.name} logo={client.logo} />
+    ))}
+  </div>
+</Section>
+Ejemplo: Cómo se compone la homepage
+<!-- homepage/index.astro -->
+---
+import Landing from '../layouts/Landing.astro'
+import Hero from './sections/Hero.astro'
+import Clients from './sections/Clients.astro'
+import Projects from './sections/Projects.astro'
+import WhyUs from './sections/WhyUs.astro'
+import Services from './sections/Services.astro'
+import HowWeWork from './sections/HowWeWork.astro'
+import Reviews from './sections/Reviews.astro'
+import Team from './sections/Team.astro'
+import FaqAccordion from '../components-react/FaqAccordion'
+import CtaFinal from './sections/CtaFinal.astro'
+import Footer from './sections/Footer.astro'
+---
+
+<Landing>
+  <Hero />
+  <Clients />
+  <Projects />
+  <WhyUs />
+  <Services />
+  <HowWeWork />
+  <Reviews />
+  <Team />
+  <FaqAccordion client:visible />
+  <CtaFinal />
+  <Footer />
+</Landing>
+Componentes Globales Detallados
+components/ui/
+Componente	Props
+Button.astro	variant: primary|secondary, href?, class?
+Container.astro	class?, as?: div|section
+Heading.astro	level: 1|2|3, class?, as?: h1|h2|h3
+Paragraph.astro	class?, variant: body|small|lead
+SectionLabel.astro	text: string
+SectionHeader.astro	label?, headline, sub?
+components/cards/
+Componente	Props
+ProjectCard.astro	title, category, image, tags
+ClientCard.astro	name, logo
+ToolCard.astro	name, icon, level?
+ProfessionalCard.astro	name, role, bio, image, tools[]
+ServiceCard.astro	icon, title, description
+StepCard.astro	number, title, description
+ReviewCard.astro	quote, name, role, company
+FaqCard.astro	question, answer
+components-react/
+Componente	Props
+AnimatedSection.tsx	children, className?, delay?
+FaqAccordion.tsx	items: {question, answer}[]
+Carousel.tsx	children, options?
+VideoBackground.tsx	src, poster?, class?
+Contenido de data/content.ts
+export const SITE = {
+  name: 'Silexcraft Studio',
+  tagline: 'Diseño y desarrollo que convierte',
+}
+
+export const HERO = {
+  headline: 'No diseñamos pantallas bonitas. Diseñamos resultados.',
+  sub: 'Diseño, desarrollo y automatización para marcas que no quieren esperar meses para ver resultados.',
+  ctaPrimary: { text: 'Agenda una llamada', href: '#cta' },
+  ctaSecondary: { text: 'Ver casos de estudio', href: '#proyectos' },
+  services: ['Branding e identidad', 'Marketing digital y SEO', 'Diseño UX/UI', 'Desarrollo de productos digitales']
+}
+
+export const CLIENTS = [{ name: string, logo: string }]
+
+export const PROJECTS = [{
+  title: string, category: string, image: string, tags: string[]
+}]
+
+export const STATS = [{ value: string, label: string }]
+
+export const SERVICES = [{
+  icon: string, title: string, description: string
+}]
+
+export const STEPS = [{
+  number: string, title: string, description: string
+}]
+
+export const REVIEWS = [{
+  quote: string, name: string, role: string, company: string
+}]
+
+export const TEAM = [{
+  name: string, role: string, bio: string, image: string,
+  tools: { name: string, icon: string }[]
+}]
+
+export const FAQ = [{ question: string, answer: string }]
+
+export const FOOTER = {
+  email: string, phone: string,
+  socials: { platform: string, url: string }[],
+  city: string
+}
+Estrategia de Hidratación
+Componente React	Directiva	Razón
+AnimatedSection	client:visible	Solo hidrata cuando entra en viewport
+FaqAccordion	client:visible	Solo cuando se ve en pantalla
+Carousel	client:idle	Cuando el navegador está idle
+VideoBackground	client:load	Necesita cargar video lo antes posible
+Pasos de Implementación
+ 1. Init: npm create astro@latest → minimal
+ 2. Integrations: npx astro add react + npx astro add tailwind
+ 3. Dependencies: npm install motion embla-carousel-react
+ 4. Crear data/content.ts: todo el copy
+ 5. Crear components/ui/: Button, Container, Heading, Paragraph, SectionLabel, SectionHeader
+ 6. Crear components/cards/: todas las cards
+ 7. Crear components/layout/: Section wrapper
+ 8. Crear components-react/: AnimatedSection, FaqAccordion, Carousel, VideoBackground
+ 9. Crear layouts/Landing.astro: layout base
+10. Crear homepage/sections/: todas las secciones en orden
+11. Crear homepage/index.astro: ensamblar secciones
+12. Crear pages/index.astro: ruta que renderiza homepage
+13. Build: npm run build → verificar
+Futuras Páginas (ya preparado)
+Cuando necesites /sobre, /proyectos, /contacto:
+src/sobre/index.astro       → /sobre
+src/sobre/sections/         → Secciones específicas de sobre
+  ├── Equipo.astro          ← reutiliza ProfessionalCard + ToolCard
+  └── Historia.astro
+Las cards y componentes ui se reusan directamente.

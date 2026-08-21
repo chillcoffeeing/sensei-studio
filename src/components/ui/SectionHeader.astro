@@ -1,0 +1,24 @@
+---
+interface Props {
+  label?: string
+  headline: string
+  sub?: string
+  class?: string
+  align?: 'left' | 'center'
+}
+
+const { label, headline, sub, class: className = '', align = 'center' } = Astro.props
+
+const alignment = align === 'center' ? 'mx-auto text-center' : 'text-left'
+---
+
+<div class:list={[alignment, 'mb-12 max-w-3xl md:mb-16', className]}>
+  {label && (
+    <div class="mb-4 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.02em] text-ink">
+      <span class="size-3.5 rounded-full bg-lime" aria-hidden="true"></span>
+      <span>{label}</span>
+    </div>
+  )}
+  <h2 class="text-4xl font-medium leading-[1.05] tracking-[-0.05em] md:text-5xl">{headline}</h2>
+  {sub && <p class="mt-5 text-base leading-relaxed text-muted">{sub}</p>}
+</div>

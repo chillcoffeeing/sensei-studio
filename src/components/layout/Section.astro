@@ -1,0 +1,39 @@
+---
+interface Props {
+  class?: string
+  id?: string
+  as?: 'section' | 'div' | 'article'
+  bg?: 'default' | 'secondary' | 'accent' | 'dark' | 'neutral'
+  container?: boolean
+  ariaLabel?: string
+  ariaLabelledby?: string
+}
+
+const {
+  class: className = '',
+  id,
+  as: Tag = 'section',
+  bg = 'default',
+  container = true,
+  ariaLabel,
+  ariaLabelledby,
+} = Astro.props
+
+const backgrounds = {
+  default: 'bg-paper text-ink',
+  secondary: 'bg-panel text-white noise-surface',
+  dark: 'bg-panel text-white noise-surface',
+  accent: 'bg-lime text-ink',
+  neutral: 'bg-neutral-surface text-ink',
+}
+---
+
+<Tag id={id} aria-label={ariaLabel} aria-labelledby={ariaLabelledby} class:list={[backgrounds[bg], className]}>
+  {container ? (
+    <div class="mx-auto w-full max-w-[1440px] px-6 lg:px-[60px]">
+      <slot />
+    </div>
+  ) : (
+    <slot />
+  )}
+</Tag>
