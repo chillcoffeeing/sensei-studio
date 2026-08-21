@@ -1,0 +1,20 @@
+{
+  "project": "landing-de-ventas",
+  "description": "Alcance del arnés. Máximo UNA feature in_progress a la vez (validado por init.ps1).",
+  "status_values": ["pending", "in_progress", "done", "blocked"],
+  "features": [
+    {
+      "id": "TEMPLATE",
+      "name": "Nombre descriptivo de la feature",
+      "status": "pending",
+      "priority": "high|medium|low",
+      "scope": ["src/archivo1.ts", "src/archivo2.tsx"],
+      "acceptance": [
+        "Criterio 1: descripción verificable (ej. 'pnpm test pasa')",
+        "Criterio 2: comportamiento observable (ej. 'componente renderiza sin error')",
+        "Criterio 3: validación de archivos (ej. 'imagen existe en public/')"
+      ],
+      "notes": "Contexto extra, decisiones técnicas, dependencias, etc."
+    }
+  ]
+}
