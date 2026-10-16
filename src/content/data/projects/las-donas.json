@@ -1,0 +1,379 @@
+{
+  "slug": "las-donas",
+  "seo": {
+    "description": "Caso Las Doñas: rediseño UX/UI del e-commerce de una floristería artesanal en Lima. −30% de abandono en el carrito y +18% de ticket promedio.",
+    "keywords": [
+      "caso de estudio",
+      "Las Doñas",
+      "diseño UX/UI",
+      "UX research",
+      "e-commerce",
+      "floristería",
+      "Sensei Studio"
+    ]
+  },
+  "sections": [
+    {
+      "sectionType": "project-hero",
+      "headingContent": {
+        "eyebrow": "Producto completo · 2026",
+        "title": [
+          "Las Doñas"
+        ],
+        "description": [
+          "UX research × Diseño UX/UI × E-commerce"
+        ]
+      },
+      "content": {
+        "cardImage": {
+          "src": "images/portadas-de-proyectos/las-donas.jpg",
+          "alt": "Portátil sobre un pedestal oscuro con el inicio de sesión de Las Doñas: una florista con un ramo de rosas y el formulario «Bienvenido a las Doñas»."
+        },
+        "logo": {
+          "src": "images/las-donas-images/logo-seal.svg",
+          "alt": "Las Doñas · Artesanas floristas"
+        },
+        "claim": [
+          "Elegir flores sin dudar.",
+          "Pagar sin abandonar."
+        ],
+        "summary": "Rediseño UX/UI del e-commerce de Las Doñas, floristería artesanal en Lima: un catálogo que ayuda a decidir y un checkout que no se interpone entre el usuario y el regalo.",
+        "facts": [
+          {
+            "label": "Cliente",
+            "value": "Las Doñas · Perú"
+          },
+          {
+            "label": "Duración",
+            "value": "7 semanas"
+          },
+          {
+            "label": "Nuestro rol",
+            "value": "Research, UX/UI y estrategia e-commerce"
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "project-results",
+      "id": "resultados",
+      "headingContent": {
+        "eyebrow": "01 / Resultados",
+        "title": [
+          "Menos tiempo eligiendo.\nMás regalos que llegan a"
+        ],
+        "description": [
+          "Datos de comportamiento, catálogo ordenado y un checkout en dos pasos: cada cambio responde a un punto donde la compra se caía."
+        ]
+      },
+      "content": {
+        "metrics": [
+          {
+            "value": "−30%",
+            "label": "Abandono en el carrito",
+            "before": "60%",
+            "after": "42%",
+            "description": "Cotizar, elegir destinatario, pagar y confirmar. Nada en medio."
+          },
+          {
+            "value": "−50%",
+            "label": "Tiempo para elegir un arreglo",
+            "before": "7 min",
+            "after": "3,5 min",
+            "description": "Datos agrupados por contexto y validación en tiempo real, sin volver atrás."
+          },
+          {
+            "value": "+18%",
+            "label": "Ticket promedio",
+            "before": "S/ 210",
+            "after": "S/ 248",
+            "description": "Complementos que se suman desde el carrito, con soles o con Floripuntos."
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "project-context",
+      "id": "el-proyecto",
+      "headingContent": {
+        "eyebrow": "02 / El proyecto",
+        "title": [
+          "Flores artesanales.\nUna compra a la altura del regalo."
+        ]
+      },
+      "content": {
+        "lead": "Las Doñas es una floristería artesanal de Lima que convierte cada arreglo en un detalle para momentos importantes: amor, aniversarios, cumpleaños, nacimientos y condolencias. Rediseñamos su sitio para que encontrar, personalizar y enviar flores sea tan cuidado como el arreglo mismo.",
+        "description": "Quien compra flores online no compra un producto. Compra la tranquilidad de que el regalo va a llegar como lo imaginó, el día y a la hora que importa.",
+        "fields": [
+          {
+            "label": "Cliente",
+            "value": "Las Doñas"
+          },
+          {
+            "label": "Industria",
+            "value": "E-commerce / floristería y regalos"
+          },
+          {
+            "label": "Servicios",
+            "value": "UX research, UX/UI y estrategia e-commerce"
+          },
+          {
+            "label": "Fecha y duración",
+            "value": "2026 · 7 semanas"
+          },
+          {
+            "label": "Equipo",
+            "value": "Research, diseño y estrategia"
+          }
+        ],
+        "challenge": {
+          "label": "El reto",
+          "title": "Que regalar flores no se sienta como una apuesta.",
+          "description": "Fotos que no coinciden con lo que llega, formularios interminables y poca claridad sobre la entrega. En Perú, comprar flores online suele ser un proceso lleno de incertidumbre. El reto: convertir esa desconfianza en una experiencia premium y segura, sin frenar la compra."
+        },
+        "goals": {
+          "label": "Tres objetivos, un solo sistema",
+          "items": [
+            "Ordenar el catálogo para decidir sin perderse.",
+            "Llevar al pago en dos pasos, sin formularios eternos.",
+            "Dar certeza sobre la entrega antes de pagar."
+          ]
+        }
+      }
+    },
+    {
+      "sectionType": "project-solution",
+      "id": "la-solucion",
+      "headingContent": {
+        "eyebrow": "03 / La solución",
+        "title": [
+          "Una marca que se siente artesanal.\nUna tienda que se entiende."
+        ],
+        "description": [
+          "Un sistema visual cálido, fotografía real de cada arreglo y una navegación pensada por ocasión. Cada pantalla resuelve una duda antes de que aparezca."
+        ]
+      },
+      "content": {
+        "identity": {
+          "overline": "Las Doñas / Sistema de marca",
+          "year": "2025",
+          "wordmark": "Las Doñas®",
+          "concept": [
+            "Sistema visual",
+            "Colores de jardín, tipografía clara y un sello artesanal."
+          ],
+          "palette": [
+            "#FF8554",
+            "#73B472",
+            "#FEC746"
+          ]
+        },
+        "media": [
+          {
+            "src": "images/las-donas-images/solution-login-laptop.png",
+            "fit": "contain",
+            "alt": "Portátil con el inicio de sesión de Las Doñas: foto de una florista preparando un ramo y formulario con email, contraseña y acceso con Google."
+          },
+          {
+            "src": "images/las-donas-images/solution-mobile-screens.png",
+            "fit": "contain",
+            "alt": "Cuatro pantallas móviles de Las Doñas: portada «Cuando las palabras no bastan, regala flores», menú de cuenta con puntos, buscador con sugerencias y menú de categorías."
+          },
+          {
+            "src": "images/las-donas-images/solution-web-pages.png",
+            "fit": "contain",
+            "alt": "Páginas de la web de Las Doñas: catálogo de ramos, ficha del Box Zoe con tamaños y complementos, ventana de complementos y carrito de compras."
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "project-process",
+      "id": "el-proceso",
+      "headingContent": {
+        "eyebrow": "04 / El proceso",
+        "title": [
+          "Del problema al prototipo"
+        ],
+        "route": [
+          "Research",
+          "Diseño",
+          "Producto"
+        ]
+      },
+      "content": {
+        "stages": [
+          {
+            "name": "Descubrir",
+            "weeks": "Semanas 1–2",
+            "description": "Mapas de calor, embudos de conversión y entrevistas con clientes. Encontramos los cuatro puntos que frenaban la venta."
+          },
+          {
+            "name": "Diseñar",
+            "weeks": "Semanas 3–5",
+            "description": "Nueva arquitectura por ocasión, sistema visual y checkout en dos pasos, en escritorio y móvil."
+          },
+          {
+            "name": "Construir",
+            "weeks": "Semana 6",
+            "description": "Pruebas con usuarios del flujo completo: elegir, añadir complementos, pagar y confirmar."
+          },
+          {
+            "name": "Validar",
+            "weeks": "Semana 8",
+            "description": "Estados de error, componentes y eventos de medición documentados para desarrollo."
+          }
+        ],
+        "flow": {
+          "title": "La compra termina. Los puntos se quedan.",
+          "overline": "Flujo de fidelización",
+          "steps": [
+            {
+              "title": "Compra realizada",
+              "detail": "Pedido confirmado / número de orden"
+            },
+            {
+              "title": "Puntos acreditados",
+              "detail": "Floripuntos / saldo del cliente"
+            },
+            {
+              "title": "Canje en el carrito",
+              "detail": "Complementos / sin salir del flujo"
+            },
+            {
+              "title": "Siguiente ocasión",
+              "detail": "Email / recordatorio de fechas especiales"
+            }
+          ],
+          "note": "El sistema de puntos antes bloqueaba la venta. Ahora suma: se ve el saldo, se canjea en un toque y se confirma al instante."
+        }
+      }
+    },
+    {
+      "sectionType": "project-scope",
+      "id": "alcance",
+      "headingContent": {
+        "eyebrow": "05 / Alcance y entrega",
+        "title": [
+          "Del dato a la pantalla"
+        ],
+        "description": [
+          "Un rediseño basado en comportamiento real, desde el diagnóstico hasta un sistema listo para desarrollo en escritorio y móvil."
+        ]
+      },
+      "content": {
+        "deliverables": [
+          {
+            "title": "Diagnóstico UX",
+            "description": "Mapas de calor, análisis de embudos, entrevistas y priorización de hallazgos."
+          },
+          {
+            "title": "Experiencia de compra",
+            "description": "Home, categorías por ocasión, ficha de producto, carrito y checkout en dos pasos."
+          },
+          {
+            "title": "Cuenta y fidelización",
+            "description": "Registro, inicio de sesión con Google y sistema de Floripuntos."
+          },
+          {
+            "title": "Sistema visual y handoff",
+            "description": "Tipografía, paleta, componentes, estados clave y plan de medición."
+          }
+        ],
+        "tools": {
+          "title": "Herramientas utilizadas",
+          "description": "Para pensar, diseñar y colaborar.",
+          "items": [
+            {
+              "logo": {
+                "src": "case-study/tools/figma.svg",
+                "alt": "Figma"
+              },
+              "description": "Diseño UI y prototipado"
+            },
+            {
+              "logo": {
+                "src": "case-study/tools/hotjar.png",
+                "alt": "Hotjar"
+              },
+              "description": "Hotjar"
+            },
+            {
+              "logo": {
+                "src": "case-study/tools/google-analytics.png",
+                "alt": "Google Analytics"
+              },
+              "description": "Google Analytics"
+            }
+          ]
+        },
+        "stack": {
+          "title": "Tecnologías propuestas",
+          "items": [
+            "Google Tag Manager",
+            "Eventos · GA4",
+            "Yape y PLIN",
+            "Figma Variables",
+            "Métricas y analítica"
+          ]
+        }
+      }
+    },
+    {
+      "sectionType": "project-conclusion",
+      "id": "aprendizajes",
+      "headingContent": {
+        "eyebrow": "06 / Lo que nos llevamos",
+        "title": [
+          "Las flores emocionan.\nLa claridad es la que hace que lleguen."
+        ],
+        "description": [
+          "Las Doñas confirmó que una marca premium no se sostiene solo con fotos bonitas. Cuando el catálogo ayuda a decidir y el checkout no estorba, el usuario vuelve a lo único que le importa: el sentimiento de regalar."
+        ]
+      },
+      "content": {
+        "image": {
+          "src": "images/las-donas-images/conclusion-florist.jpg",
+          "alt": "Florista sonriente con un delantal coral bordado con el sello de Las Doñas, en un taller lleno de flores, mientras otra persona le acerca una rosa rosada."
+        }
+      }
+    },
+    {
+      "sectionType": "project-next",
+      "id": "siguiente-proyecto",
+      "headingContent": {
+        "eyebrow": "Siguiente proyecto"
+      },
+      "content": {
+        "projectSlug": "cappi-xtremo"
+      }
+    },
+    {
+      "sectionType": "project-contact",
+      "id": "contacto",
+      "headingContent": {
+        "eyebrow": "Tu próximo proyecto",
+        "title": [
+          "Tu marca tiene potencial.\nHagámoslo visible."
+        ],
+        "description": [
+          "Diseño, desarrollo y automatización. Hablemos de lo que necesitas y de cómo llevarlo más lejos."
+        ]
+      },
+      "content": {
+        "meeting": {
+          "label": "Agenda una reunión",
+          "href": "/#contacto"
+        },
+        "quote": {
+          "label": "Solicita una cotización",
+          "href": "/#contacto"
+        },
+        "note": [
+          "Primera conversación, sin compromiso.",
+          "Nos cuentas tu idea; definimos el siguiente paso."
+        ]
+      }
+    }
+  ]
+}

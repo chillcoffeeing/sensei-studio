@@ -1,0 +1,19 @@
+---
+import type { ToneText } from '@/shared/lib/tone-text';
+
+interface Props {
+  value: ToneText;
+}
+
+const { value } = Astro.props;
+
+// Los tonos leen variables CSS de la superficie (global.css): en paper, muted = ink-muted
+// y strong = ink; dentro de un contenedor `tone-on-ink`, muted = paper-muted y strong = paper.
+// Clases completas (no interpoladas) para que Tailwind las detecte.
+const toneClass = {
+  muted: 'text-(color:--tone-muted)',
+  strong: 'text-(color:--tone-strong)',
+} as const;
+---
+
+{value.map((part) => (typeof part === 'string' ? part : <span class={toneClass[part.tone]}>{part.text}</span>))}

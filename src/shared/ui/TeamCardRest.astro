@@ -1,0 +1,22 @@
+---
+import TeamCardProfiles from './TeamCardProfiles.astro';
+import type { TeamProfileLink } from './types';
+
+interface Props {
+  name: string;
+  role: string;
+  profiles: TeamProfileLink[];
+}
+
+const { name, role, profiles } = Astro.props;
+---
+
+{/* Capa de reposo de TeamCard: se desvanece cuando la card está activa (solo con hover).
+    El rol puede partirse en dos líneas (cards estrechas en mobile): pr-6 iguala el margen. */}
+<div class="relative flex flex-col justify-end bg-(image:--team-card-scrim) pr-6 pb-7.5 pl-6 can-hover:card-active:opacity-0 motion-safe:transition-opacity motion-safe:duration-(--duration-base) motion-safe:ease-standard">
+  <TeamCardProfiles profiles={profiles} class="mb-4 can-hover:hidden" />
+  <div class="grid text-paper">
+    <h3 class="col-start-1 row-start-1 font-body text-name">{name}</h3>
+    <p class="col-start-1 row-start-1 mt-5.75 font-body text-role">{role}</p>
+  </div>
+</div>

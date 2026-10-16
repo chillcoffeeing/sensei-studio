@@ -1,0 +1,110 @@
+---
+import { headingIdOf, type MediaRef } from '@/core/content';
+import { resolveMedia } from '@/shared/lib/media';
+import Photo from '@/shared/ui/Photo.astro';
+import SolutionCaption from './SolutionCaption.astro';
+import SolutionIdentity from './SolutionIdentity.astro';
+import SolutionIntro from './SolutionIntro.astro';
+import type { ProjectSolutionSection } from './schema';
+
+interface Props {
+  section: ProjectSolutionSection;
+}
+
+const { section } = Astro.props;
+const { headingContent, content } = section;
+const headingId = headingIdOf(section);
+const [companion, ...wide] = content.media;
+const captionAt = (index: number) => content.captions?.[index] ?? undefined;
+const firstCaption = captionAt(0);
+
+// Capturas (`contain`) más apaisadas que 4:3: en mobile van con su propia proporción (en una
+// caja 4:3 quedaban diminutas); desde sm/lg, la caja de siempre. Devuelve el alto del respaldo.
+async function ownHeight(media: MediaRef, width: number): Promise<number | undefined> {
+  if (media.fit !== 'contain') return undefined;
+  const resolved = await resolveMedia(media);
+  if (resolved.type !== 'local') return undefined;
+  const ratio = resolved.image.height / resolved.image.width;
+  return ratio < 3 / 4 ? Math.round(width * ratio) : undefined;
+}
+const companionHeight = companion ? await ownHeight(companion, 1224) : undefined;
+const wideHeights = await Promise.all(wide.map((media) => ownHeight(media, 2640)));
+---
+
+{/*
+  Solución y experiencia (Yupa 243:146 + 243:255): encabezado → universo de marca (lámina +
+  media[0], en dos columnas desde lg) → el resto de media[] a todo el ancho, un bloque cada uno.
+  Sin media[0], la lámina ocupa la fila. `fit: 'contain'` (capturas) muestra el medio entero con aire. Mobile: todo
+  apilado; las capturas más apaisadas que 4:3 con su propia proporción.
+  Motion: cada bloque entra con reveal-up escalonado (reduced motion o sin JS: estado final).
+*/}
+<section id={section.id} aria-labelledby={headingId} data-project-solution class="bg-paper py-16 lg:py-25">
+  <div
+    data-reveal="[data-reveal-item]"
+    data-reveal-amount="0"
+    data-reveal-margin="0px 0px -15% 0px"
+    class="container-page flex flex-col gap-10"
+  >
+    <div data-reveal-item class="reveal-up">
+      <SolutionIntro
+        headingId={headingId}
+        label={headingContent.eyebrow}
+        title={headingContent.title}
+        description={headingContent.description}
+      />
+    </div>
+
+    <figure data-reveal-item class="flex flex-col gap-6 reveal-up lg:gap-10">
+      <div class:list={['grid gap-6', companion && 'lg:grid-cols-2']}>
+        <SolutionIdentity identity={content.identity} paletteLabel={content.ui.paletteLabel} />
+        {
+          companion && (
+            <Photo
+              image={companion}
+              width={1224}
+              height={companionHeight ?? 880}
+              widths={[480, 720, 1224]}
+              sizes="(min-width: 1440px) 648px, (min-width: 1024px) calc(50vw - 52px), calc(100vw - 32px)"
+              class:list={[
+                'block w-full rounded-panel bg-neutral-100 lg:aspect-auto lg:h-110',
+                companionHeight ? 'h-auto sm:aspect-4/3' : 'aspect-4/3',
+                companion.fit === 'contain' ? 'object-contain p-4 sm:p-8' : 'object-cover',
+              ]}
+            />
+          )
+        }
+      </div>
+      {firstCaption && <SolutionCaption caption={firstCaption} />}
+    </figure>
+
+    {
+      wide.map((media, index) => {
+        const caption = captionAt(index + 1);
+        const height = wideHeights[index];
+        return (
+          <figure data-reveal-item class="flex flex-col gap-6 reveal-up lg:gap-10">
+            <Photo
+              image={media}
+              width={2640}
+              height={height ?? 1260}
+              widths={[640, 960, 1320, 1920, 2640]}
+              sizes="(min-width: 1440px) 1320px, calc(100vw - 32px)"
+              class:list={[
+                'block w-full rounded-panel bg-neutral-100 sm:aspect-44/21',
+                height ? 'h-auto' : 'aspect-4/3',
+                media.fit === 'contain' ? 'object-contain p-4 sm:p-8' : 'object-cover',
+              ]}
+            />
+            {caption && <SolutionCaption caption={caption} />}
+          </figure>
+        );
+      })
+    }
+  </div>
+</section>
+
+<script>
+  import { revealAll } from '@/shared/lib/motion';
+
+  for (const section of document.querySelectorAll<HTMLElement>('[data-project-solution]')) revealAll(section);
+</script>

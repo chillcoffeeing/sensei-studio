@@ -1,0 +1,55 @@
+---
+import { mediaIcon } from '@/shared/lib/media';
+import Photo from '@/shared/ui/Photo.astro';
+import TextLines from '@/shared/ui/TextLines.astro';
+import type { ProjectNextCard, ProjectNextUi } from './schema';
+
+interface Props {
+  card: ProjectNextCard;
+  ui: ProjectNextUi;
+}
+
+const { card, ui } = Astro.props;
+const icon = await mediaIcon(ui.icon);
+---
+
+{/*
+  Tarjeta enlazada al caso siguiente (Yupa 243:519). Mobile: foto (16:9) arriba e información
+  debajo; desde lg en fila (foto a 7/12, alto mínimo 340). Hover/foco: la foto se acerca y la
+  flecha avanza, solo con motion-safe.
+*/}
+<a
+  href={card.href}
+  class="group flex flex-col overflow-clip rounded-panel bg-neutral-100 text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink lg:min-h-85 lg:flex-row"
+>
+  <div class="aspect-video overflow-clip lg:aspect-auto lg:w-7/12 lg:shrink-0">
+    <Photo
+      image={card.image}
+      decorative
+      width={1584}
+      height={700}
+      widths={[480, 768, 1024, 1584]}
+      sizes="(min-width: 1440px) 770px, (min-width: 1024px) 58vw, calc(100vw - 32px)"
+      class="block size-full object-cover motion-safe:transition-transform motion-safe:duration-(--duration-image) motion-safe:ease-standard motion-safe:group-hover:scale-105 motion-safe:group-focus-visible:scale-105"
+    />
+  </div>
+  <div class="flex min-w-0 flex-1 flex-col justify-between gap-8 p-6 lg:p-9">
+    <p class="font-body text-caption uppercase">{card.category}</p>
+    <div class="flex flex-col gap-2.5">
+      <h2 class="font-heading text-project-next">{card.name}</h2>
+      <p class="font-body text-body-lg">
+        <TextLines lines={card.summary} />
+      </p>
+    </div>
+    <span class="flex items-center justify-between gap-4 font-heading text-link">
+      {ui.cta}
+      <img
+        src={icon.src}
+        width={icon.width}
+        height={icon.height}
+        alt=""
+        class="block shrink-0 motion-safe:transition-transform motion-safe:duration-(--duration-base) motion-safe:ease-standard motion-safe:group-hover:translate-x-1 motion-safe:group-hover:-translate-y-1"
+      />
+    </span>
+  </div>
+</a>

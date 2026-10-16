@@ -1,0 +1,42 @@
+---
+import LabelMarker from '@/shared/ui/LabelMarker.svelte';
+import NextProjectCard from './NextProjectCard.astro';
+import type { ProjectNextSection } from './schema';
+
+interface Props {
+  section: ProjectNextSection;
+}
+
+const { section } = Astro.props;
+const { headingContent, content } = section;
+---
+
+{/*
+  Siguiente proyecto (Yupa 243:514): etiqueta y tarjeta enlazada. La región se nombra con la
+  etiqueta; el h2 es el nombre del proyecto dentro de la tarjeta. Sin tarjeta (no hay otro
+  proyecto al que ir) no se pinta nada.
+  Motion: la tarjeta entra con reveal-up (reduced motion o sin JS: estado final).
+*/}
+{
+  content.card && (
+    <section id={section.id} aria-label={headingContent.eyebrow} data-project-next class="bg-paper py-14 lg:py-15">
+      <div
+        data-reveal="[data-reveal-item]"
+        data-reveal-amount="0"
+        data-reveal-margin="0px 0px -15% 0px"
+        class="container-page flex flex-col gap-7 text-ink"
+      >
+        <LabelMarker text={headingContent.eyebrow} />
+        <div data-reveal-item class="reveal-up">
+          <NextProjectCard card={content.card} ui={content.ui} />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<script>
+  import { revealAll } from '@/shared/lib/motion';
+
+  for (const section of document.querySelectorAll<HTMLElement>('[data-project-next]')) revealAll(section);
+</script>

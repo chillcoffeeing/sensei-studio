@@ -1,0 +1,14 @@
+---
+interface Props {
+  label: string;
+  value: string;
+}
+
+const { label, value } = Astro.props;
+---
+
+{/* Etiqueta + valor con filete inferior. */}
+<div class="flex flex-col gap-1 border-b border-paper/25 pb-3.5">
+  <dt class="font-body text-caption text-line">{label}</dt>
+  <dd class="font-heading text-body text-paper">{value}</dd>
+</div>

@@ -1,0 +1,519 @@
+/*
+ * Tokens propios sobre el tema por defecto de Tailwind (docs/conventions.md).
+ * Solo se agrega lo que se usa; nunca se cierra un namespace ni se redefine un nombre por defecto.
+ * Los tamaños fluidos son clamp() lineales entre 375px y 1440px de viewport.
+ */
+
+@theme {
+  /* === Color === */
+  --color-brand: #E4FF40;
+  --color-ink: #090909;
+  --color-paper: #FFFFFF;
+  /* Solo texto sobre glass o ink: sobre paper no llega a AA. */
+  --color-line: #B8B8B8;
+  --color-divider: rgba(0, 0, 0, 0.24);
+  --color-ink-muted: #686868;
+  --color-ink-soft: #6E6E73;
+  --color-paper-muted: #AFAFAF;
+  --color-paper-ghost: rgba(197, 197, 197, 0.62);
+  /* AA sobre la foto del equipo solo con la banda --team-detail-scrim-bottom debajo. */
+  --color-paper-soft: rgba(255, 255, 255, 0.72);
+  --color-glass: rgba(255, 255, 255, 0.13);
+  --color-glass-line: rgba(255, 255, 255, 0.1);
+  --color-glass-field: rgba(255, 255, 255, 0.15);
+  --color-scrim: rgba(0, 0, 0, 0.45);
+  /* Alfa mínimo medido sobre el video para que paper-muted cumpla AA. */
+  --color-hero-veil: rgba(9, 9, 9, 0.75);
+  --color-project-veil: rgba(9, 9, 9, 0.65);
+  /* Tarjeta elegida del modal de cotización (220:893): lima muy diluida. */
+  --color-brand-tint: #F4F8DD;
+  --color-progress-track: rgba(255, 255, 255, 0.13);
+  --color-danger: #FFB4AB;
+  --color-avatar-1-bg: #F2E2FE;
+  --color-avatar-1-fg: #6C2BA1;
+  --color-avatar-2-bg: #EAF7D3;
+  --color-avatar-2-fg: #4E6B1B;
+  --color-avatar-3-bg: #FEF6D2;
+  --color-avatar-3-fg: #8A6D15;
+  --color-avatar-4-bg: #FDE2E4;
+  --color-avatar-4-fg: #A83356;
+  --color-avatar-ring: #F5F5F5;
+
+  /* === Fuentes === */
+  --font-heading: "Google Sans Flex", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* === Interlineado (filas del acordeón de servicios, desde md) === */
+  --leading-service-row: 4.28;
+  --leading-service-open: 3.54;
+
+  /* === Roles de texto === */
+  --text-wordmark: clamp(88px, 62.648px + 6.7606vw, 160px);
+  --text-wordmark--line-height: normal;
+  --text-wordmark--font-weight: 800;
+
+  --text-project-name: clamp(72px, 45.944px + 6.9484vw, 146px);
+  --text-project-name--line-height: 1;
+  --text-project-name--font-weight: 600;
+
+  --text-project-claim: clamp(30px, 22.958px + 1.8779vw, 50px);
+  --text-project-claim--line-height: 1.08;
+  --text-project-claim--font-weight: 500;
+
+  --text-project-title: clamp(30px, 22.254px + 2.0657vw, 52px);
+  --text-project-title--line-height: 1.08;
+  --text-project-title--font-weight: 500;
+
+  --text-project-subtitle: clamp(26px, 22.479px + 0.939vw, 36px);
+  --text-project-subtitle--line-height: 1.08;
+  --text-project-subtitle--font-weight: 500;
+
+  --text-project-lead: clamp(18px, 17.296px + 0.1878vw, 20px);
+  --text-project-lead--line-height: 1.5;
+  --text-project-lead--font-weight: 400;
+
+  --text-project-wordmark: clamp(64px, 43.93px + 5.3521vw, 121px);
+  --text-project-wordmark--line-height: 1;
+  --text-project-wordmark--font-weight: 600;
+
+  --text-project-metric: clamp(56px, 46.845px + 2.4413vw, 82px);
+  --text-project-metric--line-height: 1.1;
+  --text-project-metric--font-weight: 500;
+
+  --text-project-metric-label: clamp(19px, 17.592px + 0.3756vw, 23px);
+  --text-project-metric-label--line-height: 1.25;
+  --text-project-metric-label--font-weight: 500;
+
+  --text-project-next: clamp(48px, 39.549px + 2.2535vw, 72px);
+  --text-project-next--line-height: 1;
+  --text-project-next--font-weight: 400;
+
+  --text-project-contact: clamp(36px, 24.028px + 3.1925vw, 70px);
+  --text-project-contact--line-height: 1.08;
+  --text-project-contact--font-weight: 500;
+
+  --text-wordmark-sub: clamp(24px, 18.366px + 1.5023vw, 40px);
+  --text-wordmark-sub--line-height: normal;
+  --text-wordmark-sub--font-weight: 800;
+
+  --text-display: clamp(24.5333px, 16.9746px + 2.01565vw, 46px);
+  --text-display--line-height: 1;
+  --text-display--font-weight: 600;
+
+  --text-h2: clamp(30px, 24.718px + 1.4085vw, 45px);
+  --text-h2--line-height: normal;
+  --text-h2--font-weight: 500;
+
+  --text-stat: clamp(36px, 32.831px + 0.8451vw, 45px);
+  --text-stat--line-height: normal;
+  --text-stat--font-weight: 600;
+
+  --text-title-xl: clamp(32px, 27.775px + 1.1268vw, 44px);
+  --text-title-xl--line-height: normal;
+  --text-title-xl--letter-spacing: -1px;
+  --text-title-xl--font-weight: 700;
+
+  --text-title-lg: clamp(26px, 21.07px + 1.3146vw, 40px);
+  --text-title-lg--line-height: normal;
+  --text-title-lg--font-weight: 400;
+
+  --text-title: clamp(22px, 19.887px + 0.5634vw, 28px);
+  --text-title--line-height: normal;
+  --text-title--font-weight: 500;
+
+  --text-lead: clamp(18px, 17.296px + 0.1878vw, 20px);
+  --text-lead--line-height: normal;
+  --text-lead--font-weight: 500;
+
+  --text-title-sm: clamp(17px, 16.296px + 0.1878vw, 19px);
+  --text-title-sm--line-height: normal;
+  --text-title-sm--letter-spacing: -0.01em;
+  --text-title-sm--font-weight: 500;
+
+  --text-hero-list: clamp(16px, 15.296px + 0.1878vw, 18px);
+  --text-hero-list--line-height: 2.23;
+  --text-hero-list--font-weight: 600;
+
+  --text-stat-label: clamp(16px, 15.296px + 0.1878vw, 18px);
+  --text-stat-label--line-height: normal;
+  --text-stat-label--font-weight: 500;
+
+  --text-body-lg: clamp(16px, 15.296px + 0.1878vw, 18px);
+  --text-body-lg--line-height: 1.5;
+  --text-body-lg--font-weight: 400;
+
+  --text-name: 18px;
+  --text-name--line-height: normal;
+  --text-name--font-weight: 600;
+
+  --text-team-name: clamp(24px, 21.8873px + 0.5634vw, 30px);
+  --text-team-name--line-height: 1.1;
+  --text-team-name--font-weight: 600;
+
+  --text-team-bio: clamp(14px, 13.2958px + 0.1878vw, 16px);
+  --text-team-bio--line-height: 1.4;
+  --text-team-bio--font-weight: 400;
+
+  --text-body: 16px;
+  --text-body--line-height: normal;
+  --text-body--font-weight: 400;
+
+  --text-answer: 16px;
+  --text-answer--line-height: 26px;
+  --text-answer--font-weight: 400;
+
+  --text-eyebrow: 16px;
+  --text-eyebrow--line-height: normal;
+  --text-eyebrow--font-weight: 500;
+
+  --text-label: 16px;
+  --text-label--line-height: normal;
+  --text-label--font-weight: 500;
+
+  --text-pill: clamp(14px, 13.296px + 0.1878vw, 16px);
+  --text-pill--line-height: normal;
+  --text-pill--font-weight: 500;
+
+  --text-link: 16px;
+  --text-link--line-height: normal;
+  --text-link--font-weight: 400;
+
+  --text-button: 15px;
+  --text-button--line-height: normal;
+  --text-button--font-weight: 600;
+
+  --text-button-lg: 18px;
+  --text-button-lg--line-height: normal;
+  --text-button-lg--font-weight: 400;
+
+  --text-card-title: 15px;
+  --text-card-title--line-height: normal;
+  --text-card-title--font-weight: 500;
+
+  --text-button-sm: 14px;
+  --text-button-sm--line-height: normal;
+  --text-button-sm--font-weight: 500;
+
+  --text-label-sm: 14px;
+  --text-label-sm--line-height: normal;
+  --text-label-sm--font-weight: 500;
+
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: normal;
+  --text-body-sm--font-weight: 400;
+
+  --text-list: 14px;
+  --text-list--line-height: 1.29385;
+  --text-list--font-weight: 400;
+
+  --text-role: 14px;
+  --text-role--line-height: normal;
+  --text-role--font-weight: 300;
+
+  --text-initials: 14px;
+  --text-initials--line-height: normal;
+  --text-initials--font-weight: 700;
+
+  --text-quote: 13px;
+  --text-quote--line-height: 1.5;
+  --text-quote--font-weight: 400;
+
+  --text-meta: 13px;
+  --text-meta--line-height: normal;
+  --text-meta--font-weight: 400;
+
+  --text-caption: 12px;
+  --text-caption--line-height: normal;
+  --text-caption--font-weight: 400;
+
+  --text-overline: 12px;
+  --text-overline--line-height: normal;
+  --text-overline--font-weight: 600;
+
+  --text-legal: 11px;
+  --text-legal--line-height: 16px;
+  --text-legal--font-weight: 400;
+
+  /* Portada tipográfica de la guía en /links (230:1053): ilustración de 102px de ancho. */
+  --text-guide-cover: 8px;
+  --text-guide-cover--line-height: 1.3;
+  --text-guide-cover--font-weight: 400;
+
+  --text-metric: clamp(16px, 13.8873px + 0.56338vw, 22px);
+  --text-metric--line-height: normal;
+  --text-metric--font-weight: 400;
+
+  --text-metric-label: clamp(12px, 11.2958px + 0.18779vw, 14px);
+  --text-metric-label--line-height: normal;
+  --text-metric-label--font-weight: 400;
+
+  /* === Radios === */
+  --radius-media: 5px;
+  --radius-field: 10px;
+  --radius-panel: 10px;
+  --radius-card: 16px;
+  --radius-avatar: 20px;
+  --radius-avatar-stack: 12px;
+  --radius-glass: 24px;
+  --radius-pill: 999px;
+  --radius-metric: 10px;
+
+  /* === Sombras y blur === */
+  --shadow-card: 0 6px 8px rgba(0, 0, 0, 0.04);
+  --shadow-card-sm: 0 4px 6px rgba(0, 0, 0, 0.03);
+  --blur-glass: 20px;
+  --blur-masonry: 2px;
+
+  /* === Textura === */
+  --noise-texture: url("../assets/textures/noise.svg");
+
+  /* === Layout === */
+  /* Único cambio sobre el default: 2xl = ancho del frame de Figma. */
+  --breakpoint-2xl: 1440px;
+  --container-content: 1320px;
+  --container-page: 1440px;
+  --gutter-base: calc(var(--spacing) * 4);
+  --gutter-md: calc(var(--spacing) * 8);
+  --gutter-lg: calc(var(--spacing) * 10);
+  --gutter-2xl: calc(var(--spacing) * 15);
+
+  --z-index-menu: 50;
+  /* Barra flotante: sobre el contenido y el header, debajo del menú mobile. */
+  --z-index-floating-bar: 30;
+  --z-index-header: 20;
+  /* Barra flotante (layout/FloatingBar.svelte): separación del borde inferior, sobre el safe-area de iOS. */
+  --floating-bar-bottom: calc(var(--spacing) * 4 + env(safe-area-inset-bottom, 0px));
+
+  /* Modales (layout/dialog/ModalDialog): tarjeta centrada desde sm, con 24px de aire alrededor. */
+  --dialog-w-lg: min(100% - var(--spacing) * 12, var(--container-5xl));
+  /* Asesoría: 640px de Figma 272:8117 (una columna). */
+  --dialog-w-md: min(100% - var(--spacing) * 12, 40rem);
+  --dialog-max-h: calc(100dvh - var(--spacing) * 12);
+  /* Cotización en mobile: tarjeta con el gutter de página (16px) alrededor. */
+  --dialog-w-compact: calc(100% - var(--gutter-base) * 2);
+  --dialog-max-h-compact: calc(100dvh - var(--gutter-base) * 2);
+
+  /* === Librería de componentes (shared/ui) === */
+  /* Los campos llevan borde de 1px dentro de la medida: se descuenta del padding. */
+  --field-pad-x: calc(var(--spacing) * 4 - 1px);
+  --field-pad-y: calc(var(--spacing) * 3 - 1px);
+  --field-textarea-min-h: calc(4lh + var(--spacing) * 6);
+  --field-error-gap: calc(var(--spacing) * 1.25);
+  --form-status-gap: calc(var(--spacing) * 3);
+  --accordion-card-pad-x: clamp(20px, 12.9577px + 1.8779vw, 40px);
+  --accordion-card-pad-y: clamp(20px, 15.7746px + 1.1268vw, 32px);
+  --accordion-card-answer-gap: calc(var(--spacing) * 6);
+  --accordion-card-icon-gap: calc(var(--spacing) * 4);
+  --avatar-stack-size: clamp(40px, 36.4789px + 0.93897vw, 50px);
+  --avatar-stack-overlap: clamp(16px, 14.5915px + 0.37559vw, 20px);
+  --trust-badge-gap: clamp(12px, 10.9437px + 0.28169vw, 15px);
+  --rating-star-size: 13.75px;
+  --trust-badge-rating-gap: 7px;
+  /* StepperSlider en mobile: cada paso ocupa el ancho del carril (columna implícita del grid). */
+  --stepper-slide: 100%;
+
+  /* === Hero === */
+  --hero-pad-top: clamp(48px, 23.704px + 6.4789vw, 117px);
+  /* El header (52px) se superpone al hero. */
+  --hero-offset-top: calc(var(--spacing) * 13 + var(--hero-pad-top));
+  --hero-stage: clamp(320px, 256.62px + 16.9014vw, 500px);
+  --hero-pad-bottom: clamp(56px, 47.549px + 2.2535vw, 80px);
+  /* Sube "Studio." el descender de DM Sans (0.31em) por la diferencia de tamaños. */
+  --wordmark-overlap: calc(0.31 * (var(--text-wordmark) - var(--text-wordmark-sub)));
+
+  /* === Cabecera de sección === */
+  --section-head-gap: clamp(40px, 29.437px + 2.8169vw, 70px);
+  --section-head-aside-gap: calc(var(--spacing) * 6);
+
+  /* === Proyectos === */
+  --projects-pad-top: clamp(64px, 37.239px + 7.1362vw, 140px);
+  --projects-row-gap: clamp(20px, 13.662px + 1.6901vw, 38px);
+  --project-aspect: 650 / 447;
+  /* Tarjeta destacada a dos columnas: panorámica para que no duplique el alto de una fila. */
+  --project-aspect-wide: 2 / 1;
+  --project-pill-inset: clamp(12px, 8.479px + 0.93897vw, 22px);
+  --project-pill-bottom: clamp(12px, 7.07px + 1.3146vw, 26px);
+  --project-image-blur: 4px;
+  /* Escala mínima que oculta el borde translúcido del blur. */
+  --project-image-scale: 1.04;
+
+  /* === Detalle de proyecto === */
+  --project-cover-min-h: clamp(560px, 464.93px + 25.3521vw, 830px);
+  --project-cover-gap: clamp(96px, 78.394px + 4.6948vw, 146px);
+
+  /* === Métricas === */
+  --stats-pad-top: clamp(72px, 30.0986px + 11.1737vw, 191px);
+  --stats-head-gap: clamp(48px, 22.6479px + 6.7606vw, 120px);
+
+  /* === Proceso === */
+  --process-pad-top: clamp(40px, 31.1972px + 2.3474vw, 65px);
+  --process-pad-x: clamp(20px, 7.6761px + 3.2864vw, 55px);
+  --process-pad-y: clamp(40px, 30.1408px + 2.6291vw, 68px);
+  --process-head-gap: clamp(40px, 11.831px + 7.5117vw, 120px);
+
+  /* === Servicios === */
+  --services-pad-top: clamp(64px, 37.239px + 7.1362vw, 140px);
+  --services-row-pad-y: calc(var(--spacing) * 6);
+  --services-dot-gap: calc(var(--spacing) * 3.75);
+  --services-copy-gap: calc(var(--spacing) * 6);
+  --services-bullet-gap: calc(var(--spacing) * 2.5);
+  --services-panel-gap: calc(var(--spacing) * 8);
+  --services-panel-pad-bottom: calc(var(--spacing) * 10);
+  /* En em para que el corte de línea del h2 se mantenga con el tamaño fluido. */
+  --services-title-max: 12.67em;
+  --service-image-aspect: 187 / 318;
+
+  /* === Showcase === */
+  --showcase-pad-top: clamp(64px, 23.155px + 10.892vw, 180px);
+  --showcase-pad-y: clamp(48px, 30.3944px + 4.6948vw, 98px);
+  --showcase-inset: calc(50% - 662px);
+  --showcase-head-gap: clamp(32px, 15.803px + 4.3192vw, 78px);
+  --showcase-overhang: clamp(24px, 14.1408px + 2.6291vw, 52px);
+  --showcase-card-w: clamp(168px, 97.0141px + 18.9296vw, 369.6px);
+  --showcase-card-aspect: 616 / 658;
+
+  /* === Testimonios === */
+  --testimonials-pad-top: clamp(80px, 13.8028px + 17.6526vw, 268px);
+  --testimonials-head-gap: clamp(24px, 18.0141px + 1.5962vw, 41px);
+  --testimonials-title-max: 9em;
+  --masonry-h: clamp(560px, 477.9577px + 21.8779vw, 793px);
+  --masonry-gap: clamp(20px, 9.0845px + 2.9108vw, 51px);
+  --masonry-fade: clamp(64px, 44.2817px + 5.2582vw, 120px);
+  --masonry-cols: 251fr 310fr 311fr 300fr;
+  --masonry-cols-2xl: calc(var(--spacing) * 62.75) calc(var(--spacing) * 77.5) calc(var(--spacing) * 77.75) calc(var(--spacing) * 75);
+
+  /* === Equipo === */
+  --team-pad-top: clamp(40px, 31.1972px + 2.3474vw, 65px);
+  --team-head-gap: clamp(32px, 20.3803px + 3.0986vw, 65px);
+  --team-title-max: 10em;
+  --team-card-w: clamp(260px, 230.4225px + 7.8873vw, 344px);
+  --team-card-aspect: 344 / 423;
+  /* Más denso que Figma (0.4) al pie: AA del nombre y rol también sobre ropa clara (María). */
+  --team-card-scrim: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.5) 27.887%, rgba(0, 0, 0, 0) 49.687%);
+  --team-photo-blur: 16px;
+  --team-photo-scale: 1.08;
+  --team-card-veil: rgba(0, 0, 0, 0.3);
+  /* Banda bajo el texto del detalle: AA con cualquier foto; se desvanece en los 48px exteriores. */
+  --team-detail-scrim-bottom: linear-gradient(to top, rgba(0, 0, 0, 0.55) calc(100% - 48px), rgba(0, 0, 0, 0) 100%);
+
+  /* === FAQ === */
+  --faq-pad-top: clamp(64px, 37.239px + 7.1362vw, 140px);
+  --faq-head-offset: 29px;
+  /* 794px en 2xl; entre xl y 2xl, la misma proporción (794 / 1320). */
+  --faq-cols: minmax(0, 1fr) min(calc(var(--spacing) * 198.5), 60.1515%);
+  --faq-title-max: 11.6em;
+
+  /* === Contacto === */
+  --contact-offset-top: clamp(64px, 37.239px + 7.1362vw, 140px);
+  --contact-pad-top: clamp(64px, 27.7324px + 9.6714vw, 167px);
+  --contact-pad-bottom: 64px;
+  --contact-card-pad: calc(clamp(24px, 19.7746px + 1.1268vw, 36px) - 1px);
+
+  /* === Footer === */
+  --footer-pad-top: clamp(64px, 51.3239px + 3.3803vw, 100px);
+  --footer-pad-x: clamp(16px, -13.5775px + 7.8873vw, 100px);
+  --footer-gap: clamp(48px, 36.7324px + 3.0047vw, 80px);
+  --footer-cols: minmax(0, 1fr) calc(var(--spacing) * 90);
+  /* La galería se escala entera: 1px de Figma a 1440, 0.5px a 375. */
+  --footer-gallery-unit: clamp(0.5px, 0.323944px + 0.046948vw, 1px);
+  --footer-gallery-w: calc(1440 * var(--footer-gallery-unit));
+  --footer-gallery-h: calc(208.866 * var(--footer-gallery-unit));
+  --footer-pad-bottom: calc(80 * var(--footer-gallery-unit));
+
+  /* Tarjetas de la galería: x/y = esquina de la tarjeta sin rotar, centrada en la caja de Figma. */
+  --footer-card-1-x: calc((55 + (315.313 - 291.944) / 2) * var(--footer-gallery-unit));
+  --footer-card-1-y: calc((482 - 431.134 + (268.071 - 238.863) / 2) * var(--footer-gallery-unit));
+  --footer-card-1-w: calc(291.944 * var(--footer-gallery-unit));
+  --footer-card-1-h: calc(238.863 * var(--footer-gallery-unit));
+  --footer-card-1-rotate: -6deg;
+
+  --footer-card-2-x: calc(437 * var(--footer-gallery-unit));
+  --footer-card-2-y: calc((403 - 431.134) * var(--footer-gallery-unit));
+  --footer-card-2-w: calc(302.091 * var(--footer-gallery-unit));
+  --footer-card-2-h: calc(247.29 * var(--footer-gallery-unit));
+
+  --footer-card-3-x: calc((789 + (317.88 - 269.541) / 2) * var(--footer-gallery-unit));
+  --footer-card-3-y: calc((403 - 431.134 + (283.471 - 220.63) / 2) * var(--footer-gallery-unit));
+  --footer-card-3-w: calc(269.541 * var(--footer-gallery-unit));
+  --footer-card-3-h: calc(220.63 * var(--footer-gallery-unit));
+  --footer-card-3-rotate: 15.17deg;
+
+  --footer-card-4-x: calc((1076.42 + (347.585 - 269.016) / 2) * var(--footer-gallery-unit));
+  --footer-card-4-y: calc((540.43 - 431.134 + (340.851 - 220.104) / 2) * var(--footer-gallery-unit));
+  --footer-card-4-w: calc(269.016 * var(--footer-gallery-unit));
+  --footer-card-4-h: calc(220.104 * var(--footer-gallery-unit));
+  --footer-card-4-rotate: 39.41deg;
+
+  /* === Motion === */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  /* Por card: la pista multiplica por sus cards. */
+  --duration-masonry: 12s;
+  --duration-reveal: 1s;
+  --duration-stagger: 200ms;
+  --delay-reveal-process: 250ms;
+  --duration-expand: 450ms;
+  --duration-enter: 600ms;
+  --duration-stagger-tight: 70ms;
+  --duration-typewriter-char: 35ms;
+  --duration-team-typewriter-char: 15ms;
+  --duration-image: 600ms;
+  --duration-count: 1600ms;
+  /* Avance de UNA card del showcase (≈ 53px/s en 1440). */
+  --duration-showcase-slide: 7350ms;
+  --duration-team-step-interval: 4s;
+  --duration-team-step: 900ms;
+  --delay-slider-resume: 3s;
+  /* Lectura de un paso del StepperSlider (textos de 2–4 líneas en 375). */
+  --duration-stepper-interval: 6s;
+  --duration-stepper-step: 700ms;
+  --duration-footer-wheel-step: 7s;
+  --duration-project-fade: 250ms;
+  /* El detalle entra cuando la pill ya salió (= duration-project-fade). */
+  --delay-project-details-in: 250ms;
+  --delay-project-return: 250ms;
+  --duration-cta-liquid: 450ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-expand: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Rebote del puente del CTA (hover líquido): se pasa un poco y se asienta. */
+  --ease-cta-liquid: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --motion-distance-reveal: 48px;
+  --motion-distance-slide: 40px;
+
+  --animate-masonry: masonry-down var(--duration-masonry) linear infinite;
+  /* Segmento activo del StepperSlider: se llena mientras corre la espera del paso. */
+  --animate-stepper-fill: stepper-fill var(--duration-stepper-interval) linear both;
+  /* Se aplican con las utilidades reveal-* y enter-from-* de global.css, no sueltas. */
+  --animate-reveal-up: reveal-up var(--duration-reveal) var(--ease-enter) both;
+  --animate-enter-from-left: reveal-left var(--duration-enter) var(--ease-enter) both;
+  --animate-enter-from-right: reveal-right var(--duration-enter) var(--ease-enter) both;
+
+
+
+  @keyframes reveal-up {
+    from { opacity: 0; transform: translate3d(0, var(--motion-distance-reveal), 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  @keyframes reveal-left {
+    from { opacity: 0; transform: translate3d(calc(-1 * var(--motion-distance-slide)), 0, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  @keyframes reveal-right {
+    from { opacity: 0; transform: translate3d(var(--motion-distance-slide), 0, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+  }
+
+  @keyframes stepper-fill {
+    from { scale: 0 1; }
+    to { scale: 1 1; }
+  }
+
+  @keyframes masonry-down {
+    from { transform: translate3d(0, -50%, 0); }
+    to { transform: translate3d(0, 0, 0); }
+  }
+}

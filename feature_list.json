@@ -1,20 +1,2063 @@
 {
-  "project": "landing-de-ventas",
-  "description": "Alcance del arnés. Máximo UNA feature in_progress a la vez (validado por init.ps1).",
-  "status_values": ["pending", "in_progress", "done", "blocked"],
+  "project": "sensei-studio-landing",
+  "description": "Alcance del arnés. Máximo UNA feature in_progress (validado por init.ps1). Orden = orden de ejecución; se respetan dependsOn.",
+  "status_values": [
+    "pending",
+    "in_progress",
+    "done",
+    "blocked"
+  ],
+  "figmaFileKey": "nIsbYsmg2bq9JJTCX1x530",
   "features": [
     {
-      "id": "TEMPLATE",
-      "name": "Nombre descriptivo de la feature",
-      "status": "pending",
-      "priority": "high|medium|low",
-      "scope": ["src/archivo1.ts", "src/archivo2.tsx"],
-      "acceptance": [
-        "Criterio 1: descripción verificable (ej. 'pnpm test pasa')",
-        "Criterio 2: comportamiento observable (ej. 'componente renderiza sin error')",
-        "Criterio 3: validación de archivos (ej. 'imagen existe en public/')"
+      "id": "FND-001",
+      "name": "Base: Svelte, estructura modular, modelo Page, layout y ruta genérica",
+      "status": "done",
+      "dependsOn": [],
+      "figmaNodes": [
+        "1:17"
       ],
-      "notes": "Contexto extra, decisiones técnicas, dependencias, etc."
+      "acceptance": [
+        "Dependencias: quitar react, react-dom, @astrojs/react, @types/react*, @phosphor-icons/react, embla-carousel-react, motion; agregar @astrojs/svelte + svelte 5. astro.config sin react. tsconfig sin jsx react y con alias @/* → src/*",
+        "Estructura de capas de docs/architecture.md creada: core/, app/, layout/, content/, modules/, shared/, styles/, assets/, pages/",
+        "core/page.ts: SectionBase, PageOf<S>, Seo, ImageRef, Link, ToneText (base: design/page-model.draft.ts)",
+        "app/sections.ts (unión Section, tipo Page), app/registry.ts con satisfies Record<Section['type'], …>, app/SectionRenderer.astro",
+        "shared/ui/ToneText.astro renderiza ToneText (tono muted = ink-muted; strong = ink)",
+        "layout/BaseLayout.astro: <head> desde Page.seo (title, description, keywords, canonical, og), lang=es, fuentes Google Sans Flex (ejes GRAD/ROND/wdth) y DM Sans (opsz) con preconnect y display=swap",
+        "content/pages/home.ts exporta la Page 'home' (h1 + seo) con sections vacías; pages/[...slug].astro genera rutas estáticas desde content/pages/*",
+        "styles/tokens.css inicial: SOLO namespaces de color (5 variables de Figma, anotadas @figma var:<nombre>) y fuentes; styles/global.css importa tailwind + tokens",
+        "Logo de marca (design/figma/assets/imgBrandingLogo.svg) copiado a src/assets/brand/",
+        "tests/pages.test.ts: cada Page tiene h1, seo.title ≤ 60, seo.description ≤ 160, ids de sección únicos, todo type está en el registry",
+        "./init.ps1 verde"
+      ],
+      "notes": "Sin secciones visuales todavía. Pueden borrarse src/pages/index.astro y public/* salvo favicon.",
+      "verified": true
+    },
+    {
+      "id": "DS-001",
+      "name": "Sistema de diseño tokenizado completo (colores, tipografía, espaciado, radios, sombras, layout, motion)",
+      "status": "done",
+      "dependsOn": [
+        "FND-001"
+      ],
+      "figmaNodes": [
+        "1:17",
+        "11:12"
+      ],
+      "acceptance": [
+        "Namespaces cerrados con --<ns>-*: initial en: color, font, text, font-weight, leading, tracking, radius, shadow, spacing, breakpoint, container, animate, ease, blur",
+        "Color: 5 variables Figma + derivados resueltos según design/INVENTORY.md §1 (#0A0A0A → ink; #6E6E73 → ink-soft @figma; #AFAFAF → paper-muted; glass y avatares como tokens). Contraste WCAG anotado en @contrast para pares texto/fondo",
+        "Espaciado: la escala es exactamente el conjunto de valores px que usa Figma (gaps, paddings, márgenes entre bloques, alturas fijas), extraído de design/figma/homepage.0.txt. Claves = px (--spacing-16: 16px). Sin redondeo",
+        "Tipografía por ROLES (display-xl, display, h2, stat, title-lg, title, lead, body, body-sm, caption, eyebrow, button…), cada uno con size/leading/tracking/weight de Figma en 1440 y clamp() mobile → desktop (@derived para el mínimo)",
+        "Radios SEMÁNTICOS por elemento (radius-media 5, radius-card 16, radius-panel 20, radius-glass 24, radius-pill…) con @usage indicando dónde se permiten",
+        "Sombras semánticas (shadow-card, shadow-card-sm), blur-glass, textura de ruido (asset + token)",
+        "Layout: breakpoints mobile-first con 2xl = 1440px; --container-content 1320px; gutter por breakpoint (mobile @derived → 60px en 2xl); utilidad @utility container-page",
+        "Motion: tokens de duración/easing y keyframes para marquee, rotación del badge y scroll del masonry",
+        "docs/design-system.md generado (pnpm docs:ds) y legible",
+        "./init.ps1 verde",
+        "Arrastre de verify_FND-001: ToneText sensible a la superficie (variables CSS --tone-muted/--tone-strong o prop surface) para fondos ink (muted = paper-muted #AFAFAF, strong = paper)",
+        "Arrastre de verify_FND-001: registry.ts con un único satisfies; componentFor lanza un Error descriptivo si el type no está registrado"
+      ],
+      "verified": true
+    },
+    {
+      "id": "SEC-HEADER",
+      "name": "Header (chrome): logo, nav y CTA",
+      "status": "done",
+      "dependsOn": [
+        "DS-001"
+      ],
+      "figmaNodes": [
+        "16:48"
+      ],
+      "acceptance": [
+        "layout/Header.astro sobre el hero oscuro; datos en content/site.ts",
+        "Mobile: menú colapsable (isla Svelte solo si hace falta toggle) con foco gestionado",
+        "Exacto a 1440",
+        "./init.ps1 verde",
+        "Arrastre DS-001: definir tokens --z-* (namespace cerrado) antes de usar z-index en el header"
+      ],
+      "verified": true
+    },
+    {
+      "id": "SEC-HERO",
+      "name": "Sección hero",
+      "status": "done",
+      "dependsOn": [
+        "SEC-HEADER"
+      ],
+      "figmaNodes": [
+        "11:13",
+        "16:53",
+        "11:41",
+        "11:25",
+        "11:24"
+      ],
+      "acceptance": [
+        "modules/hero: fondo ink + ruido, wordmark Sensei Studio (asset), lista de servicios, lead ToneText, regla lima",
+        "El h1 de la página vive aquí",
+        "Exacto a 1440; mobile apilado",
+        "./init.ps1 verde",
+        "Quitar el h1 provisional de pages/[...slug].astro (un solo h1, dentro del hero)",
+        "Arrastre DS-001: calibrar densidad/opacidad de la textura de ruido contra el screenshot del hero"
+      ],
+      "verified": true
+    },
+    {
+      "id": "SEC-LOGOS",
+      "name": "Marquee de logos de clientes",
+      "status": "done",
+      "dependsOn": [
+        "SEC-HERO"
+      ],
+      "figmaNodes": [
+        "17:553"
+      ],
+      "acceptance": [
+        "modules/logo-marquee: 9 logos SVG de Figma, desplazamiento infinito SOLO CSS, pausa en hover/focus, estático con prefers-reduced-motion",
+        "./init.ps1 verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "SEC-PROJECTS",
+      "name": "Galería de proyectos",
+      "status": "done",
+      "dependsOn": [
+        "SEC-LOGOS"
+      ],
+      "figmaNodes": [
+        "32:82",
+        "31:59"
+      ],
+      "acceptance": [
+        "modules/project-gallery: cabecera común (eyebrow + h2 ToneText + CTA), grid 2×3 con imagen y pill (título + categoría)",
+        "Copy de Figma tal cual (placeholder)",
+        "Imágenes optimizadas con astro:assets",
+        "./init.ps1 verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "SEC-STATS",
+      "name": "Por qué elegirnos (métricas)",
+      "status": "done",
+      "dependsOn": [
+        "SEC-PROJECTS"
+      ],
+      "figmaNodes": [
+        "31:19"
+      ],
+      "acceptance": [
+        "modules/stats: h2 en dos tonos, descripción con lead strong, 4 métricas con separador",
+        "./init.ps1 verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "SEC-PROCESS",
+      "name": "Proceso en 4 pasos",
+      "status": "done",
+      "dependsOn": [
+        "SEC-STATS"
+      ],
+      "figmaNodes": [
+        "35:132",
+        "31:42"
+      ],
+      "copy": "design/copy/process.md",
+      "acceptance": [
+        "modules/process: panel oscuro (radio panel, ruido) de Figma; los pasos se diseñan por inferencia con el lenguaje visual existente (número, título, % de progreso, descripción)",
+        "Badge circular giratorio solo con CSS",
+        "./init.ps1 verde",
+        "Arrastre DS-001: corregir @usage de radius-panel según uso real"
+      ],
+      "verified": true
+    },
+    {
+      "id": "SEC-SERVICES",
+      "name": "Servicios: acordeón de 4 disciplinas",
+      "status": "done",
+      "dependsOn": [
+        "SEC-PROCESS"
+      ],
+      "figmaNodes": [
+        "31:60",
+        "33:78"
+      ],
+      "copy": "design/copy/services.md",
+      "acceptance": [
+        "modules/services: filas cerradas (40px/400) y fila abierta según 33:78 (punto lima 18, título 600, descripción, lista con viñetas lima de 5px, 3 imágenes 187×318)",
+        "Isla Svelte de acordeón accesible (button aria-expanded/aria-controls), una abierta a la vez, la primera abierta por defecto",
+        "Sin JS: contenido visible (progressive enhancement)",
+        "./init.ps1 verde",
+        "Arrastre DS-001: resolver leading 3.54 vs 4.28 de las filas con los nodos 33:* (MCP)"
+      ],
+      "verified": true
+    },
+    {
+      "id": "SEC-SHOWCASE",
+      "name": "Showcase: carrusel horizontal",
+      "status": "done",
+      "dependsOn": [
+        "SEC-SERVICES"
+      ],
+      "figmaNodes": [
+        "35:130"
+      ],
+      "acceptance": [
+        "modules/showcase: fondo oscuro, título de 60px, carrusel horizontal (scroll-snap nativo; isla Svelte solo para arrastre/controles si aporta)",
+        "./init.ps1 verde"
+      ],
+      "verified": false
+    },
+    {
+      "id": "SEC-TESTIMONIALS",
+      "name": "Testimonios: masonry con desplazamiento continuo hacia abajo",
+      "status": "done",
+      "dependsOn": [
+        "SEC-SHOWCASE"
+      ],
+      "figmaNodes": [
+        "35:150",
+        "174:190"
+      ],
+      "copy": "design/copy/testimonials.md",
+      "acceptance": [
+        "modules/testimonials: cabecera con prueba social (avatares, 56+, estrellas) y CTA",
+        "Masonry 4 columnas (desktop) → 2 → 1 con animación continua hacia abajo (loop sin saltos, contenido duplicado aria-hidden), fade arriba/abajo, pausa en hover, estático con reduced-motion",
+        "Cards según Figma (avatar de iniciales en 4 tonos, nombre, rol = proyecto, cita)",
+        "20 reseñas reales de design/copy/testimonials.md",
+        "./init.ps1 verde",
+        "Arrastre DS-001: confirmar si blur-masonry (2px) es intencional"
+      ],
+      "verified": false
+    },
+    {
+      "id": "SEC-TEAM",
+      "name": "Equipo",
+      "status": "done",
+      "dependsOn": [
+        "SEC-TESTIMONIALS"
+      ],
+      "figmaNodes": [
+        "41:404"
+      ],
+      "acceptance": [
+        "modules/team: cabecera común + 4 cards de foto (las sin foto se muestran como en Figma: bloque ink)",
+        "./init.ps1 verde"
+      ],
+      "verified": false
+    },
+    {
+      "id": "SEC-FAQ",
+      "name": "FAQ: acordeón",
+      "status": "done",
+      "dependsOn": [
+        "SEC-TEAM"
+      ],
+      "figmaNodes": [
+        "41:406",
+        "174:157"
+      ],
+      "acceptance": [
+        "modules/faq: cabecera a la izquierda + acordeón (cards blancas radio-card, shadow-card-sm, botón ink 32px con +)",
+        "Isla Svelte accesible; el + rota a × al abrir",
+        "Copy de Figma; corregir 'averageю' → 'average.'",
+        "./init.ps1 verde"
+      ],
+      "verified": false
+    },
+    {
+      "id": "SEC-CONTACT",
+      "name": "Contacto: card glass con formulario",
+      "status": "done",
+      "dependsOn": [
+        "SEC-FAQ"
+      ],
+      "figmaNodes": [
+        "174:73"
+      ],
+      "acceptance": [
+        "modules/contact: imagen de fondo optimizada, card glass (blur-glass, radio glass), formulario Nombre/Empresa/Email + botón + legal",
+        "Isla Svelte con validación accesible (labels, errores con aria-describedby); el envío queda como handler pendiente documentado",
+        "./init.ps1 verde"
+      ],
+      "verified": false
+    },
+    {
+      "id": "SEC-FOOTER",
+      "name": "Footer (chrome)",
+      "status": "done",
+      "dependsOn": [
+        "SEC-CONTACT"
+      ],
+      "figmaNodes": [
+        "174:26",
+        "174:72"
+      ],
+      "acceptance": [
+        "layout/Footer.astro: 4 columnas + galería de 4 imágenes rotadas (decorativas), datos en content/site.ts",
+        "./init.ps1 verde"
+      ],
+      "verified": false
+    },
+    {
+      "id": "QA-001",
+      "name": "Pase final: SEO, rendimiento y responsive de la Homepage completa",
+      "status": "done",
+      "dependsOn": [
+        "SEC-FOOTER"
+      ],
+      "acceptance": [
+        "Página completa revisada a 375/768/1024/1440",
+        "Lighthouse ≥ 90 en Performance/Accesibilidad/SEO (o motivo documentado)",
+        "Sitemap y robots",
+        "./init.ps1 verde",
+        "SEO completo: site en astro.config, canonical, og:url, og:site_name, twitter:card, og:image absoluta; revisar h1/keywords con el cliente"
+      ],
+      "verified": false
+    },
+    {
+      "id": "MOT-001",
+      "name": "Infraestructura de motion compartida",
+      "status": "done",
+      "dependsOn": [
+        "QA-001"
+      ],
+      "figmaNodes": [],
+      "acceptance": [
+        "shared/lib/motion: primitivas reutilizables (reveal al entrar en viewport con IntersectionObserver, stagger, typewriter) como acciones/attachments de Svelte o utilidades sin dominio",
+        "Tokens de motion en tokens.css (duraciones 1s/200ms de stagger, easings de entrada y expansión) anotados @derived",
+        "Estrategia: CSS/Tailwind para estados simples (hover, reveal, expansión con grid-template-rows); librería Motion (motion.dev, paquete \"motion\", APIs animate/inView/scroll, sin el runtime de React) para las animaciones de imágenes y secuencias orquestadas (carruseles, rueda del footer, transiciones de imagen del hover de proyectos/equipo). Documentarlo en docs/conventions.md",
+        "prefers-reduced-motion: sin animación, estado final visible en todas las primitivas; sin CLS; solo transform/opacity animados",
+        "docs/conventions.md: sección Motion con el patrón a seguir",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "Contenido faltante con placeholders marcados como PLACEHOLDER en el contenido (fáciles de localizar y reemplazar)",
+        "./init.ps1 verde"
+      ],
+      "verified": false
+    },
+    {
+      "id": "MOT-PROCESS",
+      "name": "Proceso: entrada escalonada de los 4 pasos",
+      "status": "done",
+      "dependsOn": [
+        "MOT-001"
+      ],
+      "figmaNodes": [
+        "35:132",
+        "31:42"
+      ],
+      "acceptance": [
+        "En el panel negro \"PROCESO: 4 PASOS\" los items entran desde opacity 0 y translateY (abajo → arriba) al entrar en viewport",
+        "Duración 1s por item; cada item empieza 200ms después del anterior; una sola vez",
+        "Sin JS el contenido es visible (progressive enhancement); prefers-reduced-motion: sin animación, estado final visible",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "Contenido faltante con placeholders marcados como PLACEHOLDER en el contenido (fáciles de localizar y reemplazar)",
+        "./init.ps1 verde"
+      ],
+      "verified": false
+    },
+    {
+      "id": "MOT-ACCORDIONS",
+      "name": "Acordeones de servicios y FAQ: expansión y entrada lateral",
+      "status": "done",
+      "dependsOn": [
+        "MOT-PROCESS"
+      ],
+      "figmaNodes": [
+        "31:60",
+        "33:78",
+        "41:406",
+        "174:157"
+      ],
+      "acceptance": [
+        "Servicios (\"Un equipo. Cuatro disciplinas. Cero fricción.\") y FAQ: al abrir, el panel se expande suavemente (alto animado, p. ej. grid-template-rows 0fr→1fr) y al cerrar colapsa",
+        "Los elementos del panel abierto entran lateralmente según su posición: los de la derecha entran desde la derecha, los de la izquierda desde la izquierda (con escalonado ligero)",
+        "Comportamiento compartido (shared), sin duplicar entre módulos; se mantiene la accesibilidad actual (aria-expanded, teclado)",
+        "prefers-reduced-motion: sin animación, estado final visible",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "Contenido faltante con placeholders marcados como PLACEHOLDER en el contenido (fáciles de localizar y reemplazar)",
+        "./init.ps1 verde"
+      ]
+    },
+    {
+      "id": "MOT-PROJECTS",
+      "name": "Proyectos: hover con detalle del proyecto",
+      "status": "done",
+      "dependsOn": [
+        "MOT-ACCORDIONS"
+      ],
+      "figmaNodes": [
+        "32:82",
+        "31:59"
+      ],
+      "acceptance": [
+        "Referencia del estado final: design/references/projects-hover-final.png (pill de industria arriba a la izquierda, imagen, rejilla 2×2 de métricas valor + etiqueta)",
+        "Desktop (hover y focus-visible): 1) el título/categoría (\"Dass design anthopoly / Web Design\") se desplaza al centro con transición; 2) se desvanece; 3) aparecen los detalles (pill + 4 métricas)",
+        "Mobile / sin hover (@media (hover: none)): se muestra directamente el estado final estático",
+        "Schema de proyecto ampliado (industria, 4 métricas); datos PLACEHOLDER marcados hasta tener los reales",
+        "prefers-reduced-motion: sin animación, estado final visible (cambio directo de estado)",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "Contenido faltante con placeholders marcados como PLACEHOLDER en el contenido (fáciles de localizar y reemplazar)",
+        "./init.ps1 verde"
+      ]
+    },
+    {
+      "id": "MOT-SHOWCASE",
+      "name": "Showcase: carrusel en autoplay con más imágenes",
+      "status": "done",
+      "dependsOn": [
+        "MOT-PROJECTS"
+      ],
+      "figmaNodes": [
+        "35:130"
+      ],
+      "acceptance": [
+        "Sección \"Creatividad, tecnología y estrategia\": más imágenes en el carrusel (fuente a confirmar; placeholders marcados mientras tanto)",
+        "Autoplay en bucle continuo; pausa con hover, foco y pestaña oculta; control de pausa accesible (WCAG 2.2.2)",
+        "Se mantiene el arrastre/scroll manual existente",
+        "prefers-reduced-motion: sin animación, estado final visible (sin autoplay)",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "Contenido faltante con placeholders marcados como PLACEHOLDER en el contenido (fáciles de localizar y reemplazar)",
+        "./init.ps1 verde"
+      ]
+    },
+    {
+      "id": "MOT-TEAM",
+      "name": "Equipo: hover de perfil con texto en escritura",
+      "status": "done",
+      "dependsOn": [
+        "MOT-SHOWCASE"
+      ],
+      "figmaNodes": [
+        "41:404"
+      ],
+      "acceptance": [
+        "Estado final del hover/focus según design/references/team-hover-final.png: foto desenfocada (blur) con velo, icono + en círculo arriba a la izquierda, rol arriba a la derecha (\"Team Lead\" / \"at fabrica®\"), nombre grande abajo a la izquierda y bio en párrafo debajo, texto blanco con jerarquía de opacidad",
+        "Transición de imagen (blur/escala) con Motion; schema de miembro ampliado (cargo, empresa, bio) con PLACEHOLDER para los que falten",
+        "Los textos de la card aparecen con animación de escritura (typewriter) usando la primitiva de MOT-001; el texto completo está siempre en el DOM para lectores de pantalla (aria-label o texto real oculto visualmente)",
+        "Mobile: estado final estático",
+        "prefers-reduced-motion: sin animación, estado final visible",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "Contenido faltante con placeholders marcados como PLACEHOLDER en el contenido (fáciles de localizar y reemplazar)",
+        "./init.ps1 verde"
+      ]
+    },
+    {
+      "id": "MOT-FOOTER",
+      "name": "Footer: carrusel curvo de imágenes en rueda",
+      "status": "done",
+      "dependsOn": [
+        "MOT-TEAM"
+      ],
+      "figmaNodes": [
+        "174:26",
+        "174:72"
+      ],
+      "acceptance": [
+        "Las imágenes del footer se ven exactamente como en Figma (misma curvatura y disposición) pero giran como una ruleta en bucle continuo",
+        "Implementación con transform (rotate/translate sobre un arco), sin recalcular layout; pausa con pestaña oculta",
+        "Imágenes decorativas aria-hidden; prefers-reduced-motion: sin animación, estado final visible (composición de Figma estática)",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "Contenido faltante con placeholders marcados como PLACEHOLDER en el contenido (fáciles de localizar y reemplazar)",
+        "./init.ps1 verde"
+      ]
+    },
+    {
+      "id": "FIX-HERO-VIDEO",
+      "name": "Hero: restaurar el video de fondo",
+      "status": "done",
+      "dependsOn": [
+        "MOT-FOOTER"
+      ],
+      "figmaNodes": [
+        "11:13"
+      ],
+      "acceptance": [
+        "El hero vuelve a tener su video de fondo: _archive/site-v1/public/assets/videos/homepage-hero-background.mp4 (referencia de la implementación anterior: git show d6fab58:src/components-react/VideoBackground.tsx y src/homepage/sections/Hero.astro)",
+        "Video decorativo: muted, loop, playsinline, autoplay, aria-hidden, sin controles, object-cover; detrás del contenido y del header; el ruido y el fondo ink siguen como fallback/poster",
+        "La ruta del video vive en content (no hardcodeada en el componente); el archivo en public/ (no lo procesa astro:assets) o justificado en el informe",
+        "prefers-reduced-motion: video en pausa (primer frame/poster); pausa con pestaña oculta; sin CLS; preload=metadata o equivalente para no penalizar el LCP",
+        "Contraste del texto del hero sobre el video ≥ WCAG AA (velo ink si hace falta, como token)",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "./init.ps1 verde"
+      ],
+      "verified": false
+    },
+    {
+      "id": "MOT-PROCESS-TIMING",
+      "name": "Proceso: retrasar ligeramente la entrada de los pasos",
+      "status": "done",
+      "dependsOn": [
+        "FIX-HERO-VIDEO"
+      ],
+      "figmaNodes": [
+        "35:132"
+      ],
+      "acceptance": [
+        "En \"PROCESO: 4 PASOS\" la animación hoy arranca demasiado pronto (antes de que el usuario vea la lista) y casi no se nota",
+        "Retrasarla solo un poco: disparar cuando la lista está más dentro del viewport (amount/margin mayores, p. ej. ~40% visible o rootMargin inferior negativo) y/o un retardo inicial corto como token @derived (≈150–300ms)",
+        "Se mantienen 1s por item y +200ms de escalonado, una sola vez, visible sin JS y con reduced-motion",
+        "Opciones nuevas de reveal() como parámetros de la primitiva compartida, no como un caso especial",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "./init.ps1 verde"
+      ],
+      "verified": false
+    },
+    {
+      "id": "UI-LIB-001",
+      "name": "Librería de componentes: primitivos de UI sobre el sistema de diseño",
+      "status": "done",
+      "dependsOn": [
+        "MOT-PROCESS-TIMING"
+      ],
+      "figmaNodes": [
+        "1:17",
+        "11:12"
+      ],
+      "acceptance": [
+        "Inventario previo en progress/impl_UI-LIB-001.md: recorrer TODOS los módulos y el layout y listar cada patrón de UI repetido o reutilizable (botón/CTA, botón icono, input, label, mensaje de error, eyebrow, pill, cabecera de sección, card, avatar, estrellas, acordeón, separadores, enlaces, iconos…) con dónde aparece",
+        "src/shared/ui/ contiene la librería: un componente por patrón (Astro si es estático, Svelte solo si necesita estado), todo estilado SOLO con tokens/utilidades de tokens.css; sin copy dentro",
+        "Regla de diseño de API (docs/conventions.md › Librería de componentes): pocas props, sin flags booleanos que cambien el aspecto ni props 'variant' con muchas ramas. Si dos usos se ven distintos, son dos componentes con nombre propio (p. ej. ButtonPrimary y ButtonOnInk, no Button variant=…). Máx. ~4 props de datos por componente; composición con slots/children",
+        "Importancia igual a todos los niveles: desde Input/Label/FieldError hasta piezas de sección (SectionHeader, cards de proyecto/equipo/testimonio como componentes de la librería si se reutilizan o forman parte del lenguaje visual)",
+        "docs/components.md: catálogo de la librería (nombre, cuándo usarlo, props, ejemplo, a qué tokens se ata); enlazado desde CLAUDE.md",
+        "Página interna de catálogo /componentes (noindex, fuera del sitemap) que renderiza cada componente con datos de ejemplo de src/content/ para revisión visual",
+        "Tests: tests/ui-library.test.ts comprueba que cada componente de shared/ui está documentado en docs/components.md y que ningún componente supera el umbral de props acordado",
+        "Esta feature CREA la librería; la migración de módulos es UI-LIB-003. Se puede migrar ya lo trivial si no rompe nada, pero no es obligatorio",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "./init.ps1 verde"
+      ],
+      "verified": false
+    },
+    {
+      "id": "UI-LIB-002",
+      "name": "Librería: sliders (un componente por slider) + swipe táctil",
+      "status": "done",
+      "dependsOn": [
+        "UI-LIB-001"
+      ],
+      "figmaNodes": [
+        "35:130",
+        "41:404"
+      ],
+      "acceptance": [
+        "Un componente por slider, sin componente genérico configurable: ShowcaseCarousel (\"Creatividad, tecnología y estrategia\") y TeamSlider (\"Las personas detrás de cada proyecto\"); la lógica común (swipe/arrastre, autoplay, pausa por pestaña oculta/reduced-motion) en primitivas de shared/lib, no en props",
+        "ShowcaseCarousel: autoplay continuo en bucle como hoy; SE QUITA el botón pause/resume; se detiene con hover (y con foco de teclado / pestaña oculta / fuera de viewport) y se reanuda al salir. Documentar en el informe la decisión WCAG 2.2.2 (pedido explícito del cliente; mitigación: pausa con hover/foco/touch y reduced-motion)",
+        "TeamSlider: la sección de equipo pasa a ser un slider en autoplay que avanza por PASOS (una card cada X s con transición de desplazamiento y pausa entre pasos, no scroll continuo), en bucle; se detiene con hover/foco; intervalo y duración del paso como tokens @derived; se mantiene el hover de perfil/typewriter de MOT-TEAM",
+        "Mobile/táctil: TODOS los sliders son swipeables (touch con pointer events, sin bloquear el scroll vertical: touch-action: pan-y); el swipe pausa el autoplay y lo reanuda tras unos segundos; en TeamSlider el swipe ajusta al paso más cercano (snap)",
+        "Accesibilidad: región con aria-roledescription=\"carrusel\" y etiqueta, slides con su etiqueta, los clones del bucle aria-hidden e inert; navegable con teclado",
+        "prefers-reduced-motion: sin autoplay, swipe/scroll manual disponible",
+        "Los módulos showcase y team consumen estos componentes; tests de la lógica (paso siguiente/bucle, umbral de swipe, motivos de pausa)",
+        "docs/components.md actualizado con ambos sliders",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "./init.ps1 verde"
+      ],
+      "verified": false
+    },
+    {
+      "id": "UI-LIB-003",
+      "name": "Consumir la librería en todo el sitio",
+      "status": "done",
+      "dependsOn": [
+        "UI-LIB-002"
+      ],
+      "figmaNodes": [
+        "11:12"
+      ],
+      "acceptance": [
+        "Todos los módulos y el layout (header, footer, menú móvil, contacto, FAQ, servicios, proyectos, stats, testimonios, equipo, proceso, hero, logos) usan los componentes de shared/ui en lugar de marcado/estilos duplicados",
+        "No queda en modules/ ni layout/ marcado que replique un componente de la librería (botón, input, eyebrow, pill, cabecera, card…); los que aparezcan durante la migración y falten se agregan a la librería con su doc",
+        "scripts/check-architecture.mjs (o un check nuevo en init.ps1) detecta duplicados obvios: p. ej. clases de botón/input de la librería repetidas fuera de shared/ui",
+        "Sin regresión visual: comparación a 375/768/1440 antes y después (capturas en progress/) con diferencias explicadas",
+        "docs/architecture.md y docs/components.md al día",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "./init.ps1 verde"
+      ],
+      "verified": false
+    },
+    {
+      "id": "MOT-PROJECTS-V2",
+      "name": "Proyectos: rediseño del detalle en hover (todo abajo, glass, iconos, CTA)",
+      "dependsOn": [
+        "UI-LIB-003"
+      ],
+      "figmaNodes": [
+        "32:82",
+        "31:59"
+      ],
+      "acceptance": [
+        "Sección 'Ayudamos a marcas de distintas industrias a lograr resultados reales.' (módulo project-gallery / ProjectCard)",
+        "Se elimina la etiqueta/pill superior (industria): todo el contenido del detalle queda alineado abajo (bottom) de la card",
+        "Orden del contenido de abajo hacia el bloque: 1) título del proyecto; 2) métricas en rejilla 2×2 en mobile y 1 fila × 4 columnas en desktop; 3) botón full width 'Detalles del proyecto' a 18px, peso normal",
+        "Cada métrica lleva un icono (SVG inline o componente de icono de la librería, accesible: aria-hidden en decorativos)",
+        "Desktop (hover y focus-visible): la imagen se desenfoca ligeramente y se oscurece (overlay); el bloque de contenido usa texto blanco y fondo glass translúcido (backdrop-blur) en lugar de fondo blanco; transición con tokens de motion",
+        "Mobile / sin hover (@media (hover: none)): se muestra el estado final de desktop (texto blanco, glass, imagen oscurecida) pero SIN desenfocar la imagen",
+        "Botón 'Detalles del proyecto': componente de shared/ui (nuevo si no existe, documentado en docs/components.md); href PLACEHOLDER si no hay página de detalle",
+        "prefers-reduced-motion: sin animación, estado final visible",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "./init.ps1 verde"
+      ],
+      "status": "done",
+      "verified": true
+    },
+    {
+      "id": "MOT-STATS",
+      "name": "Stats: animaciones de texto y contadores; quitar duración del proceso",
+      "dependsOn": [
+        "MOT-PROJECTS-V2"
+      ],
+      "figmaNodes": [
+        "31:19",
+        "35:132"
+      ],
+      "acceptance": [
+        "Sección 'Resultados comprobados en cada proyecto, con foco en diseño y funcionalidad.' (módulo stats)",
+        "El texto 'Sin relleno, solo resultados.' (y su párrafo) tiene animación de entrada al entrar en viewport, usando la infraestructura de motion compartida",
+        "Los 4 contadores (+250, +9, 97%, 1 punto) animan su valor numérico de 0 al valor final al entrar en viewport (una sola vez), conservando prefijos/sufijos ('+', '%', ' punto'); el HTML renderizado en servidor contiene el valor final (SEO / sin JS)",
+        "Se elimina el texto 'DURACIÓN: ~4 semanas' (sección proceso) junto con la línea de puntos/campo que lo acompaña; schema y contenido actualizados sin dejar campos huérfanos",
+        "prefers-reduced-motion: sin animación, estado final visible",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "./init.ps1 verde"
+      ],
+      "status": "done",
+      "verified": true
+    },
+    {
+      "id": "MOT-SLIDERS-SHOWCASE",
+      "name": "Sliders sin pausa al hover + showcase 40% más pequeño",
+      "dependsOn": [
+        "MOT-STATS"
+      ],
+      "figmaNodes": [
+        "33:98",
+        "33:118"
+      ],
+      "acceptance": [
+        "Ningún slider/carrusel en autoplay se detiene al hacer hover: showcase, team, logos, footer wheel y el masonry de testimonios (waterfall). El botón de pausa explícito (si existe, WCAG 2.2.2) sigue funcionando",
+        "Sección 'Creatividad, tecnología y estrategia' (showcase): las cards/items son un 40% más pequeños (ancho y alto ×0.6) en todos los breakpoints, manteniendo proporción",
+        "El título de esa sección se muestra a 46px en desktop (token tipográfico; escala proporcional en mobile)",
+        "prefers-reduced-motion: sin animación, estado final visible",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "./init.ps1 verde"
+      ],
+      "status": "done"
+    },
+    {
+      "id": "SEC-TESTIMONIALS-TRUSTED",
+      "name": "Testimonios: 'Trusted by' en HTML real",
+      "dependsOn": [
+        "MOT-SLIDERS-SHOWCASE"
+      ],
+      "figmaNodes": [
+        "38:319"
+      ],
+      "acceptance": [
+        "Sección 'Lo que dicen nuestros clientes': la imagen raster de 'Trusted by clients worldwide' se reemplaza por HTML real con Tailwind",
+        "Referencia visual: design/references/trusted-by.png — fila de 4 avatares circulares solapados con borde blanco + círculo negro '56+' en texto blanco; a la derecha 5 estrellas naranjas y el texto 'Trusted by' (fuerte) 'clients worldwide' (muted)",
+        "Componente reutilizable en shared/ui (p. ej. AvatarStack/TrustBadge) documentado en docs/components.md; datos (avatares, cuenta, texto) en el contenido; avatares PLACEHOLDER si no hay fotos reales",
+        "Accesible: estrellas con texto alternativo ('5 de 5'), avatares decorativos con alt vacío o lista con nombres",
+        "Se elimina el asset raster ya no usado",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "./init.ps1 verde"
+      ],
+      "status": "done"
+    },
+    {
+      "id": "MOT-TEAM-MOBILE",
+      "name": "Equipo: mobile sin desenfoque y slider en autoplay",
+      "dependsOn": [
+        "SEC-TESTIMONIALS-TRUSTED"
+      ],
+      "figmaNodes": [
+        "40:388"
+      ],
+      "acceptance": [
+        "Sección 'Las personas detrás de cada proyecto' (TeamSlider)",
+        "Mobile / sin hover: las imágenes de las cards NO se desenfocan; solo se oscurecen ligeramente (overlay)",
+        "El slider del equipo corre en autoplay (como el showcase) en todos los breakpoints, sin pausar al hover; swipe táctil sigue funcionando",
+        "prefers-reduced-motion: sin animación, estado final visible",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "./init.ps1 verde"
+      ],
+      "status": "done"
+    },
+    {
+      "id": "MOT-REVEAL",
+      "name": "Entrada a viewport: testimonios, FAQ y contacto",
+      "dependsOn": [
+        "MOT-TEAM-MOBILE"
+      ],
+      "figmaNodes": [
+        "11:12"
+      ],
+      "acceptance": [
+        "Las secciones 'Lo que dicen nuestros clientes', '¿Tienes preguntas? Tenemos respuestas.' y 'Let's talk.' tienen animación de entrada al entrar en viewport (cabecera, descripción y contenido escalonados), usando la infraestructura de motion compartida (MOT-001)",
+        "Una sola vez por carga; sin layout shift (solo opacity/transform)",
+        "Sin JS el contenido es visible",
+        "prefers-reduced-motion: sin animación, estado final visible",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "./init.ps1 verde"
+      ],
+      "status": "done"
+    },
+    {
+      "id": "SEC-CONTACT-MESSAGE",
+      "name": "Contacto: textarea para describir la solicitud",
+      "dependsOn": [
+        "MOT-REVEAL"
+      ],
+      "figmaNodes": [],
+      "acceptance": [
+        "El formulario de contacto incluye un textarea (campo 'mensaje') donde el usuario explica su solicitud, con label accesible y placeholder",
+        "Componente TextareaGlass en shared/ui coherente con InputGlass, documentado en docs/components.md",
+        "Validación en schema/form.ts (requerido, longitud mínima razonable) con FieldError; el valor se incluye en el envío",
+        "Responsive: no rompe la card glass a 375/768/1440",
+        "Tailwind v4 first: utilidades y tokens (@theme/@utility) en vez de CSS a mano; CSS propio solo si es estrictamente necesario y justificado en el informe",
+        "./init.ps1 verde"
+      ],
+      "status": "done"
+    },
+    {
+      "id": "FIX-OPEN-MINORS",
+      "name": "Cerrar menores abiertos: contraste bio equipo, textos de hover, velocidad showcase",
+      "dependsOn": [
+        "SEC-CONTACT-MESSAGE"
+      ],
+      "figmaNodes": [],
+      "acceptance": [
+        "Figma es referencia, no contrato (CLAUDE.md): se busca el mejor resultado sin cambiar la estructura",
+        "Equipo: la bio (y nombre/rol) sobre la foto cumple contraste AA (≥4.5:1 texto normal) en toda su zona en mobile y en el estado de detalle de desktop, p. ej. con un scrim inferior o ajustando el velo; sin volver a desenfocar en mobile. Corregir la anotación @contrast de --color-paper-soft para que refleje la medida real",
+        "Ningún texto visible, aria-label, comentario, JSDoc ni doc dice que los sliders se pausan con hover/cursor (incluye src/content/ui-catalog.ts y src/modules/showcase/schema.ts); describir la pausa real (foco de teclado, swipe, pestaña oculta, reduced-motion)",
+        "Showcase: recuperar la velocidad visual previa (~53px/s en 1440) ajustando --duration-showcase-slide (≈7.35s por card) o equivalente; anotado @derived con el motivo",
+        "Tests actualizados; pnpm docs:ds si cambian tokens",
+        "./init.ps1 verde"
+      ],
+      "status": "done"
+    },
+    {
+      "id": "CLEANUP-TOKENS",
+      "name": "tokens.css mínimo, Tailwind sin sobrescribir y sin tests",
+      "dependsOn": [
+        "FIX-OPEN-MINORS"
+      ],
+      "figmaNodes": [],
+      "acceptance": [
+        "Sin cambio visual: el render a 375/768/1024/1440 queda igual (o diferencias imperceptibles justificadas)",
+        "tokens.css no contiene ningún --<ns>-*: initial: el tema por defecto de Tailwind vuelve a estar disponible (bg-black, bg-white, text-neutral-500, p-4=16px, rounded-lg, shadow-md, ease-in-out…)",
+        "Ningún token redefine un nombre por defecto de Tailwind con otro valor (p. ej. leading-normal, leading-relaxed, tracking-tight); los valores propios llevan nombre propio. Excepción permitida: --breakpoint-2xl: 1440px. Se borran los que son idénticos al default (font-weight-*, breakpoint-sm..xl, tracking-normal, leading-none…)",
+        "Espaciado con la escala nativa (--spacing: 0.25rem): se eliminan todos los --spacing-N en px y cada clase/uso se migra a N/4 (p-20 → p-5, w-361 → w-90.25, var(--spacing-40) → --spacing(10) o calc equivalente) sin cambiar el valor resultante",
+        "tokens.css solo conserva tokens usados en plantillas, componentes, CSS o JS de src/ (incluidas lecturas por getComputedStyle); se borran los no usados",
+        "Se eliminan las anotaciones @figma/@derived/@usage/@contrast; como mucho un comentario de una línea donde el por qué no sea obvio",
+        "Se elimina tests/, vitest.config.ts, la dependencia vitest y los scripts test y docs:ds de package.json (pnpm install para actualizar el lockfile)",
+        "docs/design-system.md se reescribe a mano y breve: qué agrega tokens.css sobre Tailwind (colores, roles de texto, medidas, motion), sin listar el default de Tailwind",
+        "./init.ps1 en verde"
+      ],
+      "status": "done",
+      "verified": true
+    },
+    {
+      "id": "MOB-CARDS-INITIAL",
+      "name": "Cards de proyecto y equipo: en mobile solo el estado inicial; TeamCard en archivo propio",
+      "dependsOn": [
+        "CLEANUP-TOKENS"
+      ],
+      "figmaNodes": [],
+      "acceptance": [
+        "\"Mobile\" = dispositivo sin hover (@media (hover: none) o equivalente). Con puntero con hover el comportamiento actual de desktop no cambia (con reduced-motion el cambio de capa sigue pasando en hover, sin transiciones)",
+        "ProjectCard (src/shared/ui/ProjectCard.astro) sin hover: solo imagen + botón \"Ver proyecto\" (LinkButtonPaper, el mismo enlace del detalle). Sin velo, sin glass, sin métricas, sin pill. El título sigue en el DOM como h3 accesible (visualmente oculto si no se muestra) y el botón es alcanzable con teclado/táctil",
+        "Card de integrante (sección \"Las personas detrás de cada proyecto\") sin hover: solo el estado inicial (foto + scrim con nombre y rol). La capa de detalle (rol/empresa, bio, botón +) no se muestra ni se anima; hover.ts no engancha nada en ese caso",
+        "La card de integrante se extrae a un componente propio en src/shared/ui/ (p. ej. TeamCard.astro), documentado en docs/components.md y en el catálogo /componentes (src/content/ui-catalog.ts). modules/team/Section.astro solo la coloca dentro de TeamSlider y le pasa datos; no queda marcado de card inline. Lo mismo para la card de relleno (kind != person) si tiene contexto propio",
+        "Revisar los demás módulos: si alguna sección tiene marcado de card/item con contexto propio escrito inline dentro de un .map(), anotarlo en el informe (no extraerlo en esta feature salvo que sea trivial)",
+        "Sin regresión en desktop (1024, 1440) ni en el comportamiento del slider; sin scroll horizontal a 375",
+        "./init.ps1 en verde"
+      ],
+      "status": "done",
+      "verified": true
+    },
+    {
+      "id": "COPY-PROJECT-BUTTON",
+      "name": "Botón de ProjectCard: \"Ver proyecto\"",
+      "dependsOn": [
+        "MOB-CARDS-INITIAL"
+      ],
+      "figmaNodes": [],
+      "acceptance": [
+        "El enlace del detalle de proyecto (LinkButtonPaper en ProjectCard, desktop y mobile) dice \"Ver proyecto\" en todos los proyectos; el cambio se hace en src/content/ (pages/home.ts o donde viva el copy) y en design/copy si lo cita",
+        "Si el aria-label o el texto accesible repite el texto viejo, también se actualiza (manteniendo que identifique el proyecto si hoy lo hace)",
+        "./init.ps1 en verde"
+      ],
+      "status": "done",
+      "verified": true
+    },
+    {
+      "id": "EXTRACT-PROCESS-STEP",
+      "name": "Paso del proceso en componente propio",
+      "dependsOn": [
+        "COPY-PROJECT-BUTTON"
+      ],
+      "figmaNodes": [],
+      "acceptance": [
+        "El paso del proceso (barra de progreso + número/% + h3 + texto) deja de estar inline en el steps.map() de src/modules/process/Section.astro y pasa a su propio archivo (shared/ui si es genérico, o el módulo si es exclusivo de esa sección; justificar)",
+        "La sección solo coloca el componente y le pasa datos",
+        "Sin cambio visual ni de comportamiento a 375, 768, 1024 y 1440 (incluido motion y reduced-motion)",
+        "Documentado en docs/components.md y en el catálogo /componentes (src/content/ui-catalog.ts) si va a src/shared/ui",
+        "./init.ps1 en verde"
+      ],
+      "status": "done",
+      "verified": true
+    },
+    {
+      "id": "EXTRACT-STAT-ITEM",
+      "name": "Cifra de stats en componente propio",
+      "dependsOn": [
+        "EXTRACT-PROCESS-STEP"
+      ],
+      "figmaNodes": [],
+      "acceptance": [
+        "El bloque de cifra (valor + divisor + etiqueta, con su count-up) deja de estar inline en el items.map() de src/modules/stats/Section.astro y pasa a su propio archivo (shared/ui o módulo; justificar)",
+        "La sección solo coloca el componente y le pasa datos",
+        "Sin cambio visual ni de comportamiento a 375, 768, 1024 y 1440 (incluido motion y reduced-motion)",
+        "Documentado en docs/components.md y en el catálogo /componentes (src/content/ui-catalog.ts) si va a src/shared/ui",
+        "./init.ps1 en verde"
+      ],
+      "status": "done",
+      "verified": true
+    },
+    {
+      "id": "EXTRACT-SERVICE-ROW",
+      "name": "Fila del acordeón de servicios en componente propio",
+      "dependsOn": [
+        "EXTRACT-STAT-ITEM"
+      ],
+      "figmaNodes": [],
+      "acceptance": [
+        "La fila del acordeón (botón + panel con lista e imágenes) deja de estar inline en el {#each services} de src/modules/services/ServicesAccordion.svelte y pasa a su propio componente Svelte (shared/ui o módulo; justificar)",
+        "El estado del acordeón (qué fila está abierta, teclado, aria-expanded/aria-controls) sigue funcionando igual",
+        "Sin cambio visual ni de comportamiento a 375, 768, 1024 y 1440 (incluido motion y reduced-motion)",
+        "Documentado en docs/components.md y en el catálogo /componentes (src/content/ui-catalog.ts) si va a src/shared/ui",
+        "./init.ps1 en verde"
+      ],
+      "status": "done",
+      "verified": true
+    },
+    {
+      "id": "PRJ-ROUTE",
+      "name": "Detalle de proyecto: módulo, contenido tipado, ruta /proyectos/[projectId] y hero",
+      "status": "done",
+      "dependsOn": [],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "216:2836",
+        "216:2837"
+      ],
+      "acceptance": [
+        "Módulo src/modules/project/ con API según docs/architecture.md; tipo Project con todo el contenido de la vista; contenido real del caso 'Origen' en src/content/",
+        "Ruta estática /proyectos/[projectId] generada desde el contenido; SEO por proyecto (title ≤ 60, description ≤ 160, canonical), un único h1 (nombre del proyecto)",
+        "Hero 'Portada inmersiva' (216:2849): imagen de fondo + sombra editorial, volver a proyectos, estado del caso, nombre, categoría, título del caso, descripción, control 'Explorar resultados' que desplaza a la sección de resultados, ficha breve (3 datos) y acento inferior",
+        "La 'Navegación' del frame (216:2838) es el header del sitio: se reutiliza el existente, no se crea otro",
+        "Antes de codificar: get_design_context de cada figmaNode con el fileKey de ESTA feature (no el figmaFileKey global). Si devuelve un frame sin hijos, usar get_screenshot del nodo como referencia visual",
+        "Un componente aislado por bloque del diseño, con su propio contexto y solo los props realmente necesarios. Nada de mega componentes versátiles con variantes; los repetidos (métrica, campo de ficha, entregable…) son componentes pequeños iterados con datos",
+        "Reutiliza shared/ui y tokens existentes antes de crear nuevos; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "PRJ-RESULTS",
+      "name": "Detalle de proyecto: Resultados primero",
+      "status": "done",
+      "dependsOn": [
+        "PRJ-ROUTE"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "216:2878"
+      ],
+      "acceptance": [
+        "Sección de src/modules/project/ montada en la página de proyecto, en el orden del frame 216:2836; contenido desde el tipo de proyecto, no hardcodeado en el componente",
+        "Introducción (etiqueta, título, descripción), separador, 3 métricas (valor, indicador, comparación antes/después, descripción) y nota metodológica",
+        "Antes de codificar: get_design_context de cada figmaNode con el fileKey de ESTA feature (no el figmaFileKey global). Si devuelve un frame sin hijos, usar get_screenshot del nodo como referencia visual",
+        "Un componente aislado por bloque del diseño, con su propio contexto y solo los props realmente necesarios. Nada de mega componentes versátiles con variantes; los repetidos (métrica, campo de ficha, entregable…) son componentes pequeños iterados con datos",
+        "Reutiliza shared/ui y tokens existentes antes de crear nuevos; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "PRJ-CONTEXT",
+      "name": "Detalle de proyecto: Contexto y desafío",
+      "status": "done",
+      "dependsOn": [
+        "PRJ-RESULTS"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "216:2909"
+      ],
+      "acceptance": [
+        "Sección de src/modules/project/ montada en la página de proyecto, en el orden del frame 216:2836; contenido desde el tipo de proyecto, no hardcodeado en el componente",
+        "Contexto (etiqueta, título, 2 descripciones) + ficha del proyecto (5 campos); bloque Reto + Objetivos numerados",
+        "Antes de codificar: get_design_context de cada figmaNode con el fileKey de ESTA feature (no el figmaFileKey global). Si devuelve un frame sin hijos, usar get_screenshot del nodo como referencia visual",
+        "Un componente aislado por bloque del diseño, con su propio contexto y solo los props realmente necesarios. Nada de mega componentes versátiles con variantes; los repetidos (métrica, campo de ficha, entregable…) son componentes pequeños iterados con datos",
+        "Reutiliza shared/ui y tokens existentes antes de crear nuevos; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "PRJ-SOLUTION",
+      "name": "Detalle de proyecto: Solución y experiencia",
+      "status": "done",
+      "dependsOn": [
+        "PRJ-CONTEXT"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "216:2957"
+      ],
+      "acceptance": [
+        "Sección de src/modules/project/ montada en la página de proyecto, en el orden del frame 216:2836; contenido desde el tipo de proyecto, no hardcodeado en el componente",
+        "Encabezado; universo de marca (sistema de identidad con paleta + slider de packaging con puntos accesibles); pie de imagen; presentación de la tienda (mock de navegador escritorio); pie de imagen; compra móvil (mock de ficha móvil) + decisiones de experiencia (3)",
+        "Los mocks de tienda (escritorio y móvil) son ilustración: aria-hidden o con una alternativa textual, sin controles interactivos falsos enfocables",
+        "Antes de codificar: get_design_context de cada figmaNode con el fileKey de ESTA feature (no el figmaFileKey global). Si devuelve un frame sin hijos, usar get_screenshot del nodo como referencia visual",
+        "Un componente aislado por bloque del diseño, con su propio contexto y solo los props realmente necesarios. Nada de mega componentes versátiles con variantes; los repetidos (métrica, campo de ficha, entregable…) son componentes pequeños iterados con datos",
+        "Reutiliza shared/ui y tokens existentes antes de crear nuevos; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "notes": "El frame 224:199 es una copia antigua de esta sección (sin slider); NO se construye. Decisión del usuario 2026-10-08.",
+      "verified": true
+    },
+    {
+      "id": "PRJ-PROCESS",
+      "name": "Detalle de proyecto: Proceso y automatización",
+      "status": "done",
+      "dependsOn": [
+        "PRJ-SOLUTION"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "216:3065"
+      ],
+      "acceptance": [
+        "Sección de src/modules/project/ montada en la página de proyecto, en el orden del frame 216:2836; contenido desde el tipo de proyecto, no hardcodeado en el componente",
+        "Encabezado (etiqueta, título en 2 líneas, ruta estrategia→diseño→producto), 4 etapas (número, nombre, semanas, descripción, entregable) y bloque de flujo de automatización (4 pasos con flechas + nota)",
+        "Antes de codificar: get_design_context de cada figmaNode con el fileKey de ESTA feature (no el figmaFileKey global). Si devuelve un frame sin hijos, usar get_screenshot del nodo como referencia visual",
+        "Un componente aislado por bloque del diseño, con su propio contexto y solo los props realmente necesarios. Nada de mega componentes versátiles con variantes; los repetidos (métrica, campo de ficha, entregable…) son componentes pequeños iterados con datos",
+        "Reutiliza shared/ui y tokens existentes antes de crear nuevos; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "notes": "get_metadata devuelve este frame sin hijos aunque tiene diseño; verificar con get_screenshot.",
+      "verified": true
+    },
+    {
+      "id": "PRJ-SCOPE",
+      "name": "Detalle de proyecto: Alcance y ficha técnica",
+      "status": "done",
+      "dependsOn": [
+        "PRJ-PROCESS"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "216:3127"
+      ],
+      "acceptance": [
+        "Sección de src/modules/project/ montada en la página de proyecto, en el orden del frame 216:2836; contenido desde el tipo de proyecto, no hardcodeado en el componente",
+        "Alcance (intro + límites) + 4 entregables numerados; separador; herramientas de trabajo (3 logos + descripción) y tecnologías de producto (5 chips); bloque validación y continuidad",
+        "Antes de codificar: get_design_context de cada figmaNode con el fileKey de ESTA feature (no el figmaFileKey global). Si devuelve un frame sin hijos, usar get_screenshot del nodo como referencia visual",
+        "Un componente aislado por bloque del diseño, con su propio contexto y solo los props realmente necesarios. Nada de mega componentes versátiles con variantes; los repetidos (métrica, campo de ficha, entregable…) son componentes pequeños iterados con datos",
+        "Reutiliza shared/ui y tokens existentes antes de crear nuevos; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "PRJ-CLOSING",
+      "name": "Detalle de proyecto: Cierre, siguiente proyecto y contacto",
+      "status": "done",
+      "dependsOn": [
+        "PRJ-SCOPE"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "216:3224",
+        "216:3249"
+      ],
+      "acceptance": [
+        "Sección de src/modules/project/ montada en la página de proyecto, en el orden del frame 216:2836; contenido desde el tipo de proyecto, no hardcodeado en el componente",
+        "Conclusión (imagen de detalle + aprendizaje); siguiente proyecto (tarjeta enlazada a /proyectos/<siguiente>); contacto (título, descripción, 'Agenda una reunión' y 'Solicita una cotización', nota)",
+        "Si el contacto coincide con un bloque existente de la landing se reutiliza; si no, componente propio del módulo",
+        "Antes de codificar: get_design_context de cada figmaNode con el fileKey de ESTA feature (no el figmaFileKey global). Si devuelve un frame sin hijos, usar get_screenshot del nodo como referencia visual",
+        "Un componente aislado por bloque del diseño, con su propio contexto y solo los props realmente necesarios. Nada de mega componentes versátiles con variantes; los repetidos (métrica, campo de ficha, entregable…) son componentes pequeños iterados con datos",
+        "Reutiliza shared/ui y tokens existentes antes de crear nuevos; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "notes": "get_metadata devuelve 216:3249 sin hijos aunque tiene diseño; verificar con get_screenshot.",
+      "verified": true
+    },
+    {
+      "id": "NAV-FLOATING",
+      "name": "Barra flotante global (Cotizar proyecto + WhatsApp)",
+      "status": "done",
+      "dependsOn": [
+        "PRJ-CLOSING"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "218:21"
+      ],
+      "acceptance": [
+        "Componente de layout: presente en todo el sitio (montado desde layout/, no desde cada página)",
+        "Estado inicial: sobre el hero de la página, centrada cerca de su borde inferior. Al pasar ese punto con el scroll queda fija en top con glass translúcido (backdrop-blur + fondo semitransparente, contraste AA del contenido)",
+        "Isla Svelte mínima: sentinel + IntersectionObserver, sin listeners de scroll costosos; sin CLS al cambiar de estado; no tapa el header ni se superpone de forma rota con él",
+        "'Cotizar proyecto' abre el modal de cotización (en esta feature puede ser un evento/punto de enganche documentado que QTE-MODAL conecta); 'WhatsApp' es enlace externo con rel adecuado",
+        "Transición suave entre estados; con reduced-motion el cambio es instantáneo",
+        "Antes de codificar: get_design_context de cada figmaNode con el fileKey de ESTA feature (no el figmaFileKey global). Si devuelve un frame sin hijos, usar get_screenshot del nodo como referencia visual",
+        "Un componente aislado por bloque del diseño, con su propio contexto y solo los props realmente necesarios. Nada de mega componentes versátiles con variantes; los repetidos (métrica, campo de ficha, entregable…) son componentes pequeños iterados con datos",
+        "Reutiliza shared/ui y tokens existentes antes de crear nuevos; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "QTE-MODAL",
+      "name": "Modal de solicitud de cotización",
+      "status": "done",
+      "dependsOn": [
+        "NAV-FLOATING"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "220:867"
+      ],
+      "acceptance": [
+        "Construido desde el nodo raíz 220:867. Componentes separados: diálogo (cabecera con cierre y tiempo de llenado), selección de servicios, presupuesto (modo rango/monto máximo, moneda, rangos), contexto del proyecto (textarea + objetivos), adjunto opcional, datos de contacto y pie de envío",
+        "<dialog> nativo o equivalente accesible: foco atrapado, Esc y backdrop cierran, el foco vuelve al disparador, scroll del body bloqueado; una sola instancia en el DOM (global, en layout/)",
+        "Controles nativos accesibles (checkbox/radio/select/textarea/input file) con estilo del diseño; labels, validación con aria-invalid + mensajes asociados, contador de servicios seleccionados; estados enviando/éxito/error",
+        "Lo abren la barra flotante, los CTA de cotización existentes y 'Solicita una cotización' del contacto del proyecto",
+        "Antes de codificar: get_design_context de cada figmaNode con el fileKey de ESTA feature (no el figmaFileKey global). Si devuelve un frame sin hijos, usar get_screenshot del nodo como referencia visual",
+        "Un componente aislado por bloque del diseño, con su propio contexto y solo los props realmente necesarios. Nada de mega componentes versátiles con variantes; los repetidos (métrica, campo de ficha, entregable…) son componentes pequeños iterados con datos",
+        "Reutiliza shared/ui y tokens existentes antes de crear nuevos; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "notes": "220:845 es solo contexto (vista con el modal abierto); no se construye.",
+      "verified": true
+    },
+    {
+      "id": "QTE-USD-ONLY",
+      "name": "Cotización solo en USD",
+      "status": "done",
+      "dependsOn": [
+        "QTE-MODAL"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "220:926"
+      ],
+      "acceptance": [
+        "La cotización solo admite USD: se quitan EUR y MXN del contenido (src/content/site.ts) y de los tipos",
+        "Con una sola moneda no hay <select>: QuoteCurrency muestra USD como dato fijo (no interactivo, sin chevron engañoso) o se elimina el control; el valor currency=USD sigue enviándose (hidden). Justificar la opción",
+        "La etiqueta del monto máximo y los rangos siguen mostrando USD; sin regresiones en el resto del modal (foco, validación, áreas táctiles de 44px o más)",
+        "Destino del formulario (site.quote.endpoint) y número de WhatsApp siguen PENDIENTES por decisión del usuario (2026-10-09): no se tocan",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "EXTRACT-A",
+      "name": "Extracción A: duplicación real (TextLines, campos de ContactForm)",
+      "status": "done",
+      "dependsOn": [
+        "QTE-USD-ONLY"
+      ],
+      "figmaNodes": [],
+      "acceptance": [
+        "Puntos A1 y A2 de progress/audit_components.md: cada bloque listado pasa a su propio archivo (si al implementarlo no aporta, se descarta con justificación en el informe)",
+        "Sin cambio visual ni de comportamiento a 375, 768, 1024 y 1440 (incluido motion, reduced-motion, teclado y aria)",
+        "Componentes pequeños con contexto propio y solo los props necesarios; sin variantes ni flags de estilo (pedido del usuario: nada de mega componentes)",
+        "Ubicación: dentro del módulo dueño salvo que ya se use en 2 o más módulos (entonces shared/ui, documentado en docs/components.md y en el catálogo /componentes). Justificar cada caso",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "EXTRACT-B",
+      "name": "Extracción B: ítems repetidos inline (footer, masonry, marquee, ProjectCard, TrustBadge, ServiceRow, puntos del slider)",
+      "status": "done",
+      "dependsOn": [
+        "EXTRACT-A"
+      ],
+      "figmaNodes": [],
+      "acceptance": [
+        "Puntos B1 a B9 de progress/audit_components.md: cada bloque listado pasa a su propio archivo (si al implementarlo no aporta, se descarta con justificación en el informe)",
+        "Sin cambio visual ni de comportamiento a 375, 768, 1024 y 1440 (incluido motion, reduced-motion, teclado y aria)",
+        "Componentes pequeños con contexto propio y solo los props necesarios; sin variantes ni flags de estilo (pedido del usuario: nada de mega componentes)",
+        "Ubicación: dentro del módulo dueño salvo que ya se use en 2 o más módulos (entonces shared/ui, documentado en docs/components.md y en el catálogo /componentes). Justificar cada caso",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "EXTRACT-C",
+      "name": "Extracción C: bloques de diseño dentro de contenedores (heroes, contacto, mocks de tienda, quote, TeamCard, HeaderNav)",
+      "status": "done",
+      "dependsOn": [
+        "EXTRACT-B"
+      ],
+      "figmaNodes": [],
+      "acceptance": [
+        "Puntos C1 a C10 de progress/audit_components.md: cada bloque listado pasa a su propio archivo (si al implementarlo no aporta, se descarta con justificación en el informe)",
+        "Sin cambio visual ni de comportamiento a 375, 768, 1024 y 1440 (incluido motion, reduced-motion, teclado y aria)",
+        "Componentes pequeños con contexto propio y solo los props necesarios; sin variantes ni flags de estilo (pedido del usuario: nada de mega componentes)",
+        "Ubicación: dentro del módulo dueño salvo que ya se use en 2 o más módulos (entonces shared/ui, documentado en docs/components.md y en el catálogo /componentes). Justificar cada caso",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "QTE-CURRENCIES",
+      "name": "Cotización: monedas USD, EUR, MXN y Cripto + estilo coherente del selector",
+      "status": "done",
+      "dependsOn": [
+        "EXTRACT-C"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "220:926"
+      ],
+      "notes": "Decisión del usuario 2026-10-09: revierte el \"solo USD\" de QTE-USD-ONLY. \"Cripto\" es una sola opción genérica (sin elegir token); USD por defecto.",
+      "acceptance": [
+        "Opciones de moneda en este orden: USD (por defecto), EUR, MXN y Cripto, en src/content/site.ts y en los tipos",
+        "Vuelve el selector nativo accesible (label, teclado) con su chevron decorativo; se envía el valor elegido",
+        "La etiqueta del monto máximo refleja la moneda elegida; con Cripto se lee bien (por ejemplo \"Monto máximo (Cripto)\" o similar, justificar)",
+        "Coherencia de estilos (menor de verify_QTE-USD-ONLY): el selector usa la misma superficie, borde, radio, alto (44px o más), foco y estados que los demás controles del modal (tarjetas de servicio, segmentado de modo, inputs). Sin valores nuevos sueltos",
+        "Sin regresiones en el modal (foco, validación, áreas táctiles de 44px o más, responsive). Endpoint y WhatsApp siguen PENDIENTES",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "UI-POLISH-01",
+      "name": "Pulido: modal sin \"≈ 2 min\", botón de envío en 2 piezas con hover líquido, icono de WhatsApp del flotante",
+      "dependsOn": [
+        "QTE-CURRENCIES"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "220:879",
+        "220:994",
+        "218:24"
+      ],
+      "acceptance": [
+        "Modal: se elimina el bloque \"Tiempo de llenado\" (≈ 2 min, 220:879) y su icono/copy/asset si queda sin uso; la cabecera se reequilibra sin hueco",
+        "Botón \"Solicitar cotización\" del modal con la misma anatomía que el CTA del header (LinkCtaBrand, Figma 11:31): píldora brand con el texto + círculo brand separado con la flecha. Sigue siendo <button type=\"submit\"> con estados enviando/disabled",
+        "Hover/focus-visible \"líquido\": la píldora y el círculo se funden (el hueco entre ambos se rellena con un puente que crece de forma orgánica tipo gooey/metaball), y vuelven a separarse al salir. Solo transform/opacity/filter o SVG; sin layout shift; con reduced-motion sin animación (cambio instantáneo o ninguno)",
+        "El efecto vive en UNA pieza compartida para que header y modal sean idénticos (mismo botón \"mismo que en header\"): el CTA del header también gana el hover líquido. Si se crea un componente nuevo en shared/ui, documentarlo en docs/components.md y /componentes",
+        "Barra flotante: el icono del botón WhatsApp (hoy circle-x de Figma 218:28) pasa a ser el logo real de WhatsApp (SVG monocromo, licencia libre p. ej. Simple Icons CC0, fuente anotada), del mismo tamaño y color que el texto",
+        "Endpoint y número de WhatsApp siguen PENDIENTES",
+        "Componentes aislados con contexto propio y props mínimos; sin mega componentes versátiles",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "status": "done",
+      "verified": true
+    },
+    {
+      "id": "LINKS-PAGE",
+      "name": "Linktree de Instagram en /links",
+      "dependsOn": [
+        "UI-POLISH-01"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "230:977"
+      ],
+      "acceptance": [
+        "Ruta estática /links (SEO propio, un único h1, canonical) construida desde el frame 230:977 (diseño móvil de 406px): en desktop se centra como columna con ancho máximo legible, sin estirar el diseño",
+        "Bloques en orden del frame, cada uno su componente: cabecera (logo, h1, descripción, \"Cotizar proyecto\" + \"WhatsApp\"); mini cotización (\"¿Qué tienes en mente?\", servicios seleccionables, contador, \"Continuar cotización\"); guía gratuita (portada, título, descripción, \"Descargar guía gratis\"); explora el studio (tarjeta Origen → /proyectos/origen/ y \"Ver todos los proyectos\" → /#proyectos); conoce nuestros servicios (→ /#servicios o el id real); cierre (\"¿Lo conversamos?\" + WhatsApp) y pie mínimo",
+        "\"Continuar cotización\" abre el modal de cotización global (data-quote-open) con los servicios elegidos ya marcados; sin JS cae en un destino válido. Reutiliza los datos de servicios del modal (una sola fuente)",
+        "Guía: el enlace apunta a un destino único en el contenido marcado PENDIENTE (aún no existe el PDF), decisión del usuario 2026-10-09",
+        "WhatsApp usa el destino centralizado (PENDIENTE). La barra flotante global y el header: decidir y justificar si aparecen en /links (es una landing de bio; evitar duplicar los CTA de la cabecera)",
+        "Reutiliza shared/ui, tokens y componentes existentes (botón de 2 piezas, ProjectSectionLabel o la etiqueta equivalente) antes de crear nuevos",
+        "Componentes aislados con contexto propio y props mínimos; sin mega componentes versátiles",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "status": "done",
+      "verified": true
+    },
+    {
+      "id": "IMG-PLACEHOLDERS",
+      "name": "Placeholders de imagen coherentes en todo el sitio (IA, misma dirección de arte)",
+      "dependsOn": [
+        "LINKS-PAGE"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [],
+      "notes": "Decisión del usuario 2026-10-09: fotos generadas con IA (generate_image del MCP de Figma) con una misma dirección de arte. BLOQUEADA 2026-10-09: límite de uso de Figma AI tras 10/37 imágenes (plan team::838131371513856342). Ver progress/impl_IMG-PLACEHOLDERS.md. 2026-10-09: el usuario elige Unsplash API para los otros 27 slots y autoriza sustituir los assets IA ausentes por Unsplash solo en los 10 slots enumerados en acceptance. Requiere UNSPLASH_ACCESS_KEY en .env.",
+      "acceptance": [
+        "Inventario en el informe de TODOS los huecos de imagen del sitio (home, /proyectos/origen/, /links, footer, contacto, equipo, testimonios, showcase, galería de proyectos, servicios) indicando cuáles hoy son placeholder repetido, genérico o incoherente",
+        "Dirección de arte única escrita en el informe y en design/ (p. ej. design/placeholders.md): paleta tierra/arena con acentos lima #(token brand), luz natural cálida, grano suave, encuadres editoriales; misma familia que las fotos del caso Origen. Prompt base + variaciones por hueco",
+        "Imágenes IA generadas con generate_image del MCP de Figma para los huecos originalmente destinados a IA que no estén cubiertos por la excepción, una por hueco (sin repetir la misma imagen en huecos distintos salvo justificación), con la proporción y resolución que pide cada slot (2x para retina) y optimizadas vía astro:assets",
+        "Retratos (equipo, avatares de testimonios): personas ficticias, diversas, coherentes entre sí; nunca parecidas a personas reales ni con logos/marcas",
+        "Cada asset IA no exceptuado en src/assets/<módulo>/ con nombre descriptivo y marcado como PLACEHOLDER en el contenido; alt descriptivo en español",
+        "Sin cambio de layout ni de estructura; solo se sustituyen fuentes de imagen",
+        "./init.ps1 en verde",
+        "Excepción autorizada expresamente por el usuario (2026-10-09), solo para sustituir los assets IA ausentes por Unsplash: project-laptop-table, project-stationery, project-phone-hand, project-skincare, project-cafe, project-tablet-interior, services-branding-cards, services-branding-sketchbook, services-branding-tote y services-email-phone-linen; no se extiende a otros slots. Los demás 27 slots mantienen la decisión Unsplash ya autorizada.",
+        "Fuente de los otros 27 slots: API de Unsplash con un script de curación (scripts/) que busca por hueco con los prompts de design/placeholders.md y guarda en el contenido el id, urls.raw, autor, enlaces y alt elegidos. La clave solo se lee de process.env.UNSPLASH_ACCESS_KEY (.env, nunca versionada) y el build no necesita clave",
+        "Cumplir las API Guidelines de Unsplash: hotlink a images.unsplash.com (sin descargar ni re-codificar con astro:assets), responsive con parámetros imgix (w, h, fit=crop, auto=format, q, dpr) en srcset/sizes, llamada a download_location al seleccionar cada foto, y atribución \"Foto de <autor> en Unsplash\" con enlaces utm_source=sensei_studio&utm_medium=referral, visible en una página o bloque de créditos y registrada en design/placeholders.md",
+        "ImageRef (core) admite imagen remota de Unsplash sin romper los componentes que usan <Picture>/<Image> local: cada slot renderiza la variante remota con width/height explícitos (sin CLS), loading y sizes iguales a los actuales"
+      ],
+      "status": "done",
+      "verified": true
+    },
+    {
+      "id": "IMG-RELEVANCE",
+      "name": "Imágenes Unsplash relevantes para diseño web y desarrollo de software",
+      "dependsOn": [
+        "IMG-PLACEHOLDERS"
+      ],
+      "figmaNodes": [],
+      "notes": "Seguimiento pedido por el usuario el 2026-10-09: recurar las fotos actualmente genéricas o aleatorias hacia web design, mockups, wireframes, UX/UI e ingeniería de software, conservando la dirección de arte, los créditos Unsplash y la estructura existente.",
+      "acceptance": [
+        "Revisar los 37 slots Unsplash del sitio y asegurar que las fotos de proyectos, servicios, showcase, footer y contacto representen visualmente diseño o desarrollo web/digital (interfaces, wireframes, mockups, prototipos, código o trabajo real de software), evitando temas genéricos ajenos como cosmética, decoración, cafetería o papelería sin relación digital",
+        "Conservar los retratos de equipo y testimonios por su función; no sustituirlos por imágenes de objetos",
+        "Seleccionar imágenes concretas leyendo sus metadatos; cada imagen debe relacionarse claramente con el propósito del slot y mantener diversidad visual sin duplicados",
+        "Actualizar IDs, alts en español, atribuciones y design/placeholders.md según la selección; preservar requisitos Unsplash, enlaces UTM y llamadas download_location existentes",
+        "Mantener la dirección editorial cálida ya documentada y no cambiar layout, orden, jerarquía, proporciones ni componentes; solo actualizar la selección y la descripción de las imágenes",
+        "./init.ps1 en verde"
+      ],
+      "status": "done",
+      "verified": true
+    },
+    {
+      "id": "CM-CORE",
+      "name": "Modelo de contenido: PageDoc { seo, sections[{ sectionType, headingContent, content }] } con esquemas zod, JSON y medios por URL; migrar home y créditos",
+      "status": "done",
+      "dependsOn": [
+        "IMG-RELEVANCE"
+      ],
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-13: simplificar el modelo, contrato estable entre componentes de sección y un futuro CMS, plantillas por enum de tipos. Refactor sin cambio visual. Contrato: docs/content-model.md (manda sobre lo que diga cualquier otro doc; si hay conflicto, actualiza el otro doc).",
+      "acceptance": [
+        "core/content.ts con PageDoc, SectionDoc, Seo (incluye jsonLd y ogImage string), Heading y MediaRef según docs/content-model.md; se elimina el modelo anterior (PageOf, SectionBase con headingEyebrow/h2/headingDescriptions, content.h1/h2) sin dejar alias muertos",
+        "Cada módulo de la home (hero, logo-marquee, project-gallery, stats, process, services, showcase, testimonials, team, faq, contact) y credits exporta su esquema zod (astro/zod) de headingContent y content; los tipos se infieren con z.infer. app/sections.ts: SECTION_TYPES as const, unión discriminada por sectionType y esquema de PageDoc. app/templates.ts con la plantilla home",
+        "Datos de home y créditos movidos a src/content/data/pages/*.json (JSON puro, forma exacta del documento); content/pages.ts los carga y valida en build: un dato inválido rompe el build indicando ruta y campo",
+        "Medios por cadena: shared/lib/media.ts resuelve MediaRef (clave local en src/assets → astro:assets; images.unsplash.com → srcset imgix conservando créditos, UTM y download_location existentes; otra URL → img). Clave local inexistente = error de build. Iconos/logos SVG también se referencian por clave",
+        "El h1 vive en el headingContent del hero (no en el documento). BaseLayout/DocumentHead emiten jsonLd si existe; SEO resultante idéntico al actual (title, description, canonical, og)",
+        "Paridad visual y de comportamiento: misma home y /creditos/ a 375/768/1024/1440, mismos ids de ancla, islas y motion. Los comentarios PLACEHOLDER / PUNTO A CONFIRMAR que se pierdan al pasar a JSON se trasladan a design/content-gaps.md (crear), uno por línea con sección y campo",
+        "El detalle de proyecto (/proyectos/origen/) y /links siguen funcionando (aún con su modelo propio: lo migra CM-PROJECT); si dependen de tipos eliminados, adaptarlos mínimamente",
+        "scripts/check-architecture.mjs: el implementer puede ajustarlo si las capas nuevas (content/data, astro/zod) lo requieren, sin relajar las reglas existentes; justificarlo en el informe. Actualizar docs/architecture.md (sección Modelo Page) para que apunte a docs/content-model.md",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "CM-PROJECT",
+      "name": "Proyectos como documentos de secciones genéricas (case-study) + primer caso real: Yupa",
+      "status": "done",
+      "dependsOn": [
+        "CM-CORE"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "243:21",
+        "243:22",
+        "243:67",
+        "243:98",
+        "243:146",
+        "243:255",
+        "243:370",
+        "243:435",
+        "243:505"
+      ],
+      "notes": "Origen y Atlas eran casos ilustrativos; se sustituyen por los proyectos reales de Figma (Yupa 243:21, Remittven 254:604, Las Doñas 267:1745), que comparten la misma plantilla. Los frames 243:255 (Compra móvil) y el bloque derecho de 243:154 están vacíos en Figma (confirmado con get_screenshot): el slot existe en el modelo pero sin asset; anotarlo en design/content-gaps.md. Contrato: docs/content-model.md (manda sobre lo que diga cualquier otro doc; si hay conflicto, actualiza el otro doc).",
+      "acceptance": [
+        "modules/project se divide en un módulo por sectionType de case-study (project-hero, project-results, project-context, project-solution, project-process, project-scope, project-conclusion, project-next, project-contact), cada uno con su esquema zod y Section.astro, registrados en app/registry.ts; app/templates.ts con la plantilla case-study. Se reutilizan los subcomponentes existentes que sean genéricos",
+        "Se elimina todo lo exclusivo de Origen: mocks de tienda (SolutionStore*, SolutionSizeOption, swatches con tonos bone/olive), tokens --color-origen-* y assets origen-*/atlas-* que queden sin uso; content/projects/origen.ts desaparece. El slider de packaging, si se conserva, pasa a ser la galería genérica de media[]. La paleta de identidad es una lista de colores hex en el dato",
+        "Ruta /proyectos/[slug] renderiza el documento con el mismo SectionRenderer que la home; content/projects.ts carga src/content/data/projects/*.json y los valida. project-next referencia un slug (si falta: el siguiente cíclico) y deriva imagen, categoría, nombre y resumen del proyecto destino (mientras solo exista Yupa: decidir y justificar si se oculta)",
+        "Microcopy repetido (Volver a proyectos, Explorar resultados, Antes/Después, Entregable, separadores, etiquetas aria del slider) sale del documento a un único sitio global de content",
+        "Contenido de Yupa extraído de Figma 243:21 (fileKey flzA0qnj6JdalFCgyB2PdI) con get_design_context por sección: copy textual completo y assets reales (portada, wordmark, mockups, imagen de conclusión, logos de herramientas) descargados a src/assets/projects/yupa/ con nombres semánticos. El estado del hero es el real del frame (Producto completo · 2025), no Caso ilustrativo",
+        "Header y bloque de contacto final reutilizan los existentes; la composición de cada sección se mantiene (Figma es referencia, CLAUDE.md)",
+        "/links: la tarjeta de proyecto apunta a Yupa con datos derivados del proyecto (no duplicados). El sitemap incluye los proyectos",
+        "design/content-gaps.md: añadir los slots/datos de Yupa sin asset o sin copy en Figma",
+        "Mobile first; revisado a 375, 768, 1024 y 1440",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "PRJ-REMITTVEN",
+      "name": "Caso real: Remittven (solo datos y assets, sin componentes nuevos)",
+      "status": "done",
+      "dependsOn": [
+        "CM-PROJECT"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "254:604",
+        "254:605",
+        "254:650",
+        "254:678",
+        "254:726",
+        "254:748",
+        "254:775",
+        "254:836",
+        "254:906"
+      ],
+      "notes": "Prueba de la plantilla: si hace falta un campo nuevo, se agrega como opcional genérico al esquema del tipo (docs/content-model.md, regla 7). Contrato: docs/content-model.md (manda sobre lo que diga cualquier otro doc; si hay conflicto, actualiza el otro doc).",
+      "acceptance": [
+        "src/content/data/projects/remittven.json con todas las secciones de case-study y el copy textual de Figma 254:604; assets en src/assets/projects/remittven/ (portada, logo del hero 254:952, pantallas 254:986, imagen de conclusión, logo de Maze 267:1743 y demás herramientas)",
+        "Sin componentes nuevos ni cambios de composición. Cualquier ampliación de esquema es un campo opcional genérico, documentado en docs/content-model.md",
+        "Siguiente proyecto enlaza de forma cíclica con los proyectos reales existentes",
+        "design/content-gaps.md actualizado con los huecos de Remittven (p. ej. 254:748 vacío en Figma)",
+        "Revisado a 375, 768, 1024 y 1440",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "PRJ-LASDONAS",
+      "name": "Caso real: Las Doñas (solo datos y assets, sin componentes nuevos)",
+      "status": "done",
+      "dependsOn": [
+        "PRJ-REMITTVEN"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "267:1745"
+      ],
+      "notes": "Mismo patrón que PRJ-REMITTVEN. Obtener los nodos de sección con get_metadata de 267:1745. Contrato: docs/content-model.md (manda sobre lo que diga cualquier otro doc; si hay conflicto, actualiza el otro doc).",
+      "acceptance": [
+        "src/content/data/projects/las-donas.json (slug las-donas) con el copy textual de Figma 267:1745 y sus assets en src/assets/projects/las-donas/ (portada, logo circular del hero, imagen de conclusión, logos de herramientas: Figma, Hotjar, Analytics…)",
+        "Sin componentes nuevos ni cambios de composición; ampliaciones solo como opcionales genéricos documentados",
+        "Ciclo de siguiente proyecto: Yupa → Remittven → Las Doñas → Yupa (o el orden que se documente)",
+        "design/content-gaps.md actualizado (bloques de solución vacíos en Figma)",
+        "Revisado a 375, 768, 1024 y 1440",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "HOME-REAL",
+      "name": "Home con datos reales: galería desde los proyectos, purga de placeholders e informe de huecos",
+      "status": "done",
+      "dependsOn": [
+        "PRJ-LASDONAS"
+      ],
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-13: purgar la home y mostrar datos reales; las secciones sin datos se mantienen y se reportan. Contrato: docs/content-model.md (manda sobre lo que diga cualquier otro doc; si hay conflicto, actualiza el otro doc).",
+      "acceptance": [
+        "project-gallery: su content lista slugs de proyectos; las tarjetas (portada, nombre, categoría, métricas del hover desde project-results, enlace Ver proyecto → /proyectos/<slug>/) se derivan del proyecto. Desaparecen las 6 tarjetas \"Dass design anthopoly\", las métricas inventadas y los iconos metric-* que queden sin uso. La rejilla se adapta a 3 proyectos sin huecos raros (decidir y justificar sin cambiar la estructura de la sección). El CTA VER TODOS apunta a un destino válido",
+        "Showcase y, donde sea pertinente, servicios (UX/UI, Desarrollo, Branding) usan piezas reales de los proyectos (pantallas, identidad, mockups) en lugar de fotos de Unsplash; los slots sin pieza real pertinente conservan su Unsplash y se listan como hueco. /creditos/ y design/placeholders.md coherentes con lo que quede",
+        "No se elimina ninguna sección de la home: las que no tienen datos reales (logos de clientes, equipo incompleto, FAQ en inglés con respuestas provisionales, stats sin fuente, endpoint de contacto…) se mantienen tal cual",
+        "design/content-gaps.md queda como informe completo y priorizado por sección (home y cada proyecto): qué es real, qué es placeholder, qué falta y quién debe aportarlo (copy, imagen, cifra, endpoint)",
+        "SEO: seo.ogImage de cualquier documento se emite como variante optimizada (~1200×630, JPG/WebP vía getImage), no como el original (hallazgo menor de verify_CM-PROJECT: PNG de 1,6 MB en Yupa)",
+        "Revisado a 375, 768, 1024 y 1440",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "PROJECTS-INDEX",
+      "name": "Página /proyectos/: listado simple de todos los proyectos",
+      "status": "done",
+      "dependsOn": [
+        "HOME-REAL"
+      ],
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-13: crear /proyectos/ con componentes ya hechos, sin secciones de rejilla y sin sobrecargar: su única finalidad es listar proyectos. No hay diseño en Figma. Contrato: docs/content-model.md.",
+      "acceptance": [
+        "Documento src/content/data/pages/proyectos.json (slug proyectos → /proyectos/) con seo propio y UNA sola sección. Su sectionType es nuevo y mínimo (p. ej. project-index): headingContent con el título de la página (h1, único en la página) y, si acaso, una descripción de una línea; content solo lista los slugs de los proyectos (o vacío = todos, en el orden del ciclo). Las tarjetas se derivan del proyecto igual que en la galería de la home (regla 5), sin duplicar datos",
+        "El módulo solo coloca componentes existentes de shared/ui (SectionHeader o equivalente para la cabecera, ProjectCard para cada proyecto). Lista en una sola columna (ul/li apilados con separación vertical y ancho de contenedor), SIN grid, sin tarjeta destacada, sin columnas. No se crean componentes de UI nuevos; si SectionHeader no admite h1, se le añade una prop mínima de nivel de encabezado sin cambiar su aspecto",
+        "Nada más en la página: sin intro larga, filtros, buscador, contadores, CTA extra, testimonios ni bloques de contacto. Header, footer y barra flotante globales se mantienen como en el resto del sitio",
+        "Enlaces que hoy suplen el índice apuntan a /proyectos/: \"Ver todos los proyectos\" de la galería de la home, \"Todos los proyectos\" del hero de caso de estudio (content/case-study.ts) y \"Ver todos los proyectos\" de /links. El nav del header (ancla /#proyectos) no cambia",
+        "/proyectos/ en el sitemap, con canonical; la ruta convive con /proyectos/[slug]/ sin conflicto",
+        "design/content-gaps.md: quitar el PUNTO A CONFIRMAR del CTA \"Ver todos los proyectos\"",
+        "Mobile first; revisado a 375, 768, 1024 y 1440 (tarjetas con su sizes correcto para una columna)",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "PRJ-MEDIA",
+      "name": "Casos existentes: importar las imágenes de solución que faltan y portadas reales en laptop",
+      "status": "done",
+      "dependsOn": [
+        "PROJECTS-INDEX"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "243:20",
+        "254:748",
+        "291:1320",
+        "261:82",
+        "267:1738",
+        "249:16559",
+        "267:2506",
+        "267:3248",
+        "277:8186",
+        "267:6142",
+        "311:28",
+        "308:28",
+        "304:480"
+      ],
+      "notes": "IMPORTANTE (pedido 2026-10-14): en el contenedor 243:20 muchas imágenes de proyecto NO son hijas de los frames de sección: son nodos sueltos del lienzo superpuestos encima del frame (por eso get_design_context del frame devuelve un slot gris vacío, p. ej. 254:748). Para encontrarlas: get_metadata de 243:20 y cruzar coordenadas absolutas de los nodos sueltos con el rango x/y de cada frame de proyecto (Proyecto 1 = Yupa 243:21 x232; Proyecto 3 = Remittven 254:604 x1849; Proyecto 4 = Las Doñas 267:1745 x3466; Proyecto 5 = Cappi Xtremo 267:2146 x5083; todos y=369, ancho 1440). Exportarlas con get_screenshot (maxDimension alto) o download_assets del nodo suelto. Candidatos detectados: Yupa → 267:1738 'pantallas yupa 1' y 249:16559 (ficha de producto móvil). Remittven → 261:82 'Group 44' (5 pantallas sobre 254:748) y el frame extra 291:1320. Las Doñas → 267:2506, 267:3248 'pantallas las doñas 1', 277:8186 y el frame extra 267:6142. Portadas: 311:28 Yupa, 308:28 Remittven, 304:480 Las Doñas ('Pantallas originales en laptop'). Los collages 291:1384, 291:1412, 291:1439, 291:1451, 291:2800 y 254:984 (Group 40) también son material de proyecto: identificar a cuál pertenece cada uno y dejarlo anotado en el informe para HOME-NO-STOCK.",
+      "acceptance": [
+        "Cada bloque de solución/experiencia de Yupa, Remittven y Las Doñas muestra la imagen real superpuesta en Figma; ningún slot de imagen de un caso queda vacío si Figma tiene la pieza (si no la tiene, se documenta en design/content-gaps.md)",
+        "Si un caso tiene más frames \"Solución y experiencia\" de los que hoy renderiza (Remittven 291:1320, Las Doñas 267:6142), se añaden como secciones de datos con los sectionType genéricos existentes; sin componentes nuevos salvo que el bloque no exista, y entonces uno pequeño y aislado",
+        "El hero de cada caso usa su portada en laptop (311:28, 308:28, 304:480) en lugar del slot en tinta; la tarjeta de la home y /proyectos/ pasan a usar esa portada",
+        "Assets en src/assets/projects/<slug>/ optimizados vía astro:assets; alt descriptivos en español",
+        "design/content-gaps.md actualizado (se borran las filas resueltas)",
+        "Contrato: docs/content-model.md (manda; si otro doc contradice, actualizarlo)",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "PRJ-CAPPI",
+      "name": "Caso real: Cappi Xtremo (cuarto proyecto, datos y assets)",
+      "status": "done",
+      "dependsOn": [
+        "PRJ-MEDIA"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "267:2146",
+        "320:576",
+        "268:7397",
+        "268:7400",
+        "268:7402",
+        "268:7403",
+        "268:7404"
+      ],
+      "notes": "IMPORTANTE (pedido 2026-10-14): en el contenedor 243:20 muchas imágenes de proyecto NO son hijas de los frames de sección: son nodos sueltos del lienzo superpuestos encima del frame (por eso get_design_context del frame devuelve un slot gris vacío, p. ej. 254:748). Para encontrarlas: get_metadata de 243:20 y cruzar coordenadas absolutas de los nodos sueltos con el rango x/y de cada frame de proyecto (Proyecto 1 = Yupa 243:21 x232; Proyecto 3 = Remittven 254:604 x1849; Proyecto 4 = Las Doñas 267:1745 x3466; Proyecto 5 = Cappi Xtremo 267:2146 x5083; todos y=369, ancho 1440). Exportarlas con get_screenshot (maxDimension alto) o download_assets del nodo suelto. Cappi Xtremo = Proyecto 5 (267:2146). Portada en laptop: 320:576. Imágenes sueltas: 268:7397 (sobre 267:2307) e image 30–33, 268:7400..7404 (sobre 267:2331). Mismo patrón que PRJ-LASDONAS. Arrastrado de verify_PRJ-MEDIA (menores): portada del hero borrosa en mobile (HeroCover.astro: sizes=100vw con widths hasta 1440 pero object-cover la escala ~1500px CSS a 375) → sizes acorde al recorte o añadir el ancho original; y aplicar la capa lateral --project-cover-shade desde md para el contraste de la promesa a 768. Mapa de nodos sueltos: progress/impl_PRJ-MEDIA.md.",
+      "acceptance": [
+        "src/content/data/projects/cappi-xtremo.json (slug cappi-xtremo) con todo el copy textual de 267:2146 y sus assets en src/assets/projects/cappi-xtremo/ (logo del hero, portada en laptop, imágenes de solución, conclusión, logos de herramientas)",
+        "Sin componentes nuevos ni cambios de composición; ampliaciones solo como opcionales genéricos documentados",
+        "Aparece en la galería de la home (4 proyectos: la rejilla se adapta sin huecos raros) y en /proyectos/",
+        "Ciclo de siguiente proyecto con los 4 casos (Yupa → Remittven → Las Doñas → Cappi Xtremo → Yupa)",
+        "design/content-gaps.md actualizado con los huecos de Cappi",
+        "Contrato: docs/content-model.md (manda; si otro doc contradice, actualizarlo)",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "HOME-NO-STOCK",
+      "name": "Sin Unsplash ni imágenes de relleno: galerías con piezas reales de los proyectos",
+      "status": "done",
+      "dependsOn": [
+        "PRJ-CAPPI"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "243:20",
+        "291:1384",
+        "291:1412",
+        "291:1439",
+        "291:1451",
+        "291:2800",
+        "254:984",
+        "291:1847",
+        "291:1689",
+        "291:2103",
+        "291:2686"
+      ],
+      "notes": "Pedido 2026-10-14: 'nos libramos de Unsplash y de cualquier imagen de relleno'. Fuente: assets de los 4 casos + collages y portadas de portafolio del contenedor 243:20 (ver informe de PRJ-MEDIA). Econergía, Truma y Lavy son portadas de portafolio del estudio: pueden usarse como piezas de galería; documentarlo. Arrastrado de verify_PRJ-CAPPI (menores): /proyectos/ ordena alfabético (empieza por Cappi) y la home por Yupa → unificar orden (fijar projects explícitos en proyectos.json: Yupa, Remittven, Las Doñas, Cappi Xtremo); en mobile las medias de solución muy apaisadas (~2.17) quedan pequeñas en aspect-4/3 contain → usar la proporción del asset en mobile; logo PNG de Claude en herramientas pesa más que el resto → equilibrar altura óptica.",
+      "acceptance": [
+        "Cero imágenes de Unsplash en el sitio: servicios, showcase, testimonios, equipo, contacto, footer y cualquier otra galería usan piezas reales de proyectos o se resuelven sin foto",
+        "Avatares de testimonios y cualquier retrato de relleno → placeholder de usuario neutro (componente pequeño en shared/ui), no fotos de stock",
+        "Se eliminan src/content/unsplash.ts, unsplash-photos.json y el soporte remoto que quede sin uso (remote-image, dominios remotos en astro.config); /creditos/ y design/placeholders.md coherentes",
+        "Las proporciones de cada slot se respetan con encuadre cuidado (object-position) para que las piezas se lean bien",
+        "design/content-gaps.md actualizado",
+        "Contrato: docs/content-model.md (manda; si otro doc contradice, actualizarlo)",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "TEAM-REAL",
+      "name": "Equipo: perfiles reales",
+      "status": "done",
+      "dependsOn": [
+        "HOME-NO-STOCK"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "291:131"
+      ],
+      "notes": "291:131 muestra 6 tarjetas; la 3.ª repite 'Jhoarling Reina' con la foto de relleno que también usan las dos últimas: es un duplicado y no se construye (5 personas). Pedido: descripción breve provisional para cada uno; Maicol Durán y Daniel Rivera aún no tienen foto → placeholder de usuario (el de HOME-NO-STOCK).",
+      "acceptance": [
+        "Integrantes en este orden: Natalia Reina (Senior UX/UI designer), Jhoarling Reina (Product Head UX/UI designer), Victor Veliz (Full Stack Development Lead), Maicol Durán (Full Stack Development Lead), Daniel Rivera (Full Stack Development Lead)",
+        "Fotos reales exportadas de 291:131 para Natalia, Jhoarling y Victor (src/assets/team/); Maicol y Daniel con placeholder de usuario neutro coherente con la tarjeta",
+        "Bio breve en español para cada uno (una frase, tono del sitio), marcada como provisional en design/content-gaps.md",
+        "Desaparecen los huecos 'placeholder' del equipo; hover con escritura y slider mobile siguen funcionando con 5 integrantes",
+        "Contrato: docs/content-model.md (manda; si otro doc contradice, actualizarlo)",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "NAV-FLOATING-V2",
+      "name": "Barra flotante v2: abajo, con Cotizar proyecto + Solicitar asesoría + WhatsApp",
+      "status": "done",
+      "dependsOn": [
+        "TEAM-REAL"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "218:21"
+      ],
+      "notes": "Reemplaza el comportamiento de NAV-FLOATING (quedaba fija en top). El botón circular negro 218:24 es WhatsApp con su icono.",
+      "acceptance": [
+        "Antes de codificar: get_design_context de 218:21 con el fileKey de ESTA feature",
+        "Fija abajo (bottom), centrada, en todo el sitio; respeta safe-area-inset-bottom; no tapa contenido crítico (footer, CTA finales, formulario de contacto): reservar espacio o atenuar",
+        "Tres acciones: 'Cotizar proyecto' (primario lima) abre el modal de cotización; 'Solicitar asesoría' abre el modal de asesoría (en esta feature, punto de enganche documentado que ADV-MODAL conecta); WhatsApp enlace externo con rel adecuado y aria-label",
+        "En 375 cabe sin desbordar (layout compacto o textos cortos, justificar); glass y contraste AA; entrada suave, reduced-motion instantánea; sin CLS",
+        "Contrato: docs/content-model.md (manda; si otro doc contradice, actualizarlo)",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "ADV-MODAL",
+      "name": "Modal de solicitud de asesoría",
+      "status": "done",
+      "dependsOn": [
+        "NAV-FLOATING-V2"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "272:7938"
+      ],
+      "acceptance": [
+        "Antes de codificar: get_design_context de 272:7938 con el fileKey de ESTA feature",
+        "Bloques como componentes aislados: cabecera (eyebrow SENSEI STUDIO / ASESORÍA, título '¿No sabes por dónde empezar?', texto, cierre), '¿En qué punto estás?' (2 radio-cards: Empiezo de cero / Ya tengo un proyecto), '¿Qué te gustaría resolver?' (textarea opcional), nombre + correo obligatorios, CTA 'Solicitar asesoría' y pie '¿Prefieres conversarlo?' con WhatsApp y Escribir por correo",
+        "Reutiliza la infraestructura de diálogo de QTE-MODAL (dialog nativo, foco atrapado, Esc/backdrop, foco vuelve al disparador, scroll bloqueado); una sola instancia global en layout/",
+        "Validación accesible (aria-invalid + mensajes); estados enviando/éxito/error con el mismo aviso honesto de 'sin endpoint' que el modal de cotización",
+        "Lo abren 'Solicitar asesoría' de la barra flotante y los CTA de asesoría/reunión que corresponda (documentar cuáles)",
+        "Contrato: docs/content-model.md (manda; si otro doc contradice, actualizarlo)",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "ADV-MODAL-COMPACT",
+      "name": "Modal de asesoría: alto según contenido, no a pantalla completa",
+      "status": "done",
+      "dependsOn": [
+        "ADV-MODAL"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "272:7938"
+      ],
+      "notes": "Pedido del usuario 2026-10-14 (2.ª ronda). Hoy el modal de asesoría ocupa todo el alto como el de cotización. Debe verse como la captura del usuario: tarjeta centrada con su alto natural (~840 px en 1440×1264) y el fondo atenuado visible arriba y abajo. El modal de cotización NO cambia.",
+      "acceptance": [
+        "Desde sm: diálogo centrado vertical y horizontalmente, alto = contenido (h-auto) con max-height del viewport menos margen y scroll interno solo si no cabe",
+        "En 375 puede seguir a pantalla completa o como hoja inferior (justificar); sin scroll horizontal",
+        "El modal de cotización conserva su layout actual; si comparten contenedor, el ajuste es opcional por modal y no rompe al otro",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "HEADER-POLISH",
+      "name": "Header: más aire abajo y estado final de \"Agenda una reunión\" con alto parejo",
+      "status": "done",
+      "dependsOn": [
+        "ADV-MODAL-COMPACT"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-14 (2.ª ronda). 1) El header se ve \"flaco\": falta padding inferior (el CTA casi toca el borde de abajo de la barra). 2) Estado final del hover líquido de \"Agenda una reunión\": la píldora y el círculo de la flecha se funden pero no terminan con el mismo alto, se ve una cintura/escalón raro (captura del usuario). Debe acabar como una sola píldora de alto uniforme.",
+      "acceptance": [
+        "Header con padding vertical equilibrado (arriba = abajo) en todos los anchos; el CTA y la nav quedan centrados verticalmente; sin CLS y sin cambiar la composición",
+        "Hover/focus de \"Agenda una reunión\": el estado final es una píldora de alto parejo de punta a punta (sin cintura ni escalón entre texto y flecha); transición suave y reduced-motion instantánea",
+        "Si el mismo botón en 2 piezas se usa en otros sitios (envío de cotización, etc.), el arreglo se aplica en el componente compartido y se revisan todos sus usos",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "PROJECTS-INDEX-GRID",
+      "name": "/proyectos/: rejilla de 2 columnas en tablet y desktop",
+      "status": "done",
+      "dependsOn": [
+        "HEADER-POLISH"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-14 (2.ª ronda). Hoy /proyectos/ apila una tarjeta por fila a todo el ancho.",
+      "acceptance": [
+        "1 columna en mobile; 2 columnas desde md (tablet) y en desktop, con gap coherente con la galería de la home",
+        "Con 4 proyectos la rejilla queda 2×2 sin huecos; con un número impar no queda una tarjeta huérfana rara (decidir y justificar)",
+        "El detalle de hover de la tarjeta (cifras + Ver proyecto) se lee bien al ancho de media columna; en mobile solo el estado inicial",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "ASSETS-FOLDERS",
+      "name": "Imágenes ordenadas por carpeta en src/assets/images/ y hero de caso siempre en negro",
+      "status": "done",
+      "dependsOn": [
+        "PROJECTS-INDEX-GRID"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "243:20",
+        "334:7359",
+        "311:28",
+        "308:28",
+        "304:480",
+        "320:576"
+      ],
+      "notes": "Pedido del usuario 2026-10-14 (2.ª ronda). Estructura pedida (dentro de src/assets/images/): /portadas-de-proyectos, /slider-<seccion>-homepage, /slider-footer, /<proyecto>-images (yupa-images, remittven-images, las-donas-images, cappi-xtremo-images). Las demás imágenes de la home que no son slider (p. ej. servicios, contacto) siguen el mismo criterio: /<seccion>-homepage. Iconos SVG de interfaz NO se mueven (siguen en sus carpetas por módulo). En Figma (243:20) la fila \"PORTADAS DE LOS PROYECTOS\" (rótulo 334:7359) contiene 311:28 Yupa, 308:28 Remittven, 304:480 Las Doñas y 320:576 Cappi Xtremo. Regla nueva: las portadas son SOLO para las tarjetas (home y /proyectos/); el hero del detalle de proyecto va siempre sobre fondo negro, sin imagen.",
+      "acceptance": [
+        "Todas las fotos y capturas viven en src/assets/images/ con las carpetas pedidas; src/assets/projects/ y src/assets/portfolio/ desaparecen (o quedan solo con lo que no sea imagen: justificar). Nombres de archivo en kebab-case descriptivo",
+        "JSON de contenido, media.ts y cualquier glob actualizados; ninguna referencia rota; build sin imágenes huérfanas",
+        "Hero de /proyectos/<slug>/: fondo negro siempre (sin portada ni sombra de portada); se borran el slot/código y el token de sombra que queden sin uso; og:image puede seguir usando la portada",
+        "Tarjetas de la home y de /proyectos/ usan las portadas de /portadas-de-proyectos",
+        "docs/content-model.md y docs/architecture.md (o el doc que corresponda) documentan la convención de carpetas",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "IMG-SLIDERS",
+      "name": "Slider intermedio (showcase) y rueda del footer con sus grupos de imágenes de Figma",
+      "status": "done",
+      "dependsOn": [
+        "ASSETS-FOLDERS"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "243:20",
+        "334:7357",
+        "334:7355",
+        "291:1384",
+        "291:1412",
+        "291:1439",
+        "291:1451",
+        "291:5154",
+        "291:7283",
+        "329:7330",
+        "291:7282",
+        "331:7342",
+        "331:7344",
+        "332:7348",
+        "333:7350",
+        "331:7346",
+        "334:7351"
+      ],
+      "notes": "Pedido del usuario 2026-10-14 (2.ª ronda). Grupos del contenedor 243:20 (identificados por fila bajo cada rótulo): \"SOLO PARA SLIDER INTERMEDIO\" (334:7357) = showcase de la home \"Creatividad, tecnología y estrategia\" → fila y≈5203: 291:1384, 291:1412, 291:1439, 291:1451, 291:5154, 291:7283, 329:7330, 291:7282 (collages de 1808–1989×1881). \"SOLO PARA SLIDERS DEL FOOTER\" (rótulo 334:7355 / banda 334:7354) = rueda curva en autoplay del footer → fila y≈9027: 331:7342 Truma login, 331:7344 Aloa handbag 1, 332:7348 Global Logistics, 333:7350 Marketplace artesanal, 331:7346 Aloa handbag 3, 334:7351 YUPA stickers (laptops 2039×1359). Confirmar con get_metadata/get_screenshot por si el diseñador añadió más. La carpeta del showcase quedó como src/assets/images/slider-destacados-homepage/ (ASSETS-FOLDERS). Arrastrado de verify_ASSETS-FOLDERS: tras sustituir las imágenes de los sliders, eliminar las copias idénticas que queden sin uso; si una misma imagen se usa en varias carpetas, documentarlo.",
+      "acceptance": [
+        "El showcase usa exactamente las imágenes del grupo SLIDER INTERMEDIO, en orden de izquierda a derecha, desde src/assets/images/slider-showcase-homepage/ (o el nombre de sección que corresponda)",
+        "La rueda del footer usa exactamente las imágenes del grupo SLIDERS DEL FOOTER, desde src/assets/images/slider-footer/",
+        "Las imágenes que esos sliders usaban y quedan sin uso se borran; las que sigan usándose en otro sitio se quedan en su carpeta correcta",
+        "Encuadre y proporción cuidados en cada slot (object-position); exportadas a buena resolución y optimizadas vía astro:assets; alt en español",
+        "design/content-gaps.md y design/placeholders.md coherentes",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "PROCESS-STEPPER",
+      "name": "Secciones con pasos: slider en modo stepper con autoplay en mobile",
+      "status": "done",
+      "dependsOn": [
+        "IMG-SLIDERS"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-14 (2.ª ronda). Aplica a \"El proceso\" de la home y a cualquier sección con PASOS numerados (p. ej. \"Proceso y automatización\" de los casos). Desde md se mantiene el layout actual.",
+      "acceptance": [
+        "Por debajo de md: los pasos se muestran de uno en uno en un slider con indicador tipo stepper (números/segmentos conectados que marcan el paso activo y el progreso) y autoplay",
+        "Swipe táctil y tap en el stepper para saltar a un paso; autoplay se detiene con foco de teclado o interacción y respeta prefers-reduced-motion (sin autoplay)",
+        "Accesible: región de carrusel con aria-roledescription, paso activo anunciado (aria-current / \"Paso n de N\"), controles con nombre",
+        "Un componente de stepper reutilizable en shared/ui (sobre los sliders de UI-LIB-002) usado por todas las secciones con pasos; sin duplicar lógica",
+        "Desde md el layout de cada sección no cambia",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "COPY-FINAL",
+      "name": "Copy final de FAQ y Servicios",
+      "status": "done",
+      "dependsOn": [
+        "PROCESS-STEPPER"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "334:7404",
+        "334:7406"
+      ],
+      "notes": "Pedido del usuario 2026-10-14 (2.ª ronda). Fuente: los nodos de texto 328:7312 (FAQ, 17 preguntas en español) y 130:707 (servicios). FAQ: reemplaza el FAQ provisional en inglés por completo. Servicios: 4 disciplinas con título, entradilla y lista; orden del texto: Diseño UX/UI, Email Marketing, Desarrollo de productos & automatización IA, Branding e identidad (respetar el orden actual de la sección salvo que el texto implique otro: justificar). Corregir solo erratas evidentes (p. ej. \"informas\" → \"informes\", \"Global66,Binance\" → \"Global66, Binance\", \"paises\" → \"países\", \"dias\" → \"días\") y documentarlas.",
+      "acceptance": [
+        "FAQ con las 17 preguntas y respuestas de 328:7312 en home.json; se eliminan las preguntas viejas (incluida la de \"suscripción mensual\") y las marcas de provisional",
+        "Servicios con títulos, entradillas y listas de 130:707; el título de Desarrollo pasa a \"Desarrollo de productos & automatización IA\" (resuelve el PUNTO A CONFIRMAR de content-gaps)",
+        "El acordeón de FAQ funciona y se lee bien con 17 ítems y respuestas largas (sin saltos raros); las listas largas de servicios caben en su panel en todos los anchos",
+        "El modal de cotización usa los mismos nombres de servicio si los lista",
+        "design/copy/faq.md y design/copy/services.md actualizados como fuente; design/content-gaps.md sin las filas resueltas",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "TEAM-V2",
+      "name": "Equipo: María Reina, roles actualizados y enlaces a redes profesionales",
+      "status": "done",
+      "dependsOn": [
+        "COPY-FINAL"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "291:131"
+      ],
+      "notes": "Pedido del usuario 2026-10-14 (2.ª ronda). 291:131 se actualizó: la 3.ª tarjeta ya no es un duplicado sino María Reina (Marketing Data Analyst, Email Marketing) con foto real (la de camisa blanca; esa misma foto aparece como relleno en Maicol y Daniel). Maicol Durán ahora es Senior UX/UI designer. Orden: Natalia, Jhoarling, María, Victor, Maicol, Daniel. Redes: iconos de redes de trabajo (Behance, LinkedIn, GitHub, Dribbble…), no redes sociales personales.",
+      "acceptance": [
+        "Seis integrantes en el orden de Figma con nombres y roles actuales; María con su foto real exportada de 291:131 y bio breve provisional; Maicol y Daniel siguen con UserPlaceholder",
+        "Cada tarjeta admite una lista opcional de perfiles profesionales {red, url} (behance, linkedin, github, dribbble…); se muestran como iconos con aria-label \"Perfil de <nombre> en <Red>\", target _blank y rel noopener; sin URL no se pinta el icono",
+        "Iconos SVG monocromos coherentes en src/assets/<módulo>/, tamaño táctil ≥ 44 px, visibles en el estado inicial en mobile y en hover/foco en desktop sin romper el texto en escritura",
+        "Sin URLs reales todavía: dejar el campo en el contenido con las redes que corresponden a cada rol vacías y documentar en design/content-gaps.md qué URL falta por persona (no inventar URLs)",
+        "Slider mobile y hover siguen funcionando con 6 integrantes; menor arrastrado de verify_TEAM-REAL: centrar mejor la silueta del UserPlaceholder en la card",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Mobile first; revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "ARCH-LOGOS-BADGE",
+      "name": "Archivar carrusel de logos y retirar process-badge",
+      "status": "done",
+      "dependsOn": [
+        "TEAM-V2"
+      ],
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-15: archivar temporalmente el carrusel de logos y sacarlo de todo el sitio; retirar también process-badge.svg del sitio.",
+      "acceptance": [
+        "El carrusel de logos deja de renderizarse en cualquier ruta; retirar su sección del contenido y las referencias activas de schemas, registry, tipos y plantillas que queden innecesarias",
+        "Conservar el código y los assets del carrusel fuera del código activo, archivados bajo _archive/",
+        "process-badge.svg ya no se importa ni renderiza en ninguna ruta; suprimir también el espacio reservado exclusivamente para el badge sin alterar la composición del resto de la sección de proceso",
+        "Eliminar o archivar el SVG process-badge.svg para que deje de formar parte de los assets del sitio; limpiar tokens/reglas que queden exclusivamente sin uso por este cambio",
+        "La estructura y el orden de las demás secciones se mantienen",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "TEAM-CARD-LOOP",
+      "name": "Equipo: hover en las copias del carrusel infinito, datos agrupados abajo y bio a 3 líneas",
+      "status": "done",
+      "dependsOn": [
+        "ARCH-LOGOS-BADGE"
+      ],
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-15: en el carrusel \"Las personas detrás de cada proyecto\", las tarjetas duplicadas para el efecto infinito no muestran los datos en hover en desktop. Agrupar todos los datos de la card en la parte inferior y limitar la descripción a 3 líneas.",
+      "acceptance": [
+        "En desktop, toda tarjeta del carrusel (originales y duplicados del loop infinito) muestra el detalle en hover/foco igual que las originales; los duplicados siguen aria-hidden/inert sin romper el hover por puntero",
+        "Todos los datos de la card (nombre, rol, bio, iconos de perfiles) quedan agrupados en un único bloque anclado abajo de la tarjeta, en estado inicial y en hover",
+        "La bio se limita a 3 líneas máximo (line-clamp) sin romper el texto en escritura; el texto completo sigue disponible para lectores de pantalla en la tarjeta original",
+        "Mobile mantiene solo el estado inicial y el slider en autoplay funcionando",
+        "Reutiliza shared/ui y tokens existentes; nada sobrescribe el tema por defecto de Tailwind",
+        "Revisado a 375, 768, 1024 y 1440; motion respeta prefers-reduced-motion",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "SERVICES-IMAGES",
+      "name": "Servicios: imágenes propias por disciplina (UX/UI, Branding, Email Marketing)",
+      "status": "done",
+      "dependsOn": [
+        "TEAM-CARD-LOOP"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "362:28",
+        "362:29"
+      ],
+      "notes": "Pedido del usuario 2026-10-15: el acordeón de \"Un equipo. Cuatro disciplinas. Cero fricción.\" deja de usar capturas de proyectos y pasa a imágenes propias por disciplina. UX/UI: 3 imágenes ya generadas por el usuario en src/assets/images/servicios-homepage/ (ux-ui-investigacion.png, ux-ui-wireframes-prototipo.png, ux-ui-diseno-validacion.png). Branding: 362:28 (rectángulos 351:28, 351:29, 351:30; el bloque 352:37 con el texto BRANDING es solo rótulo, no se exporta). Email Marketing: 362:29 (352:32, 352:33, 352:34; 352:39/352:40 es rótulo). Desarrollo de productos & automatización IA: sin imágenes nuevas todavía, queda pendiente.",
+      "acceptance": [
+        "Diseño UX/UI usa las 3 imágenes del usuario en este orden: investigación, wireframes/prototipo, diseño/validación, con alt descriptivo en español",
+        "Branding e identidad usa las 3 imágenes exportadas de 351:28, 351:29 y 351:30; Email Marketing, las de 352:32, 352:33 y 352:34. Exportar con get_screenshot/download a resolución suficiente para retina, guardarlas en src/assets/images/servicios-homepage/ con nombres descriptivos (branding-*, email-marketing-*) y formato optimizado; alt descriptivo de lo que muestran",
+        "Desarrollo de productos & automatización IA conserva sus imágenes actuales; documentar en design/content-gaps.md que faltan sus imágenes propias (PENDIENTE del estudio)",
+        "Las imágenes de servicios-homepage que queden sin ninguna referencia en el sitio se eliminan de esa carpeta (comprobar antes con grep que no las use otra sección)",
+        "Ajustar position/encuadre de cada imagen para que se vea bien en el acordeón a 375, 768, 1024 y 1440; la composición del acordeón no cambia",
+        "Solo datos y assets: sin componentes nuevos; ./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "SERVICES-DEV-IMAGES",
+      "name": "Servicios: integrar ilustraciones vectoriales de Desarrollo & IA",
+      "status": "done",
+      "dependsOn": [
+        "SERVICES-IMAGES"
+      ],
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-15: las tres imágenes generadas para Desarrollo de productos & automatización IA son para el acordeón; deben usar la misma resolución que las de Branding/Email (1281 × 1913), con más detalle y color variado, estilo vectorial vivo, no solo lima. Imágenes generadas: desarrollo/e-commerce (ba1a3718-6e4b-4ec3-9566-c922372dd90a), dashboards/chatbots (6aaafe8b-7dcf-42e7-8d1f-13cb37725173), automatización IA (b029828d-47f6-40e2-a795-7145e2c91e5f).",
+      "acceptance": [
+        "Guardar las tres imágenes generadas como JPEG optimizado a 1281 × 1913 en src/assets/images/servicios-homepage/",
+        "En home.json, Desarrollo de productos & automatización IA usa las imágenes de desarrollo web/e-commerce/apps, dashboards/chatbots/analítica, y automatización IA, en ese orden, con alt descriptivo en español",
+        "Eliminar las tres referencias de imagen anteriores de Yupa y Cappi Xtremo que solo pertenecían a este servicio; comprobar que los assets antiguos sigan intactos si otras secciones los usan",
+        "Actualizar design/content-gaps.md y design/prompts/servicios-imagenes.md: las imágenes de Desarrollo & IA ya están entregadas, con dirección de arte vectorial más colorida y variada",
+        "El acordeón conserva su estructura, orden, composición y recorte central; las imágenes se leen bien a miniatura y no introducen texto ilegible prominente",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "TESTIMONIALS-REAL",
+      "name": "Testimonios: aplicar los testimonios reales de Figma",
+      "status": "done",
+      "dependsOn": [
+        "SEC-TESTIMONIALS"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "334:7405"
+      ],
+      "notes": "Pedido del usuario 2026-10-15: aplicar los testimonios reales del nodo 334:7405 (archivo flzA0qnj6JdalFCgyB2PdI). Confirmar contenido con get_screenshot además de get_design_context. Desbloqueada 2026-10-15: Figma MCP disponible.",
+      "acceptance": [
+        "Extraer de 334:7405 todos los testimonios reales (nombre, rol/proyecto o empresa, cita, avatar/foto si existe, estrellas si aplica) y reemplazar los anteriores en el contenido de la home (home.json / módulo testimonials); no inventar datos ni dejar testimonios de relleno",
+        "Si el nodo trae fotos reales de los clientes, exportarlas como assets optimizados en src/assets/images/<carpeta>/ y usarlas; si no, se mantiene el avatar de iniciales",
+        "Si los datos de la cabecera (cantidad de reseñas, avatares de prueba social) cambian en Figma, actualizarlos de forma coherente",
+        "Se conserva la estructura: masonry con desplazamiento continuo, duplicado aria-hidden, fade, reduced-motion y cabecera; el masonry se sigue viendo lleno con la cantidad real de testimonios (repetir en el loop si son pocos, sin huecos)",
+        "Actualizar design/copy/testimonials.md con el copy real y design/content-gaps.md si queda algún hueco",
+        "Mobile first; revisado a 375, 768, 1024 y 1440",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "TEAM-SLIDER-CONTAINER",
+      "name": "Equipo: el slider de \"Las personas detrás de cada proyecto\" limitado al container",
+      "status": "done",
+      "dependsOn": [
+        "TEAM-CARD-LOOP"
+      ],
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-15. En desktop el slider no debe llegar a los bordes de la ventana.",
+      "acceptance": [
+        "En desktop (lg+) el slider del equipo queda dentro del ancho máximo de la clase container de Tailwind, alineado con la cabecera de la sección, con overflow-hidden: las tarjetas se recortan en los bordes del container y no en los de la ventana",
+        "Se mantiene el carrusel infinito, el hover de TeamCard (incluido en las copias) y el autoplay/swipe en mobile; en mobile y tablet se decide lo que se vea mejor y se justifica",
+        "Sin scroll horizontal de la página en ningún ancho",
+        "El fade o máscara lateral, si existe, se ajusta a los nuevos bordes",
+        "Mobile first; revisado a 375, 768, 1024 y 1440",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "CONTACT-EMAIL-IMAGE",
+      "name": "Contacto: imagen original, correo real y limpieza de assets sin uso",
+      "status": "done",
+      "dependsOn": [
+        "HOME-NO-STOCK"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "174:73"
+      ],
+      "notes": "Pedido del usuario 2026-10-15. Correo real de la agencia: hola@bysensei.com. Imagen de contacto: volver a la original del diseño (174:73). Hay una exportación local del diseño original en design/figma/assets/imgContactSection.png (dos monitores sobre escritorio); si Figma no está disponible se usa esa y se avisa en el informe para confirmar. Confirmada con Figma 174:73 el 2026-10-15. Excepción explícita del usuario a la regla HOME-NO-STOCK solo para esta imagen.",
+      "acceptance": [
+        "La sección de contacto usa la imagen original de 174:73 (o design/figma/assets/imgContactSection.png si no hay acceso a Figma), optimizada en src/assets/images/contacto-homepage/ con nombre descriptivo y alt en español; se retira remittven-laptop.png de esa carpeta si queda sin uso",
+        "Documentar en docs/content-model.md (regla 9) la excepción: la imagen de contacto es la original del diseño",
+        "studioEmail = hola@bysensei.com: el mailto del modal de asesoría lleva destinatario; donde el sitio muestre o enlace un correo del estudio (footer, contacto, /links, avisos de formularios sin endpoint) se usa este",
+        "Limpieza: eliminar de src/assets/ y public/ todo archivo que ningún código o JSON referencie (comprobado con búsqueda, incluidas claves de MediaRef en JSON); listar lo eliminado en el informe; no tocar design/",
+        "design/content-gaps.md: cerrar el hueco del correo",
+        "Mobile first; revisado a 375, 768, 1024 y 1440",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "QTE-MODAL-FIT",
+      "name": "Modal de cotización rápida: alto según contenido y centrado",
+      "status": "done",
+      "dependsOn": [
+        "QTE-CURRENCIES"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "220:867"
+      ],
+      "notes": "Pedido del usuario 2026-10-15. El modal no ocupa el alto máximo: su alto total es el mínimo necesario para su contenido y queda centrado en la ventana (mismo criterio que ADV-MODAL-COMPACT).",
+      "acceptance": [
+        "El diálogo de cotización mide lo que mide su contenido y queda centrado vertical y horizontalmente en todos los anchos; ningún alto fijo ni min-height de pantalla completa",
+        "Si el contenido supera la ventana (pantallas bajas), el scroll es interno al diálogo con un max-height de la ventana menos un margen, y las acciones siguen alcanzables",
+        "Cambiar de paso o de opción no provoca saltos bruscos de posición; transiciones respetan prefers-reduced-motion",
+        "Foco, Escape, cierre por fondo y bloqueo de scroll de la página siguen funcionando",
+        "Mobile first; revisado a 375, 768, 1024 y 1440",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "SEO-META",
+      "name": "SEO y metadatos según docs/seo.md",
+      "status": "done",
+      "dependsOn": [
+        "CONTACT-EMAIL-IMAGE"
+      ],
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-15. Implementa la estrategia de docs/seo.md salvo los assets visuales (imagen OG de 41:464 y favicon de 224:316), que van en SEO-OG-FAVICON.",
+      "acceptance": [
+        "astro.config.mjs: site por defecto https://bysensei.com (SITE_URL sigue sobrescribiendo); quitar el placeholder .example y actualizar comentarios y docs que lo mencionen",
+        "site.ts meta: correo, logo y redes (sameAs vacío hasta tener los enlaces reales del footer) como fuente del JSON-LD",
+        "Plantilla de título y descripciones derivadas para casos (<Proyecto> · Caso de estudio · Sensei Studio), ogType article y og:image = portada del caso a 1200×630 con width/height/alt",
+        "JSON-LD generado desde los datos: Organization + WebSite en todas las páginas; ProfessionalService y FAQPage en la home (FAQPage derivado de la sección FAQ); CreativeWork + BreadcrumbList en casos; CollectionPage + BreadcrumbList en /proyectos/; seo.jsonLd solo agrega",
+        "Indexación: /componentes con noindex y fuera del sitemap; robots.txt apunta al sitemap absoluto; sitemap incluye home, /proyectos/ y cada caso",
+        "Verificar en dist/ que cada página tiene un solo <title>, canonical y og:image absolutos y JSON-LD que parsea; resumir en el informe una tabla página → título/descr/ogImage",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "FOOTER-LINKS-REAL",
+      "name": "Footer: enlaces reales del nodo 174:27",
+      "status": "done",
+      "dependsOn": [],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "174:27"
+      ],
+      "notes": "Pedido del usuario 2026-10-15. Los enlaces del nodo 174:27 son reales. Desbloqueada 2026-10-15: Figma MCP disponible.",
+      "acceptance": [
+        "Los enlaces del footer (redes, legales y navegación) usan exactamente las URLs y textos de 174:27; externos con target _blank y rel noopener",
+        "Las redes reales alimentan también sameAs del JSON-LD (site.ts meta)",
+        "design/content-gaps.md actualizado",
+        "Mobile first; revisado a 375, 768, 1024 y 1440",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "TEAM-SOCIAL-LINKS",
+      "name": "Equipo: iconos de redes profesionales con URLs reales",
+      "status": "done",
+      "dependsOn": [
+        "TEAM-V2"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "334:7407",
+        "341:7413",
+        "341:7418",
+        "341:7423",
+        "341:7428"
+      ],
+      "notes": "Pedido del usuario 2026-10-15. Cada nodo es el perfil de un integrante con sus redes reales; agregar los iconos a las TeamCard. Desbloqueada 2026-10-15: Figma MCP disponible.",
+      "acceptance": [
+        "Cada integrante de los nodos lleva sus perfiles reales {red, url} en home.json; se pintan con TeamCardProfiles (iconos del diseño si difieren de los actuales)",
+        "aria-label \"Perfil de <nombre> en <Red>\", target _blank, rel noopener, área táctil ≥ 44 px; visibles en mobile y en hover/foco en desktop",
+        "design/content-gaps.md: cerrar las URLs de perfiles entregadas",
+        "Mobile first; revisado a 375, 768, 1024 y 1440",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "SEO-OG-FAVICON",
+      "name": "Imagen Open Graph (41:464) y favicon (224:316)",
+      "status": "done",
+      "dependsOn": [
+        "SEO-META"
+      ],
+      "figmaFileKey": "flzA0qnj6JdalFCgyB2PdI",
+      "figmaNodes": [
+        "41:464",
+        "224:316"
+      ],
+      "notes": "Pedido del usuario 2026-10-15. Assets visuales de docs/seo.md §4 y §7. Desbloqueada 2026-10-15: Figma MCP disponible.",
+      "acceptance": [
+        "public/og-image.jpg exportada de 41:464 a 1200×630, < 300 KB, con alt en site.ts",
+        "favicon.svg, favicon.ico 32×32, apple-touch-icon.png 180×180 y site.webmanifest (192 y 512) desde 224:316; theme-color en DocumentHead",
+        "Logo de Organization para JSON-LD: PNG cuadrado ≥ 112 px sobre fondo sólido (meta.logo), arrastrado de verify_SEO-META",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "TESTIMONIALS-BRAND",
+      "name": "Testimonios: nombre del estudio estandarizado como \"Sensei Studio\"",
+      "status": "done",
+      "dependsOn": [
+        "TESTIMONIALS-REAL"
+      ],
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-15: en todas las citas, las menciones al estudio (\"La agencia\", \"El estudio Sensei\", \"La agencia\" en mayúscula a mitad de frase, etc.) pasan a \"Sensei Studio\". El usuario también confirmó el dominio final https://bysensei.com.",
+      "acceptance": [
+        "En home.json (testimonios.content.reviews) toda mención al estudio en las citas dice \"Sensei Studio\", con la concordancia y las preposiciones ajustadas (\"con Sensei Studio\", \"Sensei Studio nos ayudó\"; nada como \"con El Sensei Studio\" ni \"de La Sensei Studio\"); no se cambia el resto del texto ni los nombres o roles de clientes",
+        "Revisar las 20 citas una a una y listar en el informe el antes y el después de cada cambio",
+        "Aplicar lo mismo en design/copy/testimonials.md",
+        "Buscar en el resto del contenido (home.json, site.ts, projects) menciones genéricas a \"La agencia\" o \"El estudio Sensei\" dirigidas al estudio y reportarlas en el informe sin cambiarlas",
+        "astro.config.mjs: el comentario de PRODUCTION_SITE ya no dice \"por confirmar\" (dominio confirmado por el usuario)",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "COPY-SPELLING",
+      "name": "Repaso global de ortografía de todo el sitio",
+      "status": "done",
+      "dependsOn": [
+        "TESTIMONIALS-BRAND"
+      ],
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-15: corregir solo la ortografía en todo el sitio, sin cambiar nada más (ni redacción, ni tono, ni estructura, ni contenido). Incluye las erratas ya detectadas en las citas: Mateo R. \"increíblecon IA\" → \"increíble con IA\" y Sofía L. \"nos ayudo\" → \"nos ayudó\".",
+      "acceptance": [
+        "Revisar todo el texto visible o leído por el usuario/buscadores: src/content/data/**/*.json (home y casos), src/content/*.ts (site, links, case-study, ui-catalog), microcopy en componentes .astro/.svelte de src/, alt de imágenes, aria-label, mensajes de formularios, seo (title, description, keywords) y public/site.webmanifest",
+        "Solo correcciones ortográficas y tipográficas: tildes, letras, espacios dobles o que faltan, palabras pegadas, mayúsculas indebidas, signos de apertura ¿ ¡, puntuación evidente. Prohibido reescribir, cambiar palabras por sinónimos, alterar el tono o acortar textos",
+        "En las citas de testimonios se corrige la ortografía del cliente (incluidas las dos erratas de las notas) pero no su estilo ni su redacción",
+        "No se tocan: nombres propios de clientes, personas, marcas o productos (Yupa, Cappi Xtremo, Webflow…), anglicismos de oficio usados a propósito (UX/UI, landing page, e-commerce…), URLs, claves, slugs ni identificadores de código. Ante la duda, no cambiar y anotarlo en el informe",
+        "Aplicar las mismas correcciones en design/copy/*.md cuando el texto sea el mismo",
+        "El informe lista cada corrección como archivo:línea · antes → después, y aparte las dudas no aplicadas",
+        "Comprobar que los límites de seo (title ≤ 60, description ≤ 160) se siguen cumpliendo",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
     }
   ]
 }

@@ -1,0 +1,112 @@
+---
+import { headingIdOf } from '@/core/content';
+import LinkMore from '@/shared/ui/LinkMore.astro';
+import SectionHeader from '@/shared/ui/SectionHeader.astro';
+import TrustBadge from '@/shared/ui/TrustBadge.astro';
+import {
+  avatarTone,
+  COLUMN_WIDTHS,
+  distributeColumns,
+  estimateCardHeight,
+  MASONRY_LAYOUTS,
+  type MasonryCard,
+  type MasonryColumns,
+} from './masonry';
+import MasonryColumn from './MasonryColumn.astro';
+import type { TestimonialsSection } from './schema';
+
+interface Props {
+  section: TestimonialsSection;
+}
+
+const { section } = Astro.props;
+const { trust, cta, masonryLabel, reviews } = section.content;
+const headingId = headingIdOf(section);
+
+// Clases completas (no interpoladas) para que Tailwind las detecte.
+const layoutClass: Record<MasonryColumns, string> = {
+  1: 'grid md:hidden',
+  2: 'hidden grid-cols-2 md:grid xl:hidden',
+  4: 'hidden grid-cols-(--masonry-cols) xl:grid 2xl:grid-cols-(--masonry-cols-2xl) 2xl:justify-center',
+};
+// Desfase inicial de cada columna (Figma 174:191 pt 40, 174:208 0, 174:225 pt 60, 174:242 pt 20).
+const columnOffset = ['pt-10', 'pt-0', 'pt-15', 'pt-5'] as const;
+
+const layouts = MASONRY_LAYOUTS.map((count) => ({
+  count,
+  columns: distributeColumns(reviews, count, (r, c) => estimateCardHeight(r, COLUMN_WIDTHS[count][c]!)).map((column, c) =>
+    column.map((review, row): MasonryCard => ({ ...review, tone: avatarTone(c, row, column.length) })),
+  ),
+}));
+---
+
+{/*
+  Figma 35:150 (cabecera) + 174:190 (Masonry_Viewport). Cabecera común: eyebrow + h2 en dos
+  tonos a la izquierda; a la derecha (38:323, columna alineada a la derecha, gap 5) la prueba
+  social 38:319 y el enlace 38:321. 38:319 es un raster de 426 × 91 en Figma: aquí es HTML
+  (TrustBadge) y, desde lg, su marco conserva la caja de Figma (426 × 91) con el contenido en
+  x 18 / y 27, donde lo pinta el raster; por debajo de lg, sin marco (alineado al gutter).
+  Masonry: 4 columnas de 251 / 310 / 311 / 300 con gap 51 y desfase 40 / 0 / 60 / 20 en un
+  viewport de 793 de alto. Cada columna es una pista con su lista dos veces (la copia,
+  aria-hidden) que baja de −50% a 0 en bucle: sin saltos porque las dos mitades son idénticas
+  (cada lista lleva padding final = gap). Fade arriba y abajo con máscara; el blur de 2px de
+  174:190 se limita a esas bandas para que las citas se lean. Pausa solo con foco (el hover NO pausa: MOT-SLIDERS-SHOWCASE).
+  Con prefers-reduced-motion: sin copia, sin animación y la región se desplaza a mano.
+  Mobile: 1 columna; md: 2; xl+: 4 (Figma). Pista de cada columna: MasonryColumn (→ ReviewCard); prueba social: TrustBadge; enlace: LinkMore (shared/ui).
+  Motion (MOT-REVEAL): cabecera (eyebrow + h2) → prueba social + enlace → masonry entran de abajo
+  arriba (reveal-up, 1s, +200ms, una vez) cuando el contenedor cruza el 85% del viewport.
+  revealAll() acotado a la sección; sin JS o con reduced-motion se ven en su estado final.
+*/}
+<section id={section.id} aria-labelledby={headingId} data-testimonials-section class="pt-(--testimonials-pad-top)">
+  <div
+    data-reveal="[data-head-part], [data-reveal-item]"
+    data-reveal-amount="0"
+    data-reveal-margin="0px 0px -15% 0px"
+    class="container-page head-parts:reveal-up"
+  >
+    <SectionHeader
+      headingId={headingId}
+      eyebrow={section.headingContent.eyebrow}
+      title={section.headingContent.title}
+      titleClass="max-w-(--testimonials-title-max)"
+    >
+      <div slot="aside" class="flex flex-col items-start gap-1.25 lg:items-end">
+        <div class="max-w-full lg:h-22.75 lg:w-106.5 lg:pt-6.75 lg:pl-4.5">
+          <TrustBadge avatars={trust.avatars} count={trust.count} rating={trust.rating} caption={trust.caption} />
+        </div>
+        <LinkMore href={cta.href} label={cta.label} marker={`   ${cta.marker}`} />
+      </div>
+    </SectionHeader>
+
+    <div data-reveal-item class="relative mt-(--testimonials-head-gap) reveal-up">
+      <div
+        role="region"
+        aria-label={masonryLabel}
+        tabindex="0"
+        class="group h-(--masonry-h) overflow-hidden mask-fade-y focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ink motion-reduce:overflow-y-auto"
+      >
+        {
+          layouts.map(({ count, columns }) => (
+            <div class:list={['items-start gap-x-(--masonry-gap)', layoutClass[count]]}>
+              {columns.map((cards, c) => (
+                <div class:list={['min-w-0', count > 1 && columnOffset[c]]}>
+                  <MasonryColumn cards={cards} />
+                </div>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+      {/* Blur de 174:190 (2px) solo en las bandas del fade: decorativo, no intercepta el puntero. */}
+      <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-(--masonry-fade) backdrop-blur-masonry mask-fade-from-top"></div>
+      <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-(--masonry-fade) backdrop-blur-masonry mask-fade-from-bottom"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealAll } from '@/shared/lib/motion';
+
+  // Acotado a la sección (como stats/process): cada script observa solo lo suyo.
+  for (const section of document.querySelectorAll<HTMLElement>('[data-testimonials-section]')) revealAll(section);
+</script>

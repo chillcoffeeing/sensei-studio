@@ -1,0 +1,21 @@
+---
+import ScopeTechnology from './ScopeTechnology.astro';
+import type { ProjectScopeContent } from './schema';
+
+interface Props {
+  /** Id del h3: nombra la lista de tecnologías. */
+  titleId: string;
+  stack: ProjectScopeContent['stack'];
+}
+
+const { titleId, stack } = Astro.props;
+---
+
+{/* Tecnologías: titular (h3) → descripción opcional → etiquetas que bajan de línea. */}
+<div class="flex flex-col gap-4 sm:gap-6">
+  <h3 id={titleId} class="font-heading text-title font-normal text-ink">{stack.title}</h3>
+  {stack.description && <p class="font-body text-body/normal text-ink-muted">{stack.description}</p>}
+  <ul aria-labelledby={titleId} class="mt-2 flex flex-wrap gap-2.5 sm:mt-0">
+    {stack.items.map((name) => <ScopeTechnology name={name} />)}
+  </ul>
+</div>

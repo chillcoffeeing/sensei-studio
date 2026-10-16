@@ -1,0 +1,25 @@
+---
+import type { FooterLinkColumn } from '@/core/site';
+import HeadingOverline from '@/shared/ui/HeadingOverline.astro';
+import LinkFooter from '@/shared/ui/LinkFooter.astro';
+
+interface Props {
+  column: FooterLinkColumn;
+}
+
+const { column } = Astro.props;
+---
+
+{/* Figma 174:28, 174:35, 174:42: título en mayúsculas + pila de enlaces. */}
+<div class="flex min-w-0 flex-col gap-6">
+  <HeadingOverline text={column.title} />
+  <ul class="flex flex-col gap-4">
+    {
+      column.links.map((link) => (
+        <li>
+          <LinkFooter label={link.label} href={link.href} newTab={link.newTab} />
+        </li>
+      ))
+    }
+  </ul>
+</div>

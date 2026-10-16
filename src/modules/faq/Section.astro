@@ -1,0 +1,65 @@
+---
+import { headingIdOf, sectionKey } from '@/core/content';
+import plus from '@/assets/faq/plus.svg';
+import AccordionCards from '@/shared/ui/AccordionCards.svelte';
+import SectionHeader from '@/shared/ui/SectionHeader.astro';
+import type { FaqSection } from './schema';
+
+interface Props {
+  section: FaqSection;
+}
+
+const { section } = Astro.props;
+const { items, lang } = section.content;
+const headingId = headingIdOf(section);
+// Contrato de la librería: pregunta → title, respuesta → body.
+const cards = items.map((item) => ({ title: item.question, body: item.answer }));
+---
+
+{/*
+  Figma: cabecera 41:406 (eyebrow 41:411 + h2 41:415 en dos tonos, columna izquierda desde x 59)
+  y acordeón 174:157 (x 586 = 40% + 10, ancho 794, gap 16) a la derecha. El acordeón empieza
+  29px más arriba que la cabecera (8220 vs 8249). Se traduce a un grid de 2 columnas en xl+
+  (1fr + min(794, 60.15%), que en 1440 da 526 + 794 exactos) y a una pila por debajo.
+  Card 174:158: blanca, radio 16, sombra 0 4 6 / 3%, padding 32/40, gap 24 hasta la respuesta;
+  botón ink de 32 con el + de 12 (174:161/174:162), que rota 45° (×) al abrir.
+  Motion (MOT-REVEAL): cabecera → acordeón entran de abajo arriba (reveal-up, 1s, +200ms, una
+  vez) cuando el contenedor cruza el 85% del viewport; revealAll() acotado a la sección.
+  Sin JS o con reduced-motion se ven en su estado final.
+*/}
+<section id={section.id} aria-labelledby={headingId} data-faq-section class="pt-(--faq-pad-top)">
+  <div
+    data-reveal="[data-head-part], [data-reveal-item]"
+    data-reveal-amount="0"
+    data-reveal-margin="0px 0px -15% 0px"
+    class="container-page head-parts:reveal-up flex flex-col gap-(--section-head-gap) xl:grid xl:grid-cols-(--faq-cols) xl:items-start xl:gap-0">
+    <div class="xl:mt-(--faq-head-offset)">
+      <SectionHeader
+        headingId={headingId}
+        eyebrow={section.headingContent.eyebrow}
+        title={section.headingContent.title}
+        titleClass="max-w-(--faq-title-max)"
+      />
+    </div>
+
+    {/*
+      AccordionCards (shared/ui): respuestas `collapsible` con data-open (MOT-ACCORDIONS); sin JS
+      se ven todas; con JS las cerradas colapsan ya en el SSR. La primera empieza abierta.
+    */}
+    <div data-reveal-item lang={lang} class="reveal-up">
+      <AccordionCards
+        client:visible
+        baseId={sectionKey(section)}
+        items={cards}
+        icon={{ src: plus.src, width: plus.width, height: plus.height }}
+      />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealAll } from '@/shared/lib/motion';
+
+  // Acotado a la sección (como stats/process): cada script observa solo lo suyo.
+  for (const section of document.querySelectorAll<HTMLElement>('[data-faq-section]')) revealAll(section);
+</script>

@@ -1,0 +1,28 @@
+---
+import type { ToneText as ToneTextValue } from '@/shared/lib/tone-text';
+import LabelMarker from '@/shared/ui/LabelMarker.svelte';
+import ToneText from '@/shared/ui/ToneText.astro';
+
+interface Props {
+  /** Id del h2: nombra la sección. */
+  headingId: string;
+  label: string;
+  title: ToneTextValue;
+  description?: ToneTextValue;
+}
+
+const { headingId, label, title, description } = Astro.props;
+---
+
+{/* Aprendizaje: etiqueta → h2 (el corte lo decide el ancho, equilibrado) → descripción. */}
+<div class="flex flex-col gap-6 text-ink">
+  <LabelMarker text={label} />
+  <h2 id={headingId} class="max-w-180 font-heading text-project-title text-balance"><ToneText value={title} /></h2>
+  {
+    description && (
+      <p class="max-w-160 font-body text-body-lg text-ink-muted">
+        <ToneText value={description} />
+      </p>
+    )
+  }
+</div>

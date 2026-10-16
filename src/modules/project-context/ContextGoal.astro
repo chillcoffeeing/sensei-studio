@@ -1,0 +1,16 @@
+---
+interface Props {
+  /** Posición en la lista (desde 0); se muestra como 01, 02… */
+  index: number;
+  text: string;
+}
+
+const { index, text } = Astro.props;
+const number = String(index + 1).padStart(2, '0');
+---
+
+{/* Número lima (decorativo: el <ol> ya numera) + objetivo. */}
+<li class="flex items-baseline gap-4.5">
+  <span aria-hidden="true" class="shrink-0 font-heading text-body text-brand tabular-nums">{number}</span>
+  <span class="font-body text-body-lg text-paper">{text}</span>
+</li>

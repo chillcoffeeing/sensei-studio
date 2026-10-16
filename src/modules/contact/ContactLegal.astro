@@ -1,0 +1,32 @@
+---
+import type { ContactLegalPart } from './schema';
+
+interface Props {
+  parts: ContactLegalPart[];
+  lang?: string;
+  /** Aviso solo para lector de pantalla: el enlace abre en una pestaña nueva. */
+  newTabHint: string;
+}
+
+const { parts, lang, newTabHint } = Astro.props;
+---
+
+{/* data-reveal-item: entra en la secuencia de la card (la orquesta Section con revealAll). */}
+<p data-reveal-item lang={lang} class="font-body text-legal text-line reveal-up">
+  {
+    parts.map((part) =>
+      typeof part === 'string' ? (
+        part
+      ) : (
+        <a
+          href={part.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-paper underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper"
+        >
+          {part.label}<span class="sr-only"> {newTabHint}</span>
+        </a>
+      ),
+    )
+  }
+</p>

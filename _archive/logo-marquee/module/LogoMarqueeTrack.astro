@@ -1,0 +1,49 @@
+---
+import { buildTrack } from './track';
+
+interface Logo {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
+interface Props {
+  /** Logos ya resueltos (URL + dimensiones del import), en el orden de la franja. */
+  logos: Logo[];
+}
+
+const { logos } = Astro.props;
+
+// Dos mitades idénticas, cada una con la lista repetida (ver track.ts): sin hueco en ningún viewport.
+const halves = buildTrack(logos);
+---
+
+{/*
+  Pista que se desplaza −50% (pausa con el foco dentro del group del Section). La segunda mitad y
+  las repeticiones son decorativas: aria-hidden, alt vacío y ocultas con reduced-motion.
+*/}
+<div class="-ml-6.75 flex w-max motion-safe:animate-marquee motion-safe:group-focus-within:play-paused">
+  {
+    halves.map((slots, half) => (
+      <ul
+        class:list={['flex shrink-0 items-center gap-(--logos-gap) pr-(--logos-gap)', half > 0 && 'motion-reduce:hidden']}
+        aria-hidden={half > 0 ? 'true' : undefined}
+      >
+        {slots.map(({ item: logo, decorative }) => (
+          <li class:list={['shrink-0', decorative && 'motion-reduce:hidden']} aria-hidden={decorative ? 'true' : undefined}>
+            <img
+              src={logo.src}
+              width={logo.width}
+              height={logo.height}
+              alt={decorative ? '' : logo.alt}
+              loading="lazy"
+              decoding="async"
+              class="block"
+            />
+          </li>
+        ))}
+      </ul>
+    ))
+  }
+</div>

@@ -1,0 +1,75 @@
+---
+import { headingIdOf, sectionKey } from '@/core/content';
+import ToneText from '@/shared/ui/ToneText.astro';
+import ContactBackdrop from './ContactBackdrop.astro';
+import ContactForm from './ContactForm.svelte';
+import ContactLegal from './ContactLegal.astro';
+import type { ContactSection } from './schema';
+
+interface Props {
+  section: ContactSection;
+}
+
+const { section } = Astro.props;
+const { background, lang, fields, submitLabel, validation, status, endpoint, legal, newTabHint } = section.content;
+const headingId = headingIdOf(section);
+---
+
+{/*
+  Figma 174:73 (1440 × 622, a sangre): fondo ink + imgContactSection al 30% (object-cover) +
+  velo 174:74 (negro 45%). Card glass 174:75 a left 59 / top 167, ancho 446: fill blanco 13%,
+  borde blanco 10%, backdrop-blur 20, radio 24, padding 36, gap 24.
+  Cabecera 174:76 (gap 12): etiqueta 174:77 (14/500, gris) + título 174:78 (44/700, -1px).
+  Campos 174:79 (gap 12; Nombre y Empresa en fila 174:80), botón 174:87 y legal 174:89.
+  La card se alinea con container-page (gutter 60 en 2xl ≈ left 59). En 2xl la sección mide
+  622 (min-h); por debajo, padding fluido y la card ocupa el ancho disponible hasta 446.
+  Motion (MOT-REVEAL): dentro de la card, cabecera → formulario → legal entran de abajo arriba
+  (reveal-up, 1s, +200ms, una vez) cuando la card cruza el 85% del viewport. La card (glass) y
+  el fondo no se animan. revealAll() acotado a la sección; sin JS o con reduced-motion, estado final.
+*/}
+<section
+  id={section.id}
+  aria-labelledby={headingId}
+  data-contact-section
+  data-floating-bar-avoid
+  class="relative mt-(--contact-offset-top) overflow-clip bg-ink 2xl:min-h-155.5"
+>
+  <ContactBackdrop image={background} />
+
+  <div class="container-page relative pt-(--contact-pad-top) pb-(--contact-pad-bottom)">
+    <div
+      data-reveal="[data-reveal-item]"
+      data-reveal-amount="0"
+      data-reveal-margin="0px 0px -15% 0px"
+      class="flex w-full max-w-111.5 flex-col gap-6 rounded-glass border border-glass-line bg-glass p-(--contact-card-pad) backdrop-blur-glass"
+    >
+      <div data-reveal-item class="flex flex-col gap-3 reveal-up">
+        <p class="font-heading text-label-sm text-line">{section.headingContent.eyebrow}</p>
+        <h2 id={headingId} lang={lang} class="font-heading text-title-xl text-paper">
+          <ToneText value={section.headingContent.title} />
+        </h2>
+      </div>
+
+      <div data-reveal-item class="reveal-up">
+        <ContactForm
+          client:visible
+          baseId={sectionKey(section)}
+          fields={fields}
+          submitLabel={submitLabel}
+          validation={validation}
+          status={status}
+          endpoint={endpoint}
+        />
+      </div>
+
+      <ContactLegal parts={legal} lang={lang} newTabHint={newTabHint} />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealAll } from '@/shared/lib/motion';
+
+  // Acotado a la sección (como stats/process): cada script observa solo lo suyo.
+  for (const section of document.querySelectorAll<HTMLElement>('[data-contact-section]')) revealAll(section);
+</script>

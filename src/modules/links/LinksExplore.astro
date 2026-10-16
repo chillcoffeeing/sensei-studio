@@ -1,0 +1,20 @@
+---
+import LabelMarker from '@/shared/ui/LabelMarker.svelte';
+import LinksProjectCard from './LinksProjectCard.astro';
+import LinksServicesLink from './LinksServicesLink.astro';
+import type { LinksExplore } from './schema';
+
+interface Props {
+  explore: LinksExplore;
+}
+
+const { explore } = Astro.props;
+const titleId = 'links-explore-title';
+---
+
+{/* 230:1065: el rótulo es el h2 del bloque; proyecto destacado y servicios son sus h3. */}
+<section aria-labelledby={titleId} class="flex flex-col gap-3 px-5 pb-7 text-ink">
+  <h2 id={titleId}><LabelMarker text={explore.label} /></h2>
+  <LinksProjectCard project={explore.project} />
+  <LinksServicesLink services={explore.services} />
+</section>

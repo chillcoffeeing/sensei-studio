@@ -1,0 +1,41 @@
+---
+import LabelMarker from '@/shared/ui/LabelMarker.svelte';
+import LinksGuideCover from './LinksGuideCover.astro';
+import type { LinksGuide } from './schema';
+
+interface Props {
+  guide: LinksGuide;
+}
+
+const { guide } = Astro.props;
+const titleId = 'links-guide-title';
+const { download } = guide;
+---
+
+{/* 230:1047: rótulo + recurso editorial (portada, datos y descarga). */}
+<section aria-labelledby={titleId} class="flex flex-col gap-3 px-5 pb-7 text-ink">
+  <LabelMarker text={guide.label} />
+  <div class="flex flex-col gap-4 rounded-3xl bg-stone-100 p-4.5">
+    <div class="flex items-center gap-4">
+      <LinksGuideCover cover={guide.cover} />
+      <div class="flex min-w-0 flex-1 flex-col gap-2">
+        <p class="font-body text-xs text-ink-muted uppercase">{guide.kicker}</p>
+        <h2 id={titleId} class="font-heading text-lg/tight font-semibold">{guide.title}</h2>
+        <p class="font-body text-sm text-ink-muted">{guide.description}</p>
+      </div>
+    </div>
+    <a
+      href={download.href}
+      class="group flex min-h-11 items-center justify-between gap-3 rounded-pill border border-stone-300 bg-paper px-4 font-heading text-button-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink motion-safe:transition-colors motion-safe:duration-(--duration-fast) motion-safe:ease-standard can-hover:hover:border-ink"
+    >
+      {download.label}
+      <img
+        src={download.icon.src.src}
+        width={download.icon.src.width}
+        height={download.icon.src.height}
+        alt=""
+        class="block shrink-0 motion-safe:transition-transform motion-safe:duration-(--duration-fast) motion-safe:ease-standard can-hover:group-hover:translate-y-0.5"
+      />
+    </a>
+  </div>
+</section>

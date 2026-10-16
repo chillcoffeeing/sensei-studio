@@ -1,0 +1,47 @@
+---
+import type { ToneText as ToneTextValue } from '@/shared/lib/tone-text';
+import Eyebrow from './Eyebrow.astro';
+import ToneText from './ToneText.astro';
+
+interface Props {
+  /** id del título: la sección lo referencia con aria-labelledby. */
+  headingId: string;
+  /** Nivel del título: h2 (por defecto) o h1 en una página sin hero (/proyectos/). Mismo aspecto. */
+  level?: 'h1' | 'h2';
+  eyebrow: string;
+  title: ToneTextValue;
+  /**
+   * SOLO el ancho máximo del h2 (`max-w-(--<sección>-title-max)`) para reproducir el corte de
+   * línea de Figma. Única excepción documentada a "sin clases de fuera" (docs/components.md).
+   */
+  titleClass?: string;
+}
+
+const { headingId, level = 'h2', eyebrow, title, titleClass } = Astro.props;
+const Heading = level;
+const hasAside = Astro.slots.has('aside');
+---
+
+{/*
+  Cabecera común de sección (INVENTORY §2; Figma 32:82, 29:251, 40:372…).
+  Columna izquierda 16:84 (w 764, gap 15): eyebrow 16:70 (punto lima 14px + gap 10 + texto
+  en mayúsculas) y h2 en dos tonos. Slot `aside`: descripción o CTA, alineado abajo y a la
+  derecha en lg+ (fila justify-between + items-end, como 32:82 y 29:251); en mobile se apila.
+  data-head-part (MOT-REVEAL): marca neutra de las dos partes; no hace nada por sí sola. Una
+  sección que quiera la entrada escalonada usa head-parts:reveal-up en su contenedor [data-reveal]
+  e incluye [data-head-part] en el selector de items (ver docs/components.md).
+*/}
+<div
+  class:list={[
+    'flex flex-col gap-(--section-head-aside-gap) lg:flex-row lg:items-end',
+    hasAside && 'lg:justify-between',
+  ]}
+>
+  <div data-head-part class="flex max-w-191 flex-col gap-3.75">
+    <Eyebrow text={eyebrow} />
+    <Heading id={headingId} class:list={['font-heading text-h2 text-(color:--tone-strong)', titleClass]}>
+      <ToneText value={title} />
+    </Heading>
+  </div>
+  {hasAside && <div data-head-part class="shrink-0 lg:text-right"><slot name="aside" /></div>}
+</div>

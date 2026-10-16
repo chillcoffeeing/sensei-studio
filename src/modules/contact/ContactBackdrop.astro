@@ -1,0 +1,18 @@
+---
+import type { MediaRef } from '@/core/content';
+import Photo from '@/shared/ui/Photo.astro';
+
+interface Props {
+  image: MediaRef;
+}
+
+const { image } = Astro.props;
+
+// Fondo a sangre (100vw) con object-cover: recorte 3:2, respaldo de 1440 y anchos hasta 2880 (2×).
+const widths = [640, 1024, 1440, 2048, 2880];
+---
+
+<div aria-hidden="true" class="absolute inset-0">
+  <Photo image={image} decorative width={1440} height={960} widths={widths} sizes="100vw" class="size-full object-cover opacity-30" />
+  <div class="absolute inset-0 bg-scrim"></div>
+</div>

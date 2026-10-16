@@ -1,0 +1,29 @@
+---
+import type { LinksServicesAccess } from './schema';
+
+interface Props {
+  services: LinksServicesAccess;
+}
+
+const { services } = Astro.props;
+---
+
+{/* 230:1080: tarjeta enlazada a la sección de servicios de la home. */}
+<a
+  href={services.href}
+  class="group flex items-center gap-4 rounded-xl border border-stone-300 px-4 py-3.75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink motion-safe:transition-colors motion-safe:duration-(--duration-fast) motion-safe:ease-standard can-hover:hover:border-ink"
+>
+  <div class="flex min-w-0 flex-1 flex-col gap-1.25">
+    <h3 class="font-heading text-base font-semibold">{services.label}</h3>
+    <p class="font-body text-xs/relaxed text-ink-muted">
+      {services.items.map((item, index) => (index === 0 ? item : <><span aria-hidden="true"> · </span><span class="sr-only">, </span>{item}</>))}
+    </p>
+  </div>
+  <img
+    src={services.icon.src.src}
+    width={services.icon.src.width}
+    height={services.icon.src.height}
+    alt=""
+    class="block shrink-0 motion-safe:transition-transform motion-safe:duration-(--duration-fast) motion-safe:ease-standard can-hover:group-hover:translate-x-0.5 can-hover:group-hover:-translate-y-0.5"
+  />
+</a>

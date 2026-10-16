@@ -1,0 +1,59 @@
+---
+import { headingIdOf, sectionKey } from '@/core/content';
+import ContextChallenge from './ContextChallenge.astro';
+import ContextFields from './ContextFields.astro';
+import ContextGoals from './ContextGoals.astro';
+import ContextIntro from './ContextIntro.astro';
+import type { ProjectContextSection } from './schema';
+
+interface Props {
+  section: ProjectContextSection;
+}
+
+const { section } = Astro.props;
+const { headingContent, content } = section;
+const headingId = headingIdOf(section);
+---
+
+{/*
+  Contexto y desafío (Yupa 243:98): contexto + ficha (en fila desde lg) y bloque oscuro
+  reto + objetivos (en dos columnas desde lg). Continúa el fondo de Resultados.
+  Motion: los tres bloques entran con reveal-up escalonado (reduced motion: estado final).
+*/}
+<section id={section.id} aria-labelledby={headingId} data-project-context class="bg-neutral-100 pt-4 pb-16 lg:pt-7.5 lg:pb-25">
+  <div
+    data-reveal="[data-reveal-item]"
+    data-reveal-amount="0"
+    data-reveal-margin="0px 0px -15% 0px"
+    class="container-page flex flex-col gap-12 lg:gap-17.5"
+  >
+    <div class="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-16 xl:gap-25">
+      <div data-reveal-item class="min-w-0 flex-1 reveal-up">
+        <ContextIntro
+          headingId={headingId}
+          label={headingContent.eyebrow}
+          title={headingContent.title}
+          lead={content.lead}
+          description={content.description}
+        />
+      </div>
+      <div data-reveal-item class="reveal-up lg:w-72 lg:shrink-0 xl:w-87.5">
+        <ContextFields label={content.ui.fieldsLabel} fields={content.fields} />
+      </div>
+    </div>
+
+    <div
+      data-reveal-item
+      class="grid gap-10 rounded-panel bg-ink p-6 reveal-up sm:p-8 lg:grid-cols-2 lg:gap-12.5 lg:p-10"
+    >
+      <ContextChallenge challenge={content.challenge} />
+      <ContextGoals labelId={`${sectionKey(section)}-objetivos`} goals={content.goals} />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealAll } from '@/shared/lib/motion';
+
+  for (const section of document.querySelectorAll<HTMLElement>('[data-project-context]')) revealAll(section);
+</script>

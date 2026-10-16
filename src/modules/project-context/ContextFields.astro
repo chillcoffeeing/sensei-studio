@@ -1,0 +1,17 @@
+---
+import ContextField from './ContextField.astro';
+import type { ProjectContextField } from './schema';
+
+interface Props {
+  /** Nombre accesible de la ficha. */
+  label: string;
+  fields: ProjectContextField[];
+}
+
+const { label, fields } = Astro.props;
+---
+
+{/* Ficha del proyecto. Una columna en mobile y lg+, dos columnas en md (más ancho que alto). */}
+<dl aria-label={label} class="grid gap-4 md:grid-cols-2 md:gap-x-10 lg:grid-cols-1">
+  {fields.map((field) => <ContextField label={field.label} value={field.value} />)}
+</dl>

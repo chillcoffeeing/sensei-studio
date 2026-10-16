@@ -1,0 +1,23 @@
+---
+import ScopeTool from './ScopeTool.astro';
+import type { ProjectScopeContent } from './schema';
+
+interface Props {
+  /** Id del h3: nombra la lista de herramientas. */
+  titleId: string;
+  tools: ProjectScopeContent['tools'];
+}
+
+const { titleId, tools } = Astro.props;
+// Cuatro herramientas (Cappi Xtremo 267:2439): una fila desde sm y 2×2 en mobile, sin huérfana.
+const four = tools.items.length === 4;
+---
+
+{/* Herramientas: titular (h3) → descripción → logotipos con su uso, en fila. */}
+<div class="flex flex-col gap-4 sm:gap-6">
+  <h3 id={titleId} class="font-heading text-title font-normal text-ink">{tools.title}</h3>
+  {tools.description && <p class="font-body text-body/normal text-ink-muted">{tools.description}</p>}
+  <ul aria-labelledby={titleId} class:list={['mt-2 grid gap-4 sm:mt-0 sm:gap-7', four ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-3']}>
+    {tools.items.map((tool) => <ScopeTool tool={tool} />)}
+  </ul>
+</div>

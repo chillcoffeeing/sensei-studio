@@ -1,0 +1,1027 @@
+const imgCompanyAirwallex = "https://www.figma.com/api/mcp/asset/b9d0c378-4630-4e0e-8131-a9cba1141752.svg";
+const imgCompanyAmazon = "https://www.figma.com/api/mcp/asset/dec76899-23d1-4071-bc6a-9433e749c05b.svg";
+import { motion } from "motion/react";
+const imgFrame14 = "https://www.figma.com/api/mcp/asset/2dd9efae-3b79-4368-92d6-e962eb3c9f8d.png";
+const imgFrame15 = "https://www.figma.com/api/mcp/asset/a6bad9c0-68df-4635-ae0b-716efd58491a.png";
+const imgImage27 = "https://www.figma.com/api/mcp/asset/c3a5429c-1302-4d70-bfcc-c22081b0a2ba.png";
+const imgFrame36 = "https://www.figma.com/api/mcp/asset/73744cf9-5651-458e-aa4f-0157080222b5.png";
+const imgRectangle21 = "https://www.figma.com/api/mcp/asset/3277c491-3a06-4f06-9f01-5ce2b5b7f828.png";
+const imgContactSection = "https://www.figma.com/api/mcp/asset/5aba4786-9e78-4928-be82-04f8d6a3cc9e.png";
+const imgGalleryCard1 = "https://www.figma.com/api/mcp/asset/4ecb9e28-4ce5-4862-b60d-041848a15e92.png";
+const imgGalleryCard2 = "https://www.figma.com/api/mcp/asset/cd6a7a43-4db2-4ab8-9d84-865af6e6794a.png";
+const imgGalleryCard3 = "https://www.figma.com/api/mcp/asset/0920f4bf-ff3c-4d26-b872-8ef9f0350e48.png";
+const imgGalleryCard4 = "https://www.figma.com/api/mcp/asset/94669765-56d4-4778-ba99-d7c4db4f6a78.png";
+const imgVector = "https://www.figma.com/api/mcp/asset/509962ac-e7f2-4c87-8fb7-4587676a02c2.svg";
+const imgVector1 = "https://www.figma.com/api/mcp/asset/f51d4ff7-9d15-4a01-8071-9b931c9af603.svg";
+const imgCompanyLogo = "https://www.figma.com/api/mcp/asset/394c7970-1f11-402d-8d78-a491e8e8ed97.svg";
+const imgCompanyLogo1 = "https://www.figma.com/api/mcp/asset/0940e2ca-15c4-458d-9587-a60258535c69.svg";
+const imgCompanyLogo2 = "https://www.figma.com/api/mcp/asset/7e7f27f7-99b1-428f-b830-dfda6a33a215.svg";
+const imgCompanyLogo3 = "https://www.figma.com/api/mcp/asset/ad7367d7-e582-402f-8075-1a86839042a0.svg";
+const imgCompanyLogo4 = "https://www.figma.com/api/mcp/asset/90c905d5-2b4e-4601-8f2d-7bacd2f54c69.svg";
+const imgCompanyLogo5 = "https://www.figma.com/api/mcp/asset/bed36f3d-c65c-4a78-9687-dab26ecfee8d.svg";
+const imgCompanyLogo6 = "https://www.figma.com/api/mcp/asset/49b0a6be-6f83-4d6c-87ca-051883531504.svg";
+const imgCompanyLogo7 = "https://www.figma.com/api/mcp/asset/5d303c73-6ebf-4cf2-95d2-f96e85ee530f.svg";
+const imgCompanyLogo8 = "https://www.figma.com/api/mcp/asset/adb5b08d-ed30-41b0-98b8-18a9f7ffd94b.svg";
+const imgEllipse1 = "https://www.figma.com/api/mcp/asset/0efc7ea8-5598-4195-9fb4-d4854b7b1de3.svg";
+const imgLine1 = "https://www.figma.com/api/mcp/asset/195cda19-86d7-4682-a4fa-c6b565932c42.svg";
+const imgLine2 = "https://www.figma.com/api/mcp/asset/86e9915f-4eab-4189-a823-d1ad0c254244.svg";
+const imgGroup17 = "https://www.figma.com/api/mcp/asset/cd415c9e-2c6d-4922-a05f-6041c62dd35f.svg";
+const imgLine3 = "https://www.figma.com/api/mcp/asset/ec8b7c58-c81e-4b5c-b428-6103f19d2c4b.svg";
+const imgLine = "https://www.figma.com/api/mcp/asset/ad5055ee-4d7b-4323-95e5-c21b833959ce.svg";
+const imgPlus = "https://www.figma.com/api/mcp/asset/7b1d6094-27bd-4a79-97f8-ec8ec3547078.svg";
+
+type CompanyLogoProps = {
+  className?: string;
+  company?: "Airwallex" | "Amazon";
+};
+
+function CompanyLogo({ className, company = "Airwallex" }: CompanyLogoProps) {
+  const isAmazon = company === "Amazon";
+  return (
+    <div className={className || `h-[48px] relative ${isAmazon ? "w-[110px]" : "w-[168px]"}`} id={isAmazon ? "node-17_596" : "node-17_593"}>
+      <img alt="" className="absolute block inset-0 max-w-none size-full" src={isAmazon ? imgCompanyAmazon : imgCompanyAirwallex} />
+    </div>
+  );
+}
+
+export default function Diseno() {
+  return (
+    <div className="bg-white relative size-full" data-node-id="11:12" data-name="Diseño">
+      <div className="absolute h-[851px] left-0 top-0 w-[1440px]" data-node-id="11:13" />
+      <div className="absolute contents left-[30px] top-[169px]" data-node-id="16:53">
+        <div className="absolute contents left-[30px] top-[169px]" data-node-id="16:50">
+          <p className="-translate-x-full [word-break:break-word] absolute font-['DM_Sans:ExtraBold'] font-extrabold leading-[0] left-[576px] text-[0px] text-right text-white top-[169px] w-[546px]" data-node-id="11:27" style={{ fontVariationSettings: '"opsz" 14' }}>
+            <span className="leading-[normal] text-[160px]">{`Sensei `}</span>
+            <span className="leading-[normal] text-[40px]">Studio.</span>
+          </p>
+        </div>
+      </div>
+      <div className="absolute bg-[#e4ff40] h-[9px] left-[60%] top-[842px] w-[608px]" data-node-id="11:24" />
+      <p className="[word-break:break-word] absolute font-['Google_Sans_Flex:Medium'] font-medium leading-[0] left-[60px] not-italic text-[20px] text-white top-[669px] w-[536px]" data-node-id="11:25" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+        <span className="leading-[normal]">{`No diseñamos productos bonitos. Diseñamos resultados. `}</span>
+        <span className="leading-[normal] text-[#afafaf]">Diseño, desarrollo y automatización con IA para marcas que no quieren esperar meses para ver resultados.</span>
+      </p>
+      <div className="[word-break:break-word] absolute font-['Google_Sans_Flex:SemiBold'] font-semibold leading-[0] left-[calc(80%-21px)] not-italic text-[18px] text-white top-[262px] whitespace-nowrap" data-node-id="11:41" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+        <p className="leading-[2.23] mb-0">Branding e identidad</p>
+        <p className="leading-[2.23] mb-0">Email Marketing</p>
+        <p className="leading-[2.23] mb-0">Diseño UX/UI</p>
+        <p className="leading-[2.23] mb-0">Desarrollo Web</p>
+        <p className="leading-[2.23]">{`Automatización & IA`}</p>
+      </div>
+      <div className="absolute h-[40px] left-[60px] top-[12px] w-[1319px]" data-node-id="16:48">
+        <div className="absolute contents left-[-3px] top-0" data-node-id="16:49">
+          <div className="absolute h-[26px] left-[-3px] top-[7px] w-[99px]" data-node-id="16:47" data-name="Vector">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector} />
+          </div>
+          <div className="-translate-x-1/2 [word-break:break-word] absolute content-stretch flex font-['Google_Sans_Flex:Medium'] font-medium gap-[61px] items-center leading-[normal] left-[calc(50%-3px)] not-italic text-[16px] text-white top-[10px] whitespace-nowrap" data-node-id="11:39">
+            <p className="relative shrink-0" data-node-id="11:28" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Studio
+            </p>
+            <p className="relative shrink-0" data-node-id="11:29" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Proyectos
+            </p>
+            <p className="relative shrink-0" data-node-id="11:30" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Cotización
+            </p>
+          </div>
+          <div className="absolute content-stretch flex gap-[5px] items-center left-[1081px] top-0" data-node-id="11:35">
+            <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="11:34">
+              <div className="bg-[#e4ff40] col-1 content-stretch flex h-[40px] items-center justify-center ml-0 mt-0 pb-[10px] pt-[9px] px-[20px] relative rounded-[90px] row-1 w-[193px]" data-node-id="11:42">
+                <p className="[word-break:break-word] font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] not-italic relative shrink-0 text-[#090909] text-[14px] text-center whitespace-nowrap" data-node-id="11:31" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Agenda una reunión
+                </p>
+              </div>
+            </div>
+            <div className="bg-[#e4ff40] relative rounded-[90px] shrink-0 size-[40px]" data-node-id="11:33" />
+            <div className="absolute inset-[37.5%_5.96%_40%_89.36%]" data-node-id="35:128" data-name="Vector">
+              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgVector1} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex gap-[50px] items-center left-[-27px] top-[896px]" data-node-id="17:553">
+        <div className="h-[48px] relative shrink-0 w-[133px]" data-node-id="17:503" data-name="Company logo">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCompanyLogo} />
+        </div>
+        <div className="h-[48px] relative shrink-0 w-[128px]" data-node-id="17:512" data-name="Company logo">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCompanyLogo1} />
+        </div>
+        <div className="h-[48px] relative shrink-0 w-[134px]" data-node-id="17:1036" data-name="Company logo">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCompanyLogo2} />
+        </div>
+        <div className="h-[48px] relative shrink-0 w-[164px]" data-node-id="17:507" data-name="Company logo">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCompanyLogo3} />
+        </div>
+        <div className="h-[48px] relative shrink-0 w-[162px]" data-node-id="17:1038" data-name="Company logo">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCompanyLogo4} />
+        </div>
+        <div className="h-[48px] relative shrink-0 w-[162px]" data-node-id="17:1034" data-name="Company logo">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCompanyLogo5} />
+        </div>
+        <div className="h-[48px] relative shrink-0 w-[156px]" data-node-id="17:1040" data-name="Company logo">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCompanyLogo6} />
+        </div>
+        <div className="h-[48px] relative shrink-0 w-[128px]" data-node-id="17:1042" data-name="Company logo">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCompanyLogo7} />
+        </div>
+        <div className="h-[48px] relative shrink-0 w-[168px]" data-node-id="17:1026" data-name="Company logo">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCompanyLogo8} />
+        </div>
+        <CompanyLogo className="h-[48px] relative shrink-0 w-[110px]" company="Amazon" />
+      </div>
+      <div className="absolute contents left-[60px] top-[1301px]" data-node-id="31:59">
+        <div className="absolute content-stretch flex flex-col items-end left-[60px] top-[1301px] w-[1320px]" data-node-id="31:46">
+          <div className="content-stretch flex flex-col gap-[38px] items-start relative shrink-0 w-full" data-node-id="29:235">
+            <div className="content-stretch flex gap-[20px] items-center relative shrink-0 w-full" data-node-id="28:101">
+              <div className="content-stretch flex flex-col h-[447px] items-start pb-[19px] pt-[369px] px-[22px] relative rounded-[5px] shrink-0 w-[650px]" data-node-id="29:166">
+                <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[5px] size-full" src={imgFrame14} />
+                <div className="bg-white content-stretch flex h-[52px] items-center justify-between leading-[0] p-[15px] relative rounded-[999px] shrink-0 w-[606px]" data-node-id="35:302">
+                  <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-node-id="35:303">
+                    <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[#090909] text-[16px] uppercase w-[253px]" data-node-id="35:304" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                      Dass design anthopoly
+                    </p>
+                  </div>
+                  <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-node-id="35:305">
+                    <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-[color:var(--textos-gris,#686868)] text-right w-[95px]" data-node-id="35:306" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                      Web Design
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="content-stretch flex flex-col h-[447px] items-start pb-[19px] pt-[369px] px-[22px] relative rounded-[5px] shrink-0 w-[650px]" data-node-id="29:176">
+                <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[5px] size-full" src={imgFrame15} />
+                <div className="bg-white content-stretch flex h-[52px] items-center justify-between leading-[0] p-[15px] relative rounded-[999px] shrink-0 w-[606px]" data-node-id="35:308">
+                  <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-node-id="35:309">
+                    <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[#090909] text-[16px] uppercase w-[253px]" data-node-id="35:310" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                      Dass design anthopoly
+                    </p>
+                  </div>
+                  <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-node-id="35:311">
+                    <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-[color:var(--textos-gris,#686868)] text-right w-[95px]" data-node-id="35:312" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                      Web Design
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="content-stretch flex gap-[20px] items-center relative shrink-0 w-full" data-node-id="29:186">
+              <div className="content-stretch flex flex-col h-[447px] items-start pb-[19px] pt-[369px] px-[22px] relative rounded-[5px] shrink-0 w-[650px]" data-node-id="29:187">
+                <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[5px] size-full" src={imgFrame14} />
+                <div className="bg-white content-stretch flex h-[52px] items-center justify-between leading-[0] p-[15px] relative rounded-[999px] shrink-0 w-[606px]" data-node-id="35:296">
+                  <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-node-id="35:297">
+                    <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[#090909] text-[16px] uppercase w-[253px]" data-node-id="35:298" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                      Dass design anthopoly
+                    </p>
+                  </div>
+                  <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-node-id="35:299">
+                    <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-[color:var(--textos-gris,#686868)] text-right w-[95px]" data-node-id="35:300" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                      Web Design
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="content-stretch flex flex-col h-[447px] items-start pb-[19px] pt-[369px] px-[22px] relative rounded-[5px] shrink-0 w-[650px]" data-node-id="29:196">
+                <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[5px] size-full" src={imgFrame15} />
+                <div className="bg-white content-stretch flex h-[52px] items-center justify-between leading-[0] p-[15px] relative rounded-[999px] shrink-0 w-[606px]" data-node-id="35:290">
+                  <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-node-id="35:291">
+                    <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[#090909] text-[16px] uppercase w-[253px]" data-node-id="35:292" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                      Dass design anthopoly
+                    </p>
+                  </div>
+                  <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-node-id="35:293">
+                    <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-[color:var(--textos-gris,#686868)] text-right w-[95px]" data-node-id="35:294" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                      Web Design
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="content-stretch flex gap-[20px] items-center relative shrink-0 w-full" data-node-id="29:205">
+              <div className="content-stretch flex flex-col h-[450px] items-start pb-[15px] pt-[369px] px-[22px] relative rounded-[5px] shrink-0 w-[650px]" data-node-id="29:206">
+                <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[5px] size-full" src={imgFrame14} />
+                <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="29:207">
+                  <div className="bg-white col-1 content-stretch flex h-[52px] items-center justify-between ml-0 mt-0 p-[15px] relative rounded-[999px] row-1 w-[606px]" data-node-id="35:233">
+                    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-node-id="35:234">
+                      <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[#090909] text-[16px] uppercase w-[253px]" data-node-id="35:235" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                        Dass design anthopoly
+                      </p>
+                    </div>
+                    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-node-id="35:236">
+                      <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-[color:var(--textos-gris,#686868)] text-right w-[95px]" data-node-id="35:237" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                        Web Design
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="content-stretch flex flex-col h-[447px] items-start pb-[19px] pt-[369px] px-[22px] relative rounded-[5px] shrink-0 w-[650px]" data-node-id="29:215">
+                <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[5px] size-full" src={imgFrame15} />
+                <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="35:239">
+                  <div className="bg-white col-1 content-stretch flex h-[52px] items-center justify-between ml-0 mt-0 p-[15px] relative rounded-[999px] row-1 w-[606px]" data-node-id="35:284">
+                    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-node-id="35:285">
+                      <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[#090909] text-[16px] uppercase w-[253px]" data-node-id="35:286" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                        Dass design anthopoly
+                      </p>
+                    </div>
+                    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-node-id="35:287">
+                      <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[16px] text-[color:var(--textos-gris,#686868)] text-right w-[95px]" data-node-id="35:288" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                        Web Design
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex gap-[297px] items-end left-[60px] top-[1084px] w-[1320px]" data-node-id="32:82">
+        <div className="content-stretch flex flex-col gap-[15px] items-start relative shrink-0 w-[764px]" data-node-id="16:84">
+          <div className="content-stretch flex flex-col items-start relative shrink-0 w-[263px]" data-node-id="16:81">
+            <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="16:74">
+              <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid ml-0 mt-0 place-items-start relative row-1" data-node-id="16:71">
+                <div className="col-1 content-stretch flex gap-[10px] items-center ml-0 mt-0 relative row-1" data-node-id="16:70">
+                  <div className="relative shrink-0 size-[14px]" data-node-id="16:60">
+                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse1} />
+                  </div>
+                  <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="16:57">
+                    <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[#090909] text-[16px] uppercase w-[239px]" data-node-id="16:58" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                      Proyectos
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="[word-break:break-word] font-['Google_Sans_Flex:Medium'] font-medium h-[112px] leading-[0] min-w-full not-italic relative shrink-0 text-[#0a0a0a] text-[45px] w-[min-content] whitespace-pre-wrap" data-node-id="16:82" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+            <p className="leading-[normal] mb-0">{`Ayudamos a marcas de distintas industrias a lograr resultados reales. `}</p>
+            <p className="leading-[normal]">​</p>
+          </div>
+        </div>
+        <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal h-[20px] leading-[normal] not-italic relative shrink-0 text-[16px] text-[color:var(--textos-gris,#686868)] text-right w-[259px] whitespace-pre-wrap" data-node-id="29:236" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>{`VER TODOS LOS PROYECTOS    +`}</p>
+      </div>
+      <div className="absolute contents left-[59px] top-[2912px]" data-node-id="31:19">
+        <div className="absolute content-stretch flex flex-col gap-[120px] items-start left-[59px] top-[2912px] w-[1322px]" data-node-id="31:17">
+          <div className="content-stretch flex items-end justify-between relative shrink-0 w-full" data-node-id="29:251">
+            <div className="content-stretch flex flex-col gap-[15px] items-start relative shrink-0 w-[764px]" data-node-id="29:238">
+              <div className="content-stretch flex flex-col items-start relative shrink-0 w-[263px]" data-node-id="29:239">
+                <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="29:240">
+                  <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid ml-0 mt-0 place-items-start relative row-1" data-node-id="29:241">
+                    <div className="col-1 content-stretch flex gap-[10px] items-center ml-0 mt-0 relative row-1" data-node-id="29:242">
+                      <div className="relative shrink-0 size-[14px]" data-node-id="29:243">
+                        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse1} />
+                      </div>
+                      <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="29:244">
+                        <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[#090909] text-[16px] uppercase w-[239px]" data-node-id="29:245" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                          POR QUÉ ELEGIRNOS
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p className="[word-break:break-word] font-['Google_Sans_Flex:Medium'] font-medium h-[160px] leading-[0] min-w-full not-italic relative shrink-0 text-[#0a0a0a] text-[45px] w-[min-content]" data-node-id="29:246" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                <span className="leading-[normal]">{`Resultados comprobados en cada proyecto, `}</span>
+                <span className="leading-[normal] text-[#686868]">{`con foco en diseño y funcionalidad. `}</span>
+              </p>
+            </div>
+            <p className="[word-break:break-word] font-['DM_Sans:Regular'] font-normal leading-[0] relative shrink-0 text-[16px] text-[color:var(--textos-gris,#686868)] text-right w-[410px]" data-node-id="29:247" style={{ fontVariationSettings: '"opsz" 14' }}>
+              <span className="leading-[normal] text-[#090909]">Sin relleno, solo resultados.</span>
+              <span className="leading-[normal]">{` Diseño estratégico y herramientas que hacen crecer tu negocio. Nos enfocamos en decisiones inteligentes y funcionalidad real, proyecto tras proyecto.`}</span>
+            </p>
+          </div>
+          <div className="content-stretch flex gap-[30px] items-start relative shrink-0 w-full" data-node-id="29:307">
+            <div className="content-stretch flex flex-col gap-[21px] items-center relative shrink-0 w-[308px]" data-node-id="29:271">
+              <div className="content-stretch flex flex-col gap-[26px] items-center relative shrink-0 w-full" data-node-id="29:267">
+                <p className="[word-break:break-word] font-['Google_Sans_Flex:SemiBold'] font-semibold leading-[normal] not-italic relative shrink-0 text-[#090909] text-[45px] whitespace-nowrap" data-node-id="29:253" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  +250
+                </p>
+                <div className="h-0 relative shrink-0 w-[300px]" data-node-id="29:254">
+                  <div className="absolute inset-[-1px_0_0_0]">
+                    <img alt="" className="block max-w-none size-full" src={imgLine1} />
+                  </div>
+                </div>
+              </div>
+              <p className="[word-break:break-word] font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] not-italic relative shrink-0 text-[18px] text-[color:var(--textos-gris,#686868)] text-center w-full" data-node-id="29:269" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                Proyectos completados
+              </p>
+            </div>
+            <div className="content-stretch flex flex-col gap-[21px] items-center relative shrink-0 w-[308px]" data-node-id="29:295">
+              <div className="content-stretch flex flex-col gap-[26px] items-center relative shrink-0 w-full" data-node-id="29:296">
+                <p className="[word-break:break-word] font-['Google_Sans_Flex:SemiBold'] font-semibold leading-[normal] not-italic relative shrink-0 text-[#090909] text-[45px] whitespace-nowrap" data-node-id="29:297" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  +9
+                </p>
+                <div className="h-0 relative shrink-0 w-[300px]" data-node-id="29:298">
+                  <div className="absolute inset-[-1px_0_0_0]">
+                    <img alt="" className="block max-w-none size-full" src={imgLine1} />
+                  </div>
+                </div>
+              </div>
+              <p className="[word-break:break-word] font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] not-italic relative shrink-0 text-[18px] text-[color:var(--textos-gris,#686868)] text-center w-[209px]" data-node-id="29:299" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                Años de experiencia senior combinada
+              </p>
+            </div>
+            <div className="content-stretch flex flex-col gap-[21px] items-center relative shrink-0 w-[308px]" data-node-id="29:289">
+              <div className="content-stretch flex flex-col gap-[26px] items-center relative shrink-0 w-full" data-node-id="29:290">
+                <p className="[word-break:break-word] font-['Google_Sans_Flex:SemiBold'] font-semibold leading-[normal] not-italic relative shrink-0 text-[#090909] text-[45px] whitespace-nowrap" data-node-id="29:291" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  97%
+                </p>
+                <div className="h-0 relative shrink-0 w-[300px]" data-node-id="29:292">
+                  <div className="absolute inset-[-1px_0_0_0]">
+                    <img alt="" className="block max-w-none size-full" src={imgLine1} />
+                  </div>
+                </div>
+              </div>
+              <p className="[word-break:break-word] font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] not-italic relative shrink-0 text-[18px] text-[color:var(--textos-gris,#686868)] text-center w-full" data-node-id="29:293" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                Tasa de satisfacción
+              </p>
+            </div>
+            <div className="content-stretch flex flex-col gap-[21px] items-center relative shrink-0 w-[308px]" data-node-id="29:301">
+              <div className="content-stretch flex flex-col gap-[26px] items-center relative shrink-0 w-full" data-node-id="29:302">
+                <p className="[word-break:break-word] font-['Google_Sans_Flex:SemiBold'] font-semibold leading-[normal] not-italic relative shrink-0 text-[#090909] text-[45px] whitespace-nowrap" data-node-id="29:303" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  1 punto
+                </p>
+                <div className="h-0 relative shrink-0 w-[300px]" data-node-id="29:304">
+                  <div className="absolute inset-[-1px_0_0_0]">
+                    <img alt="" className="block max-w-none size-full" src={imgLine2} />
+                  </div>
+                </div>
+              </div>
+              <p className="[word-break:break-word] font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] not-italic relative shrink-0 text-[18px] text-[color:var(--textos-gris,#686868)] text-center w-full" data-node-id="29:305" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                De contacto — sin intermediarios, sin fricción
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="absolute bg-[#090909] h-[638px] left-[59px] rounded-[10px] top-[3441px] w-[1322px]" data-node-id="31:18" />
+      </div>
+      <motion.div className="absolute h-[157.499px] left-[calc(80%+38px)] top-[3892px] w-[157.502px]" data-node-id="31:42">
+        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup17} />
+      </motion.div>
+      <div className="absolute contents left-[59px] top-[4219px]" data-node-id="31:60">
+        <div className="absolute content-stretch flex items-end justify-between left-[59px] top-[4219px] w-[1322px]" data-node-id="31:20">
+          <div className="content-stretch flex flex-col gap-[15px] items-start relative shrink-0 w-[764px]" data-node-id="31:21">
+            <div className="content-stretch flex flex-col items-start relative shrink-0 w-[263px]" data-node-id="31:22">
+              <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="31:23">
+                <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid ml-0 mt-0 place-items-start relative row-1" data-node-id="31:24">
+                  <div className="col-1 content-stretch flex gap-[10px] items-center ml-0 mt-0 relative row-1" data-node-id="31:25">
+                    <div className="relative shrink-0 size-[14px]" data-node-id="31:26">
+                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse1} />
+                    </div>
+                    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="31:27">
+                      <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[#090909] text-[16px] uppercase w-[239px]" data-node-id="31:28" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                        SERVICIOS
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="[word-break:break-word] font-['Google_Sans_Flex:Medium'] font-medium h-[112px] leading-[0] not-italic relative shrink-0 text-[#0a0a0a] text-[45px] w-[522px]" data-node-id="31:29" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              <p className="mb-0">
+                <span className="leading-[normal]">Un equipo. Cuatro disciplinas.</span>
+                <span className="leading-[normal] text-[#686868]">{` Cero fricción.`}</span>
+              </p>
+              <p className="leading-[normal]">​</p>
+            </div>
+          </div>
+          <p className="[word-break:break-word] font-['DM_Sans:Regular'] font-normal leading-[0] relative shrink-0 text-[16px] text-[color:var(--textos-gris,#686868)] text-right w-[410px]" data-node-id="31:30" style={{ fontVariationSettings: '"opsz" 14' }}>
+            <span className="leading-[normal] text-[#090909]">Sin relleno, solo resultados.</span>
+            <span className="leading-[normal]">{` Diseño estratégico y herramientas que hacen crecer tu negocio. Nos enfocamos en decisiones inteligentes y funcionalidad real, proyecto tras proyecto.`}</span>
+          </p>
+        </div>
+        <div className="absolute contents left-[59px] top-[4436px]" data-node-id="31:58">
+          <div className="absolute h-0 left-[60px] top-[4605px] w-[1322px]" data-node-id="31:54">
+            <div className="absolute inset-[-1px_0_0_0]">
+              <img alt="" className="block max-w-none size-full" src={imgLine3} />
+            </div>
+          </div>
+          <div className="absolute h-0 left-[60px] top-[4778px] w-[1322px]" data-node-id="31:55">
+            <div className="absolute inset-[-1px_0_0_0]">
+              <img alt="" className="block max-w-none size-full" src={imgLine3} />
+            </div>
+          </div>
+          <div className="absolute h-0 left-[60px] top-[4943px] w-[1322px]" data-node-id="31:56">
+            <div className="absolute inset-[-1px_0_0_0]">
+              <img alt="" className="block max-w-none size-full" src={imgLine3} />
+            </div>
+          </div>
+          <div className="absolute h-0 left-[60px] top-[5105px] w-[1322px]" data-node-id="31:57">
+            <div className="absolute inset-[-1px_0_0_0]">
+              <img alt="" className="block max-w-none size-full" src={imgLine3} />
+            </div>
+          </div>
+          <div className="[word-break:break-word] absolute font-['Google_Sans_Flex:Regular'] font-normal leading-[0] left-[59px] not-italic text-[#090909] text-[40px] top-[4436px] whitespace-nowrap" data-node-id="31:51" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+            <p className="leading-[4.28] mb-0">Branding e identidad</p>
+            <p className="leading-[4.28] mb-0">Email Marketing</p>
+            <p className="leading-[4.28] mb-0">Diseño UX/UI</p>
+            <p className="mb-0">
+              <span className="leading-[4.28]">{`Desarrollo Web `}</span>
+              <span className="leading-[4.28] text-[#090909]">{`& Automatización IA`}</span>
+            </p>
+            <p className="leading-[4.28]">​</p>
+          </div>
+        </div>
+      </div>
+      <div className="absolute contents left-[-1px] top-[5285px]" data-node-id="35:130">
+        <div className="absolute bg-[#090909] h-[844px] left-[-1px] rounded-[10px] top-[5285px] w-[1439px]" data-node-id="33:17" />
+        <div className="-translate-x-1/2 absolute content-stretch flex gap-[20px] h-[660px] items-center left-[calc(50%-2px)] top-[5521px] w-[1320px]" data-node-id="33:98">
+          <div className="content-stretch flex flex-col h-[658px] items-start pb-[19px] pt-[369px] px-[22px] relative rounded-[5px] shrink-0 w-[616px]" data-node-id="33:99">
+            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[5px] size-full" src={imgFrame14} />
+          </div>
+          <div className="content-stretch flex flex-col h-[658px] items-start pb-[19px] pt-[369px] px-[22px] relative rounded-[5px] shrink-0 w-[617px]" data-node-id="33:108">
+            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[5px] size-full" src={imgFrame15} />
+          </div>
+          <div className="content-stretch flex flex-col h-[658px] items-start pb-[19px] pt-[369px] px-[22px] relative rounded-[5px] shrink-0 w-[616px]" data-node-id="33:122">
+            <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[5px] size-full" src={imgFrame15} />
+          </div>
+        </div>
+        <p className="[word-break:break-word] absolute font-['Google_Sans_Flex:SemiBold'] font-semibold leading-none left-[calc(50%-662px)] not-italic text-[60px] text-[rgba(197,197,197,0.62)] top-[5383px] w-[1329px]" data-node-id="33:118" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>{`CREATIVIDAD, TECNOLOGÍA Y ESTRATEGÍA `}</p>
+      </div>
+      <p className="[word-break:break-word] absolute font-['Google_Sans_Flex:Medium'] font-medium leading-none left-[114px] not-italic text-[20px] text-white top-[3509px] whitespace-nowrap" data-node-id="35:132" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+        NUESTRO PROCESO 4 PASOS
+      </p>
+      <div className="absolute content-stretch flex items-end justify-between left-[59px] top-[6397px] w-[1322px]" data-node-id="35:150">
+        <div className="content-stretch flex flex-col gap-[15px] items-start relative shrink-0 w-[764px]" data-node-id="35:151">
+          <div className="content-stretch flex flex-col items-start relative shrink-0 w-[263px]" data-node-id="35:152">
+            <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="35:153">
+              <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid ml-0 mt-0 place-items-start relative row-1" data-node-id="35:154">
+                <div className="col-1 content-stretch flex gap-[10px] items-center ml-0 mt-0 relative row-1" data-node-id="35:155">
+                  <div className="relative shrink-0 size-[14px]" data-node-id="35:156">
+                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse1} />
+                  </div>
+                  <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="35:157">
+                    <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[#090909] text-[16px] uppercase w-[239px]" data-node-id="35:158" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                      reviews y testimonios
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="[word-break:break-word] font-['Google_Sans_Flex:Medium'] font-medium h-[112px] leading-[0] not-italic relative shrink-0 text-[#0a0a0a] text-[45px] w-[522px] whitespace-pre-wrap" data-node-id="40:372" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+            <p className="leading-[normal] mb-0">{`Lo que dicen `}</p>
+            <p className="leading-[normal] mb-0 text-[#686868]">nuestros clientes</p>
+            <p className="leading-[normal]">​</p>
+          </div>
+        </div>
+        <div className="content-stretch flex flex-col gap-[5px] items-end justify-end relative shrink-0" data-node-id="38:323">
+          <div className="h-[91px] relative shrink-0 w-[426px]" data-node-id="38:319" data-name="image 27">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <img alt="" className="absolute h-[250.55%] left-0 max-w-none top-0 w-full" src={imgImage27} />
+            </div>
+          </div>
+          <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal h-[20px] leading-[normal] not-italic relative shrink-0 text-[16px] text-[color:var(--textos-gris,#686868)] text-right w-[259px] whitespace-pre-wrap" data-node-id="38:321" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>{`DEJANOS UN COMENTARIO   +`}</p>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex items-end justify-between left-[59px] top-[8249px] w-[1322px]" data-node-id="41:406">
+        <div className="content-stretch flex flex-col gap-[15px] items-start relative shrink-0 w-[764px]" data-node-id="41:407">
+          <div className="content-stretch flex flex-col items-start relative shrink-0 w-[263px]" data-node-id="41:408">
+            <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="41:409">
+              <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid ml-0 mt-0 place-items-start relative row-1" data-node-id="41:410">
+                <div className="col-1 content-stretch flex gap-[10px] items-center ml-0 mt-0 relative row-1" data-node-id="41:411">
+                  <div className="relative shrink-0 size-[14px]" data-node-id="41:412">
+                    <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse1} />
+                  </div>
+                  <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="41:413">
+                    <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[#090909] text-[16px] uppercase w-[239px]" data-node-id="41:414" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                      faq
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="[word-break:break-word] font-['Google_Sans_Flex:Medium'] font-medium h-[103px] leading-[0] not-italic relative shrink-0 text-[#0a0a0a] text-[45px] w-[522px]" data-node-id="41:415" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+            <p className="mb-0">
+              <span className="leading-[normal]">{`¿Tienes preguntas? `}</span>
+              <span className="leading-[normal] text-[#686868]">Tenemos respuestas.</span>
+            </p>
+            <p className="leading-[normal]">​</p>
+          </div>
+        </div>
+      </div>
+      <div className="absolute blur-[2px] content-stretch flex gap-[51px] h-[793px] items-start justify-center left-[60px] top-[6585px] w-[1321px]" data-node-id="174:190" data-name="Masonry_Viewport">
+        <div className="content-stretch flex flex-col gap-[20px] h-[629px] items-start pt-[40px] relative shrink-0 w-[251px]" data-node-id="174:191" data-name="Masonry_Col_1">
+          <div className="bg-white content-stretch drop-shadow-[0px_6px_8px_rgba(0,0,0,0.04)] flex flex-col gap-[16px] items-start p-[24px] relative rounded-[16px] shrink-0 w-full" data-node-id="174:192" data-name="ReviewCard_Adrián Casas">
+            <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-node-id="174:193" data-name="User_Header">
+              <div className="bg-[#eaf7d3] content-stretch flex flex-col items-center justify-center relative rounded-[20px] shrink-0 size-[40px]" data-node-id="174:194" data-name="Avatar_Circle">
+                <p className="[word-break:break-word] font-['DM_Sans:Bold'] font-bold leading-[normal] relative shrink-0 text-[#4e6b1b] text-[14px] whitespace-nowrap" data-node-id="174:195" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  AC
+                </p>
+              </div>
+              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start leading-[normal] min-w-px not-italic relative whitespace-nowrap" data-node-id="174:196" data-name="User_Meta">
+                <p className="font-['Google_Sans_Flex:Medium'] font-medium overflow-hidden relative shrink-0 text-[#090909] text-[15px] text-ellipsis w-full" data-node-id="174:197" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Adrián Casas
+                </p>
+                <p className="font-['Google_Sans_Flex:Regular'] font-normal overflow-hidden relative shrink-0 text-[#6e6e73] text-[12px] text-ellipsis w-full" data-node-id="174:198" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  UX Writing
+                </p>
+              </div>
+            </div>
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[1.5] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-full" data-node-id="174:199" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              El curso es excelente. Si quieres comenzar con buen pie en el mundo del UX Writing, sin duda es la mejor manera. ¡Enhorabuena!
+            </p>
+          </div>
+          <div className="bg-white content-stretch drop-shadow-[0px_6px_8px_rgba(0,0,0,0.04)] flex flex-col gap-[16px] items-start p-[24px] relative rounded-[16px] shrink-0 w-[251px]" data-node-id="174:278" data-name="ReviewCard_Kevin Becerra">
+            <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-node-id="174:279" data-name="User_Header">
+              <div className="bg-[#f2e2fe] content-stretch flex flex-col items-center justify-center relative rounded-[20px] shrink-0 size-[40px]" data-node-id="174:280" data-name="Avatar_Circle">
+                <p className="[word-break:break-word] font-['DM_Sans:Bold'] font-bold leading-[normal] relative shrink-0 text-[#6c2ba1] text-[14px] whitespace-nowrap" data-node-id="174:281" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  KB
+                </p>
+              </div>
+              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start leading-[normal] min-w-px not-italic relative whitespace-nowrap" data-node-id="174:282" data-name="User_Meta">
+                <p className="font-['Google_Sans_Flex:Medium'] font-medium overflow-hidden relative shrink-0 text-[#090909] text-[15px] text-ellipsis w-full" data-node-id="174:283" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Kevin Becerra
+                </p>
+                <p className="font-['Google_Sans_Flex:Regular'] font-normal overflow-hidden relative shrink-0 text-[#6e6e73] text-[12px] text-ellipsis w-full" data-node-id="174:284" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Diseño UX/UI
+                </p>
+              </div>
+            </div>
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[1.5] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-full" data-node-id="174:285" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              El curso está muy completo y explicado de una manera muy amena, tanto al momento de dar la información teórica como al momento de aplicarlo.
+            </p>
+          </div>
+          <div className="bg-white content-stretch drop-shadow-[0px_6px_8px_rgba(0,0,0,0.04)] flex flex-col gap-[16px] items-start p-[24px] relative rounded-[16px] shrink-0 w-[251px]" data-node-id="174:323" data-name="ReviewCard_Kevin Becerra">
+            <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-node-id="174:324" data-name="User_Header">
+              <div className="bg-[#f2e2fe] content-stretch flex flex-col items-center justify-center relative rounded-[20px] shrink-0 size-[40px]" data-node-id="174:325" data-name="Avatar_Circle">
+                <p className="[word-break:break-word] font-['DM_Sans:Bold'] font-bold leading-[normal] relative shrink-0 text-[#6c2ba1] text-[14px] whitespace-nowrap" data-node-id="174:326" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  KB
+                </p>
+              </div>
+              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start leading-[normal] min-w-px relative whitespace-nowrap" data-node-id="174:327" data-name="User_Meta">
+                <p className="font-['DM_Sans:Bold'] font-bold overflow-hidden relative shrink-0 text-[#1c1c1e] text-[15px] text-ellipsis w-full" data-node-id="174:328" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  Kevin Becerra
+                </p>
+                <p className="font-['Google_Sans_Flex:Regular'] font-normal not-italic overflow-hidden relative shrink-0 text-[#6e6e73] text-[12px] text-ellipsis w-full" data-node-id="174:329" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Diseño UX/UI
+                </p>
+              </div>
+            </div>
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[1.5] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-full" data-node-id="174:330" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              El curso está muy completo y explicado de una manera muy amena, tanto al momento de dar la información teórica como al momento de aplicarlo.
+            </p>
+          </div>
+        </div>
+        <div className="content-stretch flex flex-col gap-[20px] h-[683px] items-start relative shrink-0 w-[310px]" data-node-id="174:208" data-name="Masonry_Col_2">
+          <div className="bg-white content-stretch drop-shadow-[0px_6px_8px_rgba(0,0,0,0.04)] flex flex-col gap-[16px] items-start p-[24px] relative rounded-[16px] shrink-0 w-[310px]" data-node-id="174:209" data-name="ReviewCard_Toni Fernández Leal">
+            <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-node-id="174:210" data-name="User_Header">
+              <div className="bg-[#fde2e4] content-stretch flex flex-col items-center justify-center relative rounded-[20px] shrink-0 size-[40px]" data-node-id="174:211" data-name="Avatar_Circle">
+                <p className="[word-break:break-word] font-['DM_Sans:Bold'] font-bold leading-[normal] relative shrink-0 text-[#a83356] text-[14px] whitespace-nowrap" data-node-id="174:212" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  TL
+                </p>
+              </div>
+              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start leading-[normal] min-w-px not-italic relative whitespace-nowrap" data-node-id="174:213" data-name="User_Meta">
+                <p className="font-['Google_Sans_Flex:Medium'] font-medium overflow-hidden relative shrink-0 text-[#090909] text-[15px] text-ellipsis w-full" data-node-id="174:214" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Toni Fernández Leal
+                </p>
+                <p className="font-['Google_Sans_Flex:Regular'] font-normal overflow-hidden relative shrink-0 text-[#6e6e73] text-[12px] text-ellipsis w-full" data-node-id="174:215" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Diseño UI
+                </p>
+              </div>
+            </div>
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[1.5] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-full" data-node-id="174:216" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Ha sido un curso excelente. Todo muy bien explicado, con claros ejemplos y muy ameno pese a la extensa duración del mismo. En mi caso el haber realizado anteriormente su curso de UX/UI me ha ayudado a una mejor comprensión de los procesos UX que no se detallan en este curso. Muy recomendable. 😊
+            </p>
+          </div>
+          <div className="bg-white content-stretch drop-shadow-[0px_6px_8px_rgba(0,0,0,0.04)] flex flex-col gap-[16px] items-start p-[24px] relative rounded-[16px] shrink-0 w-[310px]" data-node-id="174:217" data-name="ReviewCard_Denia Uriarte">
+            <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-node-id="174:218" data-name="User_Header">
+              <div className="bg-[#fef6d2] content-stretch flex flex-col items-center justify-center relative rounded-[20px] shrink-0 size-[40px]" data-node-id="174:219" data-name="Avatar_Circle">
+                <p className="[word-break:break-word] font-['DM_Sans:Bold'] font-bold leading-[normal] relative shrink-0 text-[#8a6d15] text-[14px] whitespace-nowrap" data-node-id="174:220" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  DU
+                </p>
+              </div>
+              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start leading-[normal] min-w-px not-italic relative whitespace-nowrap" data-node-id="174:221" data-name="User_Meta">
+                <p className="font-['Google_Sans_Flex:Medium'] font-medium overflow-hidden relative shrink-0 text-[#090909] text-[15px] text-ellipsis w-full" data-node-id="174:222" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Denia Uriarte
+                </p>
+                <p className="font-['Google_Sans_Flex:Regular'] font-normal overflow-hidden relative shrink-0 text-[#6e6e73] text-[12px] text-ellipsis w-full" data-node-id="174:223" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Diseño UX/UI
+                </p>
+              </div>
+            </div>
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[1.5] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-full" data-node-id="174:224" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Me ha parecido un curso increíble, el profesor se detiene a explicar con muchísima calma cada detalle del programa. Recomendado al 100%.
+            </p>
+          </div>
+          <div className="bg-white content-stretch drop-shadow-[0px_6px_8px_rgba(0,0,0,0.04)] flex flex-col gap-[16px] items-start p-[24px] relative rounded-[16px] shrink-0 w-[310px]" data-node-id="174:314" data-name="ReviewCard_Denia Uriarte">
+            <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-node-id="174:315" data-name="User_Header">
+              <div className="bg-[#fef6d2] content-stretch flex flex-col items-center justify-center relative rounded-[20px] shrink-0 size-[40px]" data-node-id="174:316" data-name="Avatar_Circle">
+                <p className="[word-break:break-word] font-['DM_Sans:Bold'] font-bold leading-[normal] relative shrink-0 text-[#8a6d15] text-[14px] whitespace-nowrap" data-node-id="174:317" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  DU
+                </p>
+              </div>
+              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start leading-[normal] min-w-px not-italic relative whitespace-nowrap" data-node-id="174:318" data-name="User_Meta">
+                <p className="font-['Google_Sans_Flex:Medium'] font-medium overflow-hidden relative shrink-0 text-[#090909] text-[15px] text-ellipsis w-full" data-node-id="174:319" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Denia Uriarte
+                </p>
+                <p className="font-['Google_Sans_Flex:Regular'] font-normal overflow-hidden relative shrink-0 text-[#6e6e73] text-[12px] text-ellipsis w-full" data-node-id="174:320" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Diseño UX/UI
+                </p>
+              </div>
+            </div>
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[1.5] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-full" data-node-id="174:321" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Me ha parecido un curso increíble, el profesor se detiene a explicar con muchísima calma cada detalle del programa. Recomendado al 100%.
+            </p>
+          </div>
+        </div>
+        <div className="content-stretch flex flex-col gap-[20px] h-[793px] items-start pt-[60px] relative shrink-0 w-[311px]" data-node-id="174:225" data-name="Masonry_Col_3">
+          <div className="bg-white content-stretch drop-shadow-[0px_6px_8px_rgba(0,0,0,0.04)] flex flex-col gap-[16px] items-start p-[24px] relative rounded-[16px] shrink-0 w-[311px]" data-node-id="174:341" data-name="ReviewCard_Tracy Berrocal">
+            <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-node-id="174:342" data-name="User_Header">
+              <div className="bg-[#eaf7d3] content-stretch flex flex-col items-center justify-center relative rounded-[20px] shrink-0 size-[40px]" data-node-id="174:343" data-name="Avatar_Circle">
+                <p className="[word-break:break-word] font-['DM_Sans:Bold'] font-bold leading-[normal] relative shrink-0 text-[#4e6b1b] text-[14px] whitespace-nowrap" data-node-id="174:344" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  TB
+                </p>
+              </div>
+              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start leading-[normal] min-w-px not-italic relative whitespace-nowrap" data-node-id="174:345" data-name="User_Meta">
+                <p className="font-['Google_Sans_Flex:Medium'] font-medium overflow-hidden relative shrink-0 text-[#090909] text-[15px] text-ellipsis w-full" data-node-id="174:346" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Tracy Berrocal
+                </p>
+                <p className="font-['Google_Sans_Flex:Regular'] font-normal overflow-hidden relative shrink-0 text-[#6e6e73] text-[12px] text-ellipsis w-full" data-node-id="174:347" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  UX Writing
+                </p>
+              </div>
+            </div>
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[1.5] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-full" data-node-id="174:348" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Muy buen curso, me gustó mucho el contenido, los ejemplos y ejercicios prácticos y la calidad de las explicaciones. La estructura y el dinamismo son idóneos para aprender.
+            </p>
+          </div>
+          <div className="bg-white content-stretch drop-shadow-[0px_6px_8px_rgba(0,0,0,0.04)] flex flex-col gap-[16px] items-start p-[24px] relative rounded-[16px] shrink-0 w-[311px]" data-node-id="174:226" data-name="ReviewCard_José Luis Martínez">
+            <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-node-id="174:227" data-name="User_Header">
+              <div className="bg-[#f2e2fe] content-stretch flex flex-col items-center justify-center relative rounded-[20px] shrink-0 size-[40px]" data-node-id="174:228" data-name="Avatar_Circle">
+                <p className="[word-break:break-word] font-['DM_Sans:Bold'] font-bold leading-[normal] relative shrink-0 text-[#6c2ba1] text-[14px] whitespace-nowrap" data-node-id="174:229" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  JM
+                </p>
+              </div>
+              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start leading-[normal] min-w-px not-italic relative whitespace-nowrap" data-node-id="174:230" data-name="User_Meta">
+                <p className="font-['Google_Sans_Flex:Medium'] font-medium overflow-hidden relative shrink-0 text-[#090909] text-[15px] text-ellipsis w-full" data-node-id="174:231" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  José Luis Martínez
+                </p>
+                <p className="font-['Google_Sans_Flex:Regular'] font-normal overflow-hidden relative shrink-0 text-[#6e6e73] text-[12px] text-ellipsis w-full" data-node-id="174:232" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Diseño UX/UI
+                </p>
+              </div>
+            </div>
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[1.5] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-full" data-node-id="174:233" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Soy desarrollador web y móvil, este curso me ayudo bastante a potenciar lo que ya sabía del lado del desarrollo y a los demás desarrolladores los puede ayudar a ampliar sus conocimientos y poder aportar en la toma de decisiones del diseño y experiencia del usuario de un producto o servicio.
+            </p>
+          </div>
+          <div className="bg-white content-stretch drop-shadow-[0px_6px_8px_rgba(0,0,0,0.04)] flex flex-col gap-[16px] items-start p-[24px] relative rounded-[16px] shrink-0 w-[311px]" data-node-id="174:350" data-name="ReviewCard_Tracy Berrocal">
+            <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-node-id="174:351" data-name="User_Header">
+              <div className="bg-[#eaf7d3] content-stretch flex flex-col items-center justify-center relative rounded-[20px] shrink-0 size-[40px]" data-node-id="174:352" data-name="Avatar_Circle">
+                <p className="[word-break:break-word] font-['DM_Sans:Bold'] font-bold leading-[normal] relative shrink-0 text-[#4e6b1b] text-[14px] whitespace-nowrap" data-node-id="174:353" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  TB
+                </p>
+              </div>
+              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start leading-[normal] min-w-px not-italic relative whitespace-nowrap" data-node-id="174:354" data-name="User_Meta">
+                <p className="font-['Google_Sans_Flex:Medium'] font-medium overflow-hidden relative shrink-0 text-[#090909] text-[15px] text-ellipsis w-full" data-node-id="174:355" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Tracy Berrocal
+                </p>
+                <p className="font-['Google_Sans_Flex:Regular'] font-normal overflow-hidden relative shrink-0 text-[#6e6e73] text-[12px] text-ellipsis w-full" data-node-id="174:356" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  UX Writing
+                </p>
+              </div>
+            </div>
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[1.5] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-full" data-node-id="174:357" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Muy buen curso, me gustó mucho el contenido, los ejemplos y ejercicios prácticos y la calidad de las explicaciones. La estructura y el dinamismo son idóneos para aprender.
+            </p>
+          </div>
+        </div>
+        <div className="content-stretch flex flex-col gap-[20px] h-[659px] items-start pt-[20px] relative shrink-0 w-[300px]" data-node-id="174:242" data-name="Masonry_Col_4">
+          <div className="bg-white content-stretch drop-shadow-[0px_6px_8px_rgba(0,0,0,0.04)] flex flex-col gap-[16px] items-start p-[24px] relative rounded-[16px] shrink-0 w-[300px]" data-node-id="174:243" data-name="ReviewCard_Julia Cerezo Martínez">
+            <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-node-id="174:244" data-name="User_Header">
+              <div className="bg-[#fde2e4] content-stretch flex flex-col items-center justify-center relative rounded-[20px] shrink-0 size-[40px]" data-node-id="174:245" data-name="Avatar_Circle">
+                <p className="[word-break:break-word] font-['DM_Sans:Bold'] font-bold leading-[normal] relative shrink-0 text-[#a83356] text-[14px] whitespace-nowrap" data-node-id="174:246" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  JC
+                </p>
+              </div>
+              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start leading-[normal] min-w-px not-italic relative whitespace-nowrap" data-node-id="174:247" data-name="User_Meta">
+                <p className="font-['Google_Sans_Flex:Medium'] font-medium overflow-hidden relative shrink-0 text-[#090909] text-[15px] text-ellipsis w-full" data-node-id="174:248" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Julia Cerezo Martínez
+                </p>
+                <p className="font-['Google_Sans_Flex:Regular'] font-normal overflow-hidden relative shrink-0 text-[#6e6e73] text-[12px] text-ellipsis w-full" data-node-id="174:249" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Diseño UI
+                </p>
+              </div>
+            </div>
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[1.5] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-full" data-node-id="174:250" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Es un curso muy interesante, siempre he querido aprender sobre diseño UI/UX y la forma que tiene de hablar, el contenido se hace muy llevadero y entretenido.
+            </p>
+          </div>
+          <div className="bg-white content-stretch drop-shadow-[0px_6px_8px_rgba(0,0,0,0.04)] flex flex-col gap-[16px] items-start p-[24px] relative rounded-[16px] shrink-0 w-[300px]" data-node-id="174:251" data-name="ReviewCard_Mariana Paola">
+            <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-node-id="174:252" data-name="User_Header">
+              <div className="bg-[#f2e2fe] content-stretch flex flex-col items-center justify-center relative rounded-[20px] shrink-0 size-[40px]" data-node-id="174:253" data-name="Avatar_Circle">
+                <p className="[word-break:break-word] font-['DM_Sans:Bold'] font-bold leading-[normal] relative shrink-0 text-[#6c2ba1] text-[14px] whitespace-nowrap" data-node-id="174:254" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  MP
+                </p>
+              </div>
+              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start leading-[normal] min-w-px not-italic relative whitespace-nowrap" data-node-id="174:255" data-name="User_Meta">
+                <p className="font-['Google_Sans_Flex:Medium'] font-medium overflow-hidden relative shrink-0 text-[#090909] text-[15px] text-ellipsis w-full" data-node-id="174:256" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Mariana Paola
+                </p>
+                <p className="font-['Google_Sans_Flex:Regular'] font-normal overflow-hidden relative shrink-0 text-[#6e6e73] text-[12px] text-ellipsis w-full" data-node-id="174:257" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Diseño UX/UI
+                </p>
+              </div>
+            </div>
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[1.5] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-full" data-node-id="174:258" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Para una persona que realmente comienza de cero sin conocimientos previos, debería ser la biblia misma empezar con este curso de Javier. Gracias por ser tan dedicado y prolijo con los contenidos.
+            </p>
+          </div>
+          <div className="bg-white content-stretch drop-shadow-[0px_6px_8px_rgba(0,0,0,0.04)] flex flex-col gap-[16px] items-start p-[24px] relative rounded-[16px] shrink-0 w-[300px]" data-node-id="174:287" data-name="ReviewCard_Mariana Paola">
+            <div className="content-stretch flex gap-[12px] items-center relative shrink-0 w-full" data-node-id="174:288" data-name="User_Header">
+              <div className="bg-[#f2e2fe] content-stretch flex flex-col items-center justify-center relative rounded-[20px] shrink-0 size-[40px]" data-node-id="174:289" data-name="Avatar_Circle">
+                <p className="[word-break:break-word] font-['DM_Sans:Bold'] font-bold leading-[normal] relative shrink-0 text-[#6c2ba1] text-[14px] whitespace-nowrap" data-node-id="174:290" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  MP
+                </p>
+              </div>
+              <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[2px] items-start leading-[normal] min-w-px not-italic relative whitespace-nowrap" data-node-id="174:291" data-name="User_Meta">
+                <p className="font-['Google_Sans_Flex:Medium'] font-medium overflow-hidden relative shrink-0 text-[#090909] text-[15px] text-ellipsis w-full" data-node-id="174:292" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Mariana Paola
+                </p>
+                <p className="font-['Google_Sans_Flex:Regular'] font-normal overflow-hidden relative shrink-0 text-[#6e6e73] text-[12px] text-ellipsis w-full" data-node-id="174:293" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  Diseño UX/UI
+                </p>
+              </div>
+            </div>
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[1.5] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-full" data-node-id="174:294" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Para una persona que realmente comienza de cero sin conocimientos previos, debería ser la biblia misma empezar con este curso de Javier. Gracias por ser tan dedicado y prolijo con los contenidos.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="absolute contents left-[59px] top-[7443px]" data-node-id="41:404">
+        <div className="absolute content-stretch flex items-end justify-between left-[59px] top-[7443px] w-[1322px]" data-node-id="38:327">
+          <div className="content-stretch flex flex-col gap-[15px] items-start relative shrink-0 w-[764px]" data-node-id="38:328">
+            <div className="content-stretch flex flex-col items-start relative shrink-0 w-[263px]" data-node-id="38:329">
+              <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="38:330">
+                <div className="col-1 grid-cols-[max-content] grid-rows-[max-content] inline-grid ml-0 mt-0 place-items-start relative row-1" data-node-id="38:331">
+                  <div className="col-1 content-stretch flex gap-[10px] items-center ml-0 mt-0 relative row-1" data-node-id="38:332">
+                    <div className="relative shrink-0 size-[14px]" data-node-id="38:333">
+                      <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse1} />
+                    </div>
+                    <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0" data-node-id="38:334">
+                      <p className="[word-break:break-word] col-1 font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] ml-0 mt-0 not-italic relative row-1 text-[#090909] text-[16px] uppercase w-[239px]" data-node-id="38:335" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                        el equipo
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="[word-break:break-word] font-['Google_Sans_Flex:Medium'] font-medium h-[112px] leading-[0] not-italic relative shrink-0 text-[#0a0a0a] text-[45px] w-[522px] whitespace-pre-wrap" data-node-id="38:336" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              <p className="leading-[normal] mb-0">{`Las personas detrás `}</p>
+              <p className="leading-[normal] mb-0 text-[#686868]">de cada proyecto</p>
+              <p className="leading-[normal] mb-0">​</p>
+              <p className="leading-[normal]">​</p>
+            </div>
+          </div>
+          <p className="[word-break:break-word] font-['DM_Sans:Regular'] font-normal leading-[0] relative shrink-0 text-[16px] text-[color:var(--textos-gris,#686868)] text-right w-[401px]" data-node-id="41:389" style={{ fontVariationSettings: '"opsz" 14' }}>
+            <span className="leading-[normal] text-[#090909]">Creemos que el buen trabajo nace de la colaboración</span>
+            <span className="leading-[normal]">{` entre nosotros. Por eso trabajamos potenciando cada proyecto con el mejor enfoque, para cumplir tus objetivos y superar tus expectativas.`}</span>
+          </p>
+        </div>
+        <div className="absolute contents left-[59px] top-[7655px]" data-node-id="40:387">
+          <div className="absolute content-stretch flex gap-[21px] items-center left-[59px] top-[7655px]" data-node-id="40:388">
+            <div className="content-stretch flex flex-col h-[423px] items-start pb-[30px] pl-[24px] pr-[181px] pt-[352px] relative shrink-0 w-[344px]" data-node-id="41:399">
+              <div aria-hidden className="absolute inset-0 pointer-events-none">
+                <img alt="" className="absolute max-w-none object-cover size-full" src={imgFrame36} />
+                <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(-1.8183065149379303deg, rgba(0, 0, 0, 0.4) 27.887%, rgba(0, 0, 0, 0) 49.687%)" }} />
+              </div>
+              <div className="[word-break:break-word] grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0 text-right text-white whitespace-nowrap" data-node-id="41:400">
+                <p className="col-1 font-['DM_Sans:SemiBold'] font-semibold leading-[normal] ml-0 mt-0 relative row-1 text-[18px]" data-node-id="41:401" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  Natalia Reina
+                </p>
+                <p className="col-1 font-['DM_Sans:Light'] font-light leading-[normal] ml-0 mt-[23px] relative row-1 text-[14px]" data-node-id="41:402" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  Senior UX/UI designer
+                </p>
+              </div>
+            </div>
+            <div className="bg-[#090909] h-[423px] relative shrink-0 w-[344px]" data-node-id="40:384" />
+            <div className="h-[423px] relative shrink-0 w-[344px]" data-node-id="40:385">
+              <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgRectangle21} />
+            </div>
+            <div className="bg-[#090909] h-[423px] relative shrink-0 w-[344px]" data-node-id="40:386" />
+          </div>
+        </div>
+      </div>
+      <div className="absolute h-[622px] left-[-1px] overflow-clip top-[9009px] w-[1440px]" data-node-id="174:73" data-name="contact-section">
+        <div aria-hidden className="absolute inset-0 pointer-events-none">
+          <div className="absolute bg-[#090909] inset-0" />
+          <img alt="" className="absolute max-w-none object-cover opacity-30 size-full" src={imgContactSection} />
+        </div>
+        <div className="absolute bg-[rgba(0,0,0,0.45)] h-[622px] left-0 top-0 w-[1440px]" data-node-id="174:74" data-name="Background Image" />
+        <div className="absolute backdrop-blur-[20px] bg-[rgba(255,255,255,0.13)] border border-[rgba(255,255,255,0.1)] border-solid content-stretch flex flex-col gap-[24px] items-start left-[59px] p-[36px] rounded-[24px] top-[167px] w-[446px]" data-node-id="174:75" data-name="Contact Card">
+          <div className="[word-break:break-word] content-stretch flex flex-col gap-[12px] items-start leading-[normal] not-italic relative shrink-0 w-full" data-node-id="174:76" data-name="Header Stack">
+            <p className="font-['Google_Sans_Flex:Medium'] font-medium relative shrink-0 text-[#b8b8b8] text-[14px] w-full" data-node-id="174:77" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Contacto
+            </p>
+            <p className="font-['Google_Sans_Flex:Bold'] font-bold relative shrink-0 text-[44px] text-white tracking-[-1px] w-full" data-node-id="174:78" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>{`Let's talk.`}</p>
+          </div>
+          <div className="content-stretch flex flex-col gap-[12px] items-start relative shrink-0 w-full" data-node-id="174:79" data-name="Form Fields">
+            <div className="content-stretch flex gap-[12px] items-start relative shrink-0 w-full" data-node-id="174:80" data-name="Name Row">
+              <div className="border border-[rgba(255,255,255,0.15)] border-solid content-stretch flex flex-[1_0_0] items-start min-w-px px-[16px] py-[12px] relative rounded-[10px]" data-node-id="174:81" data-name="First Name Input">
+                <p className="[word-break:break-word] font-['DM_Sans:Regular'] font-normal leading-[normal] relative shrink-0 text-[#b8b8b8] text-[14px] whitespace-nowrap" data-node-id="174:82" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  Nombre
+                </p>
+              </div>
+              <div className="border border-[rgba(255,255,255,0.15)] border-solid content-stretch flex flex-[1_0_0] items-start min-w-px px-[16px] py-[12px] relative rounded-[10px]" data-node-id="174:83" data-name="Last Name Input">
+                <p className="[word-break:break-word] font-['DM_Sans:Regular'] font-normal leading-[normal] relative shrink-0 text-[#b8b8b8] text-[14px] whitespace-nowrap" data-node-id="174:84" style={{ fontVariationSettings: '"opsz" 14' }}>
+                  Empresa
+                </p>
+              </div>
+            </div>
+            <div className="border border-[rgba(255,255,255,0.15)] border-solid content-stretch flex items-start px-[16px] py-[12px] relative rounded-[10px] shrink-0 w-full" data-node-id="174:85" data-name="Email Input">
+              <p className="[word-break:break-word] flex-[1_0_0] font-['DM_Sans:Regular'] font-normal leading-[normal] min-w-px relative text-[#b8b8b8] text-[14px]" data-node-id="174:86" style={{ fontVariationSettings: '"opsz" 14' }}>
+                Email
+              </p>
+            </div>
+          </div>
+          <div className="bg-[#090909] content-stretch flex items-center justify-center px-[24px] py-[14px] relative rounded-[100px] shrink-0 w-full" data-node-id="174:87" data-name="Submit Button">
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:SemiBold'] font-semibold leading-[normal] not-italic relative shrink-0 text-[15px] text-center text-white whitespace-nowrap" data-node-id="174:88" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Contáctanos
+            </p>
+          </div>
+          <p className="[word-break:break-word] font-['DM_Sans:Regular'] font-normal leading-[0] relative shrink-0 text-[#b8b8b8] text-[11px] w-full" data-node-id="174:89" style={{ fontVariationSettings: '"opsz" 14' }}>
+            <span className="leading-[16px]">{`By contacting us, you accept our `}</span>
+            <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-from-font decoration-solid leading-[16px] text-white underline" href="https://example.com/terms" target="_blank">
+              <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-from-font decoration-solid underline" href="https://example.com/terms" target="_blank">
+                Terms
+              </span>
+            </a>
+            <span className="leading-[16px]">{` and `}</span>
+            <a className="[text-decoration-skip-ink:none] [text-underline-position:from-font] cursor-pointer decoration-from-font decoration-solid leading-[16px] text-white underline" href="https://example.com/privacy" target="_blank">
+              <span className="[text-decoration-skip-ink:none] [text-underline-position:from-font] decoration-from-font decoration-solid underline" href="https://example.com/privacy" target="_blank">
+                Privacy Policy
+              </span>
+            </a>
+            <span className="leading-[16px]">.</span>
+          </p>
+        </div>
+      </div>
+      <div className="absolute bg-[#090909] content-stretch flex flex-col gap-[80px] items-start left-[-1px] min-h-[720px] overflow-clip pb-[80px] pt-[100px] px-[100px] top-[9631px] w-[1440px]" data-node-id="174:26" data-name="footer-section">
+        <div className="content-stretch flex gap-[40px] items-start relative shrink-0 w-full" data-node-id="174:27" data-name="columns-row">
+          <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[24px] items-start leading-[normal] min-w-px not-italic relative" data-node-id="174:28" data-name="column-pages">
+            <p className="font-['Google_Sans_Flex:SemiBold'] font-semibold relative shrink-0 text-[12px] text-[color:var(--textos-gris,#686868)] whitespace-nowrap" data-node-id="174:29" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              PÁGINAS
+            </p>
+            <div className="content-stretch flex flex-col font-['Google_Sans_Flex:Medium'] font-medium gap-[16px] items-start relative shrink-0 text-[28px] text-white w-full" data-node-id="174:30" data-name="links-stack">
+              <p className="relative shrink-0 w-full" data-node-id="174:31" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                Inicio
+              </p>
+              <p className="relative shrink-0 w-full" data-node-id="174:32" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                Nosotros
+              </p>
+              <p className="relative shrink-0 w-full" data-node-id="174:33" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                Proyectos
+              </p>
+              <p className="relative shrink-0 w-full" data-node-id="174:34" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                Contacto
+              </p>
+            </div>
+          </div>
+          <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[24px] items-start leading-[normal] min-w-px not-italic relative" data-node-id="174:35" data-name="column-recent work">
+            <p className="font-['Google_Sans_Flex:SemiBold'] font-semibold relative shrink-0 text-[12px] text-[color:var(--textos-gris,#686868)] whitespace-nowrap" data-node-id="174:36" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              TRABAJOS
+            </p>
+            <div className="content-stretch flex flex-col font-['Google_Sans_Flex:Medium'] font-medium gap-[16px] items-start relative shrink-0 text-[28px] text-white w-full" data-node-id="174:37" data-name="links-stack">
+              <p className="relative shrink-0 w-full" data-node-id="174:38" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                Horizon
+              </p>
+              <p className="relative shrink-0 w-full" data-node-id="174:39" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                Vertex Labs
+              </p>
+              <p className="relative shrink-0 w-full" data-node-id="174:40" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                Aurelius
+              </p>
+              <p className="relative shrink-0 w-full" data-node-id="174:41" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                Montegrapa
+              </p>
+            </div>
+          </div>
+          <div className="[word-break:break-word] content-stretch flex flex-[1_0_0] flex-col gap-[24px] items-start leading-[normal] min-w-px not-italic relative" data-node-id="174:42" data-name="column-socials">
+            <p className="font-['Google_Sans_Flex:SemiBold'] font-semibold relative shrink-0 text-[12px] text-[color:var(--textos-gris,#686868)] whitespace-nowrap" data-node-id="174:43" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              REDES SOCIALES
+            </p>
+            <div className="content-stretch flex flex-col font-['Google_Sans_Flex:Medium'] font-medium gap-[16px] items-start relative shrink-0 text-[28px] text-white w-full" data-node-id="174:44" data-name="links-stack">
+              <p className="relative shrink-0 w-full" data-node-id="174:45" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                Instagram
+              </p>
+              <p className="relative shrink-0 w-full" data-node-id="174:46" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                LinkedIn
+              </p>
+              <p className="relative shrink-0 w-full" data-node-id="174:47" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                Twitter
+              </p>
+            </div>
+          </div>
+          <div className="content-stretch flex flex-col gap-[24px] items-start relative shrink-0 w-[360px]" data-node-id="174:48" data-name="column-studio-info">
+            <p className="[word-break:break-word] font-['Google_Sans_Flex:SemiBold'] font-semibold leading-[normal] not-italic relative shrink-0 text-[12px] text-[color:var(--textos-gris,#686868)] whitespace-nowrap" data-node-id="174:49" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              BY SENSEI
+            </p>
+            <div className="content-stretch flex flex-col gap-[40px] items-start relative shrink-0 w-full" data-node-id="174:50" data-name="info-content">
+              <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[1.5] not-italic relative shrink-0 text-[18px] text-white w-full" data-node-id="174:51" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                An independent studio blending design, code, and motion into products that ship.
+              </p>
+              <div className="content-stretch flex flex-col gap-[16px] items-start relative shrink-0 w-full" data-node-id="174:52" data-name="meta-links-stack">
+                <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[0] min-w-full not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-[min-content] whitespace-pre-wrap" data-node-id="174:53" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  <span className="leading-[normal]">{`Copyright  `}</span>
+                  <span className="font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] text-white" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                    By Sensei Studio
+                  </span>
+                </p>
+                <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[0] min-w-full not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] w-[min-content]" data-node-id="174:54" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                  <span className="leading-[normal]">{`Powered by `}</span>
+                  <span className="font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] text-white" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                    By Sensei Studio
+                  </span>
+                </p>
+                <div className="content-stretch flex gap-[12px] items-center relative shrink-0" data-node-id="174:55" data-name="sub-links">
+                  <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[normal] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] whitespace-nowrap" data-node-id="174:56" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                    License
+                  </p>
+                  <div className="flex h-[10px] items-center justify-center relative shrink-0 w-0" data-node-id="174:57">
+                    <div className="flex-none rotate-90">
+                      <div className="h-0 relative w-[10px]" data-name="Line">
+                        <div className="absolute inset-[-1px_0_0_0]">
+                          <img alt="" className="block max-w-none size-full" src={imgLine} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="[word-break:break-word] font-['Google_Sans_Flex:Regular'] font-normal leading-[normal] not-italic relative shrink-0 text-[13px] text-[color:var(--textos-gris,#686868)] whitespace-nowrap" data-node-id="174:58" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+                    Style Guide
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="h-[208.866px] relative shrink-0 w-full" data-node-id="174:59" data-name="gallery-container" />
+      </div>
+      <div className="absolute contents left-[55px] top-[10034px]" data-node-id="174:72">
+        <div className="absolute flex h-[268.071px] items-center justify-center left-[55px] top-[10113px] w-[315.313px]" data-node-id="174:67">
+          <div className="-rotate-6 flex-none">
+            <div className="h-[238.863px] relative rounded-[16px] w-[291.944px]" data-name="gallery-card-1">
+              <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[16px] size-full" src={imgGalleryCard1} />
+            </div>
+          </div>
+        </div>
+        <div className="absolute h-[247.29px] left-[calc(20%+149px)] rounded-[16px] top-[10034px] w-[302.091px]" data-node-id="174:68" data-name="gallery-card-2">
+          <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[16px] size-full" src={imgGalleryCard2} />
+        </div>
+        <div className="absolute flex h-[283.471px] items-center justify-center left-[calc(40%+213px)] top-[10034px] w-[317.88px]" data-node-id="174:69">
+          <div className="flex-none rotate-[15.17deg]">
+            <div className="h-[220.63px] relative rounded-[16px] w-[269.541px]" data-name="gallery-card-3">
+              <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[16px] size-full" src={imgGalleryCard3} />
+            </div>
+          </div>
+        </div>
+        <div className="absolute flex h-[340.851px] items-center justify-center left-[calc(60%+212.42px)] top-[10171.43px] w-[347.585px]" data-node-id="174:70">
+          <div className="flex-none rotate-[39.41deg]">
+            <div className="h-[220.104px] relative rounded-[16px] w-[269.016px]" data-name="gallery-card-4">
+              <img alt="" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[16px] size-full" src={imgGalleryCard4} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex flex-col gap-[16px] items-start left-[calc(40%+10px)] top-[8220px] w-[794px]" data-node-id="174:157" data-name="faq-container">
+        <div className="bg-white content-stretch drop-shadow-[0px_4px_6px_rgba(0,0,0,0.03)] flex flex-col gap-[24px] items-start px-[40px] py-[32px] relative rounded-[16px] shrink-0 w-full" data-node-id="174:158" data-name="accordion-card">
+          <div className="content-stretch flex items-center justify-between relative shrink-0 w-full" data-node-id="174:159" data-name="accordion-header">
+            <p className="[word-break:break-word] flex-[1_0_0] font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] min-w-px not-italic relative text-[#090909] text-[19px] tracking-[-0.19px]" data-node-id="174:160" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              How long does it take to build a website?
+            </p>
+            <div className="bg-[#090909] content-stretch flex flex-col items-center justify-center relative rounded-[100px] shrink-0 size-[32px]" data-node-id="174:161" data-name="plus-icon-container">
+              <div className="relative shrink-0 size-[12px]" data-node-id="174:162" data-name="plus">
+                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPlus} />
+              </div>
+            </div>
+          </div>
+          <p className="[word-break:break-word] font-['DM_Sans:Regular'] font-normal leading-[26px] relative shrink-0 text-[16px] text-[color:var(--textos-gris,#686868)] w-full" data-node-id="174:164" style={{ fontVariationSettings: '"opsz" 14' }}>
+            The timeline for building a website depends on its complexity and specific requirements. On averageю We’ll provide a detailed timeline during the initial consultation to ensure clear expectations.
+          </p>
+        </div>
+        <div className="bg-white content-stretch drop-shadow-[0px_4px_6px_rgba(0,0,0,0.03)] flex flex-col items-start px-[40px] py-[32px] relative rounded-[16px] shrink-0 w-full" data-node-id="174:165" data-name="accordion-card">
+          <div className="content-stretch flex items-center justify-between relative shrink-0 w-full" data-node-id="174:166" data-name="accordion-header">
+            <p className="[word-break:break-word] flex-[1_0_0] font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] min-w-px not-italic relative text-[#090909] text-[19px] tracking-[-0.19px]" data-node-id="174:167" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>
+              Do you offer custom websites or use templates?
+            </p>
+            <div className="bg-[#090909] content-stretch flex flex-col items-center justify-center relative rounded-[100px] shrink-0 size-[32px]" data-node-id="174:168" data-name="plus-icon-container">
+              <div className="relative shrink-0 size-[12px]" data-node-id="174:169" data-name="plus">
+                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPlus} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white content-stretch drop-shadow-[0px_4px_6px_rgba(0,0,0,0.03)] flex flex-col items-start px-[40px] py-[32px] relative rounded-[16px] shrink-0 w-full" data-node-id="174:171" data-name="accordion-card">
+          <div className="content-stretch flex items-center justify-between relative shrink-0 w-full" data-node-id="174:172" data-name="accordion-header">
+            <p className="[word-break:break-word] flex-[1_0_0] font-['Google_Sans_Flex:Medium'] font-medium leading-[normal] min-w-px not-italic relative text-[#090909] text-[19px] tracking-[-0.19px]" data-node-id="174:173" style={{ fontVariationSettings: '"GRAD" 0, "ROND" 0, "wdth" 100' }}>{`What's included in your SEO services?`}</p>
+            <div className="bg-[#090909] content-stretch flex flex-col items-center justify-center relative rounded-[100px] shrink-0 size-[32px]" data-node-id="174:174" data-name="plus-icon-container">
+              <div className="relative shrink-0 size-[12px]" data-node-id="174:175" data-name="plus">
+                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgPlus} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white content-stretc

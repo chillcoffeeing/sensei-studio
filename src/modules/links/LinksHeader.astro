@@ -1,0 +1,45 @@
+---
+import { Image } from 'astro:assets';
+import LinkCtaBrand from '@/shared/ui/LinkCtaBrand.svelte';
+import LinksWhatsAppLink from './LinksWhatsAppLink.astro';
+import type { LinksHeader } from './schema';
+import { uiIcon } from './ui-icon';
+
+interface Props {
+  header: LinksHeader;
+}
+
+const { header } = Astro.props;
+const { logo, atmosphere, title, description, quote, whatsapp } = header;
+---
+
+{/*
+  230:978: fondo oscuro con la atmósfera de la home bajo un velo del 85 % y el ruido de marca.
+  Logo, h1 en dos líneas, descripción y los dos atajos (cotizar abre el modal; WhatsApp externo).
+*/}
+<header class="relative isolate overflow-clip bg-ink px-5 pt-7 pb-6 text-paper">
+  <Image
+    src={atmosphere.src}
+    alt={atmosphere.alt}
+    widths={[480, 960]}
+    sizes="(min-width: 640px) 448px, 100vw"
+    loading="eager"
+    class="absolute inset-0 -z-10 block size-full object-cover"
+  />
+  <div aria-hidden="true" class="absolute inset-0 -z-10 bg-black/85 surface-noise"></div>
+
+  <div class="flex flex-col items-center gap-3.5 text-center">
+    <img src={logo.src.src} width={logo.src.width} height={logo.src.height} alt={logo.alt} class="block" />
+    <h1 class="font-heading text-3xl/tight font-semibold text-balance">
+      {title.map((line) => <span class="block">{line}</span>)}
+    </h1>
+    <p class="max-w-80 font-body text-sm/relaxed text-line">{description}</p>
+  </div>
+
+  <div class="@container mt-5">
+    <div class="flex items-center justify-center gap-2">
+      <LinkCtaBrand href={quote.href} label={quote.label} icon={uiIcon(quote.icon)} data-quote-open />
+      <LinksWhatsAppLink whatsapp={whatsapp} />
+    </div>
+  </div>
+</header>

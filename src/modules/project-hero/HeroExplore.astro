@@ -1,0 +1,45 @@
+---
+import { mediaIcon } from '@/shared/lib/media';
+import type { ProjectHeroUi } from './schema';
+
+interface Props {
+  explore: ProjectHeroUi['explore'] & { href: string };
+}
+
+const { explore } = Astro.props;
+const icon = await mediaIcon(explore.icon);
+---
+
+{/*
+  Círculo lima de 42px con la flecha + texto. Es un ancla a la sección de resultados: sin JS salta;
+  con JS desplaza suave (salvo reduced motion) y lleva el foco al destino.
+*/}
+<a
+  href={explore.href}
+  data-project-explore
+  class="group flex min-h-11 w-fit items-center gap-3.5 rounded-pill focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+>
+  <span
+    aria-hidden="true"
+    class="flex size-10.5 shrink-0 items-center justify-center rounded-pill bg-brand motion-safe:transition-transform motion-safe:duration-(--duration-base) motion-safe:ease-standard motion-safe:group-hover:translate-y-0.5"
+  >
+    <img src={icon.src} width={icon.width} height={icon.height} alt="" class="block" />
+  </span>
+  <span class="font-heading text-link text-paper">{explore.label}</span>
+</a>
+
+<script>
+  import { prefersReducedMotion } from '@/shared/lib/motion';
+
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-project-explore]')) {
+    link.addEventListener('click', (event) => {
+      const target = document.getElementById(decodeURIComponent(link.hash.slice(1)));
+      if (!target) return;
+      event.preventDefault();
+      if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+      target.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
+      target.focus({ preventScroll: true });
+      history.pushState(null, '', link.hash);
+    });
+  }
+</script>

@@ -1,0 +1,857 @@
+{
+  "slug": "home",
+  "seo": {
+    "title": "Sensei Studio · Diseño, desarrollo y automatización con IA",
+    "description": "Diseño, desarrollo y automatización con IA para marcas que no quieren esperar meses para ver resultados. Sin relleno, solo resultados.",
+    "keywords": [
+      "agencia de diseño web",
+      "desarrollo web",
+      "automatización con IA",
+      "branding",
+      "Sensei Studio"
+    ],
+    "ogType": "website"
+  },
+  "sections": [
+    {
+      "sectionType": "hero",
+      "id": "inicio",
+      "headingContent": {
+        "title": [
+          "Sensei Studio: diseño, desarrollo y automatización con IA"
+        ]
+      },
+      "content": {
+        "wordmark": {
+          "name": "Sensei",
+          "suffix": "Studio."
+        },
+        "servicesLabel": "Servicios",
+        "services": [
+          "Branding e identidad",
+          "Email Marketing",
+          "Diseño UX/UI",
+          "Desarrollo Web",
+          "Automatización & IA"
+        ],
+        "lead": [
+          {
+            "text": "No diseñamos productos bonitos. Diseñamos resultados. ",
+            "tone": "strong"
+          },
+          {
+            "text": "Diseño, desarrollo y automatización con IA para marcas que no quieren esperar meses para ver resultados.",
+            "tone": "muted"
+          }
+        ],
+        "background": {
+          "src": "/videos/hero-background.mp4",
+          "alt": "",
+          "kind": "video"
+        }
+      }
+    },
+    {
+      "sectionType": "project-gallery",
+      "id": "proyectos",
+      "headingContent": {
+        "eyebrow": "Proyectos",
+        "title": [
+          "Ayudamos a marcas de distintas industrias a lograr resultados reales."
+        ]
+      },
+      "content": {
+        "cta": {
+          "label": "VER TODOS LOS PROYECTOS",
+          "marker": "+",
+          "href": "/proyectos/"
+        },
+        "projects": [
+          "yupa",
+          "remittven",
+          "las-donas",
+          "cappi-xtremo"
+        ],
+        "cardCta": "Ver proyecto"
+      }
+    },
+    {
+      "sectionType": "stats",
+      "id": "por-que-elegirnos",
+      "headingContent": {
+        "eyebrow": "Por qué elegirnos",
+        "title": [
+          {
+            "text": "Resultados comprobados en cada proyecto, ",
+            "tone": "strong"
+          },
+          {
+            "text": "con foco en diseño y funcionalidad.",
+            "tone": "muted"
+          }
+        ],
+        "description": [
+          {
+            "text": "Sin relleno, solo resultados.",
+            "tone": "strong"
+          },
+          {
+            "text": " Diseño estratégico y herramientas que hacen crecer tu negocio. Nos enfocamos en decisiones inteligentes y funcionalidad real, proyecto tras proyecto.",
+            "tone": "muted"
+          }
+        ]
+      },
+      "content": {
+        "items": [
+          {
+            "value": "+250",
+            "label": "Proyectos completados"
+          },
+          {
+            "value": "+9",
+            "label": "Años de experiencia senior combinada",
+            "narrowLabel": true
+          },
+          {
+            "value": "97%",
+            "label": "Tasa de satisfacción"
+          },
+          {
+            "value": "1 punto",
+            "label": "De contacto — sin intermediarios, sin fricción"
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "process",
+      "id": "proceso",
+      "headingContent": {
+        "title": [
+          "PROCESO: 4 PASOS"
+        ]
+      },
+      "content": {
+        "steps": [
+          {
+            "number": "01",
+            "title": "Descubrir",
+            "progress": 25,
+            "description": "Entendemos tus objetivos, tu audiencia y el reto real — qué significa el éxito para tu proyecto."
+          },
+          {
+            "number": "02",
+            "title": "Diseñar",
+            "progress": 50,
+            "description": "Definimos estructura, mensaje y enfoque creativo, y le damos forma visual: mood, tipografía y lenguaje de marca, hasta que se siente correcto."
+          },
+          {
+            "number": "03",
+            "title": "Construir",
+            "progress": 75,
+            "description": "Convertimos el diseño en producto real — web, app o plataforma — con desarrollo pulido y automatización con IA donde realmente acelera resultados, no como adorno."
+          },
+          {
+            "number": "04",
+            "title": "Lanzar",
+            "progress": 100,
+            "description": "Preparamos assets, guías y transición sin fricciones — todo listo para salir a producción."
+          }
+        ],
+        "stepper": {
+          "label": "Pasos del proceso",
+          "roleDescription": "carrusel",
+          "slideRoleDescription": "paso",
+          "slidePosition": "Paso {index} de {total}"
+        }
+      }
+    },
+    {
+      "sectionType": "services",
+      "id": "servicios",
+      "headingContent": {
+        "eyebrow": "Servicios",
+        "title": [
+          {
+            "text": "Un equipo. Cuatro disciplinas.",
+            "tone": "strong"
+          },
+          {
+            "text": " Cero fricción.",
+            "tone": "muted"
+          }
+        ],
+        "description": [
+          {
+            "text": "Sin relleno, solo resultados.",
+            "tone": "strong"
+          },
+          {
+            "text": " Diseño estratégico y herramientas que hacen crecer tu negocio. Nos enfocamos en decisiones inteligentes y funcionalidad real, proyecto tras proyecto.",
+            "tone": "muted"
+          }
+        ]
+      },
+      "content": {
+        "services": [
+          {
+            "title": "Branding e identidad",
+            "description": "Identidad visual sólida que hace que tu marca se reconozca y se recuerde.",
+            "items": [
+              "Identidad de marca y logotipo",
+              "Guía de estilo y sistema de marca",
+              "Naming y tono de voz",
+              "Piezas gráficas y redes sociales",
+              "Rebranding y reposicionamiento",
+              "Papelería y aplicaciones de marca (tarjetas, packaging, merchandising)",
+              "Manual de marca (brand book)",
+              "Diseño de presentaciones corporativas",
+              "Estrategia de posicionamiento de marca",
+              "Exploración de conceptos asistida con IA"
+            ],
+            "images": [
+              {
+                "src": "images/servicios-homepage/branding-papitos-fast-food.jpg",
+                "alt": "Identidad de Papito's Fast Food aplicada a bolsa de papel, vaso, envoltorio, tarjetas y sticker sobre fondo rojo."
+              },
+              {
+                "src": "images/servicios-homepage/branding-my-little-cat.jpg",
+                "alt": "Sistema de marca de My Little Cat: bolsas de alimento para gatos, tarjetas y stickers con su mascota sobre fondo fucsia."
+              },
+              {
+                "src": "images/servicios-homepage/branding-tiffany-studios.jpg",
+                "alt": "Papelería de Tiffany Studios con monograma TS: carta, tarjetas de visita y sobres en negro, gris y dorado."
+              }
+            ]
+          },
+          {
+            "title": "Email Marketing",
+            "description": "Correos que llegan al cliente correcto, con una razón real para abrirse y convertir.",
+            "items": [
+              "Estrategia y segmentación de listas",
+              "Diseño de plantillas de correo",
+              "Automatización de flujos (bienvenida, carrito abandonado, post-compra)",
+              "Copywriting orientado a conversión",
+              "A/B testing de asuntos y contenido",
+              "Analítica y reportes de rendimiento",
+              "Optimización con IA"
+            ],
+            "images": [
+              {
+                "src": "images/servicios-homepage/email-marketing-casa-tierra-cafe.jpg",
+                "alt": "Correo de bienvenida de Casa Tierra Café con taza humeante, el café de origen del mes y ventajas de la suscripción."
+              },
+              {
+                "src": "images/servicios-homepage/email-marketing-odontosalud.jpg",
+                "alt": "Correo de recordatorio de control de Odontosalud con agenda en tres pasos, servicios incluidos y sedes."
+              },
+              {
+                "src": "images/servicios-homepage/email-marketing-rutas-andinas.jpg",
+                "alt": "Campaña de vacaciones de Rutas Andinas Travel con paquete destacado, destinos sugeridos y botones de contacto."
+              }
+            ]
+          },
+          {
+            "title": "Diseño UX/UI",
+            "description": "Interfaces claras y funcionales, diseñadas para guiar al usuario y aumentar la conversión.",
+            "items": [
+              "Investigación de usuario (UX Research)",
+              "Arquitectura de información",
+              "Wireframes y prototipos interactivos",
+              "Diseño de interfaz (UI) & Design Systems",
+              "Testing de usabilidad",
+              "Rediseño y optimización de productos existentes",
+              "Investigación y prototipado asistidos con IA",
+              "QA y testing de producto"
+            ],
+            "images": [
+              {
+                "src": "images/servicios-homepage/ux-ui-investigacion.png",
+                "alt": "Lámina de investigación UX: entrevistas a usuarios, mapa de experiencia, datos que orientan y contexto real de uso."
+              },
+              {
+                "src": "images/servicios-homepage/ux-ui-wireframes-prototipo.png",
+                "alt": "Lámina de wireframes y prototipo: de la estructura low-fi al flujo high-fi y la interacción, con arquitectura de navegación."
+              },
+              {
+                "src": "images/servicios-homepage/ux-ui-diseno-validacion.png",
+                "alt": "Lámina de diseño UI y validación: interfaz web y móvil, sistema de componentes, paleta, tipografía y resultados con usuarios."
+              }
+            ]
+          },
+          {
+            "title": "Desarrollo de productos & automatización IA",
+            "description": "Productos digitales construidos para funcionar y escalar, con automatización donde realmente es necesario.",
+            "items": [
+              "Sitios web a medida",
+              "E-commerce",
+              "Apps móviles",
+              "Dashboards y paneles administrativos",
+              "Integraciones y APIs",
+              "Agentes y chatbots con IA",
+              "Automatización de flujos internos",
+              "Automatización de captación de leads",
+              "Analítica predictiva",
+              "Mantenimiento y soporte post-lanzamiento"
+            ],
+            "images": [
+              {
+                "src": "images/servicios-homepage/desarrollo-web-ecommerce-apps.jpg",
+                "alt": "Ilustración vectorial de un editor de código, una tienda en línea y un móvil que representan desarrollo web, e-commerce y apps."
+              },
+              {
+                "src": "images/servicios-homepage/dashboards-chatbots-analitica.jpg",
+                "alt": "Ilustración vectorial de un dashboard con gráficos y métricas junto a una interfaz de chatbot para analítica."
+              },
+              {
+                "src": "images/servicios-homepage/automatizacion-inteligencia-artificial.jpg",
+                "alt": "Ilustración vectorial de un flujo de automatización que conecta correo, engranajes, IA, chatbot y base de datos."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "showcase",
+      "id": "destacados",
+      "headingContent": {
+        "title": [
+          "Creatividad, tecnología y estrategia"
+        ]
+      },
+      "content": {
+        "carousel": {
+          "label": "Proyectos destacados (avanzan solos; se detienen al enfocarlos con el teclado o al deslizar)",
+          "roleDescription": "carrusel",
+          "slideRoleDescription": "diapositiva",
+          "slidePosition": "{index} de {total}"
+        },
+        "slides": [
+          {
+            "image": {
+              "src": "images/slider-destacados-homepage/qfud-app-screens.jpg",
+              "alt": "Ocho pantallas de la app Qfud sobre fondo verde: inicio, feed de productos saludables, escáner, listas y plan Plus."
+            }
+          },
+          {
+            "image": {
+              "src": "images/slider-destacados-homepage/pictdare-app-screens.jpg",
+              "alt": "Ocho pantallas de la red social Pictdare sobre fondo coral: bienvenida, retos de fotos, perfil y recompensas."
+            }
+          },
+          {
+            "image": {
+              "src": "images/slider-destacados-homepage/referi-app-screens.jpg",
+              "alt": "Ocho pantallas de la app de juegos Referi sobre fondo azul: acceso, saldo, partidas y torneos."
+            }
+          },
+          {
+            "image": {
+              "src": "images/slider-destacados-homepage/remittven-app-screens.jpg",
+              "alt": "Ocho pantallas de la app de Remittven: país de residencia, inicio de sesión, envío de dinero, beneficiarios, tasas y métodos de pago."
+            }
+          },
+          {
+            "image": {
+              "src": "images/slider-destacados-homepage/soldee-app-screens.jpg",
+              "alt": "Ocho pantallas de la app de finanzas Soldee sobre fondo rosa: bienvenida, balance, gastos por categoría, objetivos de ahorro y estadísticas."
+            }
+          },
+          {
+            "image": {
+              "src": "images/slider-destacados-homepage/yupa-checkout-screens.jpg",
+              "alt": "Ocho pantallas de la tienda de Yupa: elección del material del sticker, diseño a medida, pago y confirmación del pedido."
+            }
+          },
+          {
+            "image": {
+              "src": "images/slider-destacados-homepage/just-make-it-fun-web-screens.jpg",
+              "alt": "Tres páginas móviles de la tienda Just Make It Fun: producto Family Edition, historia de la marca y promoción de descuento."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "testimonials",
+      "id": "testimonios",
+      "headingContent": {
+        "eyebrow": "Reviews y testimonios",
+        "title": [
+          {
+            "text": "Lo que dicen ",
+            "tone": "strong"
+          },
+          {
+            "text": "nuestros clientes",
+            "tone": "muted"
+          }
+        ]
+      },
+      "content": {
+        "trust": {
+          "avatars": [
+            {},
+            {},
+            {},
+            {}
+          ],
+          "count": {
+            "value": "56+",
+            "label": "Más de 56 clientes"
+          },
+          "rating": {
+            "stars": 5,
+            "label": "Valoración: 5 de 5"
+          },
+          "caption": {
+            "text": [
+              {
+                "text": "Trusted by",
+                "tone": "strong"
+              },
+              " ",
+              {
+                "text": "clients worldwide",
+                "tone": "muted"
+              }
+            ],
+            "lang": "en"
+          }
+        },
+        "cta": {
+          "label": "Déjanos un comentario",
+          "marker": "+",
+          "href": "/#contacto"
+        },
+        "masonryLabel": "Reseñas de clientes (se desplazan solas; se detienen al enfocar con el teclado)",
+        "reviews": [
+          {
+            "name": "Gabriela C.",
+            "role": "Diseño Integral de Imagen: App, Web y Logo para Potenciar mi Marca",
+            "quote": "Excelente asesoría y apertura en todo momento. Estamos encantados con el trabajo final; demostraron ser profesionales responsables y puntuales. Además, tuvieron mucha paciencia para escuchar nuestro feedback y realizar los ajustes..."
+          },
+          {
+            "name": "Jonatan P.",
+            "role": "Diseño inicial de app móvil para autónomos",
+            "quote": "Muy profesionales, la comunicación es muy buena con Sensei Studio. Las entregas son rápidas y las correcciones también. Se nota que tienen experiencia con diseño de apps. Volveremos a contar con ellos para mis futuros proyectos. ¡Gracias!"
+          },
+          {
+            "name": "David M.",
+            "role": "Desarrollo de Prototipo Interactivo para Aplicación de Diseño de Ventanas",
+            "quote": "Estoy muy satisfecho del trabajo de Sensei Studio en este proyecto. Demostraron una gran atención al detalle y entregaron un trabajo de alta calidad. La colaboración fue un placer gracias a su excelente comunicación y actitud proactiva. Sin..."
+          },
+          {
+            "name": "Carina R.",
+            "role": "Diseño de Gráfico de Sitio Web",
+            "quote": "Me gustó mucho trabajar con Sensei Studio. Entregaron un diseño limpio y funcional, cumpliendo con todo lo acordado. Fueron muy receptivos a los cambios y siempre tuvieron buena disposición para ajustar los detalles. ¡Los recomiendo totalmente!"
+          },
+          {
+            "name": "Rafael H.",
+            "role": "Diseño de pantallas para aplicación móvil",
+            "quote": "Una gran comunicación, muy amables con los cambios y un trabajo espectacular en el diseño de app móviles; recomendable trabajar con ellos y espero en el futuro volver a trabajar con ellos."
+          },
+          {
+            "name": "Elliot",
+            "role": "Modificar pantallas que se tienen y crear otras más para una app",
+            "quote": "Mejoraron por mucho el diseño que se había creado con anterioridad, le dieron mejor vista a todo."
+          },
+          {
+            "name": "Gerardo P. G.",
+            "role": "Rediseño y mejora UX de pantallas para sistema web",
+            "quote": "Trabajar con Sensei Studio en el rediseño UX de nuestro sistema web fue una experiencia excepcional. Demostraron gran habilidad y atención al detalle, logrando resultados que superaron nuestras expectativas. Su cumplimiento puntual y la comunicación efectiva facilitaron el proceso, entregando el proyecto a tiempo y con alta calidad. Recomiendo ampliamente a Sensei Studio por su profesionalismo y talento en diseño UX/UI."
+          },
+          {
+            "name": "Edgar",
+            "role": "Diseñadora UX/UI con Experiencia en Figma para Plataforma Tecnológica",
+            "quote": "¡Excelente Sensei Studio! Muy buen trabajo, definitivamente vamos a seguir trabajando juntos."
+          },
+          {
+            "name": "Joaquin McClew",
+            "role": "Rediseño y Reimplementación de Sitio Web en Webflow con Figma",
+            "quote": "Excelentes profesionales, gran manejo de Figma (tanto en el UI como en la experiencia de usuario) y Webflow. Muy prolijos al trabajar, cumplieron con las expectativas y tiempos..."
+          },
+          {
+            "name": "Maria Andrea Reina",
+            "role": "Diseño de páginas web",
+            "quote": "Sensei Studio es organizado, escuchan detalles y son muy pacientes, excelente."
+          },
+          {
+            "name": "Pedro Avaria",
+            "role": "Necesito Web para empresa de construcción",
+            "quote": "Muy buen diseñado UX, nos crearon justo las pantallas que necesitábamos, además de que siempre enviaban avances de su trabajo para revisión."
+          },
+          {
+            "name": "David Trujillo Novoa",
+            "role": "Rediseñar página web",
+            "quote": "Todo excelente, puntuales con los tiempos y bastante buenos en creatividad."
+          },
+          {
+            "name": "Luis Enrique Ramirez",
+            "role": "Desarrollo de website en Wordpress y elementor",
+            "quote": "Todo excelente, son profesionales en todos los sentidos y quedamos satisfechos con el entregable."
+          },
+          {
+            "name": "Javier Oberto",
+            "role": "Diseño de landing page en código",
+            "quote": "Profesionales, rápidos, atentos, 100 confiables."
+          },
+          {
+            "name": "Pablo Mondragón Valero",
+            "role": "Creación de página para empresa industrial",
+            "quote": "Ha sido un placer trabajar con Sensei Studio en la creación de la web de la empresa industrial. Han realizado un trabajo eficiente y han estado atentos a las revisiones. La comunicación ha sido muy fácil..."
+          },
+          {
+            "name": "Ismael Flores Aguilar",
+            "role": "Mejorar look and feel de sitio tipo blog",
+            "quote": "Unas personas muy profesionales, son realmente buenos y sostuvieron comunicación de manera respetuosa conmigo en todo momento. Me informaron sobre lo que se podía hacer y lo que me recomendaban incluso antes de iniciar el proyecto. La..."
+          },
+          {
+            "name": "Valeria S.",
+            "role": "Creación de Identidad Visual y Guía de Estilo Completa",
+            "quote": "Trabajar con Sensei Studio para definir nuestra identidad visual fue un acierto total. Lograron capturar exactamente la esencia de nuestra marca con un sistema de marca sólido, paleta de colores y tipografía impecables. Las guías de estilo y piezas gráficas que nos entregaron nos han dado una presencia profesional y memorable. ¡Los recomiendo con los ojos cerrados!"
+          },
+          {
+            "name": "Mateo R.",
+            "role": "Desarrollo de Naming, Logo y Conceptos Asistidos por IA",
+            "quote": "Quedé fascinado con el proceso de creación. Sensei Studio combinó una creatividad increíble con IA para dar con el naming perfecto y un logotipo que destaca de inmediato. Su enfoque para definir nuestro tono de voz superó por completo nuestras expectativas."
+          },
+          {
+            "name": "Andrea G.",
+            "role": "Estrategia de Contenido, SEO Técnico y Analítica Web",
+            "quote": "Sensei Studio nos ayudó a estructurar una estrategia de contenido y SEO técnico que realmente atrae al cliente correcto, no solo tráfico vacío. Su manejo de la analítica y los reportes de rendimiento nos ha permitido optimizar nuestras campañas mes a mes. Son profesionales muy metódicos y orientados a resultados."
+          },
+          {
+            "name": "Sofía L.",
+            "role": "Creación de Agentes de IA a Medida e Integración con CRM",
+            "quote": "Necesitábamos conectar nuestras plataformas de pago y calendarios con flujos inteligentes, y el equipo de Sensei Studio nos ayudó en todo. Crearon agentes de IA a medida, integrándose perfectamente con nuestro CRM. El nivel tecnológico y el soporte que brindan son excepcionales."
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "team",
+      "id": "equipo",
+      "headingContent": {
+        "eyebrow": "El equipo",
+        "title": [
+          {
+            "text": "Las personas detrás ",
+            "tone": "strong"
+          },
+          {
+            "text": "de cada proyecto",
+            "tone": "muted"
+          }
+        ],
+        "description": [
+          {
+            "text": "Creemos que el buen trabajo nace de la colaboración",
+            "tone": "strong"
+          },
+          {
+            "text": " entre nosotros. Por eso trabajamos potenciando cada proyecto con el mejor enfoque, para cumplir tus objetivos y superar tus expectativas.",
+            "tone": "muted"
+          }
+        ]
+      },
+      "content": {
+        "slider": {
+          "label": "Integrantes del equipo (avanzan solos; se detienen al enfocarlos con el teclado o al deslizar)",
+          "roleDescription": "carrusel",
+          "slideRoleDescription": "diapositiva",
+          "slidePosition": "{index} de {total}"
+        },
+        "profiles": {
+          "label": "Perfil de {name} en {network}",
+          "newTab": "(se abre en una pestaña nueva)",
+          "networks": {
+            "behance": "Behance",
+            "dribbble": "Dribbble",
+            "linkedin": "LinkedIn",
+            "github": "GitHub"
+          }
+        },
+        "members": [
+          {
+            "name": "Natalia Reina",
+            "role": "Senior UX/UI designer",
+            "company": "en Sensei Studio",
+            "bio": "Une estética y funcionalidad para crear diseños que no solo se ven bien, sino que generan resultados.",
+            "photo": {
+              "src": "images/equipo-homepage/natalia-reina.jpg",
+              "alt": "Retrato de Natalia Reina"
+            },
+            "profiles": [
+              {
+                "network": "behance",
+                "url": "https://www.behance.net/nataliareina"
+              },
+              {
+                "network": "dribbble",
+                "url": ""
+              },
+              {
+                "network": "linkedin",
+                "url": ""
+              }
+            ]
+          },
+          {
+            "name": "Jhoarling Reina",
+            "role": "Product Head UX/UI designer",
+            "company": "en Sensei Studio",
+            "bio": "Lidera la visión de producto y convierte cada idea en una experiencia clara, útil y medible.",
+            "photo": {
+              "src": "images/equipo-homepage/jhoarling-reina.jpg",
+              "alt": "Retrato de Jhoarling Reina"
+            },
+            "profiles": [
+              {
+                "network": "behance",
+                "url": "https://www.behance.net/jhoarling"
+              },
+              {
+                "network": "linkedin",
+                "url": "https://www.linkedin.com/in/jhoarling-reina-067288113/"
+              }
+            ]
+          },
+          {
+            "name": "María Reina",
+            "role": "Marketing Data Analyst, Email Marketing",
+            "company": "en Sensei Studio",
+            "bio": "Convierte los datos de cada campaña en decisiones y diseña emails que se abren, se leen y convierten.",
+            "photo": {
+              "src": "images/equipo-homepage/maria-reina.jpg",
+              "alt": "Retrato de María Reina"
+            },
+            "profiles": [
+              {
+                "network": "linkedin",
+                "url": ""
+              }
+            ]
+          },
+          {
+            "name": "Victor Veliz",
+            "role": "Full Stack Development Lead",
+            "company": "en Sensei Studio",
+            "bio": "Lleva cada diseño a código rápido, accesible y listo para crecer, del primer commit al despliegue.",
+            "photo": {
+              "src": "images/equipo-homepage/victor-veliz.jpg",
+              "alt": "Retrato de Victor Veliz"
+            },
+            "profiles": [
+              {
+                "network": "github",
+                "url": ""
+              },
+              {
+                "network": "linkedin",
+                "url": "https://www.linkedin.com/in/victor-miguel-veliz-castellanos-09807522a/"
+              }
+            ]
+          },
+          {
+            "name": "Maicol Durán",
+            "role": "Senior UX/UI designer",
+            "company": "en Sensei Studio",
+            "bio": "Diseña interfaces claras y consistentes que guían cada decisión del usuario sin esfuerzo.",
+            "profiles": [
+              {
+                "network": "behance",
+                "url": ""
+              },
+              {
+                "network": "dribbble",
+                "url": ""
+              },
+              {
+                "network": "linkedin",
+                "url": ""
+              }
+            ]
+          },
+          {
+            "name": "Daniel Rivera",
+            "role": "Full Stack Development Lead",
+            "company": "en Sensei Studio",
+            "bio": "Conecta interfaces, datos y servicios para que cada producto funcione sin fricciones.",
+            "profiles": [
+              {
+                "network": "github",
+                "url": ""
+              },
+              {
+                "network": "linkedin",
+                "url": ""
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "faq",
+      "id": "faq",
+      "headingContent": {
+        "eyebrow": "FAQ",
+        "title": [
+          {
+            "text": "¿Tienes preguntas? ",
+            "tone": "strong"
+          },
+          {
+            "text": "Tenemos respuestas.",
+            "tone": "muted"
+          }
+        ]
+      },
+      "content": {
+        "items": [
+          {
+            "question": "¿Qué es Sensei Studio y qué servicios ofrece?",
+            "answer": "Sensei Studio es una agencia creativa con cuatro líneas de servicio: branding e identidad, diseño UX/UI, desarrollo web con automatización con IA, y email marketing. Diseñamos productos digitales que convierten, no solo que se ven bien."
+          },
+          {
+            "question": "¿En qué se diferencia Sensei Studio de otras agencias de diseño web?",
+            "answer": "Somos un estudio pequeño y senior. Quien te atiende en la reunión es quien trabaja en tu proyecto. Priorizamos que tu sitio o producto funcione y genere resultados antes de que sea bonito."
+          },
+          {
+            "question": "¿Qué experiencia respalda a Sensei Studio?",
+            "answer": "Más de 500 clientes satisfechos y más de 200 proyectos terminados entre branding, UX/UI, desarrollo web, IA y email marketing. Cada integrante del equipo tiene más de 6 años de experiencia en su área."
+          },
+          {
+            "question": "¿Trabajan con clientes de México, Chile y otros países?",
+            "answer": "Sí. Trabajamos 100 % en remoto con empresas de México, Chile y el resto de Latinoamérica. Sin intermediarios."
+          },
+          {
+            "question": "¿Trabajan con clientes de otros países y en inglés?",
+            "answer": "Sí. Gestionamos proyectos de forma remota con países de habla inglesa. La comunicación y las entregas pueden ser 100 % en inglés."
+          },
+          {
+            "question": "¿Cuánto cuesta diseñar una página web para mi empresa?",
+            "answer": "Depende del alcance: número de pantallas, funcionalidades e integraciones. Por eso no mostramos una tarifa fija. Cuéntanos tu proyecto y agendamos una reunión para definir alcance y presupuesto por escrito."
+          },
+          {
+            "question": "¿Qué es el diseño UX/UI y por qué lo necesita mi producto digital?",
+            "answer": "El UX/UI define cómo se usa y cómo se ve tu web o app. Un buen diseño reduce fricción, mejora la conversión y evita rehacer el producto después. Es la parte que más impacta en ventas."
+          },
+          {
+            "question": "¿Hacen tiendas online y desarrollo web?",
+            "answer": "Sí. Desarrollamos sitios y tiendas online a medida, según lo que necesite tu negocio y en cualquier tecnología que necesites."
+          },
+          {
+            "question": "¿Qué es la automatización con IA y cómo puede ayudar a mi negocio?",
+            "answer": "Es usar inteligencia artificial para eliminar tareas repetitivas: responder consultas frecuentes, calificar clientes potenciales o conectar tus sistemas. Ahorra tiempo al equipo y acelera la respuesta a tus clientes."
+          },
+          {
+            "question": "Tengo una idea, ¿pueden ayudarme desde cero hasta el lanzamiento?",
+            "answer": "Sí. Te acompañamos desde el punto 1 hasta el lanzamiento completo. Por ejemplo, si quieres una tienda en línea: te ayudamos con el dominio y el hosting, el diseño de la experiencia, el desarrollo, la configuración de pagos, las pruebas y la puesta en producción. Tú no coordinas proveedores: nosotros nos encargamos de todo."
+          },
+          {
+            "question": "¿Desarrollan agentes de IA y productos con inteligencia artificial?",
+            "answer": "Sí. Creamos agentes de IA que atienden consultas, califican clientes potenciales o automatizan procesos internos, y también productos digitales con IA integrada, como asistentes, herramientas y plataformas. Los diseñamos y los desarrollamos de principio a fin."
+          },
+          {
+            "question": "¿Hacen estrategia de email marketing?",
+            "answer": "Sí. Diseñamos flujos de email enfocados en conversión: bienvenida, carritos abandonados, recompra y seguimiento. Cada correo tiene un objetivo medible, analizamos datos, creamos informes. Porque lo que no se mide, no se puede mejorar."
+          },
+          {
+            "question": "¿Cómo es el proceso para trabajar con Sensei Studio?",
+            "answer": "Empiezas describiendo tu proyecto, agendamos una reunión, formalizamos el alcance por escrito y arrancamos. Tienes comunicación directa durante todo el desarrollo y revisiones antes de la entrega."
+          },
+          {
+            "question": "¿Cuánto tiempo toma un proyecto de diseño o desarrollo web?",
+            "answer": "Una landing page puede estar lista en pocos días. Un sitio completo o un producto digital toma más. Te damos un cronograma exacto al definir el alcance."
+          },
+          {
+            "question": "¿Cómo se paga y qué métodos aceptan?",
+            "answer": "Pagas 50 % para iniciar y 50 % al finalizar. Aceptamos Payoneer, Global66, Binance, Wetransfer, transferencias bancarias EE. UU., Canadá."
+          },
+          {
+            "question": "¿Ofrecen soporte después de entregar el proyecto?",
+            "answer": "Sí. Tenemos planes de soporte post entrega para mantener tu sitio o producto actualizado, seguro y funcionando, y para resolver ajustes sin que tengas que empezar de cero con otro proveedor."
+          },
+          {
+            "question": "¿Qué pasa si necesito cambios fuera del alcance acordado?",
+            "answer": "Todo el alcance queda por escrito antes de empezar. Si surge algo nuevo, lo evaluamos juntos y lo cotizamos aparte, sin problema."
+          },
+          {
+            "question": "¿Garantizan resultados?",
+            "answer": "No prometemos posiciones ni ventas, porque dependen de factores que ninguna agencia controla. Garantizamos el método, la calidad, la comunicación clara y que cada decisión tenga una razón medible."
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "contact",
+      "id": "contacto",
+      "headingContent": {
+        "eyebrow": "Contacto",
+        "title": [
+          "Let's talk."
+        ]
+      },
+      "content": {
+        "background": {
+          "src": "images/contacto-homepage/escritorio-dos-monitores.jpg",
+          "alt": "Dos monitores sobre un escritorio de madera con maquetas de páginas web en pantalla."
+        },
+        "lang": "en",
+        "fields": {
+          "name": {
+            "label": "Nombre",
+            "required": true
+          },
+          "company": {
+            "label": "Empresa",
+            "required": false
+          },
+          "email": {
+            "label": "Email",
+            "required": true
+          },
+          "message": {
+            "label": "Cuéntanos qué necesitas",
+            "required": true,
+            "minLength": 20
+          }
+        },
+        "submitLabel": "Contáctanos",
+        "validation": {
+          "required": {
+            "name": "Escribe tu nombre.",
+            "company": "Escribe el nombre de tu empresa.",
+            "email": "Escribe tu email.",
+            "message": "Cuéntanos brevemente qué necesitas."
+          },
+          "emailInvalid": "Revisa el email: debe tener la forma nombre@dominio.com.",
+          "tooShort": "Cuéntanos un poco más: al menos {min} caracteres."
+        },
+        "status": {
+          "sending": "Enviando…",
+          "sent": "¡Gracias! Recibimos tus datos y te escribiremos pronto.",
+          "error": "No pudimos enviar tus datos. Inténtalo de nuevo en unos minutos.",
+          "unavailable": "El envío del formulario aún no está disponible: tus datos no se han enviado. Escríbenos a hola@bysensei.com."
+        },
+        "legal": [
+          "By contacting us, you accept our ",
+          {
+            "label": "Terms",
+            "href": "https://example.com/terms"
+          },
+          " and ",
+          {
+            "label": "Privacy Policy",
+            "href": "https://example.com/privacy"
+          },
+          "."
+        ],
+        "newTabHint": "(opens in a new tab)"
+      }
+    }
+  ]
+}

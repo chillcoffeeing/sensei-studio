@@ -1,0 +1,107 @@
+---
+import type { Seo } from '@/core/content';
+import { buildJsonLd, type PageSchema } from '@/core/seo';
+import type { SiteMeta } from '@/core/site';
+import { getImage } from 'astro:assets';
+import { isMediaUrl, localAsset } from '@/shared/lib/media';
+
+// Contenido del <head> común a todos los layouts (BaseLayout y StandaloneLayout). Única pieza que
+// escribe etiquetas de SEO (docs/seo.md §1): las páginas declaran datos, aquí se emiten.
+interface Props {
+  seo: Seo;
+  meta: SiteMeta;
+  /** Qué JSON-LD propio declara la página (además de Organization + WebSite). */
+  schema?: PageSchema;
+}
+
+const { seo, meta, schema = { type: 'page' } } = Astro.props;
+
+// `site` siempre está definido (astro.config.mjs: https://bysensei.com o SITE_URL): todas las URLs
+// del head salen absolutas.
+if (!Astro.site) throw new Error('DocumentHead necesita `site` en astro.config.mjs');
+const site = Astro.site;
+const absolute = (path: string) => new URL(path, site).href;
+const canonical = seo.canonical ?? absolute(Astro.url.pathname);
+
+// seo.ogImage es una URL o una clave de src/assets (como MediaRef.src). Una clave local se emite
+// como variante para compartir (1200 × 630, JPG), nunca como el original (un PNG puede pesar MB).
+const OG = { width: 1200, height: 630 };
+const ogVariant = async (key: string) =>
+  (await getImage({ src: await localAsset(key), ...OG, fit: 'cover', format: 'jpg', quality: 80 })).src;
+const localOg = Boolean(seo.ogImage && !isMediaUrl(seo.ogImage));
+const pageImage = seo.ogImage && (localOg ? await ogVariant(seo.ogImage) : seo.ogImage);
+const ogImage = absolute(pageImage || meta.shareImage.path);
+// Dimensiones conocidas: la imagen del sitio y la variante local; de una URL externa no se saben.
+const ogSize = !pageImage ? meta.shareImage : localOg ? OG : undefined;
+const ogAlt = pageImage ? (seo.ogImageAlt ?? seo.title) : meta.shareImage.alt;
+
+const jsonLd = buildJsonLd(
+  {
+    name: meta.name,
+    url: absolute('/'),
+    language: meta.language,
+    email: meta.email,
+    logo: absolute(meta.logo.src),
+    sameAs: meta.sameAs,
+    areaServed: meta.areaServed,
+  },
+  { url: canonical, title: seo.title, description: seo.description, image: ogImage },
+  schema,
+  seo.jsonLd,
+);
+
+// Ejes fijados a los valores de Figma (1:17): Google Sans Flex GRAD 0 · ROND 0 · wdth 100; DM Sans opsz 14.
+const fontsHref =
+  'https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@14,300..800&family=Google+Sans+Flex:wdth,wght,GRAD,ROND@100,400..700,0,0&display=swap';
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{seo.title}</title>
+<meta name="description" content={seo.description} />
+{seo.keywords && seo.keywords.length > 0 && <meta name="keywords" content={seo.keywords.join(', ')} />}
+{seo.noindex && <meta name="robots" content="noindex, nofollow" />}
+<link rel="canonical" href={canonical} />
+
+<meta property="og:site_name" content={meta.name} />
+<meta property="og:locale" content={meta.locale} />
+<meta property="og:type" content={seo.ogType ?? 'website'} />
+<meta property="og:title" content={seo.title} />
+<meta property="og:description" content={seo.description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+{
+  ogSize && (
+    <>
+      <meta property="og:image:width" content={String(ogSize.width)} />
+      <meta property="og:image:height" content={String(ogSize.height)} />
+    </>
+  )
+}
+<meta property="og:image:alt" content={ogAlt} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={seo.title} />
+<meta name="twitter:description" content={seo.description} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image:alt" content={ogAlt} />
+<link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+{/* Un solo grafo JSON-LD. `<` escapado: el JSON no puede cerrar el <script> aunque un texto contenga "</script>". */}
+<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd).replaceAll('<', '\\u003c')} />
+
+{/* Iconos de Figma 224:316 (docs/seo.md §7). sizes="32x32" en el .ico (no "any") para que los
+    navegadores con soporte de SVG prefieran el .svg. */}
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content={meta.themeColor} />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+{/* QA-001: la hoja de Google Fonts bloqueaba el primer render ~0.9 s en mobile (Lighthouse).
+    Se carga sin bloquear (media=print → all al cargar); display=swap pinta antes con la fuente
+    de sistema. <noscript> mantiene la hoja sin JS. */}
+<link rel="preload" as="style" href={fontsHref} />
+<link rel="stylesheet" href={fontsHref} media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href={fontsHref} /></noscript>
+<meta name="generator" content={Astro.generator} />

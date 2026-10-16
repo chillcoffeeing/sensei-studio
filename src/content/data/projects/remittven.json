@@ -1,0 +1,378 @@
+{
+  "slug": "remittven",
+  "seo": {
+    "description": "Caso Remittven: rediseño UX/UI de la plataforma para enviar dinero a Venezuela en web y app. −43% de pasos para enviar y −45% de tiempo de registro.",
+    "keywords": [
+      "caso de estudio",
+      "Remittven",
+      "diseño UX/UI",
+      "fintech",
+      "remesas",
+      "Sensei Studio"
+    ]
+  },
+  "sections": [
+    {
+      "sectionType": "project-hero",
+      "headingContent": {
+        "eyebrow": "Producto completo · 2025",
+        "title": [
+          "Remittven"
+        ],
+        "description": [
+          "Diseño UX/UI × Fintech × Web + App"
+        ]
+      },
+      "content": {
+        "cardImage": {
+          "src": "images/portadas-de-proyectos/remittven.jpg",
+          "alt": "Portátil sobre un pedestal oscuro con la web de Remittven: «Envía dinero a Venezuela desde España» junto a la calculadora de tasas de cambio."
+        },
+        "logo": {
+          "src": "images/remittven-images/logo.png",
+          "alt": "Remittven"
+        },
+        "claim": [
+          "Enviar dinero a casa.",
+          "Seguro y rápido."
+        ],
+        "summary": "Rediseño UX/UI del ecosistema Remittven: una plataforma para enviar dinero a Venezuela y gestionar pagos en diferentes divisas, en web y app.",
+        "facts": [
+          {
+            "label": "Cliente",
+            "value": "Remittven · Fintech"
+          },
+          {
+            "label": "Duración",
+            "value": "8 semanas"
+          },
+          {
+            "label": "Nuestro rol",
+            "value": "Research, UX/UI y prototipado"
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "project-results",
+      "id": "resultados",
+      "headingContent": {
+        "eyebrow": "01 / Resultados",
+        "title": [
+          "Menos pasos.\nMás certeza en cada envío."
+        ],
+        "description": [
+          "Cuando se trata de dinero, la claridad es la experiencia. Cada pantalla responde una pregunta antes de que el usuario la haga."
+        ]
+      },
+      "content": {
+        "metrics": [
+          {
+            "value": "−43%",
+            "label": "Pasos para enviar dinero",
+            "before": "7",
+            "after": "4 pasos",
+            "description": "Cotizar, elegir destinatario, pagar y confirmar. Nada en medio."
+          },
+          {
+            "value": "−45%",
+            "label": "Tiempo de registro y verificación",
+            "before": "11 min",
+            "after": "6 min",
+            "description": "Datos agrupados por contexto y validación en tiempo real, sin volver atrás."
+          },
+          {
+            "value": "−35%",
+            "label": "Consultas por estado del envío",
+            "before": "120",
+            "after": "78 por semana",
+            "description": "Seguimiento visible en la app y notificaciones en cada etapa."
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "project-context",
+      "id": "el-proyecto",
+      "headingContent": {
+        "eyebrow": "02 / El proyecto",
+        "title": [
+          "Pagos globales.\nUna gestión que se entiende."
+        ]
+      },
+      "content": {
+        "lead": "Remittven es una plataforma financiera para enviar dinero a Venezuela y gestionar saldos en diferentes divisas. Rediseñamos su ecosistema web y app para que enviar, recibir y seguir cada operación sea tan claro como debería ser.",
+        "description": "Quien envía dinero a su familia no compara interfaces. Compara cuánto llega, cuándo llega y si puede confiar.",
+        "fields": [
+          {
+            "label": "Cliente",
+            "value": "Remittven"
+          },
+          {
+            "label": "Industria",
+            "value": "Fintech / remesas y pagos internacionales"
+          },
+          {
+            "label": "Servicios",
+            "value": "Research, UX/UI, design system y prototipado"
+          },
+          {
+            "label": "Fecha y duración",
+            "value": "2025 · 8 semanas"
+          },
+          {
+            "label": "Equipo",
+            "value": "Estrategia y diseño de producto"
+          }
+        ],
+        "challenge": {
+          "label": "El reto",
+          "title": "Que mover dinero no se sienta como un riesgo.",
+          "description": "Tasas que cambian, comisiones poco visibles y envíos sin seguimiento: en remesas, la duda no frena una compra, frena la confianza. El reto era mostrar todo el costo y el estado de cada operación sin convertir la app en un formulario."
+        },
+        "goals": {
+          "label": "Tres objetivos, un solo sistema",
+          "items": [
+            "Mostrar cuánto llega antes de confirmar.",
+            "Generar confianza en cada paso con dinero real.",
+            "Unificar web y app en un mismo lenguaje visual."
+          ]
+        }
+      }
+    },
+    {
+      "sectionType": "project-solution",
+      "id": "la-solucion",
+      "headingContent": {
+        "eyebrow": "03 / La solución",
+        "title": [
+          "Una marca que da confianza.\nUn flujo que no deja dudas."
+        ],
+        "description": [
+          "Un sistema visual sobrio, jerarquía pensada para cifras y un flujo de envío que muestra tasa, comisión y monto final en la misma pantalla."
+        ]
+      },
+      "content": {
+        "identity": {
+          "overline": "Remittven / Sistema de marca",
+          "year": "2025",
+          "wordmark": "Remittven®",
+          "concept": [
+            "Un sistema visual juguetón,",
+            "legible y modular."
+          ],
+          "palette": [
+            "#FF5B35",
+            "#326789",
+            "#111312"
+          ]
+        },
+        "media": [
+          {
+            "src": "images/remittven-images/solution-screens.png",
+            "fit": "contain",
+            "alt": "Cuatro pantallas de la app de Remittven: inicio de sesión, lista de beneficiarios con el botón «Enviar dinero», perfil con datos personales y documento, y confirmación de la transacción con tasa de cambio, comisión y total a enviar."
+          },
+          {
+            "src": "images/remittven-images/solution-app-screens.png",
+            "fit": "contain",
+            "alt": "Cinco pantallas de la app de Remittven: resumen de transacciones, inicio con accesos rápidos, métodos de pago guardados, tabla de tasas y comisiones, y primer paso de «Enviar dinero»."
+          },
+          {
+            "src": "images/remittven-images/solution-web-pages.png",
+            "fit": "contain",
+            "alt": "Tres páginas de la web de Remittven: cómo funciona con la tabla de tasas, ventajas con trámites para visas, y por qué elegirnos con el resumen del envío en tres pasos."
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "project-process",
+      "id": "el-proceso",
+      "headingContent": {
+        "eyebrow": "04 / El proceso",
+        "title": [
+          "Del problema al prototipo"
+        ],
+        "route": [
+          "Research",
+          "Diseño",
+          "Producto"
+        ]
+      },
+      "content": {
+        "stages": [
+          {
+            "name": "Descubrir",
+            "weeks": "Semana 1",
+            "description": "Benchmark de plataformas de remesas y entrevistas con usuarios que envían dinero desde el exterior. Mapeamos dónde se perdía la confianza."
+          },
+          {
+            "name": "Diseñar",
+            "weeks": "Semanas 2–3",
+            "description": "Arquitectura, sistema visual y flujos clave: cotizar, registrarse, enviar y seguir."
+          },
+          {
+            "name": "Construir",
+            "weeks": "Semanas 4–7",
+            "description": "Pruebas de usabilidad con el prototipo navegable en web y móvil. Ajustamos lo que generaba duda."
+          },
+          {
+            "name": "Validar",
+            "weeks": "Semana 8",
+            "description": "Especificaciones, estados de error y componentes documentados para desarrollo."
+          }
+        ],
+        "flow": {
+          "title": "El dinero sale. El seguimiento continúa.",
+          "overline": "Flujo de recompensas",
+          "steps": [
+            {
+              "title": "Cotización",
+              "detail": "Tasa y comisión / monto final"
+            },
+            {
+              "title": "Verificación",
+              "detail": "Identidad / validación en tiempo real"
+            },
+            {
+              "title": "Envío",
+              "detail": "Pago confirmado / comprobante"
+            },
+            {
+              "title": "Entrega",
+              "detail": "Notificación / dinero recibido"
+            }
+          ],
+          "note": "Cada etapa informa al usuario sin que tenga que preguntar. Menos incertidumbre, menos tickets de soporte."
+        }
+      }
+    },
+    {
+      "sectionType": "project-scope",
+      "id": "alcance",
+      "headingContent": {
+        "eyebrow": "05 / Alcance y entrega",
+        "title": [
+          "Web y app.\nUn solo sistema."
+        ],
+        "description": [
+          "Del research a un design system listo para desarrollo. Una experiencia coherente en cada punto donde el usuario mueve su dinero."
+        ]
+      },
+      "content": {
+        "deliverables": [
+          {
+            "title": "Research y estrategia",
+            "description": "Benchmark, entrevistas, mapa de fricciones y priorización."
+          },
+          {
+            "title": "Experiencia web",
+            "description": "Home con cotizador, registro, panel de usuario y flujo de envío responsive."
+          },
+          {
+            "title": "Experiencia app",
+            "description": "Envío, destinatarios, historial, seguimiento y descarga desde tiendas."
+          },
+          {
+            "title": "Design system y handoff",
+            "description": "Tipografía, paleta, componentes, estados clave y documentación."
+          }
+        ],
+        "tools": {
+          "title": "Herramientas utilizadas",
+          "description": "Para pensar, diseñar y colaborar.",
+          "items": [
+            {
+              "logo": {
+                "src": "case-study/tools/figma.svg",
+                "alt": "Figma"
+              },
+              "description": "Diseño UI y prototipado"
+            },
+            {
+              "logo": {
+                "src": "case-study/tools/notion.svg",
+                "alt": "Notion"
+              },
+              "description": "Research y documentación"
+            },
+            {
+              "logo": {
+                "src": "case-study/tools/maze.png",
+                "alt": "Maze"
+              },
+              "description": "Maze"
+            }
+          ]
+        },
+        "stack": {
+          "title": "Tecnologías propuestas",
+          "items": [
+            "Tokens de diseño",
+            "Componentes documentados",
+            "Figma Dev Mode",
+            "Figma Variables",
+            "Métricas y analítica"
+          ]
+        }
+      }
+    },
+    {
+      "sectionType": "project-conclusion",
+      "id": "aprendizajes",
+      "headingContent": {
+        "eyebrow": "06 / Lo que nos llevamos",
+        "title": [
+          "En fintech, el diseño no adorna. Responde la pregunta que nadie quiere hacer: ¿mi dinero llegó?"
+        ],
+        "description": [
+          "Remittven confirmó que la confianza no se declara, se muestra. Cuando el costo, el tiempo y el estado de cada envío están a la vista, el usuario deja de dudar y empieza a usar."
+        ]
+      },
+      "content": {
+        "image": {
+          "src": "images/remittven-images/conclusion-laptop.png",
+          "alt": "Manos escribiendo en un portátil que muestra la web de Remittven: «Una solución simple y cómoda para transferir dinero a Venezuela»."
+        }
+      }
+    },
+    {
+      "sectionType": "project-next",
+      "id": "siguiente-proyecto",
+      "headingContent": {
+        "eyebrow": "Siguiente proyecto"
+      },
+      "content": {
+        "projectSlug": "las-donas"
+      }
+    },
+    {
+      "sectionType": "project-contact",
+      "id": "contacto",
+      "headingContent": {
+        "eyebrow": "Tu próximo proyecto",
+        "title": [
+          "Tu marca tiene potencial.\nHagámoslo visible."
+        ],
+        "description": [
+          "Diseño, desarrollo y automatización. Hablemos de lo que necesitas y de cómo llevarlo más lejos."
+        ]
+      },
+      "content": {
+        "meeting": {
+          "label": "Agenda una reunión",
+          "href": "/#contacto"
+        },
+        "quote": {
+          "label": "Solicita una cotización",
+          "href": "/#contacto"
+        },
+        "note": [
+          "Primera conversación, sin compromiso.",
+          "Nos cuentas tu idea; definimos el siguiente paso."
+        ]
+      }
+    }
+  ]
+}

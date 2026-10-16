@@ -1,0 +1,31 @@
+---
+interface Props {
+  label: string;
+  /** Sin destino todavía: se pinta como texto con el mismo aspecto. */
+  href?: string;
+  /** Aviso para lectores de pantalla: si existe, el enlace es externo y abre otra pestaña. */
+  newTab?: string;
+}
+
+const { label, href, newTab } = Astro.props;
+---
+
+{/*
+  Figma 174:30-174:47: enlace de columna del footer, 28px paper → brand en hover. Bloque de
+  ancho de texto: su alto es su interlineado aunque el contenedor (un <li>) tenga otra fuente.
+*/}
+{
+  href ? (
+    <a
+      href={href}
+      target={newTab ? '_blank' : undefined}
+      rel={newTab ? 'noopener noreferrer' : undefined}
+      class="block w-fit font-heading text-title text-paper transition-colors duration-(--duration-fast) hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+    >
+      {label}
+      {newTab && <span class="sr-only"> {newTab}</span>}
+    </a>
+  ) : (
+    <span class="block w-fit font-heading text-title text-paper">{label}</span>
+  )
+}

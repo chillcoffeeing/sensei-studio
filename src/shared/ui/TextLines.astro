@@ -1,0 +1,10 @@
+---
+interface Props {
+  /** Cada elemento es una línea forzada del texto (salto fijo del diseño). */
+  lines: readonly string[];
+}
+
+const { lines } = Astro.props;
+---
+
+{lines.map((line) => <span class="block">{line}</span>)}

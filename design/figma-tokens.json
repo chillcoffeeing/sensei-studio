@@ -1,0 +1,18 @@
+{
+  "$source": "Figma nIsbYsmg2bq9JJTCX1x530 · get_variable_defs(11:12, 1:17) · 2026-10-01",
+  "$note": "Instantánea de las variables de Figma. Si el diseño cambia, se re-extrae; check:ds compara los tokens '@figma var:<nombre>' contra este archivo.",
+  "variables": {
+    "principal": "#E4FF40",
+    "negro": "#090909",
+    "blanco": "#FFFFFF",
+    "gris": "#B8B8B8",
+    "textos gris": "#686868"
+  },
+  "effects": {
+    "ruido general": "NOISE radius 4"
+  },
+  "fonts": {
+    "titulos": "Google Sans Flex (GRAD 0, ROND 0, wdth 100)",
+    "parrafos": "DM Sans (opsz 14)"
+  }
+}

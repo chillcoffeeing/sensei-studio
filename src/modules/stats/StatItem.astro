@@ -1,0 +1,32 @@
+---
+import divider from '@/assets/stats/stat-divider.svg';
+import type { StatItem } from './schema';
+
+interface Props {
+  item: StatItem;
+}
+
+const { item } = Astro.props;
+---
+
+{/*
+  Una métrica (Figma 29:271): cifra → gap 26 → línea 300×1 (dibujada 1px por encima de su
+  caja de alto 0) → gap 21 → etiqueta centrada. dt va después en el DOM y se reordena con order.
+  data-count: lo anima el countUp() del <dl data-count-up> en Section.astro; el HTML trae el
+  valor final (sin JS o con reduced-motion se ve tal cual).
+*/}
+<div class="flex flex-col items-center gap-5.25 text-center">
+  <dt class:list={['order-2 font-heading text-stat-label text-ink-muted', item.narrowLabel && 'max-w-52.25']}>
+    {item.label}
+  </dt>
+  <dd class="order-1 flex w-full flex-col items-center gap-6.5">
+    <span data-count class="font-heading text-stat whitespace-nowrap text-ink">{item.value}</span>
+    <img
+      src={divider.src}
+      width={divider.width}
+      height={divider.height}
+      alt=""
+      class="-mt-px block h-px w-full max-w-75"
+    />
+  </dd>
+</div>

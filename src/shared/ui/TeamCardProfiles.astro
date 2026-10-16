@@ -1,0 +1,32 @@
+---
+import type { ImageMetadata } from 'astro';
+import behance from '@/assets/team/behance.svg';
+import dribbble from '@/assets/team/dribbble.svg';
+import github from '@/assets/team/github.svg';
+import linkedin from '@/assets/team/linkedin.svg';
+import LinkIconInk from './LinkIconInk.svelte';
+import type { TeamProfileNetwork } from './team-profiles';
+import type { TeamProfileLink } from './types';
+
+interface Props {
+  profiles: TeamProfileLink[];
+  class?: string;
+}
+
+const { profiles, class: className } = Astro.props;
+const logos = { behance, dribbble, linkedin, github } satisfies Record<TeamProfileNetwork, ImageMetadata>;
+const icon = (network: TeamProfileNetwork) => ({ src: logos[network].src, width: logos[network].width, height: logos[network].height });
+---
+
+{/* Perfiles profesionales de TeamCard (TEAM-V2): una fila de LinkIconInk. Sin perfiles no se pinta nada. */}
+{
+  profiles.length > 0 && (
+    <ul role="list" class:list={['flex flex-wrap gap-2', className]}>
+      {profiles.map((profile) => (
+        <li>
+          <LinkIconInk href={profile.href} label={profile.label} icon={icon(profile.network)} />
+        </li>
+      ))}
+    </ul>
+  )
+}

@@ -1,0 +1,32 @@
+---
+import type { FooterStudio } from '@/core/site';
+import HeadingOverline from '@/shared/ui/HeadingOverline.astro';
+import LegalLinks from '@/shared/ui/LegalLinks.astro';
+
+interface Props {
+  studio: FooterStudio;
+}
+
+const { studio } = Astro.props;
+---
+
+{/* Figma 174:48: descripción en dos tonos (174:51), créditos (174:53, 174:54) y legales (174:55). */}
+<div class="flex flex-col gap-6 md:max-w-90">
+  <HeadingOverline text={studio.title} />
+  <div class="flex flex-col gap-10">
+    <p class="font-heading text-body-lg text-paper">
+      {studio.description}
+      {studio.descriptionAside && <span class="text-paper-muted">{' '}{studio.descriptionAside}</span>}
+    </p>
+    <div class="flex flex-col gap-4 font-heading text-meta text-ink-muted">
+      {
+        studio.credits.map((credit) => (
+          <p>
+            {credit.prefix} <span class="font-medium text-paper">{credit.name}</span>
+          </p>
+        ))
+      }
+      <LegalLinks links={studio.legal} />
+    </div>
+  </div>
+</div>

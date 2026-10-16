@@ -1,0 +1,10 @@
+---
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+---
+
+{/* Etiqueta de tecnología con borde, no interactiva. */}
+<li class="rounded-pill border border-neutral-300 px-3.5 py-2.5 font-body text-meta text-ink">{name}</li>

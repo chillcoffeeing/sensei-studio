@@ -1,0 +1,17 @@
+---
+import type { Section } from './sections';
+import { componentFor } from './registry';
+
+interface Props {
+  sections: Section[];
+}
+
+const { sections } = Astro.props;
+---
+
+{
+  sections.map((section) => {
+    const Component = componentFor(section);
+    return <Component section={section} />;
+  })
+}

@@ -1,0 +1,95 @@
+---
+import { getImage } from 'astro:assets';
+import bullet from '@/assets/services/list-bullet.svg';
+import dot from '@/assets/services/open-dot.svg';
+import { headingIdOf, sectionKey, type MediaRef } from '@/core/content';
+import { resolveMedia } from '@/shared/lib/media';
+import SectionDescription from '@/shared/ui/SectionDescription.astro';
+import SectionHeader from '@/shared/ui/SectionHeader.astro';
+import type { AccordionImage, AccordionService } from './accordion';
+import ServicesAccordion from './ServicesAccordion.svelte';
+import type { ServicesSection } from './schema';
+
+interface Props {
+  section: ServicesSection;
+}
+
+const { section } = Astro.props;
+const { services } = section.content;
+const { description } = section.headingContent;
+const headingId = headingIdOf(section);
+
+// Imágenes del panel: 187px desde md (Figma 33:52); en mobile, 3 columnas en el ancho
+// del contenido (gutter 16 × 2 + 2 gaps de 17 = 66).
+const sizes = '(min-width: 768px) 187px, calc((100vw - 66px) / 3)';
+const widths = [120, 187, 240, 374, 561];
+// El <img> de respaldo va a 2× del ancho de Figma (JPG).
+const fallbackWidth = 374;
+const crop = { width: fallbackWidth, height: Math.round((fallbackWidth * 318) / 187), fit: 'cover' as const };
+
+// En una isla no se puede usar <Picture>: se resuelven aquí y se pasan datos serializables.
+async function toAccordionImage(ref: MediaRef): Promise<AccordionImage> {
+  const media = await resolveMedia(ref);
+  if (media.type === 'url') return { sources: [], src: media.src, width: crop.width, height: crop.height, alt: ref.alt };
+  const variant = (format: 'avif' | 'webp' | 'jpg') =>
+    getImage({ src: media.image, format, widths, sizes, ...crop, position: ref.position });
+  const [avif, webp, jpg] = await Promise.all([variant('avif'), variant('webp'), variant('jpg')]);
+  return {
+    sources: [
+      { type: 'image/avif', srcset: avif.srcSet.attribute },
+      { type: 'image/webp', srcset: webp.srcSet.attribute },
+    ],
+    src: jpg.src,
+    srcset: jpg.srcSet.attribute,
+    width: crop.width,
+    height: crop.height,
+    alt: ref.alt,
+  };
+}
+
+const items: AccordionService[] = await Promise.all(
+  services.map(async (service) => ({
+    title: service.title,
+    description: service.description,
+    items: service.items,
+    images: await Promise.all(service.images.map(toAccordionImage)),
+  })),
+);
+const icon = (meta: ImageMetadata) => ({ src: meta.src, width: meta.width, height: meta.height });
+---
+
+{/*
+  Figma 31:60: cabecera 31:20 (eyebrow + h2 en dos tonos, descripción 31:30 de 410 a la
+  derecha) → 70 → filas 31:51 (40px/400, leading 4.28, separador 1px negro al 24%).
+  Estado abierto 33:78 (la primera fila por defecto): punto lima 18 + título 600, todas las
+  filas a leading 3.54; panel con descripción (361), lista con viñetas lima de 5px y 3
+  imágenes de 187 × 318 (radio 5, gap 17) a la derecha en xl+. Ver progress/impl_SEC-SERVICES.md.
+*/}
+<section id={section.id} aria-labelledby={headingId} class="pt-(--services-pad-top)">
+  <div class="container-page">
+    <SectionHeader
+      headingId={headingId}
+      eyebrow={section.headingContent.eyebrow}
+      title={section.headingContent.title}
+      titleClass="max-w-(--services-title-max)"
+    >
+      <div slot="aside" class="max-w-102.5"><SectionDescription value={description} /></div>
+    </SectionHeader>
+
+    <div class="mt-(--section-head-gap)">
+      {/*
+        Paneles `collapsible` con data-open (MOT-ACCORDIONS): sin JS se ven los 4 abiertos; con
+        JS los cerrados colapsan ya en el SSR (@media scripting), sin salto al hidratar.
+      */}
+      <ServicesAccordion
+        client:visible
+        baseId={sectionKey(section)}
+        services={items}
+        sizes={sizes}
+        dot={icon(dot)}
+        bullet={icon(bullet)}
+        initialOpen={0}
+      />
+    </div>
+  </div>
+</section>

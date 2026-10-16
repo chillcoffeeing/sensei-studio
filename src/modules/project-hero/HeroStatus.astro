@@ -1,0 +1,12 @@
+---
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+{/* Píldora del estado del caso sobre la tinta del hero. */}
+<p class="w-fit rounded-pill bg-paper/10 px-3.5 py-1.75 font-body text-caption text-paper uppercase">
+  {label}
+</p>

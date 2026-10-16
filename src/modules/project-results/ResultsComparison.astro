@@ -1,0 +1,17 @@
+---
+import type { ProjectResultsMetric, ProjectResultsUi } from './schema';
+
+interface Props {
+  metric: ProjectResultsMetric;
+  labels: ProjectResultsUi['comparison'];
+}
+
+const { metric, labels } = Astro.props;
+---
+
+{/* Antes → después. La flecha es decorativa; el lector oye "Antes: 1,4% Después: 1,8%". */}
+<p class="w-fit bg-paper px-3 py-1.5 font-body text-meta text-ink">
+  <span class="sr-only">{`${labels.before} `}</span>{metric.before}<span aria-hidden="true"
+    >{` ${labels.separator} `}</span
+  ><span class="sr-only">{` ${labels.after} `}</span>{metric.after}
+</p>

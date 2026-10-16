@@ -1,0 +1,59 @@
+---
+import { headingIdOf } from '@/core/content';
+import LabelMarker from '@/shared/ui/LabelMarker.svelte';
+import ToneText from '@/shared/ui/ToneText.astro';
+import ResultsMetric from './ResultsMetric.astro';
+import ResultsNote from './ResultsNote.astro';
+import type { ProjectResultsSection } from './schema';
+
+interface Props {
+  section: ProjectResultsSection;
+}
+
+const { section } = Astro.props;
+const { headingContent, content } = section;
+const headingId = headingIdOf(section);
+---
+
+{/*
+  Resultados primero (Yupa 243:67): introducción (etiqueta + h2 a la izquierda, descripción abajo
+  a la derecha desde xl), separador, métricas en fila desde md y nota metodológica opcional.
+  Mobile: todo apilado. Motion: las métricas entran con reveal-up escalonado y las cifras cuentan
+  de 0 a su valor (una vez); con reduced motion o sin JS se ve el estado final.
+*/}
+<section id={section.id} aria-labelledby={headingId} data-project-results class="bg-neutral-100 py-16 lg:py-22.5">
+  <div class="container-page flex flex-col gap-10">
+    <div class="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between xl:gap-16">
+      <div class="flex max-w-187.5 flex-col gap-4.5">
+        <LabelMarker text={headingContent.eyebrow} />
+        <h2 id={headingId} class="font-heading text-project-title whitespace-pre-line text-ink">
+          <ToneText value={headingContent.title} />
+        </h2>
+      </div>
+      {
+        headingContent.description && (
+          <p class="max-w-120 font-body text-body/normal text-ink-muted xl:max-w-91.25 xl:shrink-0">
+            <ToneText value={headingContent.description} />
+          </p>
+        )
+      }
+    </div>
+
+    <div aria-hidden="true" class="h-px bg-neutral-300"></div>
+
+    <ul data-reveal="li" data-count-up="[data-count]" class="grid gap-12 md:grid-cols-3 md:gap-8 lg:gap-10">
+      {content.metrics.map((metric) => <ResultsMetric metric={metric} comparisonLabels={content.ui.comparison} />)}
+    </ul>
+
+    {content.note && <ResultsNote text={content.note} />}
+  </div>
+</section>
+
+<script>
+  import { countUpAll, revealAll } from '@/shared/lib/motion';
+
+  for (const section of document.querySelectorAll<HTMLElement>('[data-project-results]')) {
+    revealAll(section);
+    countUpAll(section);
+  }
+</script>

@@ -1,0 +1,53 @@
+---
+import { headingIdOf } from '@/core/content';
+import Photo from '@/shared/ui/Photo.astro';
+import ConclusionLesson from './ConclusionLesson.astro';
+import type { ProjectConclusionSection } from './schema';
+
+interface Props {
+  section: ProjectConclusionSection;
+}
+
+const { section } = Astro.props;
+const { headingContent, content } = section;
+const headingId = headingIdOf(section);
+---
+
+{/*
+  Lo que nos llevamos (Yupa 243:506): sigue al alcance sobre el mismo claro (sin padding superior propio).
+  Mobile: imagen (3:2) y aprendizaje apilados; desde lg en fila, imagen a 2/5 del ancho.
+  Motion: imagen y texto entran con reveal-up escalonado (reduced motion o sin JS: estado final).
+*/}
+<section id={section.id} aria-labelledby={headingId} data-project-conclusion class="bg-neutral-100 pb-16 lg:pb-25">
+  <div
+    data-reveal="[data-reveal-item]"
+    data-reveal-amount="0"
+    data-reveal-margin="0px 0px -15% 0px"
+    class="container-page flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-16 xl:gap-20"
+  >
+    <div data-reveal-item class="reveal-up lg:w-2/5 lg:shrink-0">
+      <Photo
+        image={content.image}
+        width={1020}
+        height={680}
+        widths={[480, 720, 1020]}
+        sizes="(min-width: 1440px) 528px, (min-width: 1024px) 40vw, calc(100vw - 32px)"
+        class="block aspect-3/2 w-full rounded-panel object-cover"
+      />
+    </div>
+    <div data-reveal-item class="reveal-up min-w-0 flex-1">
+      <ConclusionLesson
+        headingId={headingId}
+        label={headingContent.eyebrow}
+        title={headingContent.title}
+        description={headingContent.description}
+      />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealAll } from '@/shared/lib/motion';
+
+  for (const section of document.querySelectorAll<HTMLElement>('[data-project-conclusion]')) revealAll(section);
+</script>

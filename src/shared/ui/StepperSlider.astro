@@ -1,0 +1,198 @@
+---
+import { slideLabel } from '@/shared/lib/slider';
+import type { UiSliderLabels } from './types';
+
+// Pasos numerados en modo stepper (PROCESS-STEPPER). Slot: UNA lista (<ol>) que es una rejilla
+// (`grid`) y cuyos hijos son los pasos; la rejilla desde md la decide el módulo y no se toca.
+// Por debajo de md, y solo con JS (variante scripting:), la lista pasa a ser un carril de un
+// paso por vista con scroll-snap, swipe (bindSwipe) y autoplay por pasos: cada
+// --duration-stepper-interval avanza un paso en --duration-stepper-step y al terminar vuelve al
+// primero. Debajo, el indicador: un botón por paso (número + segmento) que salta a ese paso;
+// los segmentos ya recorridos van llenos y el activo se llena mientras corre la espera.
+// Se detiene con foco de teclado, al tocar/deslizar o pulsar un paso (reanuda tras
+// --delay-slider-resume), con la pestaña oculta, fuera de viewport, desde md y con reduced motion.
+// Colores por tono (--tone-*): el consumidor pone la superficie (tone-on-ink…).
+interface Props {
+  /** Textos accesibles (región, diapositiva y "Paso n de N"). */
+  labels: UiSliderLabels;
+  /** Lo que se ve en cada botón del indicador ("01", "02"…), uno por paso y en orden. */
+  markers: string[];
+}
+
+const { labels, markers } = Astro.props;
+const total = markers.length;
+---
+
+<div
+  data-stepper
+  data-label={labels.label}
+  data-role-description={labels.roleDescription}
+  data-slide-role-description={labels.slideRoleDescription}
+  data-slide-position={labels.slidePosition}
+>
+  <div
+    data-stepper-scroller
+    class="scrollbar-none relative focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-(color:--tone-strong) max-md:scripting:snap-x max-md:scripting:snap-mandatory max-md:scripting:overflow-x-auto max-md:scripting:overflow-y-hidden max-md:scripting:overscroll-x-contain max-md:scripting:*:grid-flow-col max-md:scripting:*:auto-cols-(--stepper-slide) max-md:scripting:*:*:snap-start data-drag:cursor-grab data-drag:touch-pan-y data-drag:touch-pinch-zoom data-dragging:cursor-grabbing data-dragging:snap-none data-dragging:select-none in-data-playing:snap-none"
+  >
+    <slot />
+  </div>
+
+  {
+    total > 1 && (
+      <div data-stepper-nav class="mt-8 hidden gap-2 max-md:scripting:flex">
+        {markers.map((marker, index) => (
+          <button
+            type="button"
+            data-stepper-go={index}
+            data-active={index === 0 ? '' : undefined}
+            aria-current={index === 0 ? 'step' : undefined}
+            class="group flex min-h-11 flex-1 cursor-pointer flex-col justify-end gap-2.5 text-left font-heading text-eyebrow text-(color:--tone-muted) transition-colors duration-200 data-active:text-(color:--tone-strong) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(color:--tone-strong)"
+          >
+            <span>
+              {marker}
+              <span class="sr-only">{slideLabel(labels.slidePosition, index + 1, total)}</span>
+            </span>
+            <span aria-hidden="true" class="block h-1 overflow-hidden rounded-full bg-current/25">
+              <span class="block h-full origin-left scale-x-0 bg-brand group-data-active:scale-x-100 group-data-done:scale-x-100 motion-safe:group-data-active:in-data-playing:animate-stepper-fill" />
+            </span>
+          </button>
+        ))}
+      </div>
+    )
+  }
+</div>
+
+<script>
+  import { bindAutoplay, createAutoplay, ease, type Cleanup } from '@/shared/lib/motion';
+  import {
+    SLIDER_TIMING,
+    bindSwipe,
+    createInteractionPause,
+    cubicBezier,
+    nearestIndex,
+    readTimingMs,
+    scrollToPosition,
+    slideLabel,
+    snapPositions,
+    tweenScroll,
+  } from '@/shared/lib/slider';
+
+  // Mismo corte que max-md: de Tailwind (--breakpoint-md por defecto, 48rem).
+  const SLIDER_QUERY = '(width < 48rem)';
+
+  function mount(root: HTMLElement) {
+    const scroller = root.querySelector<HTMLElement>('[data-stepper-scroller]');
+    const track = scroller?.firstElementChild as HTMLElement | null | undefined;
+    if (!scroller || !track) return;
+    const slides = Array.from(track.children) as HTMLElement[];
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-stepper-go]'));
+    if (slides.length < 2) return;
+
+    const { label = '', roleDescription = '', slideRoleDescription = '', slidePosition = '' } = root.dataset;
+    const intervalMs = readTimingMs(root, SLIDER_TIMING.stepperInterval);
+    const stepMs = readTimingMs(root, SLIDER_TIMING.stepperStep);
+    const resumeMs = readTimingMs(root, SLIDER_TIMING.resume);
+    const curve = cubicBezier(ease('standard', root));
+    const query = window.matchMedia(SLIDER_QUERY);
+
+    let active = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let cancelTween: () => boolean = () => false;
+    let running = false;
+    let unbindSwipe: Cleanup | null = null;
+
+    function setActive(index: number) {
+      active = index;
+      buttons.forEach((button, i) => {
+        button.toggleAttribute('data-active', i === index);
+        button.toggleAttribute('data-done', i < index);
+        if (i === index) button.setAttribute('aria-current', 'step');
+        else button.removeAttribute('aria-current');
+      });
+    }
+
+    const positions = () => snapPositions(scroller, track);
+    const schedule = () => {
+      clearTimeout(timer);
+      timer = setTimeout(step, intervalMs);
+    };
+    function step() {
+      const next = (active + 1) % slides.length;
+      cancelTween = tweenScroll(scroller!, positions()[next] ?? 0, stepMs, curve, schedule);
+    }
+
+    const controller = createAutoplay(
+      (playing) => {
+        root.toggleAttribute('data-playing', playing);
+        // APG: sin anuncios mientras rota; con el autoplay detenido, el paso nuevo se anuncia.
+        if (query.matches) scroller.setAttribute('aria-live', playing ? 'off' : 'polite');
+        if (playing) {
+          running = true;
+          schedule();
+        } else if (running) {
+          running = false;
+          clearTimeout(timer);
+          // Detenido a mitad de un paso: encaja en el más cercano (salvo en un swipe, que encaja solo).
+          if (cancelTween() && !controller.has('interaction')) scrollToPosition(scroller, positions()[active] ?? 0);
+        }
+      },
+      ['offscreen'],
+    );
+    const interaction = createInteractionPause(controller, resumeMs);
+
+    let frame = 0;
+    scroller.addEventListener(
+      'scroll',
+      () => {
+        if (frame) return;
+        frame = requestAnimationFrame(() => {
+          frame = 0;
+          const index = nearestIndex(positions(), scroller.scrollLeft);
+          if (index !== active) setActive(index);
+        });
+      },
+      { passive: true },
+    );
+
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        interaction.begin();
+        cancelTween();
+        setActive(index);
+        scrollToPosition(scroller, positions()[index] ?? 0);
+        interaction.end();
+      });
+    });
+
+    // Región de carrusel (APG) solo mientras es un slider; desde md vuelve a ser una lista.
+    function applyLayout(isSlider: boolean) {
+      if (isSlider) {
+        scroller!.setAttribute('role', 'region');
+        scroller!.setAttribute('aria-roledescription', roleDescription);
+        scroller!.setAttribute('aria-label', label);
+        scroller!.tabIndex = 0;
+        slides.forEach((slide, i) => {
+          slide.setAttribute('role', 'group');
+          slide.setAttribute('aria-roledescription', slideRoleDescription);
+          slide.setAttribute('aria-label', slideLabel(slidePosition, i + 1, slides.length));
+        });
+        unbindSwipe ??= bindSwipe(scroller!, { track: track!, onPress: interaction.begin, onRelease: interaction.end });
+        setActive(nearestIndex(positions(), scroller!.scrollLeft));
+        controller.resume('layout');
+      } else {
+        controller.pause('layout');
+        unbindSwipe?.();
+        unbindSwipe = null;
+        for (const name of ['role', 'aria-roledescription', 'aria-label', 'aria-live', 'tabindex']) scroller!.removeAttribute(name);
+        slides.forEach((slide) => ['role', 'aria-roledescription', 'aria-label'].forEach((name) => slide.removeAttribute(name)));
+      }
+    }
+
+    applyLayout(query.matches);
+    query.addEventListener('change', (event) => applyLayout(event.matches));
+    // Foco de teclado dentro (carril o indicador), pestaña oculta, fuera de viewport y reduced motion.
+    bindAutoplay(root, controller);
+  }
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-stepper]')) mount(root);
+</script>

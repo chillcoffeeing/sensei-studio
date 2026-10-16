@@ -1,0 +1,53 @@
+---
+import { headingIdOf } from '@/core/content';
+import TextLines from '@/shared/ui/TextLines.astro';
+import HeroExplore from './HeroExplore.astro';
+import HeroFacts from './HeroFacts.astro';
+import HeroIdentity from './HeroIdentity.astro';
+import type { ProjectHeroSection } from './schema';
+
+interface Props {
+  section: ProjectHeroSection;
+}
+
+const { section } = Astro.props;
+const { headingContent, content } = section;
+const { ui } = content;
+const headingId = headingIdOf(section);
+const explore = ui.explore.href ? { ...ui.explore, href: ui.explore.href } : undefined;
+---
+
+{/*
+  Portada del caso (Yupa 243:37) sin la navegación (es el header del sitio, en flujo encima).
+  Arriba la identificación (vuelta y estado, logo opcional, h1, categoría) y abajo el resumen
+  (promesa + explorar a la izquierda, ficha breve a la derecha desde lg). Siempre sobre tinta lisa:
+  la portada del proyecto es solo para sus tarjetas. Mobile: todo apilado. Debajo, el acento lima.
+*/}
+<section id={section.id} aria-labelledby={headingId} class="bg-ink text-paper">
+  <div class="flex min-h-(--project-cover-min-h)">
+    <div class="container-page flex flex-col justify-between gap-(--project-cover-gap) pt-8 pb-9.5">
+      <HeroIdentity
+        headingId={headingId}
+        back={ui.back}
+        status={headingContent.eyebrow}
+        name={headingContent.title}
+        category={headingContent.description}
+        logo={content.logo}
+      />
+
+      <div class="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
+        <div class="flex max-w-175 flex-col gap-6.5">
+          <p class="font-heading text-project-claim">
+            <TextLines lines={content.claim} />
+          </p>
+          <p class="font-body text-body-lg">{content.summary}</p>
+          {explore && <HeroExplore explore={explore} />}
+        </div>
+        <div class="w-full sm:max-w-80 lg:w-57.5 lg:shrink-0">
+          <HeroFacts label={ui.factsLabel} facts={content.facts} />
+        </div>
+      </div>
+    </div>
+  </div>
+  <span aria-hidden="true" class="block h-1.5 bg-brand"></span>
+</section>

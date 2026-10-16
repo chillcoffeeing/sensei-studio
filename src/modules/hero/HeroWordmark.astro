@@ -1,0 +1,21 @@
+---
+import type { HeroWordmark } from './schema';
+
+interface Props {
+  id: string;
+  /** Texto accesible del h1; el wordmark es su forma visual. */
+  label: string;
+  wordmark: HeroWordmark;
+}
+
+const { id, label, wordmark } = Astro.props;
+---
+
+<h1 id={id} class="2xl:flex 2xl:w-129 2xl:justify-end">
+  <span class="sr-only">{label}</span>
+  {/* 11:27: texto alineado a la derecha contra x 576 (en 2xl desborda 4px a la izquierda del contenido, como en Figma); "Studio." ocupa una segunda línea a 52px de baseline. */}
+  <span class="inline-flex flex-col items-end font-body" aria-hidden="true">
+    <span class="block text-wordmark">{wordmark.name}</span>
+    <span class="-mt-(--wordmark-overlap) block text-wordmark-sub">{wordmark.suffix}</span>
+  </span>
+</h1>

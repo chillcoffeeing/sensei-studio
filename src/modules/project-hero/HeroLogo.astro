@@ -1,0 +1,20 @@
+---
+import type { MediaRef } from '@/core/content';
+import { mediaIcon } from '@/shared/lib/media';
+
+interface Props {
+  logo: MediaRef;
+}
+
+const { logo } = Astro.props;
+const icon = await mediaIcon(logo);
+---
+
+{/* Logotipo del cliente sobre el nombre (Remittven 254:604, Las Doñas 267:1745): tope de alto y ancho, conserva su proporción. */}
+<img
+  src={icon.src}
+  width={icon.width}
+  height={icon.height}
+  alt={logo.alt}
+  class="block h-auto max-h-14 w-auto max-w-48 object-contain object-left lg:max-h-20 lg:max-w-60"
+/>

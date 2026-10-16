@@ -1,0 +1,31 @@
+---
+import type { Link, MediaRef } from '@/core/content';
+import { mediaIcon } from '@/shared/lib/media';
+
+interface Props {
+  action: Link;
+  icon: MediaRef;
+}
+
+const { action, icon: iconRef } = Astro.props;
+const icon = await mediaIcon(iconRef);
+---
+
+{/*
+  Píldora lima con texto ink y flecha; la flecha avanza en hover (motion-safe). Disparador del
+  modal de asesoría (ADV-MODAL escucha [data-advice-open]); sin JS, enlace normal a `href`.
+*/}
+<a
+  href={action.href}
+  data-advice-open
+  class="group flex min-h-12 w-full items-center justify-center gap-6 rounded-pill bg-brand px-5.5 py-3.5 font-heading text-button text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+>
+  {action.label}
+  <img
+    src={icon.src}
+    width={icon.width}
+    height={icon.height}
+    alt=""
+    class="block shrink-0 motion-safe:transition-transform motion-safe:duration-(--duration-fast) motion-safe:ease-standard motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5"
+  />
+</a>

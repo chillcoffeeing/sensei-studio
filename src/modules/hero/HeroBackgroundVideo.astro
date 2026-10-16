@@ -1,0 +1,37 @@
+---
+import type { MediaRef } from '@/core/content';
+import { videoType } from '@/shared/lib/media';
+
+interface Props {
+  /** Video decorativo (`kind: 'video'`): URL de public/ o absoluta. */
+  video: MediaRef;
+}
+
+const { video } = Astro.props;
+const type = videoType(video.src);
+---
+
+<div data-background-layer aria-hidden="true" class="pointer-events-none absolute inset-0">
+  {/* Decorativo: sin controles ni foco. preload=metadata para no competir con el LCP (el wordmark);
+      el fondo ink + ruido de la sección hace de póster mientras carga y si falla. */}
+  <video
+    data-background-video
+    class="size-full object-cover"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    disablepictureinpicture
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <source src={video.src} type={type} />
+  </video>
+  <div class="absolute inset-0 bg-hero-veil"></div>
+</div>
+
+<script>
+  import { bindBackgroundVideos } from '@/shared/lib/background-video';
+  bindBackgroundVideos();
+</script>

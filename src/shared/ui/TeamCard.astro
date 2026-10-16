@@ -1,0 +1,82 @@
+---
+import { Picture } from 'astro:assets';
+import { resolvePhoto } from '@/shared/lib/media';
+import TeamCardDetail from './TeamCardDetail.astro';
+import TeamCardRest from './TeamCardRest.astro';
+import { teamCardImage } from './team-card-image';
+import type { TeamCardData, TeamProfileLink } from './types';
+import UserPlaceholder from './UserPlaceholder.astro';
+
+interface Props {
+  person: TeamCardData;
+  /** aria-roledescription de la diapositiva ("diapositiva"). */
+  roleDescription: string;
+  /** aria-label de la diapositiva ("2 de 5"): lo calcula quien la coloca. */
+  label: string;
+  /** Perfiles profesionales ya resueltos (solo los que tienen URL): iconos con enlace. */
+  profiles?: TeamProfileLink[];
+}
+
+const { person, roleDescription, label, profiles = [] } = Astro.props;
+// hover.ts anima la foto (data-team-photo): va recortada por astro:assets, así que debe ser local.
+// Sin foto todavía: silueta neutra (UserPlaceholder) en el mismo sitio, nunca un retrato de relleno.
+const photo = person.photo ? await resolvePhoto(person.photo) : undefined;
+if (photo && photo.type !== 'local') throw new Error(`TeamCard: la foto de "${person.name}" debe ser una clave de src/assets`);
+---
+
+{/*
+  Card de integrante (Figma 41:399 / 291:131; detalle MOT-TEAM, design/references/team-hover-final.png).
+  Capas en la misma celda (stack-layers) sobre la foto (o, sin foto, la silueta de UserPlaceholder
+  en tono oscuro: el texto blanco del reposo y del detalle mantiene AA):
+    1. reposo: degradado 41:399 + nombre (18/600) y rol (14/300) abajo a la izquierda, el rol
+       23px más abajo (mt-5.75 de 41:402); padding 0 0 30 24;
+    2. detalle: velo + icono + en círculo arriba a la izquierda y, en un único bloque abajo
+       (TEAM-CARD-LOOP), nombre grande, rol · empresa, bio a 3 líneas y perfiles.
+  MOB-CARDS-INITIAL: qué capa se ve lo decide can-hover. Sin hover (táctil) solo existe el
+  reposo: el detalle es display none (ni se ve ni se anima) y hover.ts no engancha nada. Con
+  hover, el detalle entra en hover o focus-visible (card-active); la transición de capas va con
+  motion-safe, y hover.ts añade blur/escala de la foto y el typewriter solo sin reduced-motion.
+  FIX-OPEN-MINORS: el bloque de datos del detalle lleva una banda oscura propia
+  (--team-detail-scrim-bottom) que llega al borde con márgenes negativos iguales al padding.
+  TEAM-V2: perfiles profesionales (TeamCardProfiles) sobre el nombre en el reposo solo sin hover
+  (táctil: visibles desde el inicio) y bajo la bio en el detalle con hover; nunca dos copias
+  enfocables a la vez (la otra es display none). Enfocar un icono activa la card (card-active).
+  Rol y nombre del detalle son aria-hidden (duplican los del reposo, que siguen en el DOM).
+  data-team-card / data-team-photo / data-team-type son los ganchos de modules/team/hover.ts.
+*/}
+<div
+  role="group"
+  aria-roledescription={roleDescription}
+  aria-label={label}
+  data-card
+  data-team-card
+  tabindex="0"
+  class="relative stack-layers aspect-(--team-card-aspect) w-(--team-card-w) overflow-hidden bg-ink focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-paper"
+>
+  {
+    photo?.type === 'local' ? (
+      <Picture
+        src={photo.image}
+        alt={photo.alt}
+        formats={['avif', 'webp']}
+        fallbackFormat="jpg"
+        width={teamCardImage.width}
+        height={teamCardImage.height}
+        fit="cover"
+        widths={[...teamCardImage.widths]}
+        sizes={teamCardImage.sizes}
+        loading="lazy"
+        decoding="async"
+        draggable="false"
+        data-team-photo
+        class="absolute inset-0 block size-full object-cover"
+      />
+    ) : (
+      <div data-team-photo class="absolute inset-0">
+        <UserPlaceholder tone="dark" framing="portrait" />
+      </div>
+    )
+  }
+  <TeamCardRest name={person.name} role={person.role} profiles={profiles} />
+  <TeamCardDetail person={person} profiles={profiles} />
+</div>

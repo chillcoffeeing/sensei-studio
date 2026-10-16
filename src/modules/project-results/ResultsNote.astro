@@ -1,0 +1,13 @@
+---
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+{/* Barra lima (mín. 34px, crece con el texto en mobile) + nota en gris. */}
+<div class="flex gap-3 bg-paper p-4">
+  <span aria-hidden="true" class="block min-h-8.5 w-1 shrink-0 bg-brand"></span>
+  <p class="self-center font-body text-meta/normal text-ink-muted">{text}</p>
+</div>

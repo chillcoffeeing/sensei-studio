@@ -1,0 +1,48 @@
+---
+import { headingIdOf } from '@/core/content';
+import SectionDescription from '@/shared/ui/SectionDescription.astro';
+import SectionHeader from '@/shared/ui/SectionHeader.astro';
+import type { StatsSection } from './schema';
+import StatItem from './StatItem.astro';
+
+interface Props {
+  section: StatsSection;
+}
+
+const { section } = Astro.props;
+const { items } = section.content;
+const { description } = section.headingContent;
+const headingId = headingIdOf(section);
+---
+
+{/*
+  Figma 31:19 / 31:17 (columna, gap 120): cabecera 29:251 (eyebrow + h2 en dos tonos a la
+  izquierda, descripción 29:247 de 410px alineada a la derecha) y fila de métricas 29:307
+  (4 columnas de 308, gap 30). Cada métrica 29:271 vive en StatItem.astro.
+  Mobile: 2 columnas; desde lg, 4.
+  Motion (MOT-STATS): la descripción ("Sin relleno, solo resultados." + párrafo) entra con
+  reveal-up + revealAll(); las cifras cuentan de 0 a su valor con countUp() (una vez,
+  escalonadas, prefijo/sufijo intactos). El HTML trae el valor final: sin JS o con
+  reduced-motion se ve tal cual.
+*/}
+<section id={section.id} aria-labelledby={headingId} data-stats-section class="pt-(--stats-pad-top)">
+  <div class="container-page">
+    <SectionHeader headingId={headingId} eyebrow={section.headingContent.eyebrow} title={section.headingContent.title}>
+      <div slot="aside" data-reveal class="max-w-102.5 reveal-up"><SectionDescription value={description} /></div>
+    </SectionHeader>
+
+    <dl data-count-up="[data-count]" class="mt-(--stats-head-gap) grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-4 lg:gap-7.5">
+      {items.map((item) => <StatItem item={item} />)}
+    </dl>
+  </div>
+</section>
+
+<script>
+  import { countUpAll, revealAll } from '@/shared/lib/motion';
+
+  // Acotado a la sección (verify_MOT-STATS V5): cada script observa solo lo suyo.
+  for (const section of document.querySelectorAll<HTMLElement>('[data-stats-section]')) {
+    revealAll(section);
+    countUpAll(section);
+  }
+</script>

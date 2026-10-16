@@ -1,0 +1,39 @@
+---
+import type { LocalImageRef } from '@/core/content';
+import type { LinksFooterLink } from './schema';
+
+interface Props {
+  wordmark: LocalImageRef;
+  /** Nombre accesible del <nav>. */
+  label: string;
+  links: LinksFooterLink[];
+}
+
+const { wordmark, label, links } = Astro.props;
+---
+
+{/* 230:1092: wordmark + enlaces secundarios. Sin href, el enlace se pinta como texto (pendiente). */}
+<div class="flex items-center justify-between gap-4">
+  <img src={wordmark.src.src} width={wordmark.src.width} height={wordmark.src.height} alt={wordmark.alt} class="block" />
+  <nav aria-label={label}>
+    <ul class="flex items-center gap-4 font-body text-xs text-line">
+      {
+        links.map((link) => (
+          <li>
+            {link.href ? (
+              <a
+                href={link.href}
+                class="flex min-h-11 items-center gap-1 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand motion-safe:transition-colors motion-safe:duration-(--duration-fast) motion-safe:ease-standard can-hover:hover:text-paper"
+              >
+                {link.label}
+                {link.marker && <span aria-hidden="true">{link.marker}</span>}
+              </a>
+            ) : (
+              <span class="flex min-h-11 items-center">{link.label}</span>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</div>

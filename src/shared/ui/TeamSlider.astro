@@ -1,0 +1,131 @@
+---
+import type { UiSliderLabels } from './types';
+
+// Slider del equipo ("Las personas detrás de cada proyecto"), Figma 40:388: fila de cards de
+// 344 × 423 con gap 21. Por debajo de lg sale a sangre (el gutter es padding del carril, la card
+// siguiente asoma e invita al swipe); desde lg vive dentro de container-page, alineado con la
+// cabecera, y el propio carril (overflow-x) recorta las cards en los bordes del container.
+// Autoplay POR PASOS en bucle: cada --duration-team-step-interval desplaza UNA card en
+// --duration-team-step (ease-standard) y se detiene con foco de teclado, pestaña oculta, fuera de
+// viewport y mientras se desliza con el dedo; al soltar un swipe encaja en la card más cercana.
+// El hover general NO lo detiene (MOT-SLIDERS-SHOWCASE), salvo sobre una card con enlaces
+// (perfiles del integrante), para que los iconos no se escapen del puntero.
+// Las cards (slot) las compone el módulo: cada hijo directo es una diapositiva (role="group"
+// con aria-roledescription y "n de total", o aria-hidden si es decorativa).
+interface Props {
+  /** Textos accesibles de la región (las diapositivas los llevan desde el módulo). */
+  labels: UiSliderLabels;
+}
+
+const { labels } = Astro.props;
+---
+
+<div class="lg:container-page">
+  <div
+    role="region"
+    aria-roledescription={labels.roleDescription}
+    aria-label={labels.label}
+    tabindex="0"
+    data-team-slider
+    class="scrollbar-none relative snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-px-(--gutter-base) md:scroll-px-(--gutter-md) lg:scroll-px-0 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ink data-drag:cursor-grab data-drag:touch-pan-y data-drag:touch-pinch-zoom data-dragging:cursor-grabbing data-dragging:snap-none data-dragging:select-none data-playing:snap-none"
+  >
+    <div class="flex w-max gap-5.25 px-(--gutter-base) md:px-(--gutter-md) lg:px-0 *:shrink-0 *:snap-start">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<script>
+  import { bindAutoplay, createAutoplay, ease } from '@/shared/lib/motion';
+  import {
+    SLIDER_TIMING,
+    appendLoopClones,
+    bindCloneHover,
+    bindSwipe,
+    createInteractionPause,
+    cubicBezier,
+    maxScroll,
+    nearestSnap,
+    nextStep,
+    readTimingMs,
+    scrollToPosition,
+    snapPositions,
+    strideOf,
+    tweenScroll,
+  } from '@/shared/lib/slider';
+
+  function mount(el: HTMLElement) {
+    const track = el.firstElementChild as HTMLElement | null;
+    if (!track) return;
+    const originals = Array.from(track.children) as HTMLElement[];
+    const intervalMs = readTimingMs(el, SLIDER_TIMING.teamInterval);
+    const stepMs = readTimingMs(el, SLIDER_TIMING.teamStep);
+    const resumeMs = readTimingMs(el, SLIDER_TIMING.resume);
+    const curve = cubicBezier(ease('standard', el));
+
+    let firstClone: HTMLElement | null = null;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let cancelTween: () => boolean = () => false;
+    let running = false;
+
+    const loopWidth = () => (firstClone ? firstClone.offsetLeft - originals[0]!.offsetLeft : 0);
+    const schedule = () => {
+      timer = setTimeout(step, intervalMs);
+    };
+    function step() {
+      const { from, to, end } = nextStep(el.scrollLeft, strideOf(originals), loopWidth());
+      // `from` es la misma vista dentro de la primera vuelta (si estaba en los clones): sin salto.
+      el.scrollLeft = from;
+      cancelTween = tweenScroll(el, to, stepMs, curve, () => {
+        el.scrollLeft = end;
+        schedule();
+      });
+    }
+
+    const controller = createAutoplay(
+      (playing) => {
+        el.toggleAttribute('data-playing', playing);
+        if (playing) {
+          // Los clones se crean al primer play: con reduced motion (o sin llegar a verse) no existen.
+          firstClone ??= appendLoopClones(track, originals, el.clientWidth);
+          running = true;
+          schedule();
+        } else if (running) {
+          running = false;
+          clearTimeout(timer);
+          const midStep = cancelTween();
+          // Si se detuvo a mitad de un paso, encaja en la card más cercana (salvo en un swipe).
+          if (midStep && !controller.has('interaction')) {
+            scrollToPosition(el, nearestSnap(snapPositions(el, track), el.scrollLeft, maxScroll(el)));
+          }
+        }
+      },
+      ['offscreen'],
+    );
+
+    const interaction = createInteractionPause(controller, resumeMs);
+    bindSwipe(el, { track, onPress: interaction.begin, onRelease: interaction.end });
+    // Foco de teclado, pestaña oculta, fuera de viewport y reduced motion (sin autoplay). Hover no,
+    // salvo sobre una card con enlaces, original o clon (los clones son inert: su hover lo
+    // emula bindCloneHover por geometría).
+    if (originals.length > 1) {
+      bindAutoplay(el, controller);
+      const pauseOver = (card: Element | null | undefined) => {
+        if (card?.querySelector('a[href]')) controller.pause('pointer');
+        else controller.resume('pointer');
+      };
+      el.addEventListener('pointerover', (e) => {
+        if (e.pointerType === 'touch') return;
+        pauseOver((e.target as Element).closest('[data-card]'));
+      });
+      bindCloneHover(el, {
+        track,
+        originals,
+        onChange: (clone) => pauseOver(clone ?? track.querySelector(':scope > [data-card]:hover')),
+      });
+      el.addEventListener('pointerleave', () => controller.resume('pointer'));
+    }
+  }
+
+  for (const el of document.querySelectorAll<HTMLElement>('[data-team-slider]')) mount(el);
+</script>

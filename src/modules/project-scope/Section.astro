@@ -1,0 +1,63 @@
+---
+import { headingIdOf, sectionKey } from '@/core/content';
+import ScopeDeliverable from './ScopeDeliverable.astro';
+import ScopeIntro from './ScopeIntro.astro';
+import ScopeStack from './ScopeStack.astro';
+import ScopeTools from './ScopeTools.astro';
+import type { ProjectScopeSection } from './schema';
+
+interface Props {
+  section: ProjectScopeSection;
+}
+
+const { section } = Astro.props;
+const { headingContent, content } = section;
+const headingId = headingIdOf(section);
+const key = sectionKey(section);
+---
+
+{/*
+  Alcance y ficha técnica (Yupa 243:435), sobre claro: alcance (intro + entregables, en fila desde
+  lg) → separador → herramientas y tecnologías (en dos columnas desde lg).
+  Motion: cada bloque y cada entregable entran con reveal-up escalonado (reduced motion o sin JS: estado final).
+*/}
+<section id={section.id} aria-labelledby={headingId} data-project-scope class="bg-neutral-100 py-16 lg:py-25">
+  <div
+    data-reveal="[data-reveal-item]"
+    data-reveal-amount="0"
+    data-reveal-margin="0px 0px -15% 0px"
+    class="container-page flex flex-col gap-12 lg:gap-16"
+  >
+    <div class="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-16 xl:gap-25">
+      <div data-reveal-item class="reveal-up lg:w-96 lg:shrink-0 xl:w-107.5">
+        <ScopeIntro
+          headingId={headingId}
+          label={headingContent.eyebrow}
+          title={headingContent.title}
+          lead={headingContent.description}
+          exclusions={content.exclusions}
+        />
+      </div>
+      <ol class="flex min-w-0 flex-1 flex-col gap-5.5">
+        {content.deliverables.map((deliverable, index) => <ScopeDeliverable index={index} deliverable={deliverable} />)}
+      </ol>
+    </div>
+
+    <div aria-hidden="true" class="h-px bg-neutral-300"></div>
+
+    <div class="grid gap-12 lg:grid-cols-2 lg:gap-20">
+      <div data-reveal-item class="reveal-up">
+        <ScopeTools titleId={`${key}-herramientas`} tools={content.tools} />
+      </div>
+      <div data-reveal-item class="reveal-up">
+        <ScopeStack titleId={`${key}-tecnologias`} stack={content.stack} />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealAll } from '@/shared/lib/motion';
+
+  for (const section of document.querySelectorAll<HTMLElement>('[data-project-scope]')) revealAll(section);
+</script>

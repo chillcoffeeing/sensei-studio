@@ -1,0 +1,10 @@
+/* Tokens retirados de src/styles/tokens.css (ARCH-LOGOS-BADGE). Restaurar dentro de @theme. */
+  --logos-pad-top: clamp(24px, 16.606px + 1.9718vw, 45px);
+  --logos-gap: clamp(32px, 25.662px + 1.6901vw, 50px);
+  --duration-marquee: 120s;
+  --animate-marquee: marquee var(--duration-marquee) linear infinite;
+
+  @keyframes marquee {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }

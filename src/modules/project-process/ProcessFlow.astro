@@ -1,0 +1,33 @@
+---
+import { mediaIcon } from '@/shared/lib/media';
+import ProcessFlowStep from './ProcessFlowStep.astro';
+import type { ProjectProcessFlow, ProjectProcessUi } from './schema';
+
+interface Props {
+  /** Id del h3: nombra la lista de pasos (se deriva del id de la sección). */
+  titleId: string;
+  flow: ProjectProcessFlow;
+  ui: ProjectProcessUi;
+}
+
+const { titleId, flow, ui } = Astro.props;
+const arrow = await mediaIcon(ui.flowArrow);
+const lastIndex = flow.steps.length - 1;
+---
+
+{/*
+  Flujo posterior (Yupa 243:407): titular (h3) + aviso → pasos con flechas → nota con rótulo en
+  negrita. Mobile y tablet: pasos en columna; desde lg, en fila como en el diseño.
+*/}
+<div class="flex flex-col gap-7 rounded-panel border border-paper/15 p-5 sm:p-8">
+  <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+    <h3 id={titleId} class="font-heading text-xl font-normal text-paper sm:text-2xl">{flow.title}</h3>
+    <p class="font-body text-caption tracking-wide text-line uppercase sm:shrink-0">{flow.overline}</p>
+  </div>
+  <ol aria-labelledby={titleId} class="flex flex-col gap-3 lg:flex-row lg:gap-4.5">
+    {flow.steps.map((step, index) => <ProcessFlowStep step={step} arrow={index < lastIndex ? arrow : undefined} />)}
+  </ol>
+  <p class="max-w-200 font-body text-body-sm/normal text-line">
+    <strong class="font-extrabold">{ui.noteLabel}</strong>{` ${flow.note}`}
+  </p>
+</div>

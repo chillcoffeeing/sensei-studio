@@ -1,0 +1,22 @@
+---
+import ResultsComparison from './ResultsComparison.astro';
+import type { ProjectResultsMetric, ProjectResultsUi } from './schema';
+
+interface Props {
+  metric: ProjectResultsMetric;
+  comparisonLabels: ProjectResultsUi['comparison'];
+}
+
+const { metric, comparisonLabels } = Astro.props;
+---
+
+{/*
+  Cifra → indicador (h3) → comparación → descripción. data-count: lo anima el countUp() de la
+  lista en Section.astro; el HTML trae el valor final.
+*/}
+<li class="flex flex-col items-start gap-4 reveal-up lg:pr-6">
+  <p data-count class="font-heading text-project-metric whitespace-nowrap text-ink">{metric.value}</p>
+  <h3 class="font-heading text-project-metric-label text-ink">{metric.label}</h3>
+  <ResultsComparison metric={metric} labels={comparisonLabels} />
+  <p class="max-w-90 font-body text-body/normal text-ink-muted">{metric.description}</p>
+</li>

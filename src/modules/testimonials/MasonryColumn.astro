@@ -1,0 +1,33 @@
+---
+import ReviewCard from '@/shared/ui/ReviewCard.astro';
+import type { MasonryCard } from './masonry';
+
+interface Props {
+  /** Cards de la columna, de arriba abajo. */
+  cards: MasonryCard[];
+}
+
+const { cards } = Astro.props;
+---
+
+{/*
+  Pista de una columna: la lista dos veces (la copia, aria-hidden) baja de −50% a 0 en bucle; cada
+  lista lleva padding final = gap para que las mitades sean idénticas. Pausa con el foco dentro de
+  la región (group del Section). Con reduced-motion: sin copia y sin animación.
+*/}
+<div
+  class="flex flex-col motion-safe:animate-masonry motion-safe:group-focus-within:play-paused"
+  style={`animation-duration: calc(var(--duration-masonry) * ${cards.length})`}
+>
+  {
+    [false, true].map((copy) => (
+      <ul class:list={['flex flex-col gap-5 pb-5', copy && 'motion-reduce:hidden']} aria-hidden={copy ? 'true' : undefined}>
+        {cards.map((card) => (
+          <li>
+            <ReviewCard name={card.name} role={card.role} quote={card.quote} tone={card.tone} />
+          </li>
+        ))}
+      </ul>
+    ))
+  }
+</div>

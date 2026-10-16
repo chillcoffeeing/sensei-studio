@@ -1,0 +1,34 @@
+---
+import type { ResolvedIcon } from '@/shared/lib/media';
+import type { ProjectProcessFlowStep } from './schema';
+
+interface Props {
+  step: ProjectProcessFlowStep;
+  /** Flecha hacia el paso siguiente; el último paso no la lleva. */
+  arrow?: ResolvedIcon;
+}
+
+const { step, arrow } = Astro.props;
+---
+
+{/*
+  Evento (título + detalle) y flecha lima hacia el siguiente. Mobile: la flecha apunta hacia
+  abajo bajo la tarjeta; desde lg, a la derecha y en fila.
+*/}
+<li class="flex flex-col items-center gap-3 lg:min-w-0 lg:flex-1 lg:flex-row lg:items-stretch lg:gap-4">
+  <div class="flex w-full flex-col gap-2 rounded-md bg-paper/10 p-4.5 lg:min-w-0 lg:flex-1">
+    <p class="font-heading text-body text-paper">{step.title}</p>
+    <p class="font-body text-caption text-line">{step.detail}</p>
+  </div>
+  {
+    arrow && (
+      <img
+        src={arrow.src}
+        width={arrow.width}
+        height={arrow.height}
+        alt=""
+        class="block shrink-0 rotate-90 lg:rotate-0 lg:self-center"
+      />
+    )
+  }
+</li>

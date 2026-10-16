@@ -1,0 +1,23 @@
+---
+import TextLines from '@/shared/ui/TextLines.astro';
+import ContactMeetingLink from './ContactMeetingLink.astro';
+import ContactQuoteLink from './ContactQuoteLink.astro';
+import type { ProjectContactContent } from './schema';
+
+interface Props {
+  content: ProjectContactContent;
+}
+
+const { content } = Astro.props;
+---
+
+{/* Opciones de contacto: reunión (principal), cotización y nota; las dos píldoras con el mismo ancho. */}
+<div class="flex flex-col gap-4.5">
+  <div class="flex flex-col gap-3 sm:w-63">
+    <ContactMeetingLink action={content.meeting} icon={content.ui.meetingIcon} />
+    <ContactQuoteLink action={content.quote} icon={content.ui.quoteIcon} />
+  </div>
+  <p class="font-body text-caption/normal text-line">
+    <TextLines lines={content.note} />
+  </p>
+</div>

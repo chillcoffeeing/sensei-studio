@@ -1,0 +1,62 @@
+---
+import type { Seo } from '@/core/content';
+import type { PageSchema } from '@/core/seo';
+import type { SiteChrome } from '@/core/site';
+import DocumentHead from './DocumentHead.astro';
+import FloatingBar from './FloatingBar.svelte';
+import Footer from './Footer.astro';
+import Header from './Header.astro';
+import AdviceDialog from './advice/AdviceDialog.svelte';
+import { toAdviceData } from './advice/advice-data';
+import QuoteDialog from './quote/QuoteDialog.svelte';
+import { toQuoteData } from './quote/quote-data';
+import '@/styles/global.css';
+
+interface Props {
+  seo: Seo;
+  site: SiteChrome;
+  /** JSON-LD propio de la página (ver DocumentHead). */
+  schema?: PageSchema;
+  /** El header se superpone a la primera sección (ver Header.astro). */
+  overlayHeader?: boolean;
+}
+
+const { seo, site, schema, overlayHeader = false } = Astro.props;
+
+// La isla solo recibe datos serializables: el icono va como URL + dimensiones.
+const { floatingBar } = site;
+const whatsappIcon = floatingBar.whatsapp.icon.src;
+const whatsapp = {
+  label: floatingBar.whatsapp.label,
+  href: floatingBar.whatsapp.href,
+  newTab: floatingBar.whatsapp.newTab,
+  icon: { src: whatsappIcon.src, width: whatsappIcon.width, height: whatsappIcon.height },
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <DocumentHead seo={seo} meta={site.meta} schema={schema} />
+  </head>
+  <body>
+    <Header header={site.header} overlay={overlayHeader} />
+    {/* Barra flotante global (NAV-FLOATING-V2): fija abajo; se aparta de [data-floating-bar-avoid].
+        client:load porque está a la vista desde el primer frame y su entrada depende de hidratar. */}
+    <FloatingBar
+      client:load
+      label={floatingBar.label}
+      quote={floatingBar.quote}
+      advice={floatingBar.advice}
+      whatsapp={whatsapp}
+    />
+    <slot />
+    <Footer footer={site.footer} />
+    {/* Modal de cotización (QTE-MODAL): única instancia del sitio. Lo abre cualquier
+        [data-quote-open]; client:idle porque arranca cerrado y sin JS los disparadores son enlaces. */}
+    <QuoteDialog client:idle quote={toQuoteData(site.quote)} />
+    {/* Modal de asesoría (ADV-MODAL): única instancia del sitio, misma infraestructura de diálogo.
+        Lo abre cualquier [data-advice-open]. */}
+    <AdviceDialog client:idle advice={toAdviceData(site.advice)} />
+  </body>
+</html>

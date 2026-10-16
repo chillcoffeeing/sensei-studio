@@ -1,0 +1,51 @@
+---
+import Photo from '@/shared/ui/Photo.astro';
+import type { LinksProject } from './schema';
+
+interface Props {
+  project: LinksProject;
+}
+
+const { project } = Astro.props;
+const { all } = project;
+---
+
+{/*
+  230:1069: foto del caso con su nombre y claim (enlace al detalle) + barra "Ver todos los
+  proyectos" (enlace al índice /proyectos/). Dos enlaces, cada uno con su foco.
+*/}
+<article class="overflow-clip rounded-3xl bg-ink text-paper">
+  <a
+    href={project.href}
+    class="group relative isolate flex h-44.5 flex-col justify-between overflow-clip p-4 focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-brand"
+  >
+    <Photo
+      image={project.image}
+      decorative
+      width={816}
+      height={356}
+      widths={[420, 816]}
+      sizes="(min-width: 640px) 408px, calc(100vw - 40px)"
+      class="absolute inset-0 -z-10 block size-full object-cover motion-safe:transition-transform motion-safe:duration-(--duration-image) motion-safe:ease-standard can-hover:group-hover:scale-105"
+    />
+    {/* Figma solo oscurece a la izquierda; la banda inferior asegura el contraste del claim sobre la arena. */}
+    <span aria-hidden="true" class="absolute inset-0 -z-10 bg-linear-to-r from-ink/50 to-transparent"></span>
+    <span aria-hidden="true" class="absolute inset-0 -z-10 bg-linear-to-t from-ink/70 via-transparent to-transparent"></span>
+    <h3 class="font-heading text-4xl font-semibold">{project.title}</h3>
+    <span class="flex flex-col gap-1.5">
+      <span class="max-w-56 font-heading text-xl/tight font-medium">
+        {project.claim.map((line) => <span class="block">{line}</span>)}
+      </span>
+      <span class="font-body text-xs uppercase">{project.category}</span>
+    </span>
+  </a>
+  <a
+    href={all.href}
+    class="group flex min-h-12.5 items-center justify-between gap-3 px-4 font-heading text-label-sm focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-brand"
+  >
+    <span class="underline-offset-4 can-hover:group-hover:underline">{all.label}</span>
+    <span class="flex size-7 shrink-0 items-center justify-center rounded-pill bg-brand motion-safe:transition-transform motion-safe:duration-(--duration-fast) motion-safe:ease-standard can-hover:group-hover:scale-110">
+      <img src={all.icon.src.src} width={all.icon.src.width} height={all.icon.src.height} alt="" class="block" />
+    </span>
+  </a>
+</article>

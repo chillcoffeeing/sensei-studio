@@ -1,0 +1,32 @@
+---
+import type { Seo } from '@/core/content';
+import type { PageSchema } from '@/core/seo';
+import type { SiteChrome } from '@/core/site';
+import DocumentHead from './DocumentHead.astro';
+import QuoteDialog from './quote/QuoteDialog.svelte';
+import { toQuoteData } from './quote/quote-data';
+import '@/styles/global.css';
+
+// Página que trae su propio chrome (LINKS-PAGE: la bio de Instagram tiene cabecera, CTA y pie
+// propios). Sin header, barra flotante ni footer del sitio, que duplicarían sus CTA; el modal
+// de cotización sí, porque la página lo abre con data-quote-open.
+interface Props {
+  seo: Seo;
+  site: SiteChrome;
+  /** JSON-LD propio de la página (ver DocumentHead). */
+  schema?: PageSchema;
+}
+
+const { seo, site, schema } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <DocumentHead seo={seo} meta={site.meta} schema={schema} />
+  </head>
+  <body>
+    <slot />
+    <QuoteDialog client:idle quote={toQuoteData(site.quote)} />
+  </body>
+</html>

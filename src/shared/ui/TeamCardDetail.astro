@@ -1,0 +1,33 @@
+---
+import plus from '@/assets/team/plus.svg';
+import TeamCardProfiles from './TeamCardProfiles.astro';
+import type { TeamCardData, TeamProfileLink } from './types';
+
+interface Props {
+  person: TeamCardData;
+  profiles: TeamProfileLink[];
+}
+
+const { person, profiles } = Astro.props;
+---
+
+{/* Capa de detalle de TeamCard: solo existe con hover (can-hover) y entra con card-active.
+    TEAM-CARD-LOOP: arriba solo el icono +; todos los datos (nombre, rol · empresa, bio a 3 líneas
+    y perfiles) en un único bloque anclado abajo, sobre su banda oscura (AA).
+    data-team-type: textos que escribe el typewriter de modules/team/hover.ts. */}
+<div class="relative hidden flex-col justify-between gap-4 bg-(--team-card-veil) px-6 pt-6 pb-7.5 text-paper opacity-0 can-hover:flex can-hover:card-active:opacity-100 motion-safe:transition-opacity motion-safe:duration-(--duration-base) motion-safe:ease-standard">
+  <span aria-hidden="true" class="flex size-6 shrink-0 items-center justify-center rounded-pill bg-ink">
+    <img src={plus.src} width={plus.width} height={plus.height} alt="" draggable="false" class="block size-3" />
+  </span>
+  <div class="-mx-6 -mb-7.5 flex flex-col gap-3 bg-(image:--team-detail-scrim-bottom) px-6 pt-12 pb-7.5">
+    <div class="flex flex-col gap-1">
+      <p aria-hidden="true" data-team-type class="font-body text-team-name">{person.name}</p>
+      <p class="flex flex-wrap gap-x-2 font-body text-role">
+        <span aria-hidden="true" data-team-type class="block w-fit">{person.role}</span>
+        <span data-team-type class="block w-fit text-paper-soft">{person.company}</span>
+      </p>
+    </div>
+    <p data-team-type class="font-body text-team-bio text-paper-soft line-clamp-typed-3">{person.bio}</p>
+    <TeamCardProfiles profiles={profiles} />
+  </div>
+</div>

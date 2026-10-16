@@ -1,0 +1,32 @@
+---
+import { mediaIcon } from '@/shared/lib/media';
+import type { LogoMarqueeSection } from './schema';
+import LogoMarqueeTrack from './LogoMarqueeTrack.astro';
+
+interface Props {
+  section: LogoMarqueeSection;
+}
+
+const { section } = Astro.props;
+const { label, logos } = section.content;
+
+// SVG vectoriales: <img> con la URL y las dimensiones del archivo (48px de alto, ancho propio de cada logo).
+const items = await Promise.all(logos.map(async (logo) => ({ ...(await mediaIcon(logo)), alt: logo.alt })));
+---
+
+{/*
+  Figma 17:553: fila de 9 logos grises (48px de alto, gap 50; el décimo hijo, Amazon a color, queda fuera del frame y no se usa) a sangre, desde left −27 (top 896,
+  45px bajo el hero). Marquee solo CSS: la pista lleva dos mitades idénticas (cada una con
+  la lista repetida LOGO_SET_REPEATS veces y padding final = gap) y se desplaza −50%, así el
+  bucle no salta ni deja hueco aunque el viewport supere el ancho de una lista. Pausa solo con foco
+  (la franja es enfocable); el hover NO pausa (MOT-SLIDERS-SHOWCASE). Con prefers-reduced-motion queda estática en la posición de Figma,
+  sin las repeticiones y con scroll horizontal manual.
+*/}
+<section
+  id={section.id}
+  aria-label={label}
+  tabindex="0"
+  class="group overflow-hidden pt-(--logos-pad-top) focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ink motion-reduce:overflow-x-auto"
+>
+  <LogoMarqueeTrack logos={items} />
+</section>

@@ -1,0 +1,28 @@
+---
+import type { ToneText as ToneTextValue } from '@/shared/lib/tone-text';
+import LabelMarker from '@/shared/ui/LabelMarker.svelte';
+import ToneText from '@/shared/ui/ToneText.astro';
+import ProcessRoute from './ProcessRoute.astro';
+
+interface Props {
+  /** Id del h2: nombra la sección. */
+  headingId: string;
+  label: string;
+  title: ToneTextValue;
+  route?: string[];
+  routeSeparator: string;
+}
+
+const { headingId, label, title, route, routeSeparator } = Astro.props;
+---
+
+{/* Etiqueta + h2 a la izquierda; ruta del proceso abajo a la derecha desde xl. */}
+<div class="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between xl:gap-16">
+  <div class="flex max-w-217.5 flex-col gap-4.5 text-line">
+    <LabelMarker text={label} />
+    <h2 id={headingId} class="font-heading text-project-title whitespace-pre-line text-paper">
+      <ToneText value={title} />
+    </h2>
+  </div>
+  {route && <ProcessRoute steps={route} separator={routeSeparator} />}
+</div>

@@ -1,0 +1,52 @@
+---
+import { headingIdOf } from '@/core/content';
+import ProjectCard from '@/shared/ui/ProjectCard.astro';
+import SectionDescription from '@/shared/ui/SectionDescription.astro';
+import SectionHeader from '@/shared/ui/SectionHeader.astro';
+import type { ProjectIndexSection } from './schema';
+
+interface Props {
+  section: ProjectIndexSection;
+}
+
+const { section } = Astro.props;
+const { eyebrow, title, description } = section.headingContent;
+const { cards = [] } = section.content;
+const headingId = headingIdOf(section);
+
+// Con un número impar de proyectos, el primero ocupa las dos columnas desde md (panorámico),
+// igual que la galería de la home: la rejilla 2 × n no deja una tarjeta huérfana al final.
+const featuredFirst = cards.length % 2 === 1 && cards.length > 1;
+
+// Ancho renderizado: 1 columna en mobile (gutter 16); 2 columnas desde md (gutter 32, gap 20 →
+// 50vw − 42px) y lg (gutter 40 → 50vw − 50px); en 2xl el contenido es 1320 → 650px.
+const sizes = '(min-width: 1440px) 650px, (min-width: 1024px) calc(50vw - 50px), (min-width: 768px) calc(50vw - 42px), calc(100vw - 32px)';
+const featuredSizes = '(min-width: 1440px) 1320px, (min-width: 1024px) calc(100vw - 80px), (min-width: 768px) calc(100vw - 64px), calc(100vw - 32px)';
+---
+
+{/*
+  Índice de proyectos (/proyectos/): sin diseño en Figma. Solo coloca piezas de la librería:
+  SectionHeader (con h1) y una ProjectCard por proyecto en la misma rejilla que la galería de la
+  home (gap 20 entre columnas, --projects-row-gap entre filas), pero a 2 columnas ya desde md.
+  Las tarjetas se derivan de cada proyecto (content/pages.ts).
+*/}
+<section id={section.id} aria-labelledby={headingId} class="pt-16 pb-24 md:pt-24 md:pb-32">
+  <div class="container-page">
+    <SectionHeader headingId={headingId} level="h1" eyebrow={eyebrow} title={title}>
+      {description && <div slot="aside" class="max-w-102.5"><SectionDescription value={description} /></div>}
+    </SectionHeader>
+
+    <ul class="mt-(--section-head-gap) grid gap-x-5 gap-y-(--projects-row-gap) md:grid-cols-2">
+      {
+        cards.map((card, index) => {
+          const featured = featuredFirst && index === 0;
+          return (
+            <li class:list={[featured && 'md:col-span-2 md:project-card-wide']}>
+              <ProjectCard project={card} sizes={featured ? featuredSizes : sizes} headingLevel="h2" />
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>

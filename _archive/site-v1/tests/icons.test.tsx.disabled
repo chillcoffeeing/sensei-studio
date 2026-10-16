@@ -1,0 +1,211 @@
+import { describe, expect, it } from 'vitest'
+import { ToolCard } from '../src/components/cards/ToolCard.tsx'
+import {
+  Code,
+  Palette,
+  Monitor,
+  Cube,
+  PenNib,
+  Browser,
+  DeviceMobile,
+  PaintBrush,
+  Layout,
+  FigmaLogo,
+} from '@phosphor-icons/react'
+import { TEAM, TEAM_TILES } from '../src/data/content'
+
+describe('phosphoricons integration', () => {
+  describe('icon availability in @phosphor-icons/react', () => {
+    const expectedIcons = [
+      { name: 'Code', component: Code },
+      { name: 'Palette', component: Palette },
+      { name: 'Monitor', component: Monitor },
+      { name: 'Cube', component: Cube },
+      { name: 'PenNib', component: PenNib },
+      { name: 'Browser', component: Browser },
+      { name: 'DeviceMobile', component: DeviceMobile },
+      { name: 'PaintBrush', component: PaintBrush },
+      { name: 'Layout', component: Layout },
+      { name: 'FigmaLogo', component: FigmaLogo },
+    ]
+
+    for (const { name, component } of expectedIcons) {
+      it(`exporta ${name} como componente React válido`, () => {
+        expect(component).toBeDefined()
+        // phosphor-icons/react usa forwardRef, así que es un objeto con $$typeof
+        expect(typeof component).toBe('object')
+        expect(component.$$typeof).toBeDefined()
+        // El nombre real está en render.displayName
+        expect(component.render?.displayName ?? component.displayName).toContain(name)
+      })
+    }
+  })
+
+  describe('ToolCard component contract', () => {
+    it('exporta ToolCard como componente React', () => {
+      expect(ToolCard).toBeDefined()
+      expect(typeof ToolCard).toBe('function')
+    })
+
+    it('acepta props requeridas: name, icon', () => {
+      // TypeScript compilation verifies this; runtime smoke test
+      const element = ToolCard({ name: 'Test', icon: Code })
+      expect(element).toBeDefined()
+      expect(element.type).toBe('div')
+    })
+
+    it('tiene weight="light" como valor por defecto', () => {
+      const element = ToolCard({ name: 'Test', icon: Code })
+      // El weight se pasa al icono interno; verificamos que el componente se crea sin error
+      expect(element.props.children).toBeDefined()
+    })
+
+    it('permite sobrescribir weight via prop', () => {
+      const element = ToolCard({ name: 'Test', icon: Code, weight: 'bold' })
+      expect(element).toBeDefined()
+    })
+
+    it('renderiza variant dark y light con clases correctas', () => {
+      const darkElement = ToolCard({ name: 'Test', icon: Code, variant: 'dark' })
+      const lightElement = ToolCard({ name: 'Test', icon: Code, variant: 'light' })
+
+      expect(darkElement.props.className).toContain('bg-neutral-800/50')
+      expect(lightElement.props.className).toContain('bg-neutral-100')
+    })
+
+    it('incluye level en el render cuando se proporciona', () => {
+      const element = ToolCard({ name: 'Test', icon: Code, level: 'Senior' })
+      // Buscar el level en los children renderizados
+      const children = element.props.children
+      const levelText = JSON.stringify(children)
+      expect(levelText).toContain('Senior')
+    })
+
+    it('no incluye level cuando no se proporciona', () => {
+      const element = ToolCard({ name: 'Test', icon: Code })
+      const children = element.props.children
+      const levelText = JSON.stringify(children)
+      expect(levelText).not.toContain('Senior')
+    })
+  })
+
+  describe('TEAM data contract', () => {
+    it('exporta TEAM como array no vacío', () => {
+      expect(Array.isArray(TEAM)).toBe(true)
+      expect(TEAM.length).toBeGreaterThan(0)
+    })
+
+    it('cada miembro tiene estructura requerida: name, role, bio, image, tools', () => {
+      for (const member of TEAM) {
+        expect(member.name).toBeTypeOf('string')
+        expect(member.name.trim()).not.toBe('')
+
+        expect(member.role).toBeTypeOf('string')
+        expect(member.role.trim()).not.toBe('')
+
+        expect(member.bio).toBeTypeOf('string')
+        expect(member.bio.trim()).not.toBe('')
+
+        expect(member.image).toBeTypeOf('string')
+        expect(member.image.trim()).not.toBe('')
+
+        expect(Array.isArray(member.tools)).toBe(true)
+        expect(member.tools.length).toBeGreaterThan(0)
+      }
+    })
+
+    it('cada tool tiene name e icon (string con nombre phosphoricons)', () => {
+      for (const member of TEAM) {
+        for (const tool of member.tools) {
+          expect(tool.name).toBeTypeOf('string')
+          expect(tool.name.trim()).not.toBe('')
+
+          expect(tool.icon).toBeTypeOf('string')
+          expect(tool.icon.trim()).not.toBe('')
+        }
+      }
+    })
+
+    it('los iconos referenciados en TEAM coinciden con iconos disponibles en phosphoricons', () => {
+      const availableIcons = new Set([
+        'Code',
+        'Palette',
+        'Monitor',
+        'Cube',
+        'PenNib',
+        'Browser',
+        'DeviceMobile',
+        'PaintBrush',
+        'Layout',
+        'FigmaLogo',
+      ])
+
+      for (const member of TEAM) {
+        for (const tool of member.tools) {
+          expect(availableIcons.has(tool.icon), `Icono "${tool.icon}" no está en la lista permitida`).toBe(true)
+        }
+      }
+    })
+
+    it('TEAM tiene exactamente 4 miembros (Natalia, Víctor, Jhoarling, Maicol)', () => {
+      expect(TEAM.length).toBe(4)
+      const names = TEAM.map(m => m.name).sort()
+      expect(names).toEqual(['Jhoarling', 'Maicol', 'Natalia', 'Víctor'])
+    })
+
+    it('Natalia tiene herramientas React, TypeScript, Astro', () => {
+      const natalia = TEAM.find(m => m.name === 'Natalia')
+      expect(natalia).toBeDefined()
+      const toolNames = natalia!.tools.map(t => t.name).sort()
+      expect(toolNames).toEqual(['Astro', 'React', 'TypeScript'])
+      const toolIcons = natalia!.tools.map(t => t.icon).sort()
+      expect(toolIcons).toEqual(['Code', 'Cube', 'Monitor'])
+    })
+
+    it('Víctor tiene herramientas Node.js, Python, IA/Automation', () => {
+      const victor = TEAM.find(m => m.name === 'Víctor')
+      expect(victor).toBeDefined()
+      const toolNames = victor!.tools.map(t => t.name).sort()
+      expect(toolNames).toEqual(['IA/Automation', 'Node.js', 'Python'])
+      const toolIcons = victor!.tools.map(t => t.icon).sort()
+      expect(toolIcons).toEqual(['Code', 'Cube', 'DeviceMobile'])
+    })
+
+    it('Jhoarling tiene herramientas Figma, Design Systems, Prototyping', () => {
+      const jhoarling = TEAM.find(m => m.name === 'Jhoarling')
+      expect(jhoarling).toBeDefined()
+      const toolNames = jhoarling!.tools.map(t => t.name).sort()
+      expect(toolNames).toEqual(['Design Systems', 'Figma', 'Prototyping'])
+      const toolIcons = jhoarling!.tools.map(t => t.icon).sort()
+      expect(toolIcons).toEqual(['FigmaLogo', 'Palette', 'PenNib'])
+    })
+
+    it('Maicol tiene herramientas Branding, Ilustración, Layout', () => {
+      const maicol = TEAM.find(m => m.name === 'Maicol')
+      expect(maicol).toBeDefined()
+      const toolNames = maicol!.tools.map(t => t.name).sort()
+      expect(toolNames).toEqual(['Branding', 'Ilustración', 'Layout'])
+      const toolIcons = maicol!.tools.map(t => t.icon).sort()
+      expect(toolIcons).toEqual(['Layout', 'PaintBrush', 'PenNib'])
+    })
+  })
+
+  describe('TEAM_TILES derived data', () => {
+    it('se deriva correctamente de TEAM', () => {
+      expect(TEAM_TILES.length).toBe(TEAM.length)
+
+      for (let i = 0; i < TEAM.length; i++) {
+        expect(TEAM_TILES[i].kind).toBe('member')
+        expect(TEAM_TILES[i].name).toBe(TEAM[i].name)
+        expect(TEAM_TILES[i].role).toBe(TEAM[i].role)
+        expect(TEAM_TILES[i].image).toBe(TEAM[i].image)
+      }
+    })
+
+    it('no incluye tools (solo datos para tile view)', () => {
+      for (const tile of TEAM_TILES) {
+        expect('tools' in tile).toBe(false)
+      }
+    })
+  })
+})

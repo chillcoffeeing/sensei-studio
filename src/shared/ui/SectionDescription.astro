@@ -1,0 +1,14 @@
+---
+import type { ToneText as ToneTextValue } from '@/shared/lib/tone-text';
+import ToneText from './ToneText.astro';
+
+interface Props {
+  /** Descripción con la primera frase en tono fuerte y el resto en tono atenuado. */
+  value: ToneTextValue;
+}
+
+const { value } = Astro.props;
+---
+
+{/* Figma 29:247, 31:30, 41:389: DM Sans 16 en el tono muted de la superficie. El ancho (410 / 401) lo pone el contenedor. */}
+<p class="font-body text-body text-(color:--tone-muted)"><ToneText value={value} /></p>

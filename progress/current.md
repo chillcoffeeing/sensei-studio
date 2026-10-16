@@ -1,14 +1,11 @@
 # Sesión activa — estado vivo
 
-> Este archivo lo actualiza el líder al iniciar cada sesión y los subagentes
-> mientras trabajan. Al cerrar la sesión, el resumen se mueve a `history.md`.
-
 ## Estado
 
-- **Sesión**: nueva (por configurar)
-- **Feature en curso**: ninguna
-- **Bloqueos**: ninguno
-
-## Próximo paso sugerido
-
-Configurar nuevas features en `feature_list.json` y luego ejecutar `/implementar`.
+- **Feature en curso**: ninguna.
+- Cola: —. Estrategia SEO: `docs/seo.md`.
+- **Bloqueos**: ninguno. Faltan datos del estudio: número de WhatsApp, URLs de redes del estudio (Instagram, LinkedIn, Behance), páginas legales y perfiles de María, Maicol, Daniel, GitHub de Victor y LinkedIn de Natalia.
+- Plan COPY-SPELLING: (1) leer todo el copy de src/content (JSON y TS), microcopy de componentes y webmanifest;
+  (2) corregir solo erratas ortográficas/tipográficas evidentes; (3) replicar en design/copy/*.md y cerrar notas;
+  (4) anotar dudas sin aplicar; (5) init.ps1.
+- Contrato: `docs/content-model.md`. Huecos: `design/content-gaps.md`.

@@ -1,0 +1,24 @@
+---
+import type { SiteHeader } from '@/core/site';
+import LinkNav from '@/shared/ui/LinkNav.astro';
+
+interface Props {
+  label: string;
+  items: SiteHeader['nav'];
+}
+
+const { label, items } = Astro.props;
+---
+
+{/* Nav de escritorio (lg+); en mobile lo sustituye MobileMenu. data-quote-open: el enlace abre el modal de cotización. */}
+<nav aria-label={label} class="hidden -translate-x-0.75 justify-self-center lg:block">
+  <ul class="flex items-center gap-15.25 whitespace-nowrap">
+    {
+      items.map((item) => (
+        <li>
+          <LinkNav href={item.href} label={item.label} data-quote-open={item.opensQuote ? '' : undefined} />
+        </li>
+      ))
+    }
+  </ul>
+</nav>

@@ -1,0 +1,54 @@
+---
+import { headingIdOf } from '@/core/content';
+import LinkMore from '@/shared/ui/LinkMore.astro';
+import ProjectCard from '@/shared/ui/ProjectCard.astro';
+import SectionHeader from '@/shared/ui/SectionHeader.astro';
+import type { ProjectGallerySection } from './schema';
+
+interface Props {
+  section: ProjectGallerySection;
+}
+
+const { section } = Astro.props;
+const { cta, cards = [] } = section.content;
+const headingId = headingIdOf(section);
+
+// Con un número impar de proyectos, el primero ocupa las dos columnas desde lg (panorámico):
+// la rejilla 2 × n no deja un hueco al final.
+const featuredFirst = cards.length % 2 === 1 && cards.length > 1;
+
+// Ancho renderizado de cada card: 1 columna (gutter 16 / 32 en md) y 2 columnas desde lg
+// (gutter 40, gap 20 → 50vw − 50px); en 2xl el contenido es 1320 → 650px (Figma 29:166).
+const sizes = '(min-width: 1440px) 650px, (min-width: 1024px) calc(50vw - 50px), (min-width: 768px) calc(100vw - 64px), calc(100vw - 32px)';
+const featuredSizes = '(min-width: 1440px) 1320px, (min-width: 1024px) calc(100vw - 80px), (min-width: 768px) calc(100vw - 64px), calc(100vw - 32px)';
+---
+
+{/*
+  Figma 32:82 (cabecera) + 31:59 / 31:46 (grid). Cabecera común con CTA de texto a la derecha.
+  Grid 29:235: 2 columnas de cards 650 × 447 (gap 20 entre columnas, 38 entre filas), radio 5,
+  imagen a sangre y pill blanca anclada abajo. Mobile: una columna con el mismo aspecto.
+
+  Las cards se derivan de cada proyecto (content/pages.ts). La card (pill + detalle de métricas,
+  MOT-PROJECTS solo CSS) es ProjectCard de shared/ui; el enlace de la cabecera, LinkMore. Este
+  módulo solo coloca: cabecera, rejilla y `sizes`.
+*/}
+<section id={section.id} aria-labelledby={headingId} class="pt-(--projects-pad-top)">
+  <div class="container-page">
+    <SectionHeader headingId={headingId} eyebrow={section.headingContent.eyebrow} title={section.headingContent.title}>
+      <LinkMore slot="aside" href={cta.href} label={cta.label} marker={`    ${cta.marker}`} />
+    </SectionHeader>
+
+    <ul class="mt-(--section-head-gap) grid gap-x-5 gap-y-(--projects-row-gap) lg:grid-cols-2">
+      {
+        cards.map((card, index) => {
+          const featured = featuredFirst && index === 0;
+          return (
+            <li class:list={[featured && 'lg:col-span-2 lg:project-card-wide']}>
+              <ProjectCard project={card} sizes={featured ? featuredSizes : sizes} />
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>

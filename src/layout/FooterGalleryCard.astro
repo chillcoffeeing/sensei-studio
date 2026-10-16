@@ -1,0 +1,31 @@
+---
+import type { ImageRef } from '@/core/content';
+import Photo from '@/shared/ui/Photo.astro';
+
+interface Props {
+  image: ImageRef;
+  /** Puesto en la rueda (data-wheel-slot): 0-3 = tarjetas de Figma; −1, −2 = las que esperan. `slot` lo reserva Astro. */
+  wheelSlot: number;
+  /** Caja y giro de la tarjeta en la galería: lo decide Footer. */
+  class?: string;
+}
+
+const { image, wheelSlot, class: placement } = Astro.props;
+
+// La tarjeta más ancha mide 302.091 × 247.29 en 1440 (174:68); en mobile, menos. Recorte a esa
+// proporción en el servidor, con el encuadre de la pieza (`position`).
+const widths = [303, 606];
+const height = 496;
+---
+
+<div data-wheel-slot={wheelSlot} class:list={['absolute overflow-hidden rounded-card', placement]}>
+  <Photo
+    image={image}
+    decorative
+    width={widths[1]!}
+    height={height}
+    widths={widths}
+    sizes="303px"
+    class="absolute inset-0 block size-full object-cover"
+  />
+</div>

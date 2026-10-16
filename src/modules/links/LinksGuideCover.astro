@@ -1,0 +1,22 @@
+---
+import type { LinksGuideCover } from './schema';
+
+interface Props {
+  cover: LinksGuideCover;
+}
+
+const { cover } = Astro.props;
+---
+
+{/*
+  230:1053: portada tipográfica de la guía (102 × 137). Es ilustración: su texto repite el título
+  de al lado, así que va aria-hidden. El tamaño de 8px solo existe aquí (--text-guide-cover).
+*/}
+<div aria-hidden="true" class="flex h-34.25 w-25.5 shrink-0 flex-col justify-between rounded-sm bg-ink p-2.75 text-paper shadow-md">
+  <span class="font-heading text-guide-cover font-semibold">{cover.kicker}</span>
+  <span class="font-heading text-7xl/none font-medium text-brand">{cover.figure}</span>
+  <span class="block h-0.5 w-full bg-brand"></span>
+  <span class="font-body text-guide-cover">
+    {cover.tagline.map((line) => <span class="block">{line}</span>)}
+  </span>
+</div>

@@ -1,0 +1,16 @@
+---
+import { LinksView } from '@/app/links';
+import links from '@/content/links';
+import site from '@/content/site';
+import StandaloneLayout from '@/layout/StandaloneLayout.astro';
+
+export const prerender = true;
+---
+
+{/*
+  LINKS-PAGE: destino del enlace de la bio de Instagram. Sin header, barra flotante ni footer del
+  sitio (la página trae su cabecera con los mismos CTA y su pie mínimo); sí el modal de cotización.
+*/}
+<StandaloneLayout seo={links.seo} site={site}>
+  <LinksView links={links} />
+</StandaloneLayout>

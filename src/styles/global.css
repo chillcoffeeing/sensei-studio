@@ -1,239 +1,290 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap");
-@import "tailwindcss";
+@import "tailwindcss" source("../");
+@import "./tokens.css";
 
-@theme inline {
-  --font-sans: "DM Sans", "Helvetica Neue", Arial, sans-serif;
-  --font-display: "DM Sans", "Helvetica Neue", Arial, sans-serif;
-  --color-paper: var(--paper);
-  --color-ink: var(--ink);
-  --color-muted: var(--muted);
-  --color-line: var(--line);
-  --color-lime: var(--lime);
-  --color-signal: var(--signal);
-  --color-panel: var(--panel);
-  --color-neutral-surface: var(--neutral-surface);
-  --color-hero-muted: var(--hero-muted);
-  --color-hero-overlay: var(--hero-overlay);
-  --color-primary: var(--paper);
-  --color-secondary: var(--panel);
-  --color-accent: var(--lime);
-  --color-border: var(--line);
-}
+/*
+ * Progressive enhancement: `scripting:` solo aplica si el navegador ejecuta JS
+ * (Media Queries 5, `scripting: enabled`). Sin JS, o en un navegador que no conoce la
+ * consulta, la regla no se aplica y el contenido queda visible.
+ */
+@custom-variant scripting (@media (scripting: enabled));
 
-:root {
-  color-scheme: light;
-  --paper: #ffffff;
-  --ink: #090909;
-  --muted: #686868;
-  --line: rgba(9, 9, 9, 0.24);
-  --lime: #e4ff40;
-  --signal: #d90132;
-  --panel: #090909;
-  --neutral-surface: #d9d9d9;
-  --hero-muted: #adadad;
-  --hero-overlay: rgba(9, 9, 9, 0.74);
-}
-
-html[data-theme="dark"] {
-  color-scheme: dark;
-  --paper: #090909;
-  --ink: #f5f5f5;
-  --muted: #a8a8a8;
-  --line: rgba(255, 255, 255, 0.2);
-  --panel: #000000;
-  --neutral-surface: #262626;
-  --hero-muted: #b9b9b9;
-  --hero-overlay: rgba(0, 0, 0, 0.78);
-}
+/*
+ * Solo referencias a tokens (var(--…)): ningún valor suelto.
+ * tokens.css solo declara el @theme; las utilidades propias viven aquí.
+ */
 
 @layer base {
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
+  :root {
+    /* Tonos de ToneText: superficie clara por defecto; tone-on-ink los cambia. */
+    --tone-muted: var(--color-ink-muted);
+    --tone-strong: var(--color-ink);
   }
 
   html {
-    background-color: var(--paper);
-    color: var(--ink);
-    scroll-behavior: smooth;
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    background-color: var(--color-paper);
   }
 
-  body {
-    min-width: 320px;
-    margin: 0;
-    overflow-x: hidden;
-    background-color: var(--paper);
-    color: var(--ink);
-    font-family: var(--font-sans);
-    letter-spacing: -0.015em;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transition:
-      background-color 300ms ease,
-      color 300ms ease;
+  /* Con un diálogo modal abierto (QTE-MODAL) la página de detrás no se desplaza. */
+  html:has(dialog:modal) {
+    overflow: hidden;
   }
 
-  ::selection {
-    background: var(--lime);
-    color: #090909;
-  }
-
-  a,
-  button {
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  button,
-  a {
-    &:focus-visible {
-      outline: 2px solid var(--lime);
-      outline-offset: 4px;
-    }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
   }
 }
 
-@layer components {
-  .noise-surface {
-    position: relative;
-    isolation: isolate;
+/* Contenedor de página: 1320px de contenido + gutter por breakpoint (60px en 2xl → 1440 exacto). */
+@utility container-page {
+  --page-gutter: var(--gutter-base);
+  width: 100%;
+  max-width: calc(var(--container-content) + 2 * var(--page-gutter));
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+
+  @variant md {
+    --page-gutter: var(--gutter-md);
   }
-
-  .noise-surface::after {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    content: "";
-    opacity: 0.18;
-    background-image: url("/assets/figma/noise.png");
-    background-position: center;
-    background-size: 720px 480px;
-    mix-blend-mode: screen;
+  @variant lg {
+    --page-gutter: var(--gutter-lg);
   }
-
-  .noise-surface > * {
-    position: relative;
-    z-index: 1;
-  }
-
-  .noise-surface > astro-island:has(.video-background) {
-    position: static;
-    z-index: auto;
-  }
-
-  .sensei-wordmark {
-    filter: brightness(0) invert(1);
-  }
-
-  .lime-rule {
-    background-color: var(--lime);
-    mask-image: url("/assets/figma/lime-rule.svg");
-    mask-position: center;
-    mask-repeat: no-repeat;
-    mask-size: 100% 100%;
-    -webkit-mask-image: url("/assets/figma/lime-rule.svg");
-    -webkit-mask-position: center;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-size: 100% 100%;
-  }
-
-
-  .client-marquee,
-  .showcase-marquee {
-    animation-play-state: running;
-    will-change: transform;
-  }
-
-  .client-marquee {
-    animation: client-marquee 32s linear infinite;
-  }
-
-  .showcase-marquee {
-    animation: showcase-marquee 42s linear infinite;
-  }
-
-  .client-logo {
-    filter: grayscale(1) opacity(0.58);
-    transition:
-      filter 200ms ease,
-      opacity 200ms ease;
-  }
-
-  .client-logo:hover,
-  .client-logo:focus-visible {
-    filter: grayscale(0) opacity(1);
-  }
-
-  .client-logo-wrap:hover .client-logo-label {
-    color: var(--ink);
-  }
-
-  html[data-theme="dark"] .client-logo {
-    filter: grayscale(1) invert(1) opacity(0.65);
-  }
-
-  html[data-theme="dark"] .client-logo:hover,
-  html[data-theme="dark"] .client-logo:focus-visible {
-    filter: grayscale(0) invert(1) opacity(1);
-  }
-
-  .scrollbar-hidden {
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+  @variant 2xl {
+    --page-gutter: var(--gutter-2xl);
   }
 }
 
+/* Superficie oscura: ToneText pasa a paper-muted / paper (hero, process, showcase, footer). */
+@utility tone-on-ink {
+  --tone-muted: var(--color-paper-muted);
+  --tone-strong: var(--color-paper);
+}
 
-@keyframes client-marquee {
-  from {
-    transform: translateX(0);
-  }
+/* Superficie clara explícita (para volver a paper dentro de una superficie ink). */
+@utility tone-on-paper {
+  --tone-muted: var(--color-ink-muted);
+  --tone-strong: var(--color-ink);
+}
 
-  to {
-    transform: translateX(-50%);
+/* Textura de ruido de Figma ("ruido general"). Combinar con bg-ink. */
+@utility surface-noise {
+  background-image: var(--noise-texture);
+  background-repeat: repeat;
+}
+
+/* Pausa de animaciones CSS (masonry con foco; el hover NO pausa: MOT-SLIDERS-SHOWCASE). */
+@utility play-paused {
+  animation-play-state: paused;
+}
+
+/* Carrusel sin barra de scroll visible (Figma no la dibuja): se desplaza con arrastre, táctil, rueda y teclado. */
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 
-@keyframes showcase-marquee {
-  from {
-    transform: translateX(0);
-  }
+/*
+ * Fades del masonry de testimonios (174:190). Las máscaras solo leen el alfa: se usa ink
+ * (opaco) como color "lleno". --masonry-fade es el alto de cada banda.
+ */
+@utility mask-fade-y {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    var(--color-ink) var(--masonry-fade),
+    var(--color-ink) calc(100% - var(--masonry-fade)),
+    transparent
+  );
+}
 
-  to {
-    transform: translateX(-50%);
+/* Banda superior de blur: plena en el borde y se desvanece hacia el centro. */
+@utility mask-fade-from-top {
+  mask-image: linear-gradient(to bottom, var(--color-ink), transparent);
+}
+
+/* Banda inferior de blur: plena en el borde y se desvanece hacia el centro. */
+@utility mask-fade-from-bottom {
+  mask-image: linear-gradient(to top, var(--color-ink), transparent);
+}
+
+/*
+ * === Motion (docs/conventions.md § Motion) ===
+ * Estados de animación declarativos; la lógica (cuándo entra en viewport, qué panel está
+ * abierto) vive en src/shared/lib/motion y solo pone atributos: data-inview / data-open.
+ * Guardas comunes:
+ *   - (scripting: enabled): sin JS no hay estado oculto inicial → contenido visible.
+ *   - (prefers-reduced-motion: no-preference): con "reduce" no hay animación ni estado
+ *     oculto; se ve directamente el estado final.
+ * Solo se animan transform y opacity (keyframes en tokens.css), salvo collapsible (ver abajo).
+ * Escalonado: cada elemento lleva --motion-index (0, 1, 2…; lo pone staggerStyle() o reveal()).
+ */
+
+/* El contenedor (o el propio elemento) ya entró en viewport. */
+@custom-variant inview (&:where([data-inview], [data-inview] *));
+
+/*
+ * head-parts:<utilidad> (MOT-REVEAL): aplica la utilidad a las partes de SectionHeader
+ * (columna eyebrow + h2 y aside, marcadas con data-head-part) desde un ancestro, sin añadir
+ * props de clase a la librería. Uso: class="head-parts:reveal-up" en el contenedor [data-reveal].
+ */
+@custom-variant head-parts {
+  & :where([data-head-part]) {
+    @slot;
   }
 }
 
-@media (hover: hover) {
-  .client-marquee:hover,
-  .client-marquee:focus-within,
-  .showcase-marquee:hover,
-  .showcase-marquee:focus-within {
+/*
+ * can-hover (MOB-CARDS-INITIAL): el puntero principal hace hover. Decide QUÉ capa de una card
+ * se ve en hover/foco; sin hover (táctil) la card se queda en su estado inicial. Si hay
+ * transición o no lo decide aparte motion-safe: (reduced-motion = cambio instantáneo).
+ */
+@custom-variant can-hover (@media (hover: hover));
+
+/*
+ * Hover con secuencia animada: hover real y sin reduced-motion (la misma consulta que
+ * TEAM_HOVER_MEDIA de modules/team/hover.ts, que solo anima en ese caso).
+ */
+@custom-variant hover-motion (@media (hover: hover) and (prefers-reduced-motion: no-preference));
+
+/*
+ * Un ancestro [data-card] está en hover, con foco visible o contiene un elemento con foco visible
+ * (p. ej. el botón de ProjectCard, MOT-PROJECTS-V2), o es un clon inert de slider con el puntero
+ * encima (data-clone-hover, bindCloneHover de shared/lib/slider). Con :is() (no :where()) para que el estado
+ * activo gane por especificidad al estado de reposo sin depender del orden.
+ */
+@custom-variant card-active (&:is([data-card]:hover *, [data-card][data-clone-hover] *, [data-card]:focus-visible *, [data-card]:has(:focus-visible) *));
+
+/*
+ * reveal-up: entrada al viewport una sola vez.
+ * La animación queda en pausa en su primer fotograma (fill both) hasta que reveal() marca
+ * data-inview en el contenedor; así no hay que tocar estilos desde JS.
+ * Retardo = --reveal-delay (retardo inicial, 0 por defecto; ver reveal-delay-*) + escalonado.
+ */
+@utility reveal-* {
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    animation: --value(--animate-reveal-*);
+    animation-delay: calc(var(--reveal-delay, 0s) + var(--motion-index, 0) * var(--duration-stagger));
     animation-play-state: paused;
+
+    &:where([data-inview], [data-inview] *) {
+      animation-play-state: running;
+    }
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+/*
+ * reveal-delay-<nombre>: retardo inicial de una entrada reveal-* (se aplica al contenedor
+ * [data-reveal] o al elemento; lo heredan sus reveal-*). Valores: tokens --delay-reveal-*.
+ * Solo fija una variable: con reduced-motion o sin JS reveal-* no anima y no tiene efecto.
+ */
+@utility reveal-delay-* {
+  --reveal-delay: --value(--delay-reveal-*);
+}
 
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-  }
-
-  .client-marquee,
-  .showcase-marquee {
-    animation: none !important;
-    transform: none !important;
+/*
+ * enter-from-left | enter-from-right: entrada lateral de los elementos de un panel cada
+ * vez que su ancestro pasa a [data-open] (la animación se aplica al abrir, así se repite).
+ */
+@utility enter-from-* {
+  @media (prefers-reduced-motion: no-preference) {
+    &:where([data-open] *) {
+      animation: --value(--animate-enter-from-*);
+      animation-delay: calc(var(--motion-index, 0) * var(--duration-stagger-tight));
+    }
   }
 }
+
+/* Igual que enter-from-*, pero el sentido lo decide data-side="left|right" (markEntrySides()). */
+@utility enter-from-side {
+  @media (prefers-reduced-motion: no-preference) {
+    &:where([data-open] *) {
+      animation: var(--animate-enter-from-left);
+      animation-delay: calc(var(--motion-index, 0) * var(--duration-stagger-tight));
+    }
+
+    &:where([data-open] [data-side='right']) {
+      animation: var(--animate-enter-from-right);
+      animation-delay: calc(var(--motion-index, 0) * var(--duration-stagger-tight));
+    }
+  }
+}
+
+/*
+ * Panel expandible: grid-template-rows 0fr → 1fr anima el alto real sin medirlo en JS.
+ * Es la única animación que no es transform/opacity: el alto cambia por acción del usuario
+ * (no hay CLS) y es lo que pide el diseño (MOT-ACCORDIONS). Cerrado = visibility hidden,
+ * así sale del árbol de accesibilidad y del orden de tabulación; al cerrar, visibility
+ * espera a que termine el colapso. Sin JS el panel queda abierto.
+ * Uso: <div class="collapsible" data-open?><div>…contenido…</div></div>
+ */
+@utility collapsible {
+  display: grid;
+  grid-template-rows: 1fr;
+
+  & > * {
+    min-height: 0;
+  }
+
+  @media (scripting: enabled) {
+    & > * {
+      overflow: hidden;
+    }
+
+    &:not([data-open]) {
+      grid-template-rows: 0fr;
+      visibility: hidden;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition:
+        grid-template-rows var(--duration-expand) var(--ease-expand),
+        visibility 0s linear var(--duration-expand);
+
+      &[data-open] {
+        transition-delay: 0s;
+      }
+    }
+  }
+}
+
+/* Tarjeta de proyecto destacada (a todo el ancho de la rejilla): proporción panorámica para ProjectCard. */
+@utility project-card-wide {
+  --project-aspect: var(--project-aspect-wide);
+}
+
+/* Capas apiladas en la misma celda (typewriter: texto fantasma que reserva el sitio + texto escrito encima). */
+@utility stack-layers {
+  display: grid;
+
+  & > * {
+    grid-area: 1 / 1;
+  }
+}
+
+/*
+ * line-clamp-N que también recorta las capas del typewriter (stack-layers): sin JS el texto va
+ * directo en el nodo; con createTypewriter, la copia transparente y la escrita se cortan igual.
+ */
+@utility line-clamp-typed-* {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: --value(integer);
+
+  & > .stack-layers > * {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: --value(integer);
+  }
+}
+

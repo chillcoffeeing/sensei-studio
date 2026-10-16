@@ -1,0 +1,41 @@
+---
+import AvatarStack from './AvatarStack.astro';
+import RatingStars from './RatingStars.astro';
+import type { UiAvatar, UiCaption, UiCount, UiRating } from './types';
+
+interface Props {
+  /** Avatares de la pila, de izquierda a derecha. Decorativos (lo que cuenta es `count`); sin foto, silueta neutra. */
+  avatars: UiAvatar[];
+  /** Contador que cierra la pila ("56+") con su lectura accesible. */
+  count: UiCount;
+  /** Estrellas y su texto alternativo ("5 de 5"). */
+  rating: UiRating;
+  /** Texto bajo las estrellas: la parte `strong` va en ink medium y la `muted` en ink-muted. */
+  caption: UiCaption;
+}
+
+const { avatars, count, rating, caption } = Astro.props;
+
+// Clases completas (no interpoladas) para que Tailwind las detecte.
+const toneClass = {
+  strong: 'font-medium text-ink',
+  muted: 'text-ink-muted',
+} as const;
+---
+
+{/*
+  Figma 38:319 ("image 27"): en Figma es un raster (imgImage27). Medidas en su píxel: pila de
+  4 avatares + contador ink "56+" (50 × 50, aro 3 avatar-ring, radio 12, paso 30 = solape 20; cada
+  una tapa a la anterior); a 15 de la pila, 5 estrellas (paso 13.75) sobre el texto en dos
+  tonos, centrados en vertical con la pila. Mobile: la pila escala a 40 (mismo solape
+  proporcional) y, si no cabe, el texto baja de línea (flex-wrap). Pila: AvatarStack; estrellas: RatingStars.
+*/}
+<div class="flex flex-wrap items-center gap-(--trust-badge-gap)">
+  <AvatarStack avatars={avatars} count={count} />
+  <div class="flex flex-col items-start gap-(--trust-badge-rating-gap)">
+    <RatingStars rating={rating} />
+    <p lang={caption.lang} class="font-heading text-body text-ink">
+      {caption.text.map((part) => (typeof part === 'string' ? part : <span class={toneClass[part.tone]}>{part.text}</span>))}
+    </p>
+  </div>
+</div>

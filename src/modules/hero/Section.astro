@@ -1,0 +1,52 @@
+---
+import { headingIdOf } from '@/core/content';
+import { toneTextToString } from '@/shared/lib/tone-text';
+import ToneText from '@/shared/ui/ToneText.astro';
+import HeroBackgroundVideo from './HeroBackgroundVideo.astro';
+import HeroWordmark from './HeroWordmark.astro';
+import type { HeroSection } from './schema';
+
+interface Props {
+  section: HeroSection;
+}
+
+const { section } = Astro.props;
+const { wordmark, servicesLabel, services, lead, background } = section.content;
+const h1 = toneTextToString(section.headingContent.title);
+const headingId = headingIdOf(section);
+---
+
+{/*
+  Figma 11:13 (1440×851, ink + ruido). El header (16:48) se superpone al hero (BaseLayout lo
+  pone absolute cuando la página empieza con un hero), así el video de fondo queda también
+  detrás del header: el padding superior suma su alto (52) a la distancia de flujo (117) = 169.
+  lg+: fila superior con el wordmark (16:53, top 169) y la lista (11:41, top 262, x 1131);
+  el lead (11:25) empieza 500px por debajo del wordmark (top 669). Mobile: todo apilado.
+*/}
+<section
+  id={section.id}
+  aria-labelledby={headingId}
+  class="relative overflow-hidden bg-ink surface-noise tone-on-ink pt-(--hero-offset-top) pb-(--hero-pad-bottom) text-paper 2xl:min-h-212.75"
+>
+  {background && <HeroBackgroundVideo video={background} />}
+
+  <div class="relative container-page">
+    <div
+      class="flex flex-col gap-10 lg:min-h-(--hero-stage) lg:flex-row lg:items-start lg:justify-between lg:gap-0"
+    >
+      <HeroWordmark id={headingId} label={h1} wordmark={wordmark} />
+
+      <ul aria-label={servicesLabel} class="font-heading text-hero-list lg:mt-23.25 lg:w-62.25">
+        {services.map((service) => <li class="whitespace-nowrap">{service}</li>)}
+      </ul>
+    </div>
+
+    <p class="mt-10 max-w-134 font-heading text-lead lg:mt-0">
+      <ToneText value={lead} />
+    </p>
+  </div>
+
+  {/* 11:24: regla lima de 9px a ras del borde inferior, desde el 60% del ancho hasta el borde derecho (Figma la recorta en 1440). */}
+  <span aria-hidden="true" class="absolute right-0 bottom-0 left-3/5 h-2.25 bg-brand"></span>
+</section>
+

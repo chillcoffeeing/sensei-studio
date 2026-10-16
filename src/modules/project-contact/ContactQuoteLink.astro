@@ -1,0 +1,32 @@
+---
+import type { Link, MediaRef } from '@/core/content';
+import { mediaIcon } from '@/shared/lib/media';
+
+interface Props {
+  action: Link;
+  icon: MediaRef;
+}
+
+const { action, icon: iconRef } = Astro.props;
+const icon = await mediaIcon(iconRef);
+---
+
+{/*
+  Píldora con borde blanco sobre tinta. Disparador del modal de cotización: QTE-MODAL escucha los
+  clics en [data-quote-open] (preventDefault + abrir el diálogo). Hasta entonces, o sin JS, es un
+  enlace normal a `href` (el formulario de contacto).
+*/}
+<a
+  href={action.href}
+  data-quote-open
+  class="group flex min-h-12 w-full items-center justify-center gap-6 rounded-pill border border-paper px-5.5 py-3.5 font-heading text-button text-paper transition-colors duration-(--duration-fast) ease-standard hover:bg-glass focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper"
+>
+  {action.label}
+  <img
+    src={icon.src}
+    width={icon.width}
+    height={icon.height}
+    alt=""
+    class="block shrink-0 motion-safe:transition-transform motion-safe:duration-(--duration-fast) motion-safe:ease-standard motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5"
+  />
+</a>

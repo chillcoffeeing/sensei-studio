@@ -1,0 +1,30 @@
+---
+import silhouette from '@/assets/ui/user-placeholder.svg';
+
+interface Props {
+  /** Fondo: `light` (avatares sobre papel) o `dark` (card del equipo, con texto blanco encima: AA). */
+  tone?: 'light' | 'dark';
+  /** Encuadre: `avatar` (silueta a 3/4, caja pequeña) o `portrait` (a todo el ancho: la cabeza queda
+      cerca del centro de una card alta, como en un retrato, y no bajo el texto del pie). */
+  framing?: 'avatar' | 'portrait';
+}
+
+const { tone = 'light', framing = 'avatar' } = Astro.props;
+---
+
+{/*
+  Persona sin foto: silueta neutra apoyada en el borde inferior, que llena la caja de quien la
+  coloca (avatar de la pila, card del equipo…). Decorativa: el nombre, si lo hay, va como texto.
+*/}
+<span
+  aria-hidden="true"
+  class:list={['flex size-full items-end justify-center overflow-hidden', tone === 'dark' ? 'bg-neutral-500' : 'bg-neutral-200']}
+>
+  <img
+    src={silhouette.src}
+    width={silhouette.width}
+    height={silhouette.height}
+    alt=""
+    class:list={['block h-auto', framing === 'portrait' ? 'w-full' : 'w-3/4 max-w-48']}
+  />
+</span>

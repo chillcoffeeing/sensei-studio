@@ -1,0 +1,63 @@
+---
+import { headingIdOf, sectionKey } from '@/core/content';
+import ProcessFlow from './ProcessFlow.astro';
+import ProcessIntro from './ProcessIntro.astro';
+import ProcessStage from './ProcessStage.astro';
+import StepperSlider from '@/shared/ui/StepperSlider.astro';
+import type { ProjectProcessSection } from './schema';
+
+interface Props {
+  section: ProjectProcessSection;
+}
+
+const { section } = Astro.props;
+const { headingContent, content } = section;
+const { ui } = content;
+const headingId = headingIdOf(section);
+const stageNumbers = content.stages.map((_, index) => String(index + 1).padStart(2, '0'));
+---
+
+{/*
+  Proceso (Yupa 243:370), sobre negro: encabezado → etapas → flujo posterior.
+  Etapas: 2 columnas desde md y 4 desde lg; por debajo de md, StepperSlider (una etapa por vista,
+  indicador y autoplay; PROCESS-STEPPER). El indicador usa los tonos de tone-on-ink.
+  Motion: encabezado, cada etapa y el flujo entran con reveal-up escalonado (reduced motion o sin JS: estado final).
+*/}
+<section id={section.id} aria-labelledby={headingId} data-project-process class="bg-ink py-16 lg:py-22.5">
+  <div
+    data-reveal="[data-reveal-item]"
+    data-reveal-amount="0"
+    data-reveal-margin="0px 0px -15% 0px"
+    class="container-page flex flex-col gap-12 lg:gap-15"
+  >
+    <div data-reveal-item class="reveal-up">
+      <ProcessIntro
+        headingId={headingId}
+        label={headingContent.eyebrow}
+        title={headingContent.title}
+        route={headingContent.route}
+        routeSeparator={ui.routeSeparator}
+      />
+    </div>
+
+    <div class="tone-on-ink">
+      <StepperSlider labels={ui.stepper} markers={stageNumbers}>
+        <ol class="grid gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-4">
+          {content.stages.map((stage, index) => (
+            <ProcessStage number={stageNumbers[index]!} stage={stage} deliverableLabel={ui.deliverableLabel} />
+          ))}
+        </ol>
+      </StepperSlider>
+    </div>
+
+    <div data-reveal-item class="reveal-up">
+      <ProcessFlow titleId={`${sectionKey(section)}-flujo`} flow={content.flow} ui={ui} />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealAll } from '@/shared/lib/motion';
+
+  for (const section of document.querySelectorAll<HTMLElement>('[data-project-process]')) revealAll(section);
+</script>

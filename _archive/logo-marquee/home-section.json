@@ -1,0 +1,45 @@
+{
+  "sectionType": "logo-marquee",
+  "id": "clientes",
+  "content": {
+    "label": "Marcas que confían en nosotros",
+    "logos": [
+      {
+        "src": "logo-marquee/adobe.svg",
+        "alt": "Adobe"
+      },
+      {
+        "src": "logo-marquee/airbnb.svg",
+        "alt": "Airbnb"
+      },
+      {
+        "src": "logo-marquee/opendoor.svg",
+        "alt": "Opendoor"
+      },
+      {
+        "src": "logo-marquee/evernote.svg",
+        "alt": "Evernote"
+      },
+      {
+        "src": "logo-marquee/pipedrive.svg",
+        "alt": "Pipedrive"
+      },
+      {
+        "src": "logo-marquee/fivetran.svg",
+        "alt": "Fivetran"
+      },
+      {
+        "src": "logo-marquee/afterpay.svg",
+        "alt": "Afterpay"
+      },
+      {
+        "src": "logo-marquee/elastic.svg",
+        "alt": "Elastic"
+      },
+      {
+        "src": "logo-marquee/airwallex.svg",
+        "alt": "Airwallex"
+      }
+    ]
+  }
+}

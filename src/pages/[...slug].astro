@@ -1,0 +1,28 @@
+---
+import type { GetStaticPaths } from 'astro';
+import SectionRenderer from '@/app/SectionRenderer.astro';
+import type { Page } from '@/app/sections';
+import { pages, routeParam } from '@/content/pages';
+import { pageSchemaOf } from '@/content/seo';
+import site from '@/content/site';
+import BaseLayout from '@/layout/BaseLayout.astro';
+
+export const prerender = true;
+
+export const getStaticPaths = (() =>
+  pages.map((page) => ({ params: { slug: routeParam(page) }, props: { page } }))) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page;
+}
+
+const { page } = Astro.props;
+// El hero reserva el alto del header y pinta su fondo (video) detrás de él.
+const overlayHeader = page.sections[0]?.sectionType === 'hero';
+---
+
+<BaseLayout seo={page.seo} site={site} schema={pageSchemaOf(page)} overlayHeader={overlayHeader}>
+  <main>
+    <SectionRenderer sections={page.sections} />
+  </main>
+</BaseLayout>

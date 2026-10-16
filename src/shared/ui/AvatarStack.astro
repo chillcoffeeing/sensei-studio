@@ -1,0 +1,35 @@
+---
+import Photo from './Photo.astro';
+import UserPlaceholder from './UserPlaceholder.astro';
+import type { UiAvatar, UiCount } from './types';
+
+interface Props {
+  /** Avatares de la pila, de izquierda a derecha. Decorativos (lo que cuenta es `count`); sin foto, silueta neutra. */
+  avatars: UiAvatar[];
+  /** Contador que cierra la pila ("56+") con su lectura accesible. */
+  count: UiCount;
+}
+
+const { avatars, count } = Astro.props;
+
+// Avatar y contador comparten caja: 50 con aro de 3 y radio 12 (el interior queda en 9).
+// Foto cuadrada de --avatar-stack-size (clamp 40 → 50 entre 375 y 1440); respaldo a 2×.
+const photo = { width: 100, height: 100, widths: [40, 50, 80, 100, 150], sizes: '(min-width: 1440px) 50px, calc(0.93897vw + 36.4789px)' } as const;
+const tile =
+  'flex size-(--avatar-stack-size) shrink-0 items-center justify-center overflow-hidden rounded-avatar-stack border-3 border-avatar-ring not-first:-ml-(--avatar-stack-overlap)';
+---
+
+{/* Pila de TrustBadge: avatares que se solapan (cada uno tapa al anterior) cerrada por el contador ink. */}
+<div class="flex">
+  {
+    avatars.map((avatar) => (
+      <span class:list={[tile, 'bg-avatar-ring']} aria-hidden="true">
+        {avatar.photo ? <Photo image={avatar.photo} decorative {...photo} class="size-full object-cover" /> : <UserPlaceholder />}
+      </span>
+    ))
+  }
+  <span class:list={[tile, 'bg-ink font-heading text-initials text-paper']}>
+    <span aria-hidden="true">{count.value}</span>
+    <span class="sr-only">{count.label}</span>
+  </span>
+</div>

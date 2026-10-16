@@ -1,0 +1,89 @@
+---
+import ProjectCardCategory from './ProjectCardCategory.astro';
+import { resolvePhoto } from '@/shared/lib/media';
+import LinkButtonPaper from './LinkButtonPaper.astro';
+import ProjectCardMetric from './ProjectCardMetric.astro';
+import Photo from './Photo.astro';
+import ProjectCardPill from './ProjectCardPill.astro';
+import type { ProjectCardData } from './types';
+
+interface Props {
+  project: ProjectCardData;
+  /** `sizes` de la imagen: depende de la rejilla donde vive la card (lo sabe quien la coloca). */
+  sizes: string;
+  /** Nivel del título: h3 bajo el h2 de una sección (por defecto) o h2 bajo el h1 de /proyectos/. Mismo aspecto. */
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { project, sizes, headingLevel = 'h3' } = Astro.props;
+const Title = headingLevel;
+
+// Anchos del srcset: de la card en 375 a 2× la de Figma (650). El respaldo va al mayor ancho y
+// conserva la proporción del original (sin recorte en el servidor): la misma card puede ser 650:447
+// o panorámica (project-card-wide) y object-cover recorta en CSS sobre la imagen entera.
+const widths = [400, 650, 900, 1300];
+const fallbackWidth = 1300;
+const resolved = await resolvePhoto(project.image);
+const intrinsic = resolved.type === 'url' ? undefined : resolved.image;
+const ratio = intrinsic && intrinsic.width > 0 ? intrinsic.height / intrinsic.width : 447 / 650;
+const fallbackHeight = Math.round(fallbackWidth * ratio);
+---
+
+{/*
+  Figma 29:166 (650 × 447, radio 5): imagen a sangre y pill blanca (35:302: alto 52, padding 15,
+  radio pill) anclada abajo con inset de 22 a los lados y 26 abajo.
+
+  MOT-PROJECTS-V2 + MOB-CARDS-INITIAL, solo CSS. Capas en la misma celda (stack-layers):
+    imagen → velo (project-veil) → pill (reposo, ProjectCardPill) → detalle (todo abajo, bloque glass):
+    título + categoría, métricas (ProjectCardMetric; 1–4 en una fila de columnas iguales) y LinkButtonPaper.
+  La categoría puede ocupar dos líneas (las de los proyectos reales son largas): nunca desborda la pill.
+  Qué se ve lo decide can-hover (puntero con hover); si hay transición, motion-safe:
+    - con hover: en reposo solo la pill; en hover o con foco visible dentro (card-active) la
+      imagen se desenfoca y se oscurece, la pill se va y entra el detalle. Con reduced-motion el
+      cambio es instantáneo.
+    - sin hover (táctil): solo el estado inicial, imagen + el botón del detalle anclado abajo.
+      Sin velo, pill, glass ni métricas; el h3 sigue en el DOM (sr-only).
+  Card estrecha (@max-md: menos de 448 px de ancho, p. ej. media columna en tablet o mobile con
+  puntero): detalle compacto (título sobre categoría, menos relleno) y solo las dos primeras métricas, para que quepa en la proporción
+  sin estirar la card. La lista completa vive en la página del proyecto.
+  La pill es aria-hidden (repite título y categoría del detalle). El foco llega al botón, que
+  activa la card (card-active incluye :has(:focus-visible)); la raíz no es enfocable.
+  overflow-clip (no hidden): recorta el radio y la escala del blur sin hacer de la card un scroll
+  container.
+*/}
+<div data-card class="@container relative stack-layers aspect-(--project-aspect) overflow-clip rounded-media">
+  <Photo
+    image={project.image}
+    width={fallbackWidth}
+    height={fallbackHeight}
+    widths={widths}
+    sizes={sizes}
+    class="absolute inset-0 block size-full object-cover motion-safe:transition motion-safe:duration-(--duration-image) motion-safe:ease-standard can-hover:card-active:scale-(--project-image-scale) can-hover:card-active:blur-(--project-image-blur)"
+  />
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 hidden bg-project-veil opacity-0 can-hover:block can-hover:card-active:opacity-100 motion-safe:transition-opacity motion-safe:duration-(--duration-image) motion-safe:ease-standard"
+  >
+  </div>
+  <div
+    aria-hidden="true"
+    class="relative hidden flex-col justify-end px-(--project-pill-inset) pb-(--project-pill-bottom) can-hover:flex can-hover:card-active:opacity-0 motion-safe:transition-opacity motion-safe:duration-(--duration-project-fade) motion-safe:ease-standard motion-safe:delay-(--delay-project-return) motion-safe:card-active:delay-0"
+  >
+    <ProjectCardPill title={project.title} category={project.category} />
+  </div>
+  <div
+    data-project-details
+    class="relative flex flex-col justify-end px-(--project-pill-inset) pb-(--project-pill-bottom) can-hover:opacity-0 can-hover:card-active:opacity-100 motion-safe:transition-opacity motion-safe:duration-(--duration-project-fade) motion-safe:ease-standard motion-safe:delay-0 motion-safe:card-active:delay-(--delay-project-details-in)"
+  >
+    <div class="flex flex-col gap-3 text-gray-100 can-hover:rounded-card can-hover:border can-hover:border-glass-line can-hover:bg-glass can-hover:p-3.75 can-hover:backdrop-blur-glass can-hover:@max-md:gap-2 can-hover:@max-md:p-2.5">
+      <div class="sr-only flex items-baseline justify-between gap-3 can-hover:not-sr-only @max-md:flex-col @max-md:items-start @max-md:gap-0.5">
+        <Title class="shrink-0 font-heading text-pill uppercase">{project.title}</Title>
+        <p class="min-w-0 text-right font-heading text-pill text-balance @max-md:text-left"><ProjectCardCategory category={project.category} /></p>
+      </div>
+      <dl class="hidden auto-cols-fr grid-flow-col gap-1.25 can-hover:grid">
+        {project.details.metrics.map((metric, index) => <ProjectCardMetric metric={metric} class={index >= 2 ? '@max-md:hidden' : undefined} />)}
+      </dl>
+      <LinkButtonPaper href={project.details.link.href} label={project.details.link.label} />
+    </div>
+  </div>
+</div>

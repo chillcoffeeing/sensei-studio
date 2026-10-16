@@ -1,0 +1,65 @@
+---
+import { headingIdOf } from '@/core/content';
+import { slideLabel } from '@/shared/lib/slider';
+import SectionDescription from '@/shared/ui/SectionDescription.astro';
+import SectionHeader from '@/shared/ui/SectionHeader.astro';
+import TeamCard from '@/shared/ui/TeamCard.astro';
+import TeamSlider from '@/shared/ui/TeamSlider.astro';
+import { profileLinks } from './profiles';
+import type { TeamSection } from './schema';
+
+interface Props {
+  section: TeamSection;
+}
+
+const { section } = Astro.props;
+const { slider, members, profiles } = section.content;
+const { description } = section.headingContent;
+const headingId = headingIdOf(section);
+---
+
+{/*
+  Figma 41:404: cabecera común 38:327 (eyebrow 38:335, h2 38:336 en dos tonos con corte
+  "Las personas detrás" / "de cada proyecto", descripción 41:389 de 401px a la derecha) → 65 →
+  fila 40:388 de 4 cards de 344 × 423 con gap 21 que nace en x 59 y mide 1439: sale por la
+  derecha del canvas y la 4.ª card queda cortada. Se traduce al carril de TeamSlider (shared/ui,
+  UI-LIB-002): a sangre por debajo de lg y dentro de container-page desde lg
+  (TEAM-SLIDER-CONTAINER), avanza solo por pasos y se desliza con el dedo.
+  Cada integrante es una TeamCard (shared/ui, MOB-CARDS-INITIAL; sin foto, silueta neutra):
+  TEAM-V2, 6 personas de Figma 291:131 con perfiles profesionales opcionales (profiles.ts descarta
+  los que no tienen URL). hover.ts añade la animación del detalle en desktop, también en las copias del bucle
+  (TEAM-CARD-LOOP: TeamSlider emula su hover, que siendo inert no reciben).
+*/}
+<section id={section.id} aria-labelledby={headingId} data-team-section class="pt-(--team-pad-top)">
+  <div class="container-page">
+    <SectionHeader
+      headingId={headingId}
+      eyebrow={section.headingContent.eyebrow}
+      title={section.headingContent.title}
+      titleClass="max-w-(--team-title-max)"
+    >
+      <div slot="aside" class="max-w-100.25"><SectionDescription value={description} /></div>
+    </SectionHeader>
+  </div>
+
+  <div class="mt-(--team-head-gap)">
+    <TeamSlider labels={slider}>
+      {
+        members.map((member, i) => (
+          <TeamCard
+            person={member}
+            roleDescription={slider.slideRoleDescription}
+            label={slideLabel(slider.slidePosition, i + 1, members.length)}
+            profiles={profileLinks(member, profiles)}
+          />
+        ))
+      }
+    </TeamSlider>
+  </div>
+</section>
+
+<script>
+  import { bindTeamCards } from './hover';
+
+  for (const s of document.querySelectorAll('[data-team-section]')) bindTeamCards(s);
+</script>

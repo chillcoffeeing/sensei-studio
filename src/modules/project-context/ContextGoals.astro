@@ -1,0 +1,20 @@
+---
+import ContextGoal from './ContextGoal.astro';
+import type { ProjectContextContent } from './schema';
+
+interface Props {
+  /** Id del rótulo: nombra la lista (se deriva del id de la sección). */
+  labelId: string;
+  goals: ProjectContextContent['goals'];
+}
+
+const { labelId, goals } = Astro.props;
+---
+
+{/* Rótulo + lista ordenada; el número (01, 02…) sale de la posición. */}
+<div class="flex flex-col gap-5">
+  <p id={labelId} class="font-heading text-caption text-line uppercase">{goals.label}</p>
+  <ol aria-labelledby={labelId} class="flex flex-col gap-5">
+    {goals.items.map((text, index) => <ContextGoal index={index} text={text} />)}
+  </ol>
+</div>

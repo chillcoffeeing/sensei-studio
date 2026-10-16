@@ -1,0 +1,31 @@
+---
+import type { AvatarTone } from './types';
+
+interface Props {
+  /** Iniciales ya calculadas (shared/lib/initials). */
+  initials: string;
+  /** Tono de la paleta de avatares: dato de posición, no variante (ver types.ts). */
+  tone: AvatarTone;
+}
+
+const { initials, tone } = Astro.props;
+
+// Clases completas (no interpoladas) para que Tailwind las detecte.
+const toneClass = {
+  1: 'bg-avatar-1-bg text-avatar-1-fg',
+  2: 'bg-avatar-2-bg text-avatar-2-fg',
+  3: 'bg-avatar-3-bg text-avatar-3-fg',
+  4: 'bg-avatar-4-bg text-avatar-4-fg',
+} as const;
+---
+
+{/* Figma 174:194: círculo de 40 con iniciales. Decorativo: el nombre va al lado como texto. */}
+<span
+  aria-hidden="true"
+  class:list={[
+    'flex size-10 shrink-0 items-center justify-center rounded-avatar font-body text-initials',
+    toneClass[tone],
+  ]}
+>
+  {initials}
+</span>

@@ -1,0 +1,64 @@
+---
+import type { LocalImageRef } from '@/core/content';
+import type { SiteHeader } from '@/core/site';
+import LinkCtaBrand from '@/shared/ui/LinkCtaBrand.svelte';
+import LinkLogo from '@/shared/ui/LinkLogo.svelte';
+import HeaderNav from './HeaderNav.astro';
+import MobileMenu from './MobileMenu.svelte';
+
+interface Props {
+  header: SiteHeader;
+  /** Se superpone a la primera sección (hero con video): transparente y absolute, sin reservar alto. */
+  overlay?: boolean;
+}
+
+const { header, overlay = false } = Astro.props;
+const { logo, navLabel, nav, cta, menu } = header;
+
+// La isla solo recibe datos serializables: URL y dimensiones de las imágenes.
+const toImg = (ref: LocalImageRef) => ({ src: ref.src.src, width: ref.src.width, height: ref.src.height, alt: ref.alt });
+
+// SVG vectoriales: <img> con la URL y dimensiones que da el import (sin pasar por el optimizador raster).
+const logoImg = toImg(logo);
+const iconImg = toImg(cta.icon);
+const icon = (img: typeof logoImg) => ({ src: img.src, width: img.width, height: img.height });
+---
+
+{/*
+  Figma 16:48: frame de 1319×40 a top 12 sobre el hero (11:13, ink con ruido).
+  El padding vertical de 12px deja el header en 64px en flujo y en overlay; en este último,
+  el hero conserva su fondo detrás y el header no participa del flujo.
+  Desktop (lg+): grid de 3 columnas iguales para centrar el nav; 16:49 desplaza logo y nav 3px a la izquierda.
+  Logo, enlaces y CTA son de la librería (LinkLogo, LinkNav, LinkCtaBrand: docs/components.md).
+  Logo y CTA traen área táctil de 44: grid-rows-1 fija la fila a los 40 de Figma (h-10) y los
+  centra en ella, así sobresalen 2px por arriba y por abajo sin mover nada.
+  Con overlay, z-header crea un contexto de apilamiento que encerraría el z-menu del panel mobile:
+  mientras el toggle está expandido (menú abierto), el header sube a z-menu y el panel cubre la
+  barra flotante (z-floating-bar).
+*/}
+<header
+  class:list={['py-3 text-paper', overlay ? 'absolute inset-x-0 top-0 z-header has-aria-expanded:z-menu' : 'bg-ink surface-noise']}
+>
+  <div class="container-page flex h-10 items-center justify-between lg:grid lg:grid-cols-3 lg:grid-rows-1">
+    <div class="justify-self-start">
+      <LinkLogo href={logo.href} logo={icon(logoImg)} label={logoImg.alt} />
+    </div>
+
+    <HeaderNav label={navLabel} items={nav} />
+
+    <div class="hidden justify-self-end lg:block">
+      <LinkCtaBrand href={cta.href} label={cta.label} icon={icon(iconImg)} data-advice-open={cta.opensAdvice ? '' : undefined} />
+    </div>
+
+    <div class="lg:hidden">
+      <MobileMenu
+        client:load
+        logo={{ ...logoImg, href: logo.href }}
+        navLabel={navLabel}
+        nav={nav}
+        cta={{ label: cta.label, href: cta.href, icon: iconImg, opensAdvice: cta.opensAdvice }}
+        labels={menu}
+      />
+    </div>
+  </div>
+</header>

@@ -1,0 +1,17 @@
+---
+import LabelMarker from '@/shared/ui/LabelMarker.svelte';
+import type { ProjectContextContent } from './schema';
+
+interface Props {
+  challenge: ProjectContextContent['challenge'];
+}
+
+const { challenge } = Astro.props;
+---
+
+{/* Etiqueta (hereda el gris) → titular (h3) → descripción, sobre el bloque oscuro. */}
+<div class="flex max-w-140 flex-col gap-4.5 text-line">
+  <LabelMarker text={challenge.label} />
+  <h3 class="font-heading text-project-subtitle text-paper">{challenge.title}</h3>
+  <p class="font-body text-body-lg">{challenge.description}</p>
+</div>

@@ -1,0 +1,39 @@
+---
+import { headingIdOf } from '@/core/content';
+import ShowcaseCarousel from '@/shared/ui/ShowcaseCarousel.astro';
+import ToneText from '@/shared/ui/ToneText.astro';
+import type { ShowcaseSection } from './schema';
+
+interface Props {
+  section: ShowcaseSection;
+}
+
+const { section } = Astro.props;
+const { carousel, slides } = section.content;
+const headingId = headingIdOf(section);
+---
+
+{/*
+  Figma 35:130: panel ink 33:17 a sangre (radio 10, SIN ruido: en el screenshot es ink plano)
+  → título 33:118 (600, leading 1, paper-ghost; 46px por MOT-SLIDERS-SHOWCASE, Figma 60) a 98
+  del borde y 58 a la izquierda (= calc(50% − 662px)) → 78 → carrusel 33:98 (cards con la
+  proporción 616 × 658 pero ×0.6 por MOT-SLIDERS-SHOWCASE, radio 5, gap 20) que nace en el mismo
+  inset, sale por la derecha a sangre y cuelga 52px bajo el panel. Sin alto mínimo: los 844 de
+  Figma salían de la card de 658; con la card reducida el panel se ajusta al contenido para que
+  las cards sigan colgando 52px (con min-h-211 quedarían ≈ 265px de panel vacío debajo).
+  El panel es `flow-root` para que el -mb del carrusel no colapse con su margen. El carrusel
+  (autoplay continuo, swipe, sin botón de pausa) es ShowcaseCarousel de shared/ui (UI-LIB-002).
+*/}
+<section id={section.id} aria-labelledby={headingId} class="pt-(--showcase-pad-top)">
+  <div class="flow-root rounded-panel bg-ink pt-(--showcase-pad-y)">
+    <h2
+      id={headingId}
+      class="px-(--gutter-base) md:text-center font-heading text-display text-paper-ghost uppercase md:px-(--gutter-md) lg:px-(--gutter-lg) 2xl:px-(--showcase-inset)"
+    >
+      <ToneText value={section.headingContent.title} />
+    </h2>
+    <div class="mt-(--showcase-head-gap) -mb-(--showcase-overhang)">
+      <ShowcaseCarousel labels={carousel} slides={slides.map((slide) => slide.image)} />
+    </div>
+  </div>
+</section>

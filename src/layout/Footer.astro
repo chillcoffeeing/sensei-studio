@@ -1,0 +1,68 @@
+---
+import type { SiteFooter } from '@/core/site';
+import FooterGalleryCard from './FooterGalleryCard.astro';
+import FooterNavColumn from './FooterNavColumn.astro';
+import FooterStudio from './FooterStudio.astro';
+import FooterWheel from './FooterWheel.svelte';
+
+interface Props {
+  footer: SiteFooter;
+}
+
+const { footer } = Astro.props;
+const { navLabel, columns, studio, gallery } = footer;
+
+// Posición, tamaño y giro de cada tarjeta (174:67-174:70), en el orden de Figma.
+// Clases completas (no interpoladas) para que Tailwind las detecte.
+const cardClasses = [
+  'left-(--footer-card-1-x) top-(--footer-card-1-y) w-(--footer-card-1-w) h-(--footer-card-1-h) rotate-(--footer-card-1-rotate)',
+  'left-(--footer-card-2-x) top-(--footer-card-2-y) w-(--footer-card-2-w) h-(--footer-card-2-h)',
+  'left-(--footer-card-3-x) top-(--footer-card-3-y) w-(--footer-card-3-w) h-(--footer-card-3-h) rotate-(--footer-card-3-rotate)',
+  'left-(--footer-card-4-x) top-(--footer-card-4-y) w-(--footer-card-4-w) h-(--footer-card-4-h) rotate-(--footer-card-4-rotate)',
+];
+// Rueda (MOT-FOOTER): data-wheel-slot 0-3 = tarjetas de Figma; −1, −2 = las que esperan fuera de
+// la vista (comparten la caja de la tarjeta 1 y solo se pintan cuando la rueda gira).
+const cards = [
+  ...gallery.incoming.map((card, i) => ({ card, slot: -(i + 1), classes: `${cardClasses[0]} hidden group-data-wheel:block` })),
+  ...gallery.cards.slice(0, cardClasses.length).map((card, i) => ({ card, slot: i, classes: cardClasses[i] })),
+];
+const icon = (img: typeof gallery.pauseIcon.src) => ({ src: img.src, width: img.width, height: img.height });
+---
+
+{/*
+  Figma 174:26 (footer-section 1440, padding 100/100/80, min-h 720, gap 80) + 174:72 (galería).
+  Columnas de nav (FooterNavColumn), estudio (FooterStudio) y tarjetas (FooterGalleryCard) en
+  archivo propio; títulos, enlaces y legales son de la librería (HeadingOverline, LinkFooter, LegalLinks).
+  Columnas: nav con 3 columnas iguales + columna del estudio de 360 (xl+); debajo, 2 → 3 columnas
+  y el estudio en su propia fila. Galería decorativa: tarjetas absolute escaladas con
+  --footer-gallery-unit y recortadas por el overflow del footer. MOT-FOOTER: la isla FooterWheel
+  las hace girar como una rueda (transform sobre un arco; ver footer-wheel.ts e impl_MOT-FOOTER.md).
+*/}
+<footer data-floating-bar-avoid class="relative overflow-clip bg-ink surface-noise text-paper">
+  <div
+    class="mx-auto flex max-w-page flex-col gap-(--footer-gap) px-(--footer-pad-x) pt-(--footer-pad-top) pb-(--footer-pad-bottom) 2xl:min-h-180"
+  >
+    <div class="grid gap-10 xl:grid-cols-(--footer-cols)">
+      <nav aria-label={navLabel} class="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 md:gap-x-10">
+        {columns.map((column) => <FooterNavColumn column={column} />)}
+      </nav>
+
+      <FooterStudio studio={studio} />
+    </div>
+
+    <div class="relative mt-auto h-(--footer-gallery-h)">
+      <FooterWheel
+        client:visible
+        pauseLabel={gallery.pauseLabel}
+        pauseIcon={icon(gallery.pauseIcon.src)}
+        playIcon={icon(gallery.playIcon.src)}
+      >
+        {
+          cards.map(({ card, slot, classes }) => (
+            <FooterGalleryCard image={card.image} wheelSlot={slot} class={classes} />
+          ))
+        }
+      </FooterWheel>
+    </div>
+  </div>
+</footer>

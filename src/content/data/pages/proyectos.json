@@ -1,0 +1,21 @@
+{
+  "slug": "proyectos",
+  "seo": {
+    "title": "Proyectos · Sensei Studio",
+    "description": "Casos de estudio de Sensei Studio: diseño UX/UI, e-commerce y desarrollo web y app, cada uno con su contexto, su proceso y sus resultados.",
+    "keywords": ["proyectos", "casos de estudio", "portafolio", "Sensei Studio"]
+  },
+  "sections": [
+    {
+      "sectionType": "project-index",
+      "id": "proyectos",
+      "headingContent": {
+        "eyebrow": "Proyectos",
+        "title": ["Todos los proyectos"]
+      },
+      "content": {
+        "projects": ["yupa", "remittven", "las-donas", "cappi-xtremo"]
+      }
+    }
+  ]
+}

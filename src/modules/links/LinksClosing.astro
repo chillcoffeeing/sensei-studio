@@ -1,0 +1,18 @@
+---
+import LinksContactReminder from './LinksContactReminder.astro';
+import LinksFooterNav from './LinksFooterNav.astro';
+import type { LinksClosing } from './schema';
+
+interface Props {
+  closing: LinksClosing;
+}
+
+const { closing } = Astro.props;
+---
+
+{/* 230:1085: invitación a escribir + línea + pie mínimo, sobre ink con el ruido de marca. */}
+<footer class="flex flex-col gap-5 bg-ink px-5 pt-6 pb-6 text-paper surface-noise">
+  <LinksContactReminder title={closing.title} whatsapp={closing.whatsapp} />
+  <hr class="border-neutral-800" />
+  <LinksFooterNav wordmark={closing.wordmark} label={closing.navLabel} links={closing.links} />
+</footer>

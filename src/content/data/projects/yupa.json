@@ -1,0 +1,373 @@
+{
+  "slug": "yupa",
+  "seo": {
+    "description": "Caso Yupa: rediseño y desarrollo de la app para elegir, personalizar y pagar stickers. +29% de conversión y −20% de abandono del checkout.",
+    "keywords": [
+      "caso de estudio",
+      "Yupa",
+      "diseño UX/UI",
+      "e-commerce",
+      "desarrollo de app",
+      "Sensei Studio"
+    ]
+  },
+  "sections": [
+    {
+      "sectionType": "project-hero",
+      "headingContent": {
+        "eyebrow": "Producto completo · 2025",
+        "title": [
+          "Yupa"
+        ],
+        "description": [
+          "Diseño UX/UI × E-commerce × Desarrollo app"
+        ]
+      },
+      "content": {
+        "cardImage": {
+          "src": "images/portadas-de-proyectos/yupa.jpg",
+          "alt": "Portátil sobre un pedestal oscuro con la web de Yupa: logotipo, lema «Tu mundo, tu estilo, tu app» y dos pantallas del catálogo de stickers, en claro y en oscuro."
+        },
+        "claim": [
+          "Tu estilo en segundos.",
+          "Tu pedido en tres pasos."
+        ],
+        "summary": "Rediseño y desarrollo de la app de Yupa: elegir, personalizar y pagar stickers sin perder la personalidad de la marca.",
+        "facts": [
+          {
+            "label": "Cliente",
+            "value": "Yupa · México"
+          },
+          {
+            "label": "Duración",
+            "value": "12 semanas"
+          },
+          {
+            "label": "Nuestro rol",
+            "value": "Diseño UX/UI y desarrollo de app"
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "project-results",
+      "id": "resultados",
+      "headingContent": {
+        "eyebrow": "01 / Resultados",
+        "title": [
+          "Menos scroll.\nMás compras completadas."
+        ],
+        "description": [
+          "Diseño, desarrollo y automatización trabajando hacia el mismo objetivo: convertir mejor y liberar conversiones en compras."
+        ]
+      },
+      "content": {
+        "metrics": [
+          {
+            "value": "+29%",
+            "label": "Conversión de compra",
+            "before": "1,4%",
+            "after": "1,8%",
+            "description": "Cards de material claras y precio visible desde el catálogo."
+          },
+          {
+            "value": "−20%",
+            "label": "Abandono del checkout",
+            "before": "76%",
+            "after": "61%",
+            "description": "Tres pasos visibles, envío y costes claros antes de pagar."
+          },
+          {
+            "value": "−85%",
+            "label": "Scroll en carritos grandes",
+            "before": "2100px",
+            "after": "320px",
+            "description": "Vista colapsable desde 5 productos, sin perder el detalle de cada uno."
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "project-context",
+      "id": "el-proyecto",
+      "headingContent": {
+        "eyebrow": "02 / El proyecto",
+        "title": [
+          "Stickers con personalidad.\nUna compra a su altura."
+        ]
+      },
+      "content": {
+        "lead": "Yupa es una plataforma mexicana para crear y comprar stickers personalizados premium, con colecciones de temporada y un sistema de monedas que premia a quien vuelve. Rediseñamos y desarrollamos su app para que elegir, personalizar y pagar sea tan simple como divertido.",
+        "description": "Un canal 100% online, sin vendedor que resuelva dudas: cada pantalla tenía que hacer ese trabajo.",
+        "fields": [
+          {
+            "label": "Cliente",
+            "value": "Yupa"
+          },
+          {
+            "label": "Industria",
+            "value": "E-commerce / productos personalizados"
+          },
+          {
+            "label": "Servicios",
+            "value": "UX/UI, UX writing y desarrollo de app"
+          },
+          {
+            "label": "Fecha y duración",
+            "value": "2025 · 12 semanas"
+          },
+          {
+            "label": "Equipo",
+            "value": "Diseño, UX writing y desarrollo"
+          }
+        ],
+        "challenge": {
+          "label": "El reto",
+          "title": "Que cada duda no termine en abandono.",
+          "description": "Material, tamaño, cantidad, forma. Sin un vendedor físico, cada decisión que no se entiende es un punto de salida. El reto: mostrar lo suficiente para decidir, sin saturar la pantalla ni frenar la compra."
+        },
+        "goals": {
+          "label": "Tres objetivos, un solo sistema",
+          "items": [
+            "Simplificar la personalización sin quitar opciones.",
+            "Mostrar información clara del producto antes del pago.",
+            "Mantener la voz de Yupa sin sacrificar velocidad."
+          ]
+        }
+      }
+    },
+    {
+      "sectionType": "project-solution",
+      "id": "la-solucion",
+      "headingContent": {
+        "eyebrow": "03 / La solución",
+        "title": [
+          "Un sistema que escala.\nUna marca que se siente."
+        ],
+        "description": [
+          "Componentes modulares que se adaptan al contexto real de compra: de un sticker a un pedido grande, sin perder claridad ni personalidad."
+        ]
+      },
+      "content": {
+        "identity": {
+          "overline": "Yupa / Sistema de marca",
+          "year": "2025",
+          "wordmark": "Yupa®",
+          "concept": [
+            "Un sistema visual juguetón,",
+            "legible y modular."
+          ],
+          "palette": [
+            "#835EC7",
+            "#FFB700",
+            "#574676"
+          ]
+        },
+        "media": [
+          {
+            "src": "images/yupa-images/solution-product-phone.png",
+            "fit": "contain",
+            "alt": "Teléfono con la app de Yupa en modo oscuro: pantalla «Elige tu material» con tarjetas de stickers holográfico, matte, brillante, plata, cromo y transparentes."
+          },
+          {
+            "src": "images/yupa-images/solution-checkout-screens.png",
+            "fit": "contain",
+            "alt": "Tres pantallas de compra de Yupa: elección del material en modo oscuro y en modo claro, y el pedido con pasos Detalles, Pago y Confirmación, cantidad, subtotal y datos de envío."
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "project-process",
+      "id": "el-proceso",
+      "headingContent": {
+        "eyebrow": "04 / El proceso",
+        "title": [
+          "Del problema al checkout.\nEn cuatro etapas."
+        ],
+        "route": [
+          "Research",
+          "Diseño",
+          "Producto"
+        ]
+      },
+      "content": {
+        "stages": [
+          {
+            "name": "Descubrir",
+            "weeks": "Semana 1",
+            "description": "Analizamos datos de uso y el flujo de compra actual. Detectamos en qué pantalla se perdía la decisión.",
+            "deliverable": "Hallazgos UX + mapa de fricciones"
+          },
+          {
+            "name": "Diseñar",
+            "weeks": "Semanas 2–5",
+            "description": "Definimos arquitectura, sistema de componentes y microcopy con voz de marca. Prototipo mobile-first.",
+            "deliverable": "Design system + prototipo en Figma"
+          },
+          {
+            "name": "Construir",
+            "weeks": "Semanas 5–11",
+            "description": "Desarrollamos la app en React e integramos pagos, envíos y el sistema de monedas.",
+            "deliverable": "App + checkout funcional"
+          },
+          {
+            "name": "Validar",
+            "weeks": "Semana 12",
+            "description": "Probamos la compra completa en móvil, estados de error y eventos de medición.",
+            "deliverable": "QA + guía de componentes"
+          }
+        ],
+        "flow": {
+          "title": "La compra termina. El juego continúa.",
+          "overline": "Flujo de recompensas",
+          "steps": [
+            {
+              "title": "Pedido confirmado",
+              "detail": "Pago aprobado"
+            },
+            {
+              "title": "Monedas acreditadas",
+              "detail": "API / saldo del usuario"
+            },
+            {
+              "title": "Colección desbloqueada",
+              "detail": "App / notificación push"
+            },
+            {
+              "title": "Recompra",
+              "detail": "Email / colección de temporada"
+            }
+          ],
+          "note": "Gamificación con una función clara: que volver tenga sentido. El 68% de los usuarios activos mantiene una interacción constante con la app."
+        }
+      }
+    },
+    {
+      "sectionType": "project-scope",
+      "id": "alcance",
+      "headingContent": {
+        "eyebrow": "05 / Alcance y entrega",
+        "title": [
+          "Todo modular.\nNada de más."
+        ],
+        "description": [
+          "Del análisis de uso al checkout en producción. Un sistema de componentes listo para sumar colecciones, productos y campañas sin rediseñar."
+        ]
+      },
+      "content": {
+        "deliverables": [
+          {
+            "title": "Research y estrategia",
+            "description": "Análisis de datos de uso, hallazgos UX y priorización por impacto."
+          },
+          {
+            "title": "Experiencia de compra",
+            "description": "Colecciones, ficha de material, carrito, checkout y estados clave en modo claro y oscuro."
+          },
+          {
+            "title": "UX writing",
+            "description": "Microcopy, CTAs y mensajes de error con la voz de Yupa."
+          },
+          {
+            "title": "Desarrollo y entrega",
+            "description": "App en React, integraciones de pago y envío, biblioteca de componentes y documentación."
+          }
+        ],
+        "tools": {
+          "title": "Herramientas utilizadas",
+          "description": "Para pensar, diseñar y colaborar.",
+          "items": [
+            {
+              "logo": {
+                "src": "case-study/tools/figma.svg",
+                "alt": "Figma"
+              },
+              "description": "Diseño UI y prototipado"
+            },
+            {
+              "logo": {
+                "src": "case-study/tools/notion.svg",
+                "alt": "Notion"
+              },
+              "description": "Research y documentación"
+            },
+            {
+              "logo": {
+                "src": "case-study/tools/github.svg",
+                "alt": "GitHub"
+              },
+              "description": "Versionado y revisión"
+            }
+          ]
+        },
+        "stack": {
+          "title": "Tecnologías propuestas",
+          "items": [
+            "React / interfaz",
+            "TypeScript / tipado",
+            "Node.js / API · Métodos de pago",
+            "Firebase / notificaciones",
+            "GA4 / medición"
+          ]
+        }
+      }
+    },
+    {
+      "sectionType": "project-conclusion",
+      "id": "aprendizajes",
+      "headingContent": {
+        "eyebrow": "06 / Lo que nos llevamos",
+        "title": [
+          "Divertido no significa complicado. Una marca con personalidad también puede ser la más fácil de comprar."
+        ],
+        "description": [
+          "Yupa demostró que voz de marca y conversión no compiten. Cuando cada componente tiene una función, el color, los personajes y el microcopy dejan de decorar y empiezan a guiar."
+        ]
+      },
+      "content": {
+        "image": {
+          "src": "images/yupa-images/conclusion-app-mockup.png",
+          "alt": "Pantallas de la app de Yupa sobre fondo morado: catálogo de stickers con sus personajes y precios en monedas, junto al lema «Tu mundo, tu estilo, tu app»."
+        }
+      }
+    },
+    {
+      "sectionType": "project-next",
+      "id": "siguiente-proyecto",
+      "headingContent": {
+        "eyebrow": "Siguiente proyecto"
+      },
+      "content": {
+        "projectSlug": "remittven"
+      }
+    },
+    {
+      "sectionType": "project-contact",
+      "id": "contacto",
+      "headingContent": {
+        "eyebrow": "Tu próximo proyecto",
+        "title": [
+          "Tu marca tiene potencial.\nHagámoslo visible."
+        ],
+        "description": [
+          "Diseño, desarrollo y automatización. Hablemos de lo que necesitas y de cómo llevarlo más lejos."
+        ]
+      },
+      "content": {
+        "meeting": {
+          "label": "Agenda una reunión",
+          "href": "/#contacto"
+        },
+        "quote": {
+          "label": "Solicita una cotización",
+          "href": "/#contacto"
+        },
+        "note": [
+          "Primera conversación, sin compromiso.",
+          "Nos cuentas tu idea; definimos el siguiente paso."
+        ]
+      }
+    }
+  ]
+}

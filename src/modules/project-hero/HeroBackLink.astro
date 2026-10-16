@@ -1,0 +1,23 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  /** Flecha inicial decorativa (aria-hidden). */
+  marker: string;
+}
+
+const { href, label, marker } = Astro.props;
+---
+
+{/* Enlace de vuelta sobre la portada; área táctil de 44px. */}
+<a
+  href={href}
+  class="group flex min-h-11 w-fit items-center gap-2 font-heading text-body-sm text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+>
+  <span
+    aria-hidden="true"
+    class="motion-safe:transition-transform motion-safe:duration-(--duration-fast) motion-safe:ease-standard motion-safe:group-hover:-translate-x-0.5"
+    >{marker}</span
+  >
+  <span class="underline-offset-4 group-hover:underline">{label}</span>
+</a>

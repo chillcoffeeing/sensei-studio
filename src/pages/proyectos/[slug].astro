@@ -1,0 +1,27 @@
+---
+import type { GetStaticPaths } from 'astro';
+import SectionRenderer from '@/app/SectionRenderer.astro';
+import type { Page } from '@/app/sections';
+import { projects } from '@/content/projects';
+import { caseSchemaOf } from '@/content/seo';
+import site from '@/content/site';
+import BaseLayout from '@/layout/BaseLayout.astro';
+
+export const prerender = true;
+
+export const getStaticPaths = (() =>
+  projects.map((project) => ({ params: { slug: project.slug }, props: { project } }))) satisfies GetStaticPaths;
+
+interface Props {
+  project: Page;
+}
+
+const { project } = Astro.props;
+---
+
+{/* Caso de estudio: el mismo SectionRenderer que la home. El header del sitio va en flujo sobre la portada. */}
+<BaseLayout seo={project.seo} site={site} schema={caseSchemaOf(project)}>
+  <main>
+    <SectionRenderer sections={project.sections} />
+  </main>
+</BaseLayout>

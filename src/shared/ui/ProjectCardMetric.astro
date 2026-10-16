@@ -1,0 +1,16 @@
+---
+import type { ProjectMetricData } from './types';
+
+interface Props {
+  metric: ProjectMetricData;
+  class?: string;
+}
+
+const { metric, class: className } = Astro.props;
+---
+
+{/* Métrica del detalle de ProjectCard (dentro de su <dl>): valor arriba, etiqueta abajo. */}
+<div class:list={['flex flex-col-reverse justify-end gap-0.5 rounded-metric border border-glass-line px-3 py-2.5 bg-black/50 @max-md:px-2 @max-md:py-1.5', className]}>
+  <dt class="font-body text-metric-label">{metric.label}</dt>
+  <dd class="font-mono text-metric">{metric.value}</dd>
+</div>

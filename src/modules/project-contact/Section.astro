@@ -1,0 +1,47 @@
+---
+import { headingIdOf } from '@/core/content';
+import ContactInvitation from './ContactInvitation.astro';
+import ContactOptions from './ContactOptions.astro';
+import type { ProjectContactSection } from './schema';
+
+interface Props {
+  section: ProjectContactSection;
+}
+
+const { section } = Astro.props;
+const { headingContent, content } = section;
+const headingId = headingIdOf(section);
+---
+
+{/*
+  Tu próximo proyecto (Yupa 243:530), a sangre sobre tinta con ruido. No es el contacto de la
+  landing (formulario en card glass): aquí son dos acciones y una nota. Hasta lg: invitación y
+  acciones apiladas; desde xl en fila (acciones a la derecha, 295px).
+  Motion: invitación → acciones con reveal-up escalonado (reduced motion o sin JS: estado final).
+*/}
+<section id={section.id} aria-labelledby={headingId} data-project-contact data-floating-bar-avoid class="bg-ink surface-noise py-16 text-paper lg:py-22.5">
+  <div
+    data-reveal="[data-reveal-item]"
+    data-reveal-amount="0"
+    data-reveal-margin="0px 0px -15% 0px"
+    class="container-page flex flex-col gap-10 xl:flex-row xl:items-center xl:gap-20"
+  >
+    <div data-reveal-item class="reveal-up min-w-0 flex-1">
+      <ContactInvitation
+        headingId={headingId}
+        label={headingContent.eyebrow}
+        title={headingContent.title}
+        description={headingContent.description}
+      />
+    </div>
+    <div data-reveal-item class="reveal-up xl:w-73.75 xl:shrink-0">
+      <ContactOptions content={content} />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealAll } from '@/shared/lib/motion';
+
+  for (const section of document.querySelectorAll<HTMLElement>('[data-project-contact]')) revealAll(section);
+</script>

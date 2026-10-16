@@ -1,0 +1,21 @@
+---
+interface Props {
+  steps: string[];
+  /** Separador decorativo entre pasos (aria-hidden). */
+  separator: string;
+}
+
+const { steps, separator } = Astro.props;
+---
+
+{/* Ruta "estrategia → diseño → producto": se lee como una frase, sin el separador. */}
+<p class="flex flex-wrap items-center gap-x-2 gap-y-1 font-body text-body-sm text-line uppercase xl:shrink-0">
+  {
+    steps.map((step, index) => (
+      <>
+        {index > 0 && <span aria-hidden="true">{separator}</span>}
+        <span>{step}</span>
+      </>
+    ))
+  }
+</p>

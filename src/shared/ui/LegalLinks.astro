@@ -1,0 +1,39 @@
+---
+import divider from '@/assets/ui/divider-vertical.svg';
+import type { UiOptionalLink } from './types';
+
+interface Props {
+  /** Enlaces secundarios en orden; sin `href` se pintan como texto. */
+  links: UiOptionalLink[];
+}
+
+const { links } = Astro.props;
+---
+
+{/*
+  Figma 174:55: enlaces de 13px ink-muted (→ paper en hover) separados por una línea vertical
+  de 10px (meta-divider girado 90°), gap 12.
+*/}
+<p class="flex items-center gap-3 font-heading text-meta whitespace-nowrap text-ink-muted">
+  {
+    links.map((link, i) => (
+      <>
+        {i > 0 && (
+          <span class="flex h-2.5 w-0 items-center justify-center" aria-hidden="true">
+            <img src={divider.src} width={divider.width} height={divider.height} alt="" class="max-w-none rotate-90" />
+          </span>
+        )}
+        {link.href ? (
+          <a
+            href={link.href}
+            class="transition-colors duration-(--duration-fast) hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          >
+            {link.label}
+          </a>
+        ) : (
+          <span>{link.label}</span>
+        )}
+      </>
+    ))
+  }
+</p>

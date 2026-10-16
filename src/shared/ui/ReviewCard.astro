@@ -1,0 +1,33 @@
+---
+import { initials } from '@/shared/lib/initials';
+import AvatarInitials from './AvatarInitials.astro';
+import type { AvatarTone } from './types';
+
+interface Props {
+  name: string;
+  /** Rol o proyecto, bajo el nombre. */
+  role: string;
+  quote: string;
+  /** Tono del avatar (dato de posición que calcula quien reparte las cards). */
+  tone: AvatarTone;
+}
+
+const { name, role, quote, tone } = Astro.props;
+---
+
+{/*
+  Figma 174:192: card blanca, radio 16, sombra card, padding 24, gap 16. Cabecera: avatar 40 +
+  gap 12 + nombre y rol (gap 2); debajo, la cita en ink-muted.
+*/}
+<figure class="flex flex-col gap-4 rounded-card bg-paper p-6 shadow-card">
+  <figcaption class="flex items-center gap-3">
+    <AvatarInitials initials={initials(name)} tone={tone} />
+    <span class="flex min-w-0 flex-1 flex-col gap-0.5">
+      <span class="font-heading text-card-title text-ink">{name}</span>
+      <span class="font-heading text-caption text-ink-soft">{role}</span>
+    </span>
+  </figcaption>
+  <blockquote class="font-heading text-quote text-ink-muted">
+    <p>{quote}</p>
+  </blockquote>
+</figure>

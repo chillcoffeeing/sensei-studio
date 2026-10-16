@@ -1,0 +1,350 @@
+---
+// Catálogo interno de la librería (UI-LIB-001): renderiza cada componente de src/shared/ui con
+// datos reales de src/content/ para revisión visual. noindex y fuera del sitemap (el sitemap
+// solo lista content/pages). Documentación: docs/components.md.
+import type { LocalImageRef } from '@/core/content';
+import uiCatalog from '@/content/ui-catalog';
+import site from '@/content/site';
+import BaseLayout from '@/layout/BaseLayout.astro';
+import { initials } from '@/shared/lib/initials';
+import { slideLabel } from '@/shared/lib/slider';
+import AccordionCards from '@/shared/ui/AccordionCards.svelte';
+import AvatarInitials from '@/shared/ui/AvatarInitials.astro';
+import ButtonBrand from '@/shared/ui/ButtonBrand.svelte';
+import ButtonCtaBrand from '@/shared/ui/ButtonCtaBrand.svelte';
+import CtaBrandShape from '@/shared/ui/CtaBrandShape.svelte';
+import ButtonInk from '@/shared/ui/ButtonInk.svelte';
+import ButtonPauseGlass from '@/shared/ui/ButtonPauseGlass.svelte';
+import LinkButtonPaper from '@/shared/ui/LinkButtonPaper.astro';
+import Eyebrow from '@/shared/ui/Eyebrow.astro';
+import LabelMarker from '@/shared/ui/LabelMarker.svelte';
+import FieldError from '@/shared/ui/FieldError.svelte';
+import FormStatus from '@/shared/ui/FormStatus.svelte';
+import FormStatusError from '@/shared/ui/FormStatusError.svelte';
+import HeadingOverline from '@/shared/ui/HeadingOverline.astro';
+import InputGlass from '@/shared/ui/InputGlass.svelte';
+import LabelHidden from '@/shared/ui/LabelHidden.svelte';
+import LegalLinks from '@/shared/ui/LegalLinks.astro';
+import LinkCtaBrand from '@/shared/ui/LinkCtaBrand.svelte';
+import LinkFooter from '@/shared/ui/LinkFooter.astro';
+import LinkIconInk from '@/shared/ui/LinkIconInk.svelte';
+import LinkLogo from '@/shared/ui/LinkLogo.svelte';
+import LinkMenu from '@/shared/ui/LinkMenu.svelte';
+import LinkMore from '@/shared/ui/LinkMore.astro';
+import LinkNav from '@/shared/ui/LinkNav.astro';
+import Photo from '@/shared/ui/Photo.astro';
+import ProjectCard from '@/shared/ui/ProjectCard.astro';
+import ReviewCard from '@/shared/ui/ReviewCard.astro';
+import SectionDescription from '@/shared/ui/SectionDescription.astro';
+import SectionHeader from '@/shared/ui/SectionHeader.astro';
+import ShowcaseCarousel from '@/shared/ui/ShowcaseCarousel.astro';
+import StepperSlider from '@/shared/ui/StepperSlider.astro';
+import TeamCard from '@/shared/ui/TeamCard.astro';
+import TeamSlider from '@/shared/ui/TeamSlider.astro';
+import TextareaGlass from '@/shared/ui/TextareaGlass.svelte';
+import ToneText from '@/shared/ui/ToneText.astro';
+import TrustBadge from '@/shared/ui/TrustBadge.astro';
+import UserPlaceholder from '@/shared/ui/UserPlaceholder.astro';
+import type { AvatarTone } from '@/shared/ui/types';
+
+export const prerender = true;
+
+const { seo, h1, intro, groups, samples } = uiCatalog;
+const icon = (ref: LocalImageRef) => ({ src: ref.src.src, width: ref.src.width, height: ref.src.height });
+
+// Componentes que viven sobre una superficie oscura: su ejemplo se pinta sobre ink.
+const onInk = new Set([
+  'HeadingOverline',
+  'LinkLogo',
+  'LinkNav',
+  'LinkMenu',
+  'LinkFooter',
+  'LegalLinks',
+  'LinkCtaBrand',
+  'ButtonBrand',
+  'ButtonInk',
+  'ButtonPauseGlass',
+  'LinkButtonPaper',
+  'LabelHidden',
+  'InputGlass',
+  'TextareaGlass',
+  'FieldError',
+  'FormStatus',
+  'FormStatusError',
+  'ShowcaseCarousel',
+  'StepperSlider',
+]);
+const tones: AvatarTone[] = [1, 2, 3, 4];
+const projectSizes = '(min-width: 768px) 650px, calc(100vw - 32px)';
+const fieldId = 'componentes-email';
+const messageId = 'componentes-message';
+---
+
+<BaseLayout seo={seo} site={site}>
+  <main class="container-page flex flex-col gap-20 py-20">
+    <div class="flex max-w-191 flex-col gap-3.75">
+      <h1 class="font-heading text-h2 text-ink">{h1}</h1>
+      <p class="font-body text-body text-ink-muted">{intro}</p>
+    </div>
+
+    {
+      Object.entries(groups).map(([key, group]) => (
+        <section aria-labelledby={`grupo-${key}`} class="flex flex-col gap-10">
+          <h2 id={`grupo-${key}`} class="border-b border-divider pb-3 font-heading text-title text-ink">
+            {group.title}
+          </h2>
+          {group.entries.map((entry) => (
+            <article class="flex flex-col gap-4" data-component={entry.name}>
+              <div class="flex flex-col gap-1.25">
+                <h3 class="font-mono text-body-sm text-ink">{entry.name}</h3>
+                <p class="font-body text-body-sm text-ink-muted">{entry.usage}</p>
+              </div>
+              <div
+                class:list={[
+                  'flex flex-col items-start gap-6 rounded-card p-6',
+                  onInk.has(entry.name) ? 'bg-ink surface-noise tone-on-ink text-paper' : 'border border-divider',
+                ]}
+              >
+                {entry.name === 'ToneText' && (
+                  <p class="font-heading text-h2 text-(color:--tone-strong)">
+                    <ToneText value={samples.title} />
+                  </p>
+                )}
+                {entry.name === 'Eyebrow' && <Eyebrow text={samples.eyebrow} />}
+                {entry.name === 'LabelMarker' && (
+                  <p class="text-ink">
+                    <LabelMarker text={samples.labelMarker} />
+                  </p>
+                )}
+                {entry.name === 'SectionHeader' && (
+                  <div class="w-full">
+                    <SectionHeader headingId="componentes-section-header" eyebrow={samples.eyebrow} title={samples.title}>
+                      <div slot="aside" class="max-w-102.5">
+                        <SectionDescription value={samples.description} />
+                      </div>
+                    </SectionHeader>
+                  </div>
+                )}
+                {entry.name === 'SectionDescription' && (
+                  <div class="max-w-102.5">
+                    <SectionDescription value={samples.description} />
+                  </div>
+                )}
+                {entry.name === 'HeadingOverline' && <HeadingOverline text={samples.overline} />}
+                {entry.name === 'LinkMore' && <LinkMore {...samples.linkMore} />}
+                {entry.name === 'LinkLogo' && (
+                  <LinkLogo href={samples.logo.href} logo={icon(samples.logo)} label={samples.logo.alt} />
+                )}
+                {entry.name === 'LinkNav' && (
+                  <ul class="flex flex-wrap items-center gap-15.25">
+                    {samples.nav.map((link) => (
+                      <li>
+                        <LinkNav href={link.href} label={link.label} />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {entry.name === 'LinkMenu' && (
+                  <ul class="flex flex-col gap-6">
+                    {samples.nav.map((link) => (
+                      <li>
+                        <LinkMenu href={link.href} label={link.label} />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {entry.name === 'LinkFooter' && (
+                  <ul class="flex flex-col gap-4">
+                    {samples.footerLinks.map((link) => (
+                      <li>
+                        <LinkFooter label={link.label} href={link.href} />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {entry.name === 'LegalLinks' && <LegalLinks links={samples.legal} />}
+                {entry.name === 'LinkIconInk' && (
+                  <LinkIconInk
+                    href={samples.iconLink.href}
+                    label={`${samples.iconLink.label} ${samples.iconLink.newTab}`}
+                    icon={icon(samples.iconLink.icon)}
+                  />
+                )}
+                {entry.name === 'LinkCtaBrand' && (
+                  <LinkCtaBrand href={samples.cta.href} label={samples.cta.label} icon={icon(samples.cta.icon)} />
+                )}
+                {entry.name === 'CtaBrandShape' && <CtaBrandShape label={samples.cta.label} icon={icon(samples.cta.icon)} />}
+                {entry.name === 'ButtonCtaBrand' && (
+                  <ButtonCtaBrand label={samples.quoteSubmit.label} icon={icon(samples.quoteSubmit.icon)} />
+                )}
+                {entry.name === 'ButtonBrand' && <ButtonBrand label={samples.menuOpen} />}
+                {entry.name === 'ButtonInk' && (
+                  <div class="w-full max-w-111.5">
+                    <ButtonInk label={samples.submitLabel} />
+                  </div>
+                )}
+                {entry.name === 'LinkButtonPaper' && (
+                  <div class="w-full max-w-111.5">
+                    <LinkButtonPaper href={samples.projectLink.href} label={samples.projectLink.label} />
+                  </div>
+                )}
+                {entry.name === 'ButtonPauseGlass' && (
+                  <div class="flex items-center gap-6">
+                    <ButtonPauseGlass
+                      label={samples.pause.label}
+                      pressed={false}
+                      pauseIcon={icon(samples.pause.pauseIcon)}
+                      playIcon={icon(samples.pause.playIcon)}
+                    />
+                    <ButtonPauseGlass
+                      label={samples.pause.label}
+                      pressed={true}
+                      pauseIcon={icon(samples.pause.pauseIcon)}
+                      playIcon={icon(samples.pause.playIcon)}
+                    />
+                  </div>
+                )}
+                {entry.name === 'LabelHidden' && (
+                  <div class="w-full max-w-111.5">
+                    <LabelHidden for={`${fieldId}-label`} text={samples.field.label} />
+                    <InputGlass id={`${fieldId}-label`} name="email" type="email" placeholder={samples.field.label} />
+                  </div>
+                )}
+                {entry.name === 'InputGlass' && (
+                  <div class="flex w-full max-w-111.5 flex-col gap-3">
+                    <LabelHidden for={`${fieldId}-ok`} text={samples.field.label} />
+                    <InputGlass id={`${fieldId}-ok`} name="email" type="email" placeholder={samples.field.label} />
+                    <div class="flex flex-col">
+                      <LabelHidden for={`${fieldId}-invalid`} text={samples.field.label} />
+                      <InputGlass
+                        id={`${fieldId}-invalid`}
+                        name="email"
+                        type="email"
+                        placeholder={samples.field.label}
+                        aria-invalid="true"
+                        aria-describedby={`${fieldId}-invalid-error`}
+                      />
+                      <FieldError id={`${fieldId}-invalid-error`} message={samples.field.error} />
+                    </div>
+                  </div>
+                )}
+                {entry.name === 'TextareaGlass' && (
+                  <div class="flex w-full max-w-111.5 flex-col gap-3">
+                    <LabelHidden for={`${messageId}-ok`} text={samples.message.label} />
+                    <TextareaGlass id={`${messageId}-ok`} name="message" rows={4} placeholder={samples.message.label} />
+                    <div class="flex flex-col">
+                      <LabelHidden for={`${messageId}-invalid`} text={samples.message.label} />
+                      <TextareaGlass
+                        id={`${messageId}-invalid`}
+                        name="message"
+                        rows={4}
+                        placeholder={samples.message.label}
+                        aria-invalid="true"
+                        aria-describedby={`${messageId}-invalid-error`}
+                      />
+                      <FieldError id={`${messageId}-invalid-error`} message={samples.message.error} />
+                    </div>
+                  </div>
+                )}
+                {entry.name === 'FieldError' &&<FieldError id={`${fieldId}-error`} message={samples.field.error} />}
+                {entry.name === 'FormStatus' && <FormStatus message={samples.status.sent} />}
+                {entry.name === 'FormStatusError' && <FormStatusError message={samples.status.error} />}
+                {entry.name === 'AvatarInitials' && (
+                  <div class="flex items-center gap-3">
+                    {tones.map((tone, i) => (
+                      <AvatarInitials initials={initials(samples.reviews[i % samples.reviews.length]!.name)} tone={tone} />
+                    ))}
+                  </div>
+                )}
+                {entry.name === 'ReviewCard' && (
+                  <ul class="grid w-full gap-5 md:grid-cols-2">
+                    {samples.reviews.map((review, i) => (
+                      <li>
+                        <ReviewCard name={review.name} role={review.role} quote={review.quote} tone={tones[i % tones.length]!} />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {entry.name === 'TrustBadge' && (
+                  <TrustBadge avatars={samples.trust.avatars} count={samples.trust.count} rating={samples.trust.rating} caption={samples.trust.caption} />
+                )}
+                {entry.name === 'ProjectCard' && (
+                  <div class="w-full max-w-162.5">
+                    <ProjectCard project={samples.project} sizes={projectSizes} />
+                  </div>
+                )}
+                {entry.name === 'ShowcaseCarousel' && (
+                  <div class="w-full overflow-hidden">
+                    <ShowcaseCarousel labels={samples.showcase.labels} slides={samples.showcase.slides} />
+                  </div>
+                )}
+                {entry.name === 'TeamCard' && (
+                  <div class="flex flex-wrap gap-5.25">
+                    {samples.team.cards.map((person, i) => (
+                      <TeamCard
+                        person={person}
+                        roleDescription={samples.team.labels.slideRoleDescription}
+                        label={slideLabel(samples.team.labels.slidePosition, i + 1, samples.team.cards.length)}
+                      />
+                    ))}
+                  </div>
+                )}
+                {entry.name === 'UserPlaceholder' && (
+                  <div class="size-30 overflow-hidden rounded-media">
+                    <UserPlaceholder />
+                  </div>
+                )}
+                {entry.name === 'Photo' && (
+                  <ul class="flex gap-4">
+                    {samples.photos.map((photo) => (
+                      <li class="aspect-(--service-image-aspect) w-46.75 overflow-hidden rounded-media">
+                        <Photo image={photo} width={374} height={636} widths={[187, 374]} sizes="187px" class="block size-full object-cover" />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {entry.name === 'TeamSlider' && (
+                  <div class="w-full overflow-hidden">
+                    <TeamSlider labels={samples.team.labels}>
+                      {samples.team.members.map((member, i) => (
+                        <TeamCard
+                          person={member}
+                          roleDescription={samples.team.labels.slideRoleDescription}
+                          label={slideLabel(samples.team.labels.slidePosition, i + 1, samples.team.members.length)}
+                        />
+                      ))}
+                    </TeamSlider>
+                  </div>
+                )}
+                {entry.name === 'StepperSlider' && (
+                  <div class="w-full">
+                    <StepperSlider labels={samples.stepper.labels} markers={samples.stepper.steps.map((step) => step.number)}>
+                      <ol class="grid gap-x-7.5 gap-y-10 md:grid-cols-2 xl:grid-cols-4">
+                        {samples.stepper.steps.map((step) => (
+                          <li class="flex flex-col gap-3">
+                            <p class="font-heading text-title text-(color:--tone-strong)">{step.title}</p>
+                            <p class="font-body text-body text-(color:--tone-muted)">{step.description}</p>
+                          </li>
+                        ))}
+                      </ol>
+                    </StepperSlider>
+                  </div>
+                )}
+                {entry.name === 'AccordionCards' && (
+                  <div lang={samples.faq.lang} class="w-full max-w-198.5">
+                    <AccordionCards
+                      client:visible
+                      baseId="componentes-faq"
+                      items={samples.faq.items}
+                      icon={icon(samples.faq.icon)}
+                    />
+                  </div>
+                )}
+              </div>
+            </article>
+          ))}
+        </section>
+      ))
+    }
+  </main>
+</BaseLayout>

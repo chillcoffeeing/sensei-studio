@@ -1,0 +1,391 @@
+{
+  "slug": "cappi-xtremo",
+  "seo": {
+    "description": "Caso Cappi Xtremo: sitio de venta, portal de familias y backoffice para un campamento en Venezuela. −80% de tiempo de inscripción y −90% al verificar pagos.",
+    "keywords": [
+      "caso de estudio",
+      "Cappi Xtremo",
+      "diseño UX/UI",
+      "desarrollo web",
+      "portal de familias",
+      "backoffice",
+      "campamento vacacional",
+      "Sensei Studio"
+    ]
+  },
+  "sections": [
+    {
+      "sectionType": "project-hero",
+      "headingContent": {
+        "eyebrow": "Producto completo · 2026",
+        "title": [
+          "Cappi Xtremo"
+        ],
+        "description": [
+          "Producto × Diseño UX/UI × Desarrollo"
+        ]
+      },
+      "content": {
+        "cardImage": {
+          "src": "images/portadas-de-proyectos/cappi-xtremo.jpg",
+          "alt": "Portátil sobre un pedestal oscuro, frente a un fondo verde azulado, con el inicio del portal de familias de Cappi Xtremo: avisos de pago y de datos pendientes, saldo y participantes."
+        },
+        "logo": {
+          "src": "images/cappi-xtremo-images/logo.png",
+          "alt": "Vacaciones Extremas con Cappi"
+        },
+        "claim": [
+          "De cientos de chats.",
+          "A una sola plataforma."
+        ],
+        "summary": "Sitio de venta, portal de familias y backoffice para un campamento vacacional en Venezuela: inscripciones, pagos y comunicación en un solo lugar.",
+        "facts": [
+          {
+            "label": "Cliente",
+            "value": "Cappi Xtremo · Venezuela"
+          },
+          {
+            "label": "Duración",
+            "value": "10 semanas"
+          },
+          {
+            "label": "Nuestro rol",
+            "value": "Producto, diseño y desarrollo"
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "project-results",
+      "id": "resultados",
+      "headingContent": {
+        "eyebrow": "01 / Resultados",
+        "title": [
+          "Menos mensajes.\nMás temporada bajo control."
+        ],
+        "description": [
+          "Una plataforma que acompaña a la familia antes, durante y después del campamento, y le da al equipo el control desde un solo panel."
+        ]
+      },
+      "content": {
+        "metrics": [
+          {
+            "value": "−80%",
+            "label": "Tiempo de inscripción por familia",
+            "before": "~25 min",
+            "after": "5 min",
+            "description": "Seis pasos guiados en el portal, en lugar de una conversación larga por WhatsApp."
+          },
+          {
+            "value": "−90%",
+            "label": "Tiempo para verificar un pago",
+            "before": "~10 min",
+            "after": "1 min",
+            "description": "Pagos reportados con comprobante y aprobados desde una bandeja única."
+          },
+          {
+            "value": "95%",
+            "label": "Fichas médicas completas antes del día 1",
+            "before": "~60%",
+            "after": "95%",
+            "description": "Paso de salud dentro de la inscripción, con opción de completar después."
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "project-context",
+      "id": "el-proyecto",
+      "headingContent": {
+        "eyebrow": "02 / El proyecto",
+        "title": [
+          "Aventura para los niños.\nTranquilidad para las familias."
+        ]
+      },
+      "content": {
+        "lead": "Cappi Xtremo es un campamento vacacional para niños de 5 a 15 años en Guanare, Venezuela. Diseñamos y desarrollamos su sitio de venta y una plataforma propia con dos caras: un portal para familias y un backoffice para el equipo.",
+        "fields": [
+          {
+            "label": "Cliente",
+            "value": "Cappi Xtremo"
+          },
+          {
+            "label": "Industria",
+            "value": "Educación y recreación / campamentos vacacionales"
+          },
+          {
+            "label": "Servicios",
+            "value": "Producto, UX/UI, UX writing y desarrollo"
+          },
+          {
+            "label": "Fecha y duración",
+            "value": "2026 · 10 semanas"
+          },
+          {
+            "label": "Equipo",
+            "value": "Producto, diseño y desarrollo"
+          }
+        ],
+        "challenge": {
+          "label": "El reto",
+          "title": "Que la temporada no dependa del WhatsApp.",
+          "description": "Toda la operación vivía en chats y hojas de cálculo. Cada inscripción implicaba decenas de mensajes, cada pago se verificaba comparando capturas a mano y los datos médicos llegaban incompletos o el mismo día."
+        },
+        "goals": {
+          "label": "Tres objetivos, un solo sistema",
+          "items": [
+            "Que una familia se inscriba sola, en minutos.",
+            "Verificar pagos por Zelle, Binance o efectivo sin cuellos de botella.",
+            "Dar tranquilidad a padres que no pueden entrar a la sede."
+          ]
+        }
+      }
+    },
+    {
+      "sectionType": "project-solution",
+      "id": "la-solucion",
+      "headingContent": {
+        "eyebrow": "03 / La solución",
+        "title": [
+          "Tres piezas.\nUn mismo sistema."
+        ],
+        "description": [
+          "Sitio de venta, portal de familias y backoffice comparten lenguaje visual y datos. El sitio habla de experiencias; la logística vive en el portal."
+        ]
+      },
+      "content": {
+        "identity": {
+          "overline": "Cappi / Sistema de marca",
+          "year": "2025",
+          "wordmark": "Cappi®",
+          "concept": [
+            "Sistema visual",
+            "Energía de campamento, legibilidad de producto."
+          ],
+          "palette": [
+            "#FF5B35",
+            "#326789",
+            "#111312"
+          ]
+        },
+        "media": [
+          {
+            "src": "images/cappi-xtremo-images/solution-website.jpg",
+            "fit": "contain",
+            "alt": "Inicio del sitio de venta de Cappi Xtremo: niños corriendo sobre un tobogán de agua, el titular «Conectando sonrisas, creamos familia» y los botones «Ver fechas y plan vacacional» y «Únete ahora»."
+          },
+          {
+            "src": "images/cappi-xtremo-images/solution-portal-home.png",
+            "fit": "contain",
+            "alt": "Inicio del portal de familias: avisos para coordinar el primer pago y completar datos, tarjetas de total a pagar, abonado, saldo pendiente y próxima fecha límite, y la lista de participantes."
+          },
+          {
+            "src": "images/cappi-xtremo-images/solution-portal-payments.png",
+            "fit": "contain",
+            "alt": "Pagos del portal de familias: estado de cuenta, tabla de órdenes con la inscripción al plan vacacional y su saldo, e historial de reportes de pago por Zelle."
+          },
+          {
+            "src": "images/cappi-xtremo-images/solution-backoffice.png",
+            "fit": "contain",
+            "alt": "Escritorio del backoffice en modo oscuro: pagos pendientes por verificar, pedidos de tienda, representantes, fichas incompletas, cupos disponibles, avance del plan y actividad reciente."
+          }
+        ]
+      }
+    },
+    {
+      "sectionType": "project-process",
+      "id": "el-proceso",
+      "headingContent": {
+        "eyebrow": "04 / El proceso",
+        "title": [
+          "Del problema al prototipo"
+        ],
+        "route": [
+          "Research",
+          "Diseño",
+          "Producto"
+        ]
+      },
+      "content": {
+        "stages": [
+          {
+            "name": "Descubrir",
+            "weeks": "Semana 1",
+            "description": "Levantamos reglas del negocio con el equipo de Cappi. Encontramos los cuatro puntos que frenaban la operación."
+          },
+          {
+            "name": "Diseñar",
+            "weeks": "Semanas 2–4",
+            "description": "Flujos, sistema visual compartido y prototipo funcional en Lovable para validar con el equipo."
+          },
+          {
+            "name": "Construir",
+            "weeks": "Semanas 5–9",
+            "description": "Sitio en Astro, portal y backoffice en Laravel con Supabase para datos, autenticación y archivos."
+          },
+          {
+            "name": "Lanzar",
+            "weeks": "Semana 10",
+            "description": "QA de inscripción, pagos y búsqueda, carga de las 17 preguntas frecuentes y capacitación al staff."
+          }
+        ],
+        "flow": {
+          "title": "El dinero sale. El seguimiento continúa.",
+          "overline": "Flujo de recompensas",
+          "steps": [
+            {
+              "title": "Pago reportado",
+              "detail": "Zelle, Binance o efectivo / comprobante"
+            },
+            {
+              "title": "Bandeja única",
+              "detail": "Admin / pagos por verificar"
+            },
+            {
+              "title": "Aprobado",
+              "detail": "Balance familiar / actualizado al instante"
+            },
+            {
+              "title": "Recordatorio",
+              "detail": "WhatsApp / días 14 y 29 de cada mes"
+            }
+          ],
+          "note": "0% de comisión de pasarela. Cuotas libres desde $20, verificación humana y un estado de cuenta que la familia siempre puede consultar."
+        }
+      }
+    },
+    {
+      "sectionType": "project-scope",
+      "id": "alcance",
+      "headingContent": {
+        "eyebrow": "05 / Alcance y entrega",
+        "title": [
+          "Tres roles.\nUn solo panel."
+        ],
+        "description": [
+          "Admin, staff y familias trabajan sobre los mismos datos. De la primera visita al sitio a la búsqueda de un campista el día del campamento."
+        ]
+      },
+      "content": {
+        "deliverables": [
+          {
+            "title": "Producto y reglas de negocio",
+            "description": "Requerimientos, roles, arquitectura de las 3 piezas y lógica de pagos."
+          },
+          {
+            "title": "Sitio de venta",
+            "description": "Planes vacacionales, programas especiales, staff, galería, 17 preguntas frecuentes y copy con voz propia."
+          },
+          {
+            "title": "Portal de familias",
+            "description": "Inscripción en 6 pasos, fichas por hijo, pagos, inicio del día y tienda privada."
+          },
+          {
+            "title": "Backoffice",
+            "description": "Bandeja de pagos, búsqueda global por cédula, reportes de tallas y gestión de la temporada."
+          }
+        ],
+        "tools": {
+          "title": "Herramientas utilizadas",
+          "description": "Para pensar, diseñar y colaborar.",
+          "items": [
+            {
+              "logo": {
+                "src": "case-study/tools/figma.svg",
+                "alt": "Figma"
+              },
+              "description": "Diseño UI y prototipado"
+            },
+            {
+              "logo": {
+                "src": "case-study/tools/notion.svg",
+                "alt": "Notion"
+              },
+              "description": "Documentación"
+            },
+            {
+              "logo": {
+                "src": "case-study/tools/claude.png",
+                "alt": "Claude"
+              },
+              "description": "Claude"
+            },
+            {
+              "logo": {
+                "src": "case-study/tools/github.svg",
+                "alt": "GitHub"
+              },
+              "description": "GitHub"
+            }
+          ]
+        },
+        "stack": {
+          "title": "Tecnologías propuestas",
+          "items": [
+            "Astro",
+            "Laravel + PHP",
+            "Supabase",
+            "Figma Variables",
+            "Métricas y analítica"
+          ]
+        }
+      }
+    },
+    {
+      "sectionType": "project-conclusion",
+      "id": "aprendizajes",
+      "headingContent": {
+        "eyebrow": "06 / Lo que nos llevamos",
+        "title": [
+          "La aventura es de los niños.\nLa calma, de las familias."
+        ],
+        "description": [
+          "Cappi Xtremo confirmó que la confianza no se gana en el chat. Cuando inscribir, pagar y completar la ficha médica tiene un solo lugar, el equipo deja de perseguir mensajes y vuelve a lo que importa: el campamento."
+        ]
+      },
+      "content": {
+        "image": {
+          "src": "images/cappi-xtremo-images/conclusion-website-hero.jpg",
+          "alt": "Portada del sitio de Cappi Xtremo: niños corriendo sobre un tobogán de agua bajo el titular «Conectando sonrisas, creamos familia»."
+        }
+      }
+    },
+    {
+      "sectionType": "project-next",
+      "id": "siguiente-proyecto",
+      "headingContent": {
+        "eyebrow": "Siguiente proyecto"
+      },
+      "content": {
+        "projectSlug": "yupa"
+      }
+    },
+    {
+      "sectionType": "project-contact",
+      "id": "contacto",
+      "headingContent": {
+        "eyebrow": "Tu próximo proyecto",
+        "title": [
+          "Tu marca tiene potencial.\nHagámoslo visible."
+        ],
+        "description": [
+          "Diseño, desarrollo y automatización. Hablemos de lo que necesitas y de cómo llevarlo más lejos."
+        ]
+      },
+      "content": {
+        "meeting": {
+          "label": "Agenda una reunión",
+          "href": "/#contacto"
+        },
+        "quote": {
+          "label": "Solicita una cotización",
+          "href": "/#contacto"
+        },
+        "note": [
+          "Primera conversación, sin compromiso.",
+          "Nos cuentas tu idea; definimos el siguiente paso."
+        ]
+      }
+    }
+  ]
+}

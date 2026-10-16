@@ -1,0 +1,21 @@
+---
+interface Props {
+  href: string;
+  label: string;
+}
+
+const { href, label } = Astro.props;
+---
+
+{/*
+  MOT-PROJECTS-V2: enlace con forma de botón píldora paper a todo el ancho, texto 18/400 ink.
+  Vive sobre glass oscuro (detalle de ProjectCard): hover a brand y foco paper. Figma no lo
+  diseña; tamaño y peso vienen de la feature (text-button-lg).
+  En una card estrecha (@max-md del contenedor) baja el relleno vertical; min-h-11 asegura 44 px.
+*/}
+<a
+  href={href}
+  class="flex min-h-11 w-full items-center justify-center rounded-pill bg-paper px-6 py-3.5 text-center @max-md:py-2.5 font-heading text-button-lg text-ink transition-colors duration-(--duration-fast) ease-standard hover:bg-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper"
+>
+  {label}
+</a>

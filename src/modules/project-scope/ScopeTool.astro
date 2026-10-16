@@ -1,0 +1,29 @@
+---
+import { mediaIcon } from '@/shared/lib/media';
+import type { ProjectScopeTool } from './schema';
+
+interface Props {
+  tool: ProjectScopeTool;
+}
+
+const { tool } = Astro.props;
+const logo = await mediaIcon(tool.logo);
+---
+
+{/*
+  Logotipo en una caja de 32px de alto con su proporción (alt = nombre de la herramienta) + uso.
+  Tope de ancho: los wordmarks raster anchos y macizos (Claude, Hotjar…) a 32px pesaban más que
+  los SVG con aire; con object-contain bajan de alto y quedan a la misma altura óptica.
+*/}
+<li class="flex min-w-0 flex-col gap-2.5">
+  <img
+    src={logo.src}
+    width={logo.width}
+    height={logo.height}
+    alt={tool.logo.alt}
+    loading="lazy"
+    decoding="async"
+    class="block h-8 w-auto max-w-24 self-start object-contain object-left"
+  />
+  <p class="font-body text-meta/normal text-ink-muted">{tool.description}</p>
+</li>

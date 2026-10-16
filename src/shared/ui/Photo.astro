@@ -1,0 +1,63 @@
+---
+import { Picture } from 'astro:assets';
+import { objectPositionClass, resolvePhoto } from '@/shared/lib/media';
+import type { UiPhoto } from './types';
+
+// Foto de un slot (shared/lib/media resuelve la cadena): local → <Picture> de astro:assets (avif,
+// webp, jpg; png si es `contain`), recortada en el servidor con su encuadre (`position`); otra URL → <img> simple.
+// Todas con width/height del recorte: sin CLS.
+interface Props {
+  image: UiPhoto;
+  /** Ancho y alto del respaldo (2× del slot): fijan la proporción del recorte. */
+  width: number;
+  height: number;
+  /** Anchos del srcset (misma proporción que width × height). */
+  widths: readonly number[];
+  sizes: string;
+  /** Decorativa: alt vacío aunque el dato traiga uno. */
+  decorative?: boolean;
+  loading?: 'lazy' | 'eager';
+  draggable?: 'true' | 'false';
+  class?: string;
+}
+
+const { image, width, height, widths, sizes, decorative = false, loading = 'lazy', draggable, class: className } = Astro.props;
+const resolved = await resolvePhoto(image);
+const alt = decorative ? '' : resolved.alt;
+// `fit: 'contain'` (capturas): se escala sin recortar y conserva la transparencia en el respaldo.
+const contain = 'fit' in image && image.fit === 'contain';
+const position = 'position' in image ? image.position : undefined;
+const imgClass = [className, objectPositionClass(position)].filter(Boolean).join(' ') || undefined;
+---
+
+{
+  resolved.type === 'url' ? (
+    <img
+      src={resolved.src}
+      width={width}
+      height={height}
+      alt={alt}
+      loading={loading}
+      decoding="async"
+      draggable={draggable}
+      class={imgClass}
+    />
+  ) : (
+    <Picture
+      src={resolved.image}
+      alt={alt}
+      formats={['avif', 'webp']}
+      fallbackFormat={contain ? 'png' : 'jpg'}
+      width={width}
+      height={height}
+      fit={contain ? 'inside' : 'cover'}
+      position={position}
+      widths={[...widths]}
+      sizes={sizes}
+      loading={loading}
+      decoding="async"
+      draggable={draggable}
+      class={imgClass}
+    />
+  )
+}

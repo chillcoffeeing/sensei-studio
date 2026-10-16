@@ -1,0 +1,20 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+// Atributos nativos del <a> (data-*, aria-*) pasan con ...rest; el aspecto no se cambia desde fuera.
+interface Props extends Omit<HTMLAttributes<'a'>, 'class' | 'class:list' | 'href'> {
+  href: string;
+  label: string;
+}
+
+const { href, label, ...rest } = Astro.props;
+---
+
+{/* Figma 11:28-11:30: enlace del nav principal sobre ink, 18px paper → brand en hover. */}
+<a
+  href={href}
+  {...rest}
+  class="font-heading text-label text-paper transition-colors duration-(--duration-fast) hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+>
+  {label}
+</a>

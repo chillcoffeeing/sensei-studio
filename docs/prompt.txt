@@ -1,0 +1,38 @@
+vamos, borra todo el src y dime como podemos simplificar un arnes de forma que:
+
+1) el arnes se encargue de documentar el sistema de diseño de forma tecnica con anotaciones en css/tailwindcss
+
+2) de igual forma como tendremos un seguimiento continuo del sistema de diseño, se hara seguimiento de arquitectura monolitica modular
+
+3) todo el contenido de la pagina debera ser estructurado de la forma que cada pagina web sera un "page" con la misma estructura de datos:
+
+{
+  content: {
+    h1
+    h2
+    sections:{
+      h2
+      headingEyebrow
+      headingDescriptions
+      type: content | hero | proyect-galery | ... cuando agreguemos un tipo nuevo de seccion se actualiza el type
+      content: {
+        esto puede variar totalmente de acuerdo a la seccion
+      }
+    }
+  },
+  seo: {
+    title
+    description
+    keywords
+    ...
+  }
+  
+}
+
+la idea es que te pasare el diseño de figma atravez del mcp para que extraigas toda la data y el diseño (aqui especial cuidado, necesito exactitud) a partir de aqui puedes ir modelando la estructura del interface "Page", luego agregaremos las demas vistas siguiendo estas convenciones
+
+en cuanto al arnes la idea es solo tener un agente que  se encargue de orquestar y un par de agentes (que no trabajaran en simultaneo) que se encargaran de implementar (agente de implementacion) y de verificar y detectar antipatrones y errores (agente de verificacion)
+
+hay un cambio importante: usaremos svelte islands en lugar de react islands
+
+de lo que existe actualmente en el arnes y la documentacion, tomo lo realmente util o suficientemente coherente con las deducciones tecnicas que adquieras luego de extraer el diseño y realizar las reestructuraciones

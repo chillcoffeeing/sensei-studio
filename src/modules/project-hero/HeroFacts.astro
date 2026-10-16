@@ -1,0 +1,17 @@
+---
+import type { ProjectHeroFact } from './schema';
+import HeroFact from './HeroFact.astro';
+
+interface Props {
+  /** Nombre accesible de la lista. */
+  label: string;
+  facts: ProjectHeroFact[];
+}
+
+const { label, facts } = Astro.props;
+---
+
+{/* Ficha breve (cliente, duración, rol). */}
+<dl aria-label={label} class="flex flex-col gap-4.5">
+  {facts.map((fact) => <HeroFact label={fact.label} value={fact.value} />)}
+</dl>

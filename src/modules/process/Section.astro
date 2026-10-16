@@ -1,0 +1,65 @@
+---
+import { headingIdOf } from '@/core/content';
+import StepperSlider from '@/shared/ui/StepperSlider.astro';
+import ToneText from '@/shared/ui/ToneText.astro';
+import ProcessStep from './ProcessStep.astro';
+import type { ProcessSection } from './schema';
+
+interface Props {
+  section: ProcessSection;
+}
+
+const { section } = Astro.props;
+const { steps, stepper } = section.content;
+const headingId = headingIdOf(section);
+---
+
+{/*
+  Figma 31:18 (panel ink 1322 × 638, radio 10, ruido) con el título 35:132 (20px, leading-none)
+  a 55/68 del borde. ARCH-LOGOS-BADGE retiró el badge giratorio 31:42 (archivado en
+  _archive/process-badge/) y el hueco que reservaba abajo. Los pasos NO existen en Figma: se
+  infieren (ver progress/impl_SEC-PROCESS.md).
+  Cada paso (ProcessStep.astro): regla lima de 9px (como 11:24 del hero) como barra de progreso →
+  número y % → título → descripción. 1 columna en mobile, 2 desde md, 4 desde xl.
+  En xl+ manda el alto 638.
+  Motion (MOT-PROCESS): los pasos entran de abajo → arriba (reveal-up: opacity + translateY,
+  1s cada uno, +200ms entre pasos, una vez) cuando la lista entra en viewport. revealAll()
+  solo marca data-inview y --motion-index; sin JS o con reduced-motion se ven en su estado final.
+  MOT-PROCESS-TIMING ("retrasa un poco"): la lista dispara cuando su borde superior cruza el 80%
+  del viewport (data-reveal-margin, inferior -20%, independiente del alto de la lista) y el
+  primer paso espera --delay-reveal-process (utilidad reveal-delay-process) antes de entrar.
+  MOT-STATS: se quitó la duración ("DURACIÓN: ~4 semanas") y su línea de puntos; el título va solo.
+  PROCESS-STEPPER: por debajo de md la lista es un StepperSlider (un paso por vista, indicador y
+  autoplay); desde md la rejilla no cambia.
+*/}
+<section id={section.id} aria-labelledby={headingId} data-process-section class="pt-(--process-pad-top)">
+  <div class="container-page">
+    <div
+      class="relative overflow-hidden rounded-panel bg-ink surface-noise tone-on-ink px-(--process-pad-x) py-(--process-pad-y) text-paper xl:min-h-159.5"
+    >
+      <h2 id={headingId} class="font-heading text-lead leading-none text-(color:--tone-strong) uppercase">
+        <ToneText value={section.headingContent.title} />
+      </h2>
+
+      <div class="mt-(--process-head-gap)">
+        <StepperSlider labels={stepper} markers={steps.map((step) => step.number)}>
+          <ol
+            data-reveal="[data-reveal-item]"
+            data-reveal-amount="0"
+            data-reveal-margin="0px 0px -20% 0px"
+            class="reveal-delay-process grid gap-x-7.5 gap-y-10 md:grid-cols-2 xl:grid-cols-4"
+          >
+            {steps.map((step) => <ProcessStep step={step} />)}
+          </ol>
+        </StepperSlider>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { revealAll } from '@/shared/lib/motion';
+
+  // Acotado a la sección (verify_MOT-STATS V5): cada script observa solo lo suyo.
+  for (const section of document.querySelectorAll<HTMLElement>('[data-process-section]')) revealAll(section);
+</script>

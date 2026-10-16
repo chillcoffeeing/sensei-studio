@@ -1,0 +1,32 @@
+---
+import type { ProjectProcessStage } from './schema';
+
+interface Props {
+  /** Número visible ("01"); decorativo: el <ol> ya numera. */
+  number: string;
+  stage: ProjectProcessStage;
+  /** Solo lectores de pantalla, delante del entregable. */
+  deliverableLabel: string;
+}
+
+const { number, stage, deliverableLabel } = Astro.props;
+---
+
+{/*
+  Separador → número lima (decorativo: el <ol> ya numera) → nombre (h3) → semanas →
+  descripción → entregable opcional (al pie, alineado entre columnas). Entra con reveal-up: lo escalona el revealAll() de Section.astro.
+*/}
+<li data-reveal-item class="flex flex-col border-t border-paper/15 pt-4.5 reveal-up">
+  <span aria-hidden="true" class="font-heading text-5xl font-normal text-brand tabular-nums lg:text-6xl">{number}</span>
+  <h3 class="mt-5 font-heading text-title font-normal text-paper">{stage.name}</h3>
+  <p class="mt-2 font-body text-caption tracking-wide text-line uppercase">{stage.weeks}</p>
+  <p class="mt-4.5 font-body text-body/normal text-line">{stage.description}</p>
+  {
+    stage.deliverable && (
+      <p class="mt-auto pt-4.5 font-body text-meta text-paper">
+        <span class="sr-only">{deliverableLabel}</span>
+        {stage.deliverable}
+      </p>
+    )
+  }
+</li>

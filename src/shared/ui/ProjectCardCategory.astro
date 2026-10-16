@@ -1,0 +1,19 @@
+---
+interface Props {
+  category: string;
+}
+
+const { category } = Astro.props;
+// "Diseño UX/UI × E-commerce × …": solo se parte entre segmentos, nunca dentro de "E-commerce".
+const SEPARATOR = ' × ';
+const parts = category.split(SEPARATOR);
+---
+
+{
+  parts.map((part, index) => (
+    <>
+      <span class="whitespace-nowrap">{part}</span>
+      {index < parts.length - 1 && SEPARATOR}
+    </>
+  ))
+}

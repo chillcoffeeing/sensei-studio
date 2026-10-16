@@ -1,0 +1,20 @@
+---
+import star from '@/assets/ui/star.svg';
+import type { UiRating } from './types';
+
+interface Props {
+  /** Estrellas y su texto alternativo ("5 de 5"). */
+  rating: UiRating;
+}
+
+const { rating } = Astro.props;
+---
+
+{/* Estrellas de TrustBadge: un solo role="img" con el texto de la valoración; cada estrella es decorativa. */}
+<span role="img" aria-label={rating.label} class="flex">
+  {
+    Array.from({ length: rating.stars }, () => (
+      <img src={star.src} alt="" width={star.width} height={star.height} class="size-(--rating-star-size)" />
+    ))
+  }
+</span>

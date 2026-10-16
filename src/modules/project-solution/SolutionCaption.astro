@@ -1,0 +1,15 @@
+---
+import type { ProjectSolutionCaption } from './schema';
+
+interface Props {
+  caption: ProjectSolutionCaption;
+}
+
+const { caption } = Astro.props;
+---
+
+{/* Pie de la figura que lo contiene; descripción + etiquetas en gris. */}
+<figcaption class="flex flex-col gap-1 font-body sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+  <span class="text-meta/normal text-ink">{caption.text}</span>
+  {caption.tags && <span class="shrink-0 text-caption/normal text-ink-muted">{caption.tags}</span>}
+</figcaption>

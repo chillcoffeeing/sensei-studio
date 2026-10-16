@@ -1,0 +1,132 @@
+---
+import { slideLabel } from '@/shared/lib/slider';
+import Photo from './Photo.astro';
+import type { UiPhoto, UiSliderLabels } from './types';
+
+// Carrusel del showcase ("Creatividad, tecnología y estrategia"), Figma 33:98: cards de imagen con
+// la proporción 616 × 658 de Figma pero un 40% más pequeñas (MOT-SLIDERS-SHOWCASE: 369.6 × 394.8
+// en 1440; radio 5, gap 20) que nacen en el inset del panel y salen a sangre por la derecha.
+// Autoplay CONTINUO en bucle, sin botón de pausa (pedido del cliente, ver docs/components.md):
+// NO se detiene con hover (MOT-SLIDERS-SHOWCASE); sí con foco de teclado, pestaña oculta, fuera de
+// viewport y mientras se desliza con el dedo.
+interface Props {
+  /** Textos accesibles del carrusel (región, roles y "n de total"). */
+  labels: UiSliderLabels;
+  /** Imágenes en orden de lectura. */
+  slides: UiPhoto[];
+}
+
+const { labels, slides } = Astro.props;
+
+// Ancho de la card = --showcase-card-w (clamp lineal 168 → 369.6 entre 375 y 1440).
+const sizes = '(min-width: 1440px) 370px, calc(18.9296vw + 97.0141px)';
+const widths = [168, 252, 370, 555, 740];
+// Recorte al aspecto de la card (616 × 658), en el servidor con su encuadre (`position`): con
+// object-cover haría falta bajar imágenes ~2× más anchas. Respaldo a 2× del ancho de la card.
+const fallbackWidth = 740;
+const fallbackHeight = Math.round((fallbackWidth * 658) / 616);
+---
+
+{/*
+  Sin JS: carril con scroll-snap nativo (se desplaza con el dedo, la rueda o el teclado).
+  Con JS (script de abajo): data-drag → swipe/arrastre con pointer events y touch-action pan-y;
+  data-playing → bucle continuo de scrollLeft (sin snap mientras avanza) con clones aria-hidden
+  e inert al final del carril.
+*/}
+<div
+  role="region"
+  aria-roledescription={labels.roleDescription}
+  aria-label={labels.label}
+  tabindex="0"
+  data-showcase-carousel
+  class="scrollbar-none relative snap-x snap-mandatory overflow-x-auto overscroll-x-contain py-px scroll-px-(--gutter-base) md:scroll-px-(--gutter-md) lg:scroll-px-(--gutter-lg) 2xl:scroll-px-(--showcase-inset) focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-paper data-drag:cursor-grab data-drag:touch-pan-y data-drag:touch-pinch-zoom data-dragging:cursor-grabbing data-dragging:snap-none data-dragging:select-none data-playing:snap-none"
+>
+  <div class="flex w-max gap-5 px-(--gutter-base) md:px-(--gutter-md) lg:px-(--gutter-lg) 2xl:px-(--showcase-inset)">
+    {
+      slides.map((slide, index) => (
+        <div
+          role="group"
+          aria-roledescription={labels.slideRoleDescription}
+          aria-label={slideLabel(labels.slidePosition, index + 1, slides.length)}
+          class="aspect-(--showcase-card-aspect) w-(--showcase-card-w) shrink-0 snap-start overflow-hidden rounded-media"
+        >
+          <Photo
+            image={slide}
+            width={fallbackWidth}
+            height={fallbackHeight}
+            widths={widths}
+            sizes={sizes}
+            draggable="false"
+            class="block size-full object-cover"
+          />
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  import { bindAutoplay, createAutoplay } from '@/shared/lib/motion';
+  import {
+    SLIDER_TIMING,
+    advanceLoop,
+    appendLoopClones,
+    bindSwipe,
+    createInteractionPause,
+    loopSpeed,
+    maxScroll,
+    nearestSnap,
+    readTimingMs,
+    scrollToPosition,
+    snapPositions,
+    strideOf,
+  } from '@/shared/lib/slider';
+
+  function mount(el: HTMLElement) {
+    const track = el.firstElementChild as HTMLElement | null;
+    if (!track) return;
+    const originals = Array.from(track.children) as HTMLElement[];
+    const msPerSlide = readTimingMs(el, SLIDER_TIMING.showcaseSlide);
+    const resumeMs = readTimingMs(el, SLIDER_TIMING.resume);
+
+    let firstClone: HTMLElement | null = null;
+    let raf = 0;
+    let last = 0;
+    let position = 0;
+    const frame = (now: number) => {
+      const elapsed = last ? now - last : 0;
+      last = now;
+      const loopWidth = firstClone ? firstClone.offsetLeft - originals[0]!.offsetLeft : 0;
+      position = advanceLoop(position, elapsed, loopSpeed(strideOf(originals), msPerSlide), loopWidth);
+      el.scrollLeft = position;
+      raf = requestAnimationFrame(frame);
+    };
+
+    const controller = createAutoplay(
+      (playing) => {
+        el.toggleAttribute('data-playing', playing);
+        if (playing) {
+          // Los clones se crean al primer play: con reduced motion (o sin llegar a verse) no existen.
+          firstClone ??= appendLoopClones(track, originals, el.clientWidth);
+          // Retoma desde donde esté (el usuario pudo desplazarlo mientras estaba en pausa).
+          position = el.scrollLeft;
+          last = 0;
+          raf = requestAnimationFrame(frame);
+        } else if (raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+          // Al detenerse se alinea a una card, salvo en un swipe: ahí manda el dedo.
+          if (!controller.has('interaction')) scrollToPosition(el, nearestSnap(snapPositions(el, track), el.scrollLeft, maxScroll(el)));
+        }
+      },
+      ['offscreen'],
+    );
+
+    const interaction = createInteractionPause(controller, resumeMs);
+    bindSwipe(el, { track, onPress: interaction.begin, onRelease: interaction.end });
+    // Foco de teclado, pestaña oculta, fuera de viewport y reduced motion (sin autoplay). Hover no.
+    if (originals.length > 1) bindAutoplay(el, controller);
+  }
+
+  for (const el of document.querySelectorAll<HTMLElement>('[data-showcase-carousel]')) mount(el);
+</script>

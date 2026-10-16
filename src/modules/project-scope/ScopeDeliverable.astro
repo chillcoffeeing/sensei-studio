@@ -1,0 +1,24 @@
+---
+import type { ProjectScopeDeliverable } from './schema';
+
+interface Props {
+  /** Posición en la lista (desde 0); se muestra como 01, 02… */
+  index: number;
+  deliverable: ProjectScopeDeliverable;
+}
+
+const { index, deliverable } = Astro.props;
+const number = String(index + 1).padStart(2, '0');
+---
+
+{/*
+  Separador → número (decorativo: el <ol> ya numera) + título (h3) y descripción.
+  Entra con reveal-up: lo escalona el revealAll() de Section.astro.
+*/}
+<li data-reveal-item class="flex gap-4 border-t border-neutral-300 pt-4 reveal-up sm:gap-6">
+  <span aria-hidden="true" class="w-6.5 shrink-0 pt-1 font-body text-meta text-ink-muted tabular-nums">{number}</span>
+  <div class="flex min-w-0 flex-col gap-2">
+    <h3 class="font-heading text-title text-ink">{deliverable.title}</h3>
+    <p class="font-body text-body/normal text-ink-muted">{deliverable.description}</p>
+  </div>
+</li>

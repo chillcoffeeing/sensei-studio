@@ -1,0 +1,13 @@
+---
+interface Props {
+  /** Color en hex: dato de la marca del cliente, no un token del sitio. */
+  color: string;
+}
+
+const { color } = Astro.props;
+---
+
+{/* Muestra cuadrada de 46px (36px en mobile); el valor solo lo leen los lectores de pantalla. */}
+<li class="size-9 sm:size-11.5" style={`background-color: ${color}`}>
+  <span class="sr-only">{color}</span>
+</li>
