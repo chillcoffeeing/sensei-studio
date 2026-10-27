@@ -1,8 +1,9 @@
 <script lang="ts">
   import type { HTMLTextareaAttributes } from 'svelte/elements';
 
-  // Hermano multilínea de InputGlass (mismo aspecto). Sin estado propio: Svelte porque lo usa
-  // una isla (el formulario de contacto). Atributos nativos (id, name, rows, minlength,
+  // Área de texto sobre la card glass (mensaje del formulario de contacto): hermana multilínea de
+  // InputGlass, mismo aspecto y error con aria-invalid="true". Sin estado propio: Svelte porque lo
+  // usa una isla. Atributos nativos (id, name, rows, minlength,
   // placeholder, required, aria-invalid, aria-describedby…) pasan con ...rest.
   interface Props extends Omit<HTMLTextareaAttributes, 'class' | 'value' | 'children'> {
     /** Valor (bind:value). */
@@ -14,12 +15,7 @@
   let { value = $bindable(''), ref = $bindable(), ...rest }: Props = $props();
 </script>
 
-<!--
-  Figma no diseña un área de texto: mismos tokens que InputGlass (174:81: radio 10,
-  borde glass-field, padding 16 / 12, texto 14 paper, placeholder line, error danger).
-  Alto mínimo --field-textarea-min-h (4 líneas); redimensionable solo en vertical para no
-  romper el ancho de la card glass.
--->
+<!-- Alto mínimo de 4 líneas; solo se redimensiona en vertical: el ancho lo fija la card glass. -->
 <textarea
   bind:this={ref}
   bind:value

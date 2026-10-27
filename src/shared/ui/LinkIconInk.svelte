@@ -1,8 +1,9 @@
 <script lang="ts">
   import type { UiIcon } from './types';
 
-  // Sin estado: Svelte porque también lo usa una isla (la barra flotante). Desde Astro se
-  // renderiza estático (perfiles de TeamCard).
+  // Enlace externo representado solo por un logo: WhatsApp de la barra flotante y perfiles de
+  // TeamCard. Siempre abre otra pestaña (target="_blank" + rel="noopener noreferrer").
+  // Sin estado: Svelte porque también lo usa una isla; desde Astro se renderiza estático.
   interface Props {
     href: string;
     /** Nombre accesible completo (incluye el aviso de pestaña nueva): el logo es decorativo. */
@@ -14,11 +15,7 @@
   let { href, label, icon }: Props = $props();
 </script>
 
-<!--
-  Enlace externo de icono: círculo ink de 44 (área táctil) con el logo en paper. Figma 218:24
-  (WhatsApp de la barra flotante); también los perfiles profesionales de TeamCard (TEAM-V2).
-  El anillo paper del foco se ve sobre fondos claros y oscuros (barra glass, foto del equipo).
--->
+<!-- El anillo paper del foco se ve sobre fondos claros y oscuros (barra glass, foto del equipo). -->
 <a
   {href}
   target="_blank"

@@ -35,13 +35,14 @@ desviación y su motivo en el informe.
   `src/styles/tokens.css` con nombre propio. Nunca `--<ns>-*: initial` ni redefinir un nombre
   por defecto de Tailwind (ver `docs/conventions.md`). Sin anotaciones `@figma`/`@derived`:
   comentario de una línea solo si el *por qué* no es obvio.
-- **Figma no disponible** (p. ej. cuota del MCP): no es bloqueo; usa `design/` y los tokens.
+- **Figma no disponible** (p. ej. cuota del MCP): no es bloqueo; usa el código existente y los tokens.
 - **Mobile**: infiere tamaños fluidos (`clamp`) y apilado.
-- **Copy**: viene de Figma, salvo que la feature indique `design/copy/*.md`; en ese caso
-  manda ese archivo. Todo vive en `src/content/`, nunca en componentes.
-- **Assets**: usa los de `design/figma/assets/` (o descárgalos del nodo si faltan) y
-  cópialos a `src/assets/<módulo>/` con nombre semántico. Nunca sustituyas, redibujes ni
-  pegues un SVG en línea si existe el archivo.
+- **Copy**: el de la feature o el de Figma. Todo vive en `src/content/`, nunca en componentes.
+- **Assets**: descárgalos del nodo de Figma y guárdalos en `src/assets/` con nombre semántico
+  (carpetas: `docs/content-model.md`, regla 10). Nunca sustituyas, redibujes ni pegues un SVG en
+  línea si existe el archivo.
+- **Documenta en el código**: comentario de cabecera breve en cada componente o archivo nuevo y
+  JSDoc en las props no obvias. `docs/` solo recoge reglas, arquitectura y sistema de diseño.
 - **Islas Svelte** solo donde hay interacción. Respeta `prefers-reduced-motion`.
 - **No escribas tests**: el proyecto no los mantiene; la prueba es la revisión del verifier.
 - Si agregas o quitas tokens, actualiza `docs/design-system.md` a mano (breve).

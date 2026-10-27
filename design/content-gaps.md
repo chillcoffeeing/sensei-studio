@@ -53,10 +53,10 @@ CONFIRMAR viven aquí. Al resolver un hueco, se borra su fila.
 | P1 | `content.items[].value` | PUNTO A CONFIRMAR: "+250 proyectos completados", "+9 años de experiencia senior combinada", "97 % tasa de satisfacción" y "1 punto de contacto" vienen del diseño, sin fuente. Hay que confirmarlas o sustituirlas (p. ej. "+250" frente a 4 casos publicados y "56+ clientes" en testimonios) | cifra | Estudio |
 
 ### Proceso (`proceso`)
-- **Real**: los 4 pasos (`design/copy/process.md`). Sin huecos.
+- **Real**: los 4 pasos. Sin huecos.
 
 ### Servicios (`servicios`)
-- **Real**: títulos, descripciones y listas (`design/copy/services.md`). Imágenes propias por disciplina
+- **Real**: títulos, descripciones y listas. Imágenes propias por disciplina
   (SERVICES-IMAGES): Branding (Figma `flzA0qnj6JdalFCgyB2PdI` 351:28–30), Email Marketing (352:32–34) y
   UX/UI (3 láminas del estudio, `ux-ui-*.png`). Desarrollo & IA (SERVICES-DEV-IMAGES): tres
   ilustraciones vectoriales coloridas en `src/assets/images/servicios-homepage/`.
@@ -77,7 +77,7 @@ CONFIRMAR viven aquí. Al resolver un hueco, se borra su fila.
 ### Testimonios (`testimonios`)
 | Prioridad | Campo | Estado / qué falta | Tipo | Quién |
 |---|---|---|---|---|
-| P1 | `content.reviews[].quote` | PUNTO A CONFIRMAR: las citas nombran al estudio como "La agencia" o "El estudio Sensei" (restos de anonimizar); ¿se cambia por "Sensei Studio"? Varias terminan en "..." (cortadas) y hay erratas: "increíblecon", "enfoque  para", "100 confiables", "nos ayudo" (`design/copy/testimonials.md`) | copy | Estudio |
+| P1 | `content.reviews[].quote` | PUNTO A CONFIRMAR: las citas nombran al estudio como "La agencia" o "El estudio Sensei" (restos de anonimizar); ¿se cambia por "Sensei Studio"? Varias terminan en "..." (cortadas) y hay erratas: "increíblecon", "enfoque  para", "100 confiables", "nos ayudo" | copy | Estudio |
 | P3 | `content.trust.avatars` | 4 siluetas neutras (`UserPlaceholder`): no hay fotos de clientes con permiso (el nodo real `334:7405` tampoco las trae, 2026-10-15). Si llegan, cada avatar admite `photo` | imagen + permiso | Estudio |
 | P2 | `content.trust.count` | PUNTO A CONFIRMAR: "56+ clientes" sin fuente | cifra | Estudio |
 | P2 | `content.trust.caption` | El sello "Trusted by clients worldwide" está en inglés (`lang="en"`) | copy | Estudio |
@@ -108,7 +108,7 @@ de la URL, no por la etiqueta del nodo de Figma (en 341:7413 la etiqueta "linked
 | Daniel Rivera | Full Stack Development Lead | — (sin nodo) | GitHub, LinkedIn | — |
 
 ### FAQ (`faq`)
-- **Real** (COPY-FINAL): las 18 preguntas y respuestas de Figma `328:7312` (`design/copy/faq.md`).
+- **Real** (COPY-FINAL): las 18 preguntas y respuestas de Figma `328:7312`.
 
 | Prioridad | Campo | Estado / qué falta | Tipo | Quién |
 |---|---|---|---|---|

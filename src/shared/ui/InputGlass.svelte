@@ -1,9 +1,10 @@
 <script lang="ts">
   import type { HTMLInputAttributes } from 'svelte/elements';
 
-  // Sin estado propio: Svelte porque lo usa una isla (el formulario de contacto).
-  // Atributos nativos (id, name, type, autocomplete, placeholder, required, aria-invalid,
-  // aria-describedby…) pasan con ...rest. El estado de error se ve con aria-invalid="true".
+  // Campo de texto sobre la card glass (formulario de contacto). Sin estado propio: Svelte porque
+  // lo usa una isla. Atributos nativos (id, name, type, autocomplete, placeholder, required,
+  // aria-invalid, aria-describedby…) pasan con ...rest. Error = aria-invalid="true" (borde danger),
+  // no una prop. Para superficies claras (modales) está DialogInput en layout/dialog/.
   interface Props extends Omit<HTMLInputAttributes, 'class' | 'value' | 'children'> {
     /** Valor (bind:value). */
     value?: string;
@@ -14,11 +15,6 @@
   let { value = $bindable(''), ref = $bindable(), ...rest }: Props = $props();
 </script>
 
-<!--
-  Figma 174:81: campo transparente sobre glass, radio 10, borde glass-field de 1px (interior en
-  Figma: el padding descuenta 1px), padding 16 / 12, texto 14 paper y placeholder line.
-  Error: borde danger con aria-invalid="true" (Figma no diseña errores).
--->
 <input
   bind:this={ref}
   bind:value

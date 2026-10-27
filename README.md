@@ -1,43 +1,12 @@
-# Astro Starter Kit: Minimal
+# Sensei Studio · landing
 
-```sh
-pnpm create astro@latest -- --template minimal
-```
+Sitio estático de [bysensei.com](https://bysensei.com): Astro 7, islas Svelte 5 y Tailwind CSS v4.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+| Comando | Qué hace |
+|---|---|
+| `pnpm dev` | Servidor local en `localhost:4321` |
+| `./init.ps1` | Verificación completa (sistema de diseño, arquitectura, tipos y build) |
+| `.\scripts\deploy.ps1` | Despliegue a cPanel (`docs/deploy.md`) |
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+El mapa del proyecto está en `CLAUDE.md`. La arquitectura, el sistema de diseño y el modelo de
+contenido están en `docs/`.

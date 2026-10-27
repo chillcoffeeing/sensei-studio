@@ -1,4 +1,11 @@
 <script lang="ts">
+  // Modal de asesoría (Figma 272:8117): una sola isla global, montada en BaseLayout (client:idle);
+  // /links (StandaloneLayout) no lo monta porque no tiene disparadores. Lo abre cualquier enlace con
+  // el atributo neutro `data-advice-open` ("Solicitar asesoría" de la barra flotante, "Agenda una
+  // reunión" del header y del menú mobile y del cierre de cada caso); su `href` es el destino sin
+  // JS, /#contacto. Ningún módulo importa el modal: solo escriben el atributo.
+  // Envío: submitAdvice (advice-form.ts) a site.advice.endpoint, PENDIENTE; estados simulables con
+  // `?asesoria-simulada=sent|error|unavailable`.
   import { onMount, tick } from 'svelte';
   import DialogStatus from '../dialog/DialogStatus.svelte';
   import ModalDialog from '../dialog/ModalDialog.svelte';

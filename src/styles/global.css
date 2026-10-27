@@ -117,7 +117,7 @@
 }
 
 /*
- * === Motion (docs/conventions.md § Motion) ===
+ * === Motion (reglas y API de reveal: src/shared/lib/motion/index.ts) ===
  * Estados de animación declarativos; la lógica (cuándo entra en viewport, qué panel está
  * abierto) vive en src/shared/lib/motion y solo pone atributos: data-inview / data-open.
  * Guardas comunes:

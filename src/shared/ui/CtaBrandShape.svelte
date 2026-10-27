@@ -2,7 +2,10 @@
   import type { UiIcon } from './types';
 
   // Interior común de LinkCtaBrand y ButtonCtaBrand (no se usa suelto): el elemento interactivo
-  // que lo envuelve lleva `group/cta`, y su hover/foco funde la píldora con el círculo.
+  // que lo envuelve lleva `group/cta`, y su hover (can-hover) o focus-visible funde la píldora con
+  // el círculo. Entrada con --ease-cta-liquid (rebote) en --duration-cta-liquid; salida con
+  // ease-standard (con rebote, scale-y pasaba por debajo de 0 y dejaba un hilo en el hueco).
+  // Solo anima transform (sin layout shift); con reduced-motion el cambio es instantáneo.
   interface Props {
     label: string;
     /** Icono del círculo (decorativo). */

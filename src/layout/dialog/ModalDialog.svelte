@@ -1,15 +1,25 @@
 <script lang="ts">
+  // Infraestructura común de los modales (cotización y asesoría): <dialog> nativo con showModal()
+  // (capa superior del navegador: queda sobre header, barra flotante y menú sin z-index, y el resto
+  // de la página queda inerte; el bloqueo de scroll es CSS, `html:has(dialog:modal)` en global.css).
+  // Un solo listener delegado en `document` para el atributo disparador (`trigger`); respeta los
+  // clics con modificadores y cancela la acción por defecto, así que el disparador puede ser un
+  // enlace (su `href` es el destino sin JS) o un <button type="submit"> cuyo form apunta ahí.
+  // Pone el ciclo del Tab, el cierre (botón, Esc y backdrop) y la vuelta del foco al disparador (o al
+  // botón del menú mobile si el disparador estaba en el panel). El contenido llega por snippet, que
+  // recibe `close`. Desde sm es una tarjeta centrada con su alto natural (tope --dialog-max-h y
+  // scroll interno); en mobile, según `mobile`.
   import { onMount, type Snippet } from 'svelte';
   import { wrapFocusIndex } from '../focus-trap';
 
   interface Props {
-    /** Atributo neutro de los disparadores (`data-quote-open`): un solo listener delegado en `document`. */
+    /** Atributo neutro de los disparadores (`data-quote-open`, `data-advice-open`): un solo listener delegado en `document`. */
     trigger: `data-${string}`;
     /** id del título del diálogo (nombre accesible). */
     labelledby: string;
     /** Ancho de la tarjeta desde sm: `lg` (cotización, 2 columnas) o `md` (asesoría, 1 columna). */
     width: 'lg' | 'md';
-    /** Mobile: `full` = pantalla completa (asesoría); `card` = tarjeta centrada con su alto natural (cotización). Desde sm, siempre tarjeta. */
+    /** Mobile: `full` (por defecto) = pantalla completa (asesoría); `card` = tarjeta centrada con su alto natural y tope --dialog-max-h-compact (cotización). Desde sm, siempre tarjeta. */
     mobile?: 'full' | 'card';
     /** Se llama justo antes de abrir, con el disparador (p. ej. para leer sus `data-*`). */
     onopen?: (trigger: HTMLElement) => void;

@@ -1,4 +1,7 @@
 ---
+// Persona sin foto real (avatares de TrustBadge, integrantes sin retrato en TeamCard): sustituye a
+// cualquier retrato de stock. Llena la caja de quien la coloca (size-full), con la silueta neutra
+// apoyada abajo. Decorativa (aria-hidden, alt=""): el nombre, si lo hay, va como texto al lado.
 import silhouette from '@/assets/ui/user-placeholder.svg';
 
 interface Props {
@@ -12,10 +15,6 @@ interface Props {
 const { tone = 'light', framing = 'avatar' } = Astro.props;
 ---
 
-{/*
-  Persona sin foto: silueta neutra apoyada en el borde inferior, que llena la caja de quien la
-  coloca (avatar de la pila, card del equipo…). Decorativa: el nombre, si lo hay, va como texto.
-*/}
 <span
   aria-hidden="true"
   class:list={['flex size-full items-end justify-center overflow-hidden', tone === 'dark' ? 'bg-neutral-500' : 'bg-neutral-200']}

@@ -1,6 +1,24 @@
-// API pública de las primitivas de slider (sin dominio). Las usan ShowcaseCarousel, TeamSlider y StepperSlider
-// de shared/ui; cada slider es su propio componente y solo comparte estas piezas
-// (docs/conventions.md › Librería de componentes, regla 3).
+/**
+ * API pública de las primitivas de slider (sin dominio). Las usan ShowcaseCarousel, TeamSlider y
+ * StepperSlider de shared/ui: un componente por slider, sin un `Slider` genérico con props de
+ * configuración; cada uno decide su ritmo con sus tokens y su `<script>`.
+ *
+ * - Swipe (`bindSwipe`): dedo y arrastre con ratón/lápiz (pointer events). Marca `data-drag`
+ *   (el carril lleva `touch-pan-y touch-pinch-zoom`: el scroll vertical sigue siendo del navegador)
+ *   y `data-dragging` mientras arrastra. Al soltar encaja con `swipeTarget`: menos de
+ *   `SWIPE_THRESHOLD` vuelve a la card de partida; más, pasa a la siguiente aunque no llegue a la mitad.
+ * - Bucle infinito: `appendLoopClones` añade al primer play copias de la serie al final del carril
+ *   (`aria-hidden` + `inert` + `data-slider-clone`). Continuo con `advanceLoop` (rAF sobre
+ *   `scrollLeft`) o por pasos con `nextStep` + `tweenScroll` (duración y curva de token).
+ * - Pausa: `createAutoplay()` + `bindAutoplay()` de shared/lib/motion (foco de teclado
+ *   `:focus-visible`, pestaña oculta, fuera de viewport, reduced motion) y el motivo `interaction`
+ *   de `createInteractionPause`, que reanuda `--delay-slider-resume` después de soltar.
+ *   El hover no pausa. En reduced motion no hay autoplay; swipe y scroll manual siguen.
+ * - `bindCloneHover`: las copias son inertes; reenvía el hover y el clic de perfil a la card original.
+ * - Tiempos: `SLIDER_TIMING` / `readTimingMs` (respaldos comprobados contra tokens.css).
+ *
+ * Sin JS el carril es un `overflow-x` con scroll-snap nativo.
+ */
 
 export { DRAG_THRESHOLD, SWIPE_THRESHOLD, dragScrollLeft, isDrag, isHorizontal, nearestIndex, nearestSnap, swipeTarget } from './gesture';
 export { CLONE_ATTR, MAX_FRAME_MS, advanceLoop, appendLoopClones, cloneCount, loopSpeed, nextStep, strideOf, wrapPosition } from './loop';

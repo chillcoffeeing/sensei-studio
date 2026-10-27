@@ -750,3 +750,21 @@ Code, Palette, Monitor, Cube, PenNib, Browser, DeviceMobile, PaintBrush, Layout,
 - Quedan sin aplicar, porque no son solo ortografía, las dudas listadas en el informe: "buen diseñado UX", "100 confiables", WordPress/Elementor/WeTransfer, el prefijo pos- y los espacios en los porcentajes.
 - `./init.ps1`: VERDE (ejecutado por el orquestador).
 - Informes: `progress/impl_COPY-SPELLING.md`, `progress/verify_COPY-SPELLING.md`.
+
+## 2026-10-15 — DEPLOY-STATIC done (1 vuelta)
+- Build estático sin adaptador (se retiró @astrojs/node), página 404 propia y `public/.htaccess` para Apache: HTTPS, sin www, 404, caché immutable en /_astro y compresión.
+- Orquestador: guía `docs/deploy.md` y script `scripts/deploy.sh` (build → tgz → ssh → respaldo → publicación → curl; con --dry-run, --skip-build y --rollback). Empaquetado probado en local: 53 MB, 824 archivos. No se desplegó: no hay permiso para conectar con producción desde la sesión.
+- Menores: el canonical de 404.html apunta a /404/ (página noindex) y la regla https confía en X-Forwarded-Proto.
+- `./init.ps1`: VERDE (ejecutado por el orquestador).
+- Informes: `progress/impl_DEPLOY-STATIC.md`, `progress/verify_DEPLOY-STATIC.md`.
+
+## 2026-10-16 · DEPLOY-SSL-DCV · done
+
+- `public/.htaccess`: `/.well-known/` queda fuera de los 301 (www y http->https), también vía ErrorDocument, para que AutoSSL valide por HTTP. Informes: `progress/impl_DEPLOY-SSL-DCV.md`, `progress/verify_DEPLOY-SSL-DCV.md` (VERDE). init.ps1 verde.
+- Orquestador: `scripts/deploy.sh` lee `KEY_SSH_FOR_DEPLOY`, `DOMAIN_ROOT_FOR_DEPLOY`, `DOMAIN_FOR_DEPLOY`; sube el .tgz como archivo con sha256, descomprime en `~/deploy/staging` y limpia; `scripts/deploy.ps1` para PowerShell. DNS de bysensei.com apuntado a 184.94.213.174.
+- Orquestador (2026-10-16): `NOINDEX_FOR_DEPLOY` en `.env` (activo). `scripts/deploy.sh` publica una copia de dist/ con X-Robots-Tag noindex en .htaccess y robots.txt `Disallow: /`. Quitarlo para el lanzamiento.
+
+## 2026-10-16 · DOCS-INTO-CODE · done (1 vuelta)
+
+- Cabecera y JSDoc en todo `src/shared/ui/`, sliders, `shared/lib/motion` y `shared/lib/slider`, y contratos de barra flotante y modales en `layout/`. Solo comentarios. Informes: `progress/impl_DOCS-INTO-CODE.md`, `progress/verify_DOCS-INTO-CODE.md` (VERDE). init.ps1 verde.
+- Orquestador: docs comprimidos (components 777→~90 líneas, architecture 227→120, conventions 204→~70; content-model, seo, deploy y verification reescritos). Regla nueva en CLAUDE.md: la documentación de detalle va en el código. README propio. Borrado de obsoletos preparado (lo ejecuta el usuario).

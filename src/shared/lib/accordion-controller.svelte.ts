@@ -2,7 +2,7 @@
 // Une la lógica pura de ./accordion (estado, teclado APG) con las primitivas de motion
 // (entrada lateral). Las islas solo pintan el marcado y conectan eventos y refs.
 //
-// Marcado esperado (ver docs/conventions.md § Motion, patrón acordeón):
+// Marcado esperado (reglas de motion en shared/lib/motion/index.ts):
 //   <button bind:this={acc.triggers[i]} aria-expanded={acc.isOpen(i)} onclick={() => acc.toggle(i)}
 //           onkeydown={(e) => acc.keydown(e, i)}>…</button>
 //   <div bind:this={acc.panels[i]} class="collapsible" data-open={acc.isOpen(i) || undefined}>

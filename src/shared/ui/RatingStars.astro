@@ -1,4 +1,6 @@
 ---
+// Pieza interna de TrustBadge: estrellas en un solo role="img" cuyo nombre es `rating.label`; cada
+// estrella es decorativa (src/assets/ui/star.svg).
 import star from '@/assets/ui/star.svg';
 import type { UiRating } from './types';
 
@@ -10,7 +12,6 @@ interface Props {
 const { rating } = Astro.props;
 ---
 
-{/* Estrellas de TrustBadge: un solo role="img" con el texto de la valoración; cada estrella es decorativa. */}
 <span role="img" aria-label={rating.label} class="flex">
   {
     Array.from({ length: rating.stars }, () => (

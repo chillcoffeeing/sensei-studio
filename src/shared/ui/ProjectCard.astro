@@ -1,4 +1,9 @@
 ---
+// Card de proyecto (galería de la home y /proyectos/), solo CSS. Quien la usa la coloca (p. ej. en
+// un <li> de la rejilla); destacada a dos columnas, el módulo pone `lg:project-card-wide` en el <li>
+// (cambia --project-aspect por --project-aspect-wide) y unos `sizes` a todo el ancho.
+// Piezas internas (sin entrada propia en /componentes): ProjectCardPill, ProjectCardMetric y
+// ProjectCardCategory.
 import ProjectCardCategory from './ProjectCardCategory.astro';
 import { resolvePhoto } from '@/shared/lib/media';
 import LinkButtonPaper from './LinkButtonPaper.astro';
@@ -18,8 +23,8 @@ interface Props {
 const { project, sizes, headingLevel = 'h3' } = Astro.props;
 const Title = headingLevel;
 
-// Anchos del srcset: de la card en 375 a 2× la de Figma (650). El respaldo va al mayor ancho y
-// conserva la proporción del original (sin recorte en el servidor): la misma card puede ser 650:447
+// Anchos del srcset: de la card en mobile a 2× la de desktop. El respaldo va al mayor ancho y
+// conserva la proporción del original (sin recorte en el servidor): la misma card puede ser normal
 // o panorámica (project-card-wide) y object-cover recorta en CSS sobre la imagen entera.
 const widths = [400, 650, 900, 1300];
 const fallbackWidth = 1300;
@@ -30,24 +35,18 @@ const fallbackHeight = Math.round(fallbackWidth * ratio);
 ---
 
 {/*
-  Figma 29:166 (650 × 447, radio 5): imagen a sangre y pill blanca (35:302: alto 52, padding 15,
-  radio pill) anclada abajo con inset de 22 a los lados y 26 abajo.
-
-  MOT-PROJECTS-V2 + MOB-CARDS-INITIAL, solo CSS. Capas en la misma celda (stack-layers):
-    imagen → velo (project-veil) → pill (reposo, ProjectCardPill) → detalle (todo abajo, bloque glass):
-    título + categoría, métricas (ProjectCardMetric; 1–4 en una fila de columnas iguales) y LinkButtonPaper.
-  La categoría puede ocupar dos líneas (las de los proyectos reales son largas): nunca desborda la pill.
-  Qué se ve lo decide can-hover (puntero con hover); si hay transición, motion-safe:
+  Capas en la misma celda (stack-layers): imagen → velo (project-veil) → pill de reposo
+  (ProjectCardPill) → detalle glass anclado abajo: título + categoría, 1–4 métricas en una fila de
+  columnas iguales y LinkButtonPaper. La categoría puede ocupar dos líneas sin desbordar la pill.
+  Qué se ve lo decide can-hover; las transiciones van con motion-safe (reduced-motion: instantáneo):
     - con hover: en reposo solo la pill; en hover o con foco visible dentro (card-active) la
-      imagen se desenfoca y se oscurece, la pill se va y entra el detalle. Con reduced-motion el
-      cambio es instantáneo.
-    - sin hover (táctil): solo el estado inicial, imagen + el botón del detalle anclado abajo.
-      Sin velo, pill, glass ni métricas; el h3 sigue en el DOM (sr-only).
-  Card estrecha (@max-md: menos de 448 px de ancho, p. ej. media columna en tablet o mobile con
-  puntero): detalle compacto (título sobre categoría, menos relleno) y solo las dos primeras métricas, para que quepa en la proporción
-  sin estirar la card. La lista completa vive en la página del proyecto.
-  La pill es aria-hidden (repite título y categoría del detalle). El foco llega al botón, que
-  activa la card (card-active incluye :has(:focus-visible)); la raíz no es enfocable.
+      imagen se desenfoca y se oscurece, la pill se va y entra el detalle;
+    - sin hover (táctil): solo imagen + el botón del detalle anclado abajo. Sin velo, pill, glass
+      ni métricas; el título sigue en el DOM (sr-only).
+  Card estrecha (@max-md del @container: media columna en tablet, mobile con puntero): detalle
+  compacto y solo las dos primeras métricas, para caber en la proporción sin estirar la card.
+  La pill es aria-hidden (repite el detalle). La raíz lleva data-card y no es enfocable: el foco
+  llega al botón, que activa la card (card-active incluye :has(:focus-visible)).
   overflow-clip (no hidden): recorta el radio y la escala del blur sin hacer de la card un scroll
   container.
 */}

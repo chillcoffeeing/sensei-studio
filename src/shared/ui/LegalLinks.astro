@@ -1,4 +1,6 @@
 ---
+// Enlaces secundarios del pie (licencia, guía de estilo…) sobre ink, separados por una línea
+// vertical decorativa (src/assets/ui/divider-vertical.svg).
 import divider from '@/assets/ui/divider-vertical.svg';
 import type { UiOptionalLink } from './types';
 
@@ -10,10 +12,6 @@ interface Props {
 const { links } = Astro.props;
 ---
 
-{/*
-  Figma 174:55: enlaces de 13px ink-muted (→ paper en hover) separados por una línea vertical
-  de 10px (meta-divider girado 90°), gap 12.
-*/}
 <p class="flex items-center gap-3 font-heading text-meta whitespace-nowrap text-ink-muted">
   {
     links.map((link, i) => (

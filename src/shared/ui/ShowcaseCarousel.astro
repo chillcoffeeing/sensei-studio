@@ -3,12 +3,17 @@ import { slideLabel } from '@/shared/lib/slider';
 import Photo from './Photo.astro';
 import type { UiPhoto, UiSliderLabels } from './types';
 
-// Carrusel del showcase ("Creatividad, tecnología y estrategia"), Figma 33:98: cards de imagen con
-// la proporción 616 × 658 de Figma pero un 40% más pequeñas (MOT-SLIDERS-SHOWCASE: 369.6 × 394.8
-// en 1440; radio 5, gap 20) que nacen en el inset del panel y salen a sangre por la derecha.
-// Autoplay CONTINUO en bucle, sin botón de pausa (pedido del cliente, ver docs/components.md):
-// NO se detiene con hover (MOT-SLIDERS-SHOWCASE); sí con foco de teclado, pestaña oculta, fuera de
-// viewport y mientras se desliza con el dedo.
+// Carrusel de imágenes del showcase. Un componente por slider: lo común vive en shared/lib/slider.
+// Las cards nacen en el inset del panel y salen a sangre por la derecha. El h2 va fuera, encima; el
+// margen superior y el cuelgue bajo el panel los pone el contenedor.
+// Autoplay CONTINUO en bucle (una card cada --duration-showcase-slide) con clones al final del
+// carril; al soltar un swipe encaja en una card. Sin botón de pausa (pedido del cliente): se detiene
+// con foco de teclado (la región es enfocable), pestaña oculta, fuera de viewport y mientras se
+// desliza (reanuda tras --delay-slider-resume); con reduced motion no hay autoplay. El hover NO lo
+// detiene. Riesgo residual (WCAG 2.2.2): para detenerlo siempre hay que activar "reducir movimiento".
+// APG carrusel: región con aria-roledescription y aria-label; cada card role="group" + "n de total";
+// los clones quedan fuera del árbol de accesibilidad y del foco.
+// .astro + <script> y no isla: las cards son <Picture> de astro:assets, que una isla no renderiza.
 interface Props {
   /** Textos accesibles del carrusel (región, roles y "n de total"). */
   labels: UiSliderLabels;
@@ -18,7 +23,7 @@ interface Props {
 
 const { labels, slides } = Astro.props;
 
-// Ancho de la card = --showcase-card-w (clamp lineal 168 → 369.6 entre 375 y 1440).
+// Ancho de la card = --showcase-card-w (clamp lineal entre 375 y 1440): `sizes` lo reproduce.
 const sizes = '(min-width: 1440px) 370px, calc(18.9296vw + 97.0141px)';
 const widths = [168, 252, 370, 555, 740];
 // Recorte al aspecto de la card (616 × 658), en el servidor con su encuadre (`position`): con

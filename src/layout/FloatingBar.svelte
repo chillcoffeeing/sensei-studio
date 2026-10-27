@@ -1,4 +1,12 @@
 <script lang="ts">
+  // Barra flotante global (una instancia, montada en BaseLayout; /links no la lleva): fija abajo y
+  // centrada en todo el sitio, con "Cotizar proyecto" (data-quote-open), "Solicitar asesoría"
+  // (data-advice-open) y WhatsApp (LinkIconInk, externo). Sin JS, los `href` llevan a /#contacto.
+  // No importa ningún módulo ni ningún modal: los disparadores son atributos que oyen los modales.
+  // Zonas protegidas: todo elemento con `data-floating-bar-avoid` (formulario de contacto, CTA final
+  // del caso, footer) la aparta (baja, se desvanece y queda inert) mientras ocupa el 25 %
+  // inferior del viewport, así que la página no reserva hueco al pie. Sin JS queda visible y fija:
+  // los estados ocultos solo existen con la variante `scripting:`.
   import type { FloatingBarAction } from '@/core/site';
   import type { UiIcon } from '@/shared/ui/types';
   import FloatingActionLink from './FloatingActionLink.svelte';
@@ -13,8 +21,7 @@
 
   let { label, quote, advice, whatsapp }: Props = $props();
 
-  // Zonas que la barra no debe tapar (formulario de contacto, CTA final, footer): atributo neutro
-  // en el DOM, sin importar módulos (docs/architecture.md › Barra flotante).
+  // Zonas que la barra no debe tapar: atributo neutro en el DOM, sin importar módulos.
   const AVOID_SELECTOR = '[data-floating-bar-avoid]';
   // Franja inferior del viewport donde vive la barra: si una zona entra en ella, la barra se aparta.
   const AVOID_BAND = '-75% 0px 0px 0px';
@@ -56,9 +63,8 @@
 </script>
 
 <!--
-  Figma 218:21 (archivo flzA0qnj6JdalFCgyB2PdI): píldora glass con "Cotizar proyecto" (lima),
-  "Solicitar asesoría" (paper) y WhatsApp (círculo ink). Fija abajo y centrada en todo el sitio,
-  sobre el safe-area. Oculta queda `inert` (fuera del orden de foco).
+  Figma 218:21 (archivo flzA0qnj6JdalFCgyB2PdI). --floating-bar-bottom suma el safe-area inferior.
+  Oculta queda `inert` (fuera del orden de foco).
 -->
 <aside
   aria-label={label}

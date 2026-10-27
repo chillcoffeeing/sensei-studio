@@ -2,10 +2,9 @@
 
 ## Estado
 
-- **Feature en curso**: ninguna.
-- Cola: —. Estrategia SEO: `docs/seo.md`.
-- **Bloqueos**: ninguno. Faltan datos del estudio: número de WhatsApp, URLs de redes del estudio (Instagram, LinkedIn, Behance), páginas legales y perfiles de María, Maicol, Daniel, GitHub de Victor y LinkedIn de Natalia.
-- Plan COPY-SPELLING: (1) leer todo el copy de src/content (JSON y TS), microcopy de componentes y webmanifest;
-  (2) corregir solo erratas ortográficas/tipográficas evidentes; (3) replicar en design/copy/*.md y cerrar notas;
-  (4) anotar dudas sin aplicar; (5) init.ps1.
-- Contrato: `docs/content-model.md`. Huecos: `design/content-gaps.md`.
+- **Feature en curso**: ninguna. Cola: —.
+- **Despliegue** (`docs/deploy.md`): sitio publicado en `~/bysensei.com` y DNS apuntado a 184.94.213.174.
+  Pendiente: redesplegar (DEPLOY-SSL-DCV) y ejecutar Run AutoSSL. Publicado **sin indexar**
+  (`NOINDEX_FOR_DEPLOY=true` en `.env`): quitarlo para el lanzamiento.
+- **Bloqueos**: ninguno. Faltan datos del estudio (`design/content-gaps.md`): número de WhatsApp,
+  redes del estudio, páginas legales y algunos perfiles del equipo.

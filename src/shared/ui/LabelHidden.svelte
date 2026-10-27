@@ -1,6 +1,6 @@
 <script lang="ts">
-  // Etiqueta solo para lectores de pantalla: Figma muestra el nombre del campo como placeholder
-  // (174:82), pero el placeholder no sustituye a una etiqueta. Svelte porque lo usa una isla.
+  // Etiqueta solo para lectores de pantalla: el diseño muestra el nombre del campo como placeholder,
+  // pero el placeholder no sustituye a una etiqueta. Svelte porque lo usa una isla.
   interface Props {
     /** id del campo que etiqueta. */
     for: string;

@@ -1,4 +1,8 @@
 ---
+// Card de integrante del equipo: diapositiva de TeamSlider (raíz role="group" +
+// aria-roledescription + aria-label, tabindex="0" y data-card). Sin foto, UserPlaceholder oscuro en
+// encuadre de retrato (el texto blanco mantiene AA); nunca un retrato de relleno.
+// Piezas internas (sin entrada propia en /componentes): TeamCardRest, TeamCardDetail y TeamCardProfiles.
 import { Picture } from 'astro:assets';
 import { resolvePhoto } from '@/shared/lib/media';
 import TeamCardDetail from './TeamCardDetail.astro';
@@ -25,23 +29,18 @@ if (photo && photo.type !== 'local') throw new Error(`TeamCard: la foto de "${pe
 ---
 
 {/*
-  Card de integrante (Figma 41:399 / 291:131; detalle MOT-TEAM, design/references/team-hover-final.png).
-  Capas en la misma celda (stack-layers) sobre la foto (o, sin foto, la silueta de UserPlaceholder
-  en tono oscuro: el texto blanco del reposo y del detalle mantiene AA):
-    1. reposo: degradado 41:399 + nombre (18/600) y rol (14/300) abajo a la izquierda, el rol
-       23px más abajo (mt-5.75 de 41:402); padding 0 0 30 24;
-    2. detalle: velo + icono + en círculo arriba a la izquierda y, en un único bloque abajo
-       (TEAM-CARD-LOOP), nombre grande, rol · empresa, bio a 3 líneas y perfiles.
-  MOB-CARDS-INITIAL: qué capa se ve lo decide can-hover. Sin hover (táctil) solo existe el
-  reposo: el detalle es display none (ni se ve ni se anima) y hover.ts no engancha nada. Con
-  hover, el detalle entra en hover o focus-visible (card-active); la transición de capas va con
-  motion-safe, y hover.ts añade blur/escala de la foto y el typewriter solo sin reduced-motion.
-  FIX-OPEN-MINORS: el bloque de datos del detalle lleva una banda oscura propia
-  (--team-detail-scrim-bottom) que llega al borde con márgenes negativos iguales al padding.
-  TEAM-V2: perfiles profesionales (TeamCardProfiles) sobre el nombre en el reposo solo sin hover
-  (táctil: visibles desde el inicio) y bajo la bio en el detalle con hover; nunca dos copias
-  enfocables a la vez (la otra es display none). Enfocar un icono activa la card (card-active).
-  Rol y nombre del detalle son aria-hidden (duplican los del reposo, que siguen en el DOM).
+  Capas en la misma celda (stack-layers) sobre la foto:
+    1. reposo (TeamCardRest): degradado + nombre y rol abajo a la izquierda;
+    2. detalle (TeamCardDetail): velo + icono + arriba y, en un único bloque anclado abajo, nombre
+       grande, rol · empresa, bio a 3 líneas y perfiles, sobre su banda oscura
+       (--team-detail-scrim-bottom, llega al borde con márgenes negativos iguales al padding).
+  Qué capa se ve lo decide can-hover. Sin hover (táctil) solo existe el reposo: el detalle es
+  display none (ni se ve ni se anima) y hover.ts no engancha nada. Con hover, el detalle entra en
+  hover o focus-visible (card-active) con fundido motion-safe, y hover.ts añade blur/escala de la
+  foto y el typewriter solo sin reduced-motion.
+  Perfiles (TeamCardProfiles): sobre el nombre en el reposo solo sin hover y bajo la bio en el
+  detalle con hover; nunca dos copias enfocables a la vez (la otra es display none). Enfocar un
+  icono activa la card (card-active). Rol y nombre del detalle son aria-hidden (duplican el reposo).
   data-team-card / data-team-photo / data-team-type son los ganchos de modules/team/hover.ts.
 */}
 <div

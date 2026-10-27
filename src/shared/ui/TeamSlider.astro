@@ -1,17 +1,21 @@
 ---
 import type { UiSliderLabels } from './types';
 
-// Slider del equipo ("Las personas detrás de cada proyecto"), Figma 40:388: fila de cards de
-// 344 × 423 con gap 21. Por debajo de lg sale a sangre (el gutter es padding del carril, la card
-// siguiente asoma e invita al swipe); desde lg vive dentro de container-page, alineado con la
-// cabecera, y el propio carril (overflow-x) recorta las cards en los bordes del container.
-// Autoplay POR PASOS en bucle: cada --duration-team-step-interval desplaza UNA card en
-// --duration-team-step (ease-standard) y se detiene con foco de teclado, pestaña oculta, fuera de
-// viewport y mientras se desliza con el dedo; al soltar un swipe encaja en la card más cercana.
-// El hover general NO lo detiene (MOT-SLIDERS-SHOWCASE), salvo sobre una card con enlaces
-// (perfiles del integrante), para que los iconos no se escapen del puntero.
-// Las cards (slot) las compone el módulo: cada hijo directo es una diapositiva (role="group"
-// con aria-roledescription y "n de total", o aria-hidden si es decorativa).
+// Slider del equipo. Un componente por slider: lo común vive en shared/lib/slider.
+// Por debajo de lg sale a sangre (el gutter es padding del carril, la card siguiente asoma e invita
+// al swipe); desde lg vive dentro de container-page, alineado con la cabecera, y el propio carril
+// (overflow-x) recorta las cards en los bordes del container.
+// Autoplay POR PASOS en bucle, en todos los breakpoints: espera --duration-team-step-interval y
+// desplaza UNA card en --duration-team-step (ease-standard); si se detiene a mitad de paso, encaja
+// en la card más cercana, y al soltar un swipe, en el paso más cercano. Se detiene con foco de
+// teclado, pestaña oculta, fuera de viewport y mientras se desliza (reanuda tras
+// --delay-slider-resume); con reduced motion no hay autoplay. El hover NO lo detiene, salvo con el
+// puntero sobre una card con enlaces de perfil (motivo `pointer`), para que los iconos no se escapen.
+// Las copias del bucle son aria-hidden + inert: bindCloneHover les emula el hover
+// (data-clone-hover, pointerenter/leave sintéticos) y reenvía el clic de un perfil a la card original.
+// Slot: las cards (TeamCard), compuestas por el módulo. Cada hijo directo es una diapositiva
+// (role="group" con aria-roledescription y "n de total", o aria-hidden si es decorativa); el
+// carril les pone shrink-0 snap-start. Las imágenes, con draggable="false".
 interface Props {
   /** Textos accesibles de la región (las diapositivas los llevan desde el módulo). */
   labels: UiSliderLabels;

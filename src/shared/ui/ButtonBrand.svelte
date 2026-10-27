@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { HTMLButtonAttributes } from 'svelte/elements';
 
-  // Sin estado propio: Svelte porque lo usa una isla (abrir/cerrar el menú mobile).
-  // Atributos nativos (onclick, aria-expanded, aria-controls…) pasan con ...rest.
+  // Botón píldora brand sin flecha: abrir y cerrar el menú mobile. Sin estado propio: Svelte porque
+  // lo usa una isla. Atributos nativos (onclick, aria-expanded, aria-controls…) pasan con ...rest.
   interface Props extends Omit<HTMLButtonAttributes, 'class' | 'children'> {
     label: string;
     /** Elemento <button> (bind:ref) para mover el foco. */
@@ -12,10 +12,7 @@
   let { label, ref = $bindable(), type = 'button', ...rest }: Props = $props();
 </script>
 
-<!--
-  Figma 11:31 (píldora del header) como botón: brand, alto 40, padding 20 / 9-10, texto 15/500
-  ink. Área táctil de 44px alrededor de la píldora (V3): el aspecto no cambia.
--->
+<!-- Área táctil de 44px alrededor de la píldora: el aspecto no cambia. -->
 <button
   bind:this={ref}
   {type}

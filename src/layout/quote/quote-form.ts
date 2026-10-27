@@ -1,4 +1,8 @@
-// Lógica pura del modal de cotización (validación y envío): sin DOM salvo el `File` del adjunto.
+// Lógica pura del modal de cotización (validación, preselección y envío): sin DOM salvo el `File`
+// del adjunto. `submitQuote` es el ÚNICO punto de envío: destino site.quote.endpoint, PENDIENTE
+// mientras no haya backend (sin endpoint responde 'unavailable' sin tocar la red); POST multipart
+// (`quoteFormData`). `?cotizacion-simulada=sent|error|unavailable` revisa los estados sin enviar.
+// `presetServices` traduce el `data-quote-services` del disparador.
 import type { QuoteCurrencyCode, QuoteValidation } from '@/core/site';
 import { isEmail, simulatedResult, submitFormData, type SubmitResult } from '../dialog/dialog-form';
 

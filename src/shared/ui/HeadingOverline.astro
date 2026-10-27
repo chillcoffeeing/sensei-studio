@@ -1,4 +1,5 @@
 ---
+// Título de columna del footer: <h2> pequeño en mayúsculas, ink-muted sobre ink.
 interface Props {
   /** Título corto de columna (se pinta en mayúsculas con CSS). */
   text: string;
@@ -7,5 +8,4 @@ interface Props {
 const { text } = Astro.props;
 ---
 
-{/* Figma 174:29, 174:36, 174:43, 174:49: h2 de columna del footer, 12px en mayúsculas, ink-muted. */}
 <h2 class="font-heading text-overline text-ink-muted uppercase">{text}</h2>

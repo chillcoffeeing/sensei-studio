@@ -1,21 +1,16 @@
 ---
+// Enlace de texto en mayúsculas con signo final, en el aside de SectionHeader de una sección clara
+// ("Ver todos los proyectos +"). Área táctil de 44px por debajo de lg; en lg+ manda la fila de la cabecera.
 interface Props {
   href: string;
   label: string;
-  /**
-   * Signo final decorativo (aria-hidden) con la separación de Figma delante:
-   * '    +' (29:236, 4 espacios) o '   +' (38:321, 3 espacios).
-   */
+  /** Signo final decorativo (aria-hidden), con la separación delante: '    +' (proyectos) o '   +' (testimonios). */
   marker: string;
 }
 
 const { href, label, marker } = Astro.props;
 ---
 
-{/*
-  Figma 29:236 / 38:321: enlace de texto de cabecera en mayúsculas, ink-muted → ink en hover.
-  Área táctil de 44px por debajo de lg (en lg+ manda la fila de la cabecera, como en Figma).
-*/}
 <a
   href={href}
   class="flex min-h-11 w-fit items-center font-heading text-link text-ink-muted uppercase transition-colors duration-(--duration-fast) ease-standard hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink lg:min-h-0"

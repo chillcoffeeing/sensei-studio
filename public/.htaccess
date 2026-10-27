@@ -1,0 +1,91 @@
+# Sensei Studio · Apache (cPanel). Astro lo copia de public/ a la raíz de dist/ (DEPLOY-STATIC).
+# Cada bloque opcional va dentro de <IfModule> para no romper el sitio si el módulo falta.
+
+# --- Índices y documento por defecto ------------------------------------------------------
+# Cada ruta es una carpeta con index.html (build.format "directory" de Astro).
+DirectoryIndex index.html
+# No listar el contenido de carpetas sin index.html.
+Options -Indexes
+
+# --- Página de error ----------------------------------------------------------------------
+# dist/404.html sale de src/pages/404.astro (noindex).
+ErrorDocument 404 /404.html
+
+# --- HTTPS y dominio canónico (301) -------------------------------------------------------
+# Todo a https://bysensei.com sin www, en un solo salto. Solo actúa en el dominio de
+# producción: en subdominios temporales o previews de cPanel no redirige.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # /.well-known/ queda fuera de ambas reglas: AutoSSL (cPanel/Sectigo) valida el dominio por
+  # HTTP en /.well-known/pki-validation/ y /.well-known/acme-challenge/ y no sigue el 301.
+  # REQUEST_URI cubre la petición directa; THE_REQUEST (la línea original del cliente) cubre
+  # el ErrorDocument /404.html que genera un archivo inexistente bajo /.well-known/.
+
+  # www.bysensei.com (http o https) -> https://bysensei.com
+  RewriteCond %{REQUEST_URI} !^/\.well-known/ [NC]
+  RewriteCond %{THE_REQUEST} !\s/+\.well-known/ [NC]
+  RewriteCond %{HTTP_HOST} ^www\.bysensei\.com$ [NC]
+  RewriteRule ^ https://bysensei.com%{REQUEST_URI} [R=301,L]
+
+  # http://bysensei.com -> https://bysensei.com
+  # X-Forwarded-Proto cubre el caso de un proxy/CDN que termina el TLS delante de Apache.
+  RewriteCond %{REQUEST_URI} !^/\.well-known/ [NC]
+  RewriteCond %{THE_REQUEST} !\s/+\.well-known/ [NC]
+  RewriteCond %{HTTP_HOST} ^bysensei\.com$ [NC]
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://bysensei.com%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# --- Tipos MIME ---------------------------------------------------------------------------
+# Algunos Apache compartidos no conocen estos tipos y los sirven como text/plain u octet-stream.
+<IfModule mod_mime.c>
+  AddType application/manifest+json .webmanifest
+  AddType image/avif .avif
+  AddType image/webp .webp
+  AddType image/svg+xml .svg .svgz
+  AddEncoding gzip .svgz
+  AddType video/mp4 .mp4
+  AddType font/woff2 .woff2
+  AddCharset utf-8 .html .css .js .mjs .json .webmanifest .xml .txt .svg
+</IfModule>
+
+# --- Compresión (mod_deflate) -------------------------------------------------------------
+# Texto comprimido en tránsito. Imágenes, vídeo y woff2 ya vienen comprimidos: no se tocan.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript text/javascript application/json
+  AddOutputFilterByType DEFLATE application/xml application/manifest+json image/svg+xml
+</IfModule>
+
+# --- Caché del navegador ------------------------------------------------------------------
+# /_astro/* lleva hash en el nombre: si cambia el contenido cambia la URL, así que se cachea
+# un año e immutable. El HTML (y robots/sitemap/manifest) se revalida siempre para que un
+# despliegue nuevo se vea al instante. El resto de public/ (favicon, og-image, vídeo): un día.
+<IfModule mod_headers.c>
+  # Por defecto: caché corta para archivos de public/ sin hash.
+  Header set Cache-Control "public, max-age=86400"
+
+  <FilesMatch "\.(html|xml|txt|webmanifest)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # Assets con hash de Astro (cualquier archivo bajo /_astro/).
+  <If "%{REQUEST_URI} =~ m#^/_astro/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+
+  # Seguridad básica sin efectos sobre el contenido.
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Respaldo con mod_expires para servidores sin mod_headers (no pisa lo anterior si existe).
+<IfModule !mod_headers.c>
+  <IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 day"
+    ExpiresByType text/html "access plus 0 seconds"
+  </IfModule>
+</IfModule>

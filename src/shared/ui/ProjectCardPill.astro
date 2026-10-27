@@ -1,4 +1,6 @@
 ---
+// Pieza interna de ProjectCard: pill de reposo (título + categoría). ProjectCard la oculta a
+// lectores de pantalla (aria-hidden: repite el detalle) y la anima.
 import ProjectCardCategory from './ProjectCardCategory.astro';
 interface Props {
   title: string;
@@ -8,7 +10,6 @@ interface Props {
 const { title, category } = Astro.props;
 ---
 
-{/* Pill de reposo de ProjectCard (Figma 35:302): título + categoría. ProjectCard la oculta (aria-hidden) y la anima. */}
 <div class="flex min-h-13 items-center justify-between gap-3 rounded-pill bg-paper p-3.75">
   <p class="shrink-0 font-heading text-pill text-ink uppercase">{title}</p>
   <p class="min-w-0 text-right font-heading text-pill text-balance text-ink-muted"><ProjectCardCategory category={category} /></p>

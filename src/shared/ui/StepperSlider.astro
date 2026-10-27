@@ -2,7 +2,8 @@
 import { slideLabel } from '@/shared/lib/slider';
 import type { UiSliderLabels } from './types';
 
-// Pasos numerados en modo stepper (PROCESS-STEPPER). Slot: UNA lista (<ol>) que es una rejilla
+// Pasos numerados en modo stepper ("El proceso" de la home y etapas del proceso de cada caso).
+// Slot: UNA lista (<ol>) que es una rejilla
 // (`grid`) y cuyos hijos son los pasos; la rejilla desde md la decide el módulo y no se toca.
 // Por debajo de md, y solo con JS (variante scripting:), la lista pasa a ser un carril de un
 // paso por vista con scroll-snap, swipe (bindSwipe) y autoplay por pasos: cada
@@ -12,6 +13,9 @@ import type { UiSliderLabels } from './types';
 // Se detiene con foco de teclado, al tocar/deslizar o pulsar un paso (reanuda tras
 // --delay-slider-resume), con la pestaña oculta, fuera de viewport, desde md y con reduced motion.
 // Colores por tono (--tone-*): el consumidor pone la superficie (tone-on-ink…).
+// Accesibilidad, solo mientras es slider: carril role="region" + aria-roledescription + aria-label,
+// enfocable, con aria-live off al rotar y polite detenido; cada paso role="group" + "Paso n de N";
+// botones del indicador con nombre y aria-current="step" en el activo, alto mínimo de 44px.
 interface Props {
   /** Textos accesibles (región, diapositiva y "Paso n de N"). */
   labels: UiSliderLabels;

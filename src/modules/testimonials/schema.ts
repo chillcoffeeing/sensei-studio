@@ -7,7 +7,7 @@ export const testimonialsHeadingSchema = headingSchema.extend({ eyebrow: z.strin
 const testimonialSchema = z.strictObject({
   /** Nombre del cliente tal como lo firma (las iniciales del avatar se derivan de aquí). */
   name: z.string().min(1),
-  /** Rol bajo el nombre: en esta web es el título del proyecto (design/copy/testimonials.md). */
+  /** Rol bajo el nombre: en esta web es el título del proyecto. */
   role: z.string().min(1),
   /** Cita textual (los "..." son del original). */
   quote: z.string().min(1),

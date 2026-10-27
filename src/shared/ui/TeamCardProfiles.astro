@@ -1,4 +1,7 @@
 ---
+// Pieza interna de TeamCard: fila de LinkIconInk (Behance, Dribbble, LinkedIn, GitHub) con los logos
+// de src/assets/team/. Redes admitidas: TEAM_PROFILE_NETWORKS (team-profiles.ts). Sin perfiles no
+// pinta nada.
 import type { ImageMetadata } from 'astro';
 import behance from '@/assets/team/behance.svg';
 import dribbble from '@/assets/team/dribbble.svg';
@@ -10,6 +13,7 @@ import type { TeamProfileLink } from './types';
 
 interface Props {
   profiles: TeamProfileLink[];
+  /** Colocación y visibilidad que decide la capa que la usa (en el reposo, oculta con hover). */
   class?: string;
 }
 
@@ -18,7 +22,6 @@ const logos = { behance, dribbble, linkedin, github } satisfies Record<TeamProfi
 const icon = (network: TeamProfileNetwork) => ({ src: logos[network].src, width: logos[network].width, height: logos[network].height });
 ---
 
-{/* Perfiles profesionales de TeamCard (TEAM-V2): una fila de LinkIconInk. Sin perfiles no se pinta nada. */}
 {
   profiles.length > 0 && (
     <ul role="list" class:list={['flex flex-wrap gap-2', className]}>

@@ -59,14 +59,20 @@ implementer → verifier ──verde──→ orquestador cierra (done + history
 | Datos que faltan (placeholders y huecos por sección) | `design/content-gaps.md` |
 | Sistema de diseño (Tailwind por defecto + `src/styles/tokens.css`) | `docs/design-system.md` |
 | Convenciones de código, Tailwind v4 y Svelte | `docs/conventions.md` |
-| Librería de componentes (catálogo y API) | `docs/components.md`, `src/shared/ui/` |
+| Librería de componentes (catálogo; la API está en cada archivo) | `docs/components.md`, `src/shared/ui/` |
 | Cómo se demuestra que algo funciona | `docs/verification.md` |
 | SEO, metadatos, Open Graph, JSON-LD e iconos | `docs/seo.md` |
-| Diseño fuente: inventario, tokens crudos y assets | `design/INVENTORY.md`, `design/figma/` |
-| Copy real que reemplaza al de Figma | `design/copy/*.md` |
+| Despliegue estático en cPanel por SSH (manual y GitHub Actions) | `docs/deploy.md`, `docs/deploy-ci.md`, `scripts/deploy.sh`, `.github/workflows/deploy.yml` |
 | Verificación ejecutable | `./init.ps1` |
 | Informes por feature | `progress/impl_<id>.md`, `progress/verify_<id>.md` |
-| Historial | `progress/history.md` |
+| Historial | `progress/history.md` (los informes viejos, en git) |
+
+## Documentación: el código primero (desde 2026-10-16)
+
+El detalle (props, contratos `data-*`, comportamiento y motivos) va en el código, como comentario de
+cabecera y JSDoc. `docs/` solo recoge lo transversal: reglas, arquitectura, sistema de diseño,
+modelo de contenido, SEO y despliegue. Si un doc empieza a describir un archivo, ese texto pasa al
+archivo.
 
 ## Figma
 

@@ -1,10 +1,12 @@
 ---
+// Avatar circular con iniciales: autor de una ReviewCard. Decorativo (aria-hidden): el nombre va
+// al lado como texto. Colores: --color-avatar-{1..4}-bg/fg.
 import type { AvatarTone } from './types';
 
 interface Props {
   /** Iniciales ya calculadas (shared/lib/initials). */
   initials: string;
-  /** Tono de la paleta de avatares: dato de posición, no variante (ver types.ts). */
+  /** Tono de la paleta: dato de posición, no variante. Lo calcula quien reparte las cards (avatarTone del masonry) para que dos contiguas no coincidan. */
   tone: AvatarTone;
 }
 
@@ -19,7 +21,6 @@ const toneClass = {
 } as const;
 ---
 
-{/* Figma 174:194: círculo de 40 con iniciales. Decorativo: el nombre va al lado como texto. */}
 <span
   aria-hidden="true"
   class:list={[

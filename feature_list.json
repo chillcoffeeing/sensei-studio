@@ -2058,6 +2058,64 @@
         "./init.ps1 en verde"
       ],
       "verified": true
+    },
+    {
+      "id": "DEPLOY-STATIC",
+      "name": "Build estático para cPanel (Apache)",
+      "status": "done",
+      "dependsOn": [
+        "SEO-META"
+      ],
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-15: desplegar en cPanel (Namecheap, Apache) por SSH en modo static de Astro. Guía en docs/deploy.md y script scripts/deploy.sh los escribe el orquestador; esta feature solo prepara el build.",
+      "acceptance": [
+        "astro.config.mjs: output static sin adapter; quitar @astrojs/node de package.json y del lockfile (pnpm remove) si nada más lo usa; ninguna ruta queda server-rendered (todas prerender)",
+        "pnpm build deja en dist/ un sitio plano listo para subir (index.html, proyectos/<slug>/index.html, links/, componentes/, robots.txt, sitemap.xml, _astro/, favicon, og-image, manifest, video); listar el árbol de primer nivel en el informe",
+        "Página 404 estática (src/pages/404.astro) con el layout del sitio, noindex y enlace a inicio, reutilizando shared/ui y tokens; mismo tono que el resto",
+        "public/.htaccess para Apache: forzar HTTPS, www → https://bysensei.com sin www (301), ErrorDocument 404 /404.html, DirectoryIndex index.html, Options -Indexes, caché larga e immutable para /_astro/* y corta (no-cache/must-revalidate) para HTML, compresión (mod_deflate) con <IfModule> para no romper si falta el módulo, tipos MIME de webmanifest/avif/webp/svg; cada bloque comentado",
+        "Comprobar que robots.txt y sitemap.xml salen como archivos estáticos con dominio https://bysensei.com",
+        "Actualizar docs/architecture.md (o donde se describa el adapter) para reflejar el modo estático",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "DEPLOY-SSL-DCV",
+      "name": "Excluir /.well-known/ de las redirecciones del .htaccess",
+      "status": "done",
+      "dependsOn": [
+        "DEPLOY-STATIC"
+      ],
+      "figmaNodes": [],
+      "notes": "2026-10-16: DNS ya apunta a 184.94.213.174 pero AutoSSL no emite el certificado de bysensei.com (el servidor sirve *.web-hosting.com). La validación HTTP de cPanel/Sectigo (/.well-known/pki-validation/ y /.well-known/acme-challenge/) se redirige a HTTPS y falla. Hoy http://bysensei.com/.well-known/pki-validation/test.txt da 301 -> https://bysensei.com/404.html.",
+      "acceptance": [
+        "public/.htaccess: las peticiones a /.well-known/ (y el ErrorDocument que generen) no se redirigen: ni http->https ni www->sin www; condición tipo RewriteCond %{REQUEST_URI} !^/\\.well-known/ en ambos bloques, comentada",
+        "El resto del comportamiento del .htaccess no cambia (HTTPS forzado, sin www, 404, caché, compresión)",
+        "dist/.htaccess refleja el cambio tras pnpm build",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "DOCS-INTO-CODE",
+      "name": "La documentación de detalle pasa al código (comentarios)",
+      "status": "done",
+      "dependsOn": [
+        "DEPLOY-SSL-DCV"
+      ],
+      "figmaNodes": [],
+      "notes": "Pedido del usuario 2026-10-16: el código debe llevar directamente la mitad de la documentación; docs/ queda solo con reglas, arquitectura y sistema de diseño. Después de esta feature el orquestador reduce docs/components.md a un catálogo de una línea por componente y recorta docs/architecture.md y docs/conventions.md. Se borran design/INVENTORY.md, design/figma/, design/copy/, design/placeholders.md y _archive/.",
+      "acceptance": [
+        "SOLO comentarios y JSDoc: ningún cambio de comportamiento, marcado, clases ni tipos",
+        "Cada archivo de src/shared/ui/ (.astro/.svelte) lleva un comentario de cabecera breve (qué es y cuándo usarlo) y JSDoc en las Props no obvias, con lo esencial de su entrada en docs/components.md que aún no esté en el archivo: excepciones de API (p. ej. titleClass), contratos data-*/aria, reglas de motion y tokens propios. Sin medidas de Figma ni historial de features",
+        "Sliders (ShowcaseCarousel, TeamSlider, StepperSlider) y src/shared/lib/slider/index.ts: cabecera con su comportamiento (bucle/pasos, swipe, autoplay y motivos de pausa)",
+        "src/shared/lib/motion/index.ts: cabecera con las reglas de motion de docs/conventions.md › Motion (solo transform/opacity, reduced-motion = estado final, scripting: enabled, una sola vez, lo que se mueve se pausa, tiempos desde tokens) y la API declarativa de reveal (data-reveal, data-reveal-amount, data-reveal-margin, reveal-delay-*, head-parts:)",
+        "layout/FloatingBar.svelte, layout/dialog/ModalDialog.svelte, layout/quote/QuoteDialog.svelte, layout/quote/quote-form.ts, layout/advice/AdviceDialog.svelte y advice-form.ts: cabecera con su contrato de docs/architecture.md (data-floating-bar-avoid, data-quote-open, data-advice-open, data-quote-services, destino sin JS, endpoint pendiente, simulación ?cotizacion-simulada / ?asesoria-simulada)",
+        "Quitar referencias a lo que se borra: _archive/, INVENTORY, design/figma, design/copy, design/placeholders (sustituir por el nodo de Figma si aporta, o eliminar la mención)",
+        "Comentarios concisos, en español, al estilo del resto del código; no duplicar lo que ya dice el tipo",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
     }
   ]
 }

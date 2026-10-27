@@ -3,8 +3,9 @@
   import CtaBrandShape from './CtaBrandShape.svelte';
   import type { UiIcon } from './types';
 
-  // LinkCtaBrand como <button> sobre superficie clara (envío del modal de cotización). Atributos
-  // nativos (type, aria-disabled, onclick…) pasan con ...rest; `type` por defecto `button`.
+  // El CTA principal (LinkCtaBrand) como <button> sobre superficie clara: envío del modal de
+  // cotización. Atributos nativos (type, aria-disabled, onclick…) pasan con ...rest; `type` por
+  // defecto `button`. Mientras se envía, `aria-disabled` lo marca con cursor-progress y opacidad.
   interface Props extends Omit<HTMLButtonAttributes, 'class' | 'children'> {
     label: string;
     /** Flecha del círculo (decorativa: alt vacío). */

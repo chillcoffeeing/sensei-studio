@@ -1,4 +1,15 @@
 <script lang="ts">
+  // Modal de cotización (Figma 220:867): una sola isla global, montada en BaseLayout y
+  // StandaloneLayout (client:idle, arranca cerrado). Lo abre cualquier elemento con el atributo
+  // neutro `data-quote-open` (barra flotante, "Cotización" del nav y del menú mobile, CTA de cierre
+  // de cada caso, cabecera y selector de /links); su `href` (o el `action` de su formulario) es el
+  // destino sin JS, /#contacto. Ningún módulo importa el modal: solo escriben el atributo.
+  // Preselección: si el disparador lleva `data-quote-services="branding ux-ui"` (valores de
+  // site.quote.services.options), abre con exactamente esos servicios marcados; vacío, sin ninguno;
+  // sin el atributo, no toca la selección (presetServices en quote-form.ts).
+  // Envío: submitQuote (quote-form.ts) a site.quote.endpoint, PENDIENTE; estados simulables con
+  // `?cotizacion-simulada=sent|error|unavailable`. Superficie clara: usa los controles de
+  // layout/dialog/, no los de la librería (InputGlass, ButtonInk… son para fondo oscuro).
   import { onMount, tick } from 'svelte';
   import ModalDialog from '../dialog/ModalDialog.svelte';
   import QuoteAttachment from './QuoteAttachment.svelte';
@@ -44,7 +55,7 @@
     return { message: '', tone: undefined };
   });
 
-  // Preselección (LINKS-PAGE): si el disparador trae data-quote-services, el modal abre con
+  // Preselección: si el disparador trae data-quote-services, el modal abre con
   // exactamente esos servicios marcados. Sin el atributo, la selección no se toca.
   function onopen(trigger: HTMLElement) {
     const preset = trigger.dataset.quoteServices;

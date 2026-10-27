@@ -1,78 +1,59 @@
-# SEO y metadatos — estrategia
+# SEO y metadatos
 
-Fuente única de verdad para `<head>`, previews al compartir y datos estructurados. Complementa
-`docs/content-model.md` (el `seo` de cada `PageDoc`).
+Regla: **los datos declaran y `DocumentHead` emite.** Un dato que falta se hereda de la capa superior
+(de la página al sitio) y nunca se duplica a mano. Código: `core/seo.ts` (títulos, JSON-LD, sitemap y
+robots), `content/seo.ts` (qué declara cada documento) y `layout/DocumentHead.astro`.
 
 ## 1. Capas
 
-| Capa | Dónde vive | Qué decide |
+| Capa | Dónde | Decide |
 |---|---|---|
-| **Sitio** | `src/content/site.ts` · `meta` | nombre, dominio, locale, correo, redes, logo, imagen de compartir por defecto, plantilla de título |
-| **Página** | `seo` del `PageDoc` (home, `/links`, `/proyectos/`) | título, descripción, keywords, `ogImage`, `noindex`, `jsonLd` extra |
-| **Caso** | derivado del proyecto (`project-hero` + portada) | título y descripción por defecto, `ogImage` = portada, `ogType: article` |
-| **Render** | `src/layout/DocumentHead.astro` | única pieza que escribe etiquetas; las páginas nunca pintan `<meta>` a mano |
+| Sitio | `content/site.ts` › `meta` | nombre, dominio, locale, correo, redes, logo, imagen y plantilla de título |
+| Página | `seo` del `PageDoc` | título, descripción, keywords, `ogImage`, `noindex`, `jsonLd` extra |
+| Caso | derivado de `project-hero` | título, descripción, `ogImage` = portada, `ogType: article` |
+| Render | `DocumentHead.astro` | única pieza que escribe `<meta>` |
 
-Regla: **los datos declaran, `DocumentHead` emite.** Un dato que falta se deriva de la capa
-superior (página → sitio), nunca se duplica a mano.
+## 2. Dominio
 
-## 2. Dominio y URLs
+`https://bysensei.com` es el `site` por defecto de `astro.config.mjs`; `SITE_URL` lo sobrescribe en
+otros entornos. `canonical`, `og:*`, el sitemap y robots son absolutos y sin query ni hash.
 
-- Dominio de producción: **`https://bysensei.com`** (confirmado por el usuario
-  el 2026-10-15). Va como `site` por defecto en `astro.config.mjs`; `SITE_URL` lo
-  sobrescribe en otros entornos.
-- `canonical`, `og:url`, `og:image`, sitemap y robots salen absolutos de `site`.
-- Barra final consistente con la que genera Astro; canonical sin query ni hash.
+## 3. Títulos
 
-## 3. Títulos y descripciones
+- Plantilla: `<página> · Sensei Studio`. La home usa su título completo.
+- En los casos: `<Proyecto> · Caso de estudio · Sensei Studio`.
+- Límites: título ≤ 60 caracteres y descripción entre 120 y 160. Los valida zod.
 
-- Plantilla: `<título de página> · Sensei Studio`; la home usa su título completo tal cual.
-- Título ≤ 60 caracteres, descripción 120–160 (el esquema zod lo valida).
-- Casos: `<Proyecto> · Caso de estudio · Sensei Studio` y descripción derivada del resumen del hero
-  si el JSON del caso no trae `seo` propio.
+## 4. Preview al compartir
 
-## 4. Preview al compartir (Open Graph / X)
+- Imagen de 1200 × 630 en JPG, con alt.
+- Por defecto se usa `public/og-image.jpg` (Figma `flzA0qnj6JdalFCgyB2PdI` 41:464).
+- En los casos se usa la portada, recortada por `getImage`.
+- Además: `twitter:card = summary_large_image` y `og:locale = es_ES`.
 
-- Diseño de referencia: Figma `flzA0qnj6JdalFCgyB2PdI` nodo `41:464`.
-- Imagen 1200 × 630 JPG (< 300 KB), con alt. Siempre `og:image:width/height/alt`.
-- **Por defecto** (home y páginas sin imagen propia): `public/og-image.jpg`, exportada de `41:464`.
-- **Casos**: portada del proyecto (`portadas-de-proyectos/<slug>.jpg`) recortada a 1200 × 630 por
-  `getImage`; alt = nombre del proyecto.
-- `twitter:card = summary_large_image`. `og:locale = es_ES`, `og:site_name = Sensei Studio`.
-- Validación manual tras publicar: opengraph.xyz, Facebook Sharing Debugger, LinkedIn Post
-  Inspector, vista previa de WhatsApp.
+## 5. JSON-LD (derivado, nunca a mano)
 
-## 5. Datos estructurados (JSON-LD)
-
-Se generan desde los datos, no se escriben a mano en cada página:
-
-- **Todas las páginas**: `Organization` (nombre, url, logo, `email: hola@bysensei.com`, `sameAs`
-  con las redes reales del footer) + `WebSite`.
-- **Home**: además `ProfessionalService` con `areaServed` y `knowsAbout` (servicios) y
-  `FAQPage` derivado de la sección FAQ.
-- **Casos**: `CreativeWork` (nombre, descripción, imagen, `creator` = Organization) +
-  `BreadcrumbList` (Inicio › Proyectos › Caso).
+- Todas las páginas: `Organization` + `WebSite`.
+- Home: `ProfessionalService` + `FAQPage` (sale de la sección FAQ).
+- Casos: `CreativeWork` + `BreadcrumbList`.
 - `/proyectos/`: `CollectionPage` + `BreadcrumbList`.
-- `seo.jsonLd` del documento solo **agrega** nodos extra.
+- `seo.jsonLd` solo **agrega** nodos.
 
 ## 6. Indexación
 
-- `robots.txt` permite todo y apunta al sitemap; `noindex` en `/componentes` (catálogo interno) y
-  en cualquier página marcada `seo.noindex`, que además queda fuera del sitemap.
-- `/links` (linktree de Instagram): indexable pero con `canonical` propio y sin keywords.
-- Sitemap con home, `/proyectos/` y cada caso.
+- `robots.txt` permite todo y apunta al sitemap.
+- `noindex` en `/componentes` y en las páginas con `seo.noindex`, que además salen del sitemap.
+- Antes del lanzamiento, el despliegue puede publicar sin indexar (`NOINDEX_FOR_DEPLOY`, `docs/deploy.md`).
 
 ## 7. Iconos
 
-- Diseño de referencia: Figma `flzA0qnj6JdalFCgyB2PdI` nodo `224:316`.
-- `favicon.svg` (con variante para modo oscuro si el diseño la tiene), `favicon.ico` 32 × 32,
-  `apple-touch-icon.png` 180 × 180, `site.webmanifest` (nombre, `theme_color`,
-  `background_color`, iconos 192 y 512) y `<meta name="theme-color">`.
+Figma 224:316. Archivos: `favicon.svg`, `favicon.ico` (32), `apple-touch-icon.png` (180),
+`site.webmanifest` (iconos de 192 y 512, `theme_color`) y `<meta name="theme-color">`.
 
-## 8. Checklist por página nueva
+## Checklist de una página nueva
 
-1. `seo.title` y `seo.description` propios dentro de los límites.
-2. ¿Tiene imagen propia? Si no, hereda la del sitio.
-3. ¿Necesita JSON-LD extra (FAQ, artículo)? Se deriva de sus secciones.
-4. ¿Debe indexarse? Si no, `noindex` (y sale del sitemap).
-5. Verificar en el HTML generado: un solo `<title>`, canonical absoluto, `og:image` absoluto
-   y JSON-LD válido (validator.schema.org).
+1. `seo.title` y `seo.description` propios, dentro de los límites.
+2. Si no tiene imagen propia, hereda la del sitio.
+3. El JSON-LD extra se deriva de sus secciones.
+4. Si no debe indexarse, `noindex`.
+5. En el HTML generado: un solo `<title>`, canonical y `og:image` absolutos y JSON-LD válido.

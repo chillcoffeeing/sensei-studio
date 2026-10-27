@@ -1,4 +1,6 @@
 ---
+// Card de reseña (testimonios): avatar con iniciales (shared/lib/initials), nombre, rol y cita.
+// La coloca el masonry del módulo, que también decide `tone`.
 import { initials } from '@/shared/lib/initials';
 import AvatarInitials from './AvatarInitials.astro';
 import type { AvatarTone } from './types';
@@ -15,10 +17,6 @@ interface Props {
 const { name, role, quote, tone } = Astro.props;
 ---
 
-{/*
-  Figma 174:192: card blanca, radio 16, sombra card, padding 24, gap 16. Cabecera: avatar 40 +
-  gap 12 + nombre y rol (gap 2); debajo, la cita en ink-muted.
-*/}
 <figure class="flex flex-col gap-4 rounded-card bg-paper p-6 shadow-card">
   <figcaption class="flex items-center gap-3">
     <AvatarInitials initials={initials(name)} tone={tone} />

@@ -1,4 +1,6 @@
 ---
+// Descripción del aside de SectionHeader: primera frase en tono fuerte y el resto atenuado (tonos
+// de la superficie). El ancho lo pone el contenedor.
 import type { ToneText as ToneTextValue } from '@/shared/lib/tone-text';
 import ToneText from './ToneText.astro';
 
@@ -10,5 +12,4 @@ interface Props {
 const { value } = Astro.props;
 ---
 
-{/* Figma 29:247, 31:30, 41:389: DM Sans 16 en el tono muted de la superficie. El ancho (410 / 401) lo pone el contenedor. */}
 <p class="font-body text-body text-(color:--tone-muted)"><ToneText value={value} /></p>

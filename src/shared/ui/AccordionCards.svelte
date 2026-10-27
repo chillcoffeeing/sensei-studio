@@ -3,14 +3,14 @@
   import { AccordionController } from '@/shared/lib/accordion-controller.svelte';
   import type { AccordionCardItem, UiIcon } from './types';
 
-  // Acordeón de cards (preguntas y respuestas). Con estado: es una isla (client:visible).
+  // Acordeón de cards de pregunta y respuesta (FAQ). Con estado: es una isla (client:visible).
   // Estado, teclado APG y entrada lateral: AccordionController (shared/lib), como services.
-  // La primera card empieza abierta (Figma 174:158). El idioma (lang) lo pone el contenedor.
+  // La primera card empieza abierta. El idioma (lang) lo pone el contenedor.
   interface Props {
     /** Prefijo de los ids de cabeceras y paneles (único en la página). */
     baseId: string;
     items: AccordionCardItem[];
-    /** "+" de 12px (Figma 174:162) que rota 45° (×) al abrir. */
+    /** "+" que rota 45° (×) al abrir. */
     icon: UiIcon;
   }
 
@@ -19,11 +19,7 @@
   const acc = new AccordionController(0);
 </script>
 
-<!--
-  Figma 174:157 / 174:158: pila con gap 16 de cards blancas (radio 16, sombra card-sm,
-  padding 32/40 fluido). Título 19/500 y botón ink de 32 con el "+"; cuerpo 16/26 ink-muted a 24
-  del título. Cuerpo `collapsible` con data-open (sin JS, todo abierto).
--->
+<!-- Cuerpo `collapsible` con data-open: sin JS, todos los paneles abiertos. -->
 <ul class="flex flex-col gap-4">
   {#each items as item, index (item.title)}
     {@const open = acc.isOpen(index)}

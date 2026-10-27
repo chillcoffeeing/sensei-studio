@@ -2,8 +2,9 @@
   import type { HTMLAnchorAttributes } from 'svelte/elements';
   import type { UiIcon } from './types';
 
-  // Sin estado: Svelte porque también lo usa una isla (el panel del menú mobile). Desde Astro se
-  // renderiza estático (header). Atributos nativos (onclick para cerrar el panel…) con ...rest.
+  // Logo enlazado a la home sobre ink: header y cabecera del panel del menú mobile. Sin estado:
+  // Svelte porque también lo usa una isla; desde Astro se renderiza estático. Atributos nativos
+  // (onclick para cerrar el panel…) con ...rest.
   interface Props extends Omit<HTMLAnchorAttributes, 'class' | 'href' | 'children'> {
     href: string;
     /** Logo (SVG vectorial: URL + dimensiones del import). */
@@ -15,10 +16,7 @@
   let { href, logo, label, ...rest }: Props = $props();
 </script>
 
-<!--
-  Figma 16:49: wordmark del header sobre ink, desplazado 3px a la izquierda (-ml-0.75). Área táctil
-  de 44px de alto (el logo queda centrado en la fila de 40 del header: el aspecto no cambia).
--->
+<!-- Área táctil de 44px de alto: el logo queda centrado en la fila de 40 del header. -->
 <a
   {href}
   {...rest}

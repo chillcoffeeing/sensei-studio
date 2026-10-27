@@ -3,9 +3,11 @@ import { Picture } from 'astro:assets';
 import { objectPositionClass, resolvePhoto } from '@/shared/lib/media';
 import type { UiPhoto } from './types';
 
-// Foto de un slot (shared/lib/media resuelve la cadena): local → <Picture> de astro:assets (avif,
-// webp, jpg; png si es `contain`), recortada en el servidor con su encuadre (`position`); otra URL → <img> simple.
-// Todas con width/height del recorte: sin CLS.
+// Cualquier slot de foto. Recibe un MediaRef (`src` cadena) o una imagen importada y lo resuelve
+// shared/lib/media (resolvePhoto): clave local de src/assets → <Picture> de astro:assets (avif, webp,
+// jpg; png si es `contain`), recortada en el servidor con su encuadre (`position`, también como
+// object-*); otra URL → <img> simple. Todas con width/height del recorte: sin CLS.
+// Solo piezas reales del estudio: una persona sin foto es UserPlaceholder, nunca stock.
 interface Props {
   image: UiPhoto;
   /** Ancho y alto del respaldo (2× del slot): fijan la proporción del recorte. */
@@ -18,6 +20,7 @@ interface Props {
   decorative?: boolean;
   loading?: 'lazy' | 'eager';
   draggable?: 'true' | 'false';
+  /** Clases del <img> (tamaño y encaje dentro del slot que pone el consumidor). */
   class?: string;
 }
 

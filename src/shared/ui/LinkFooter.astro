@@ -1,4 +1,6 @@
 ---
+// Enlace de columna del footer sobre ink. Caja `block w-fit`: su alto es su interlineado aunque el
+// <li> que lo contiene tenga otra fuente.
 interface Props {
   label: string;
   /** Sin destino todavía: se pinta como texto con el mismo aspecto. */
@@ -10,10 +12,6 @@ interface Props {
 const { label, href, newTab } = Astro.props;
 ---
 
-{/*
-  Figma 174:30-174:47: enlace de columna del footer, 28px paper → brand en hover. Bloque de
-  ancho de texto: su alto es su interlineado aunque el contenedor (un <li>) tenga otra fuente.
-*/}
 {
   href ? (
     <a

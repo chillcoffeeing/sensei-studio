@@ -10,5 +10,4 @@
   let { message, ...rest }: Props = $props();
 </script>
 
-<!-- Figma no diseña el estado tras enviar: 14px paper a 12px del botón (--form-status-gap). -->
 <p {...rest} class="pt-(--form-status-gap) font-body text-body-sm text-paper">{message}</p>

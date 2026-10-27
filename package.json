@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.10",
-    "@astrojs/node": "^11.1.4",
     "@astrojs/svelte": "^9.0.1",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.2.4",

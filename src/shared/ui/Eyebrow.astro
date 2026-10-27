@@ -1,4 +1,7 @@
 ---
+// Rótulo sobre el h2 de una sección: punto lima (src/assets/ui/eyebrow-dot.svg) + texto en
+// mayúsculas, en el tono fuerte de la superficie. Los rótulos del caso de estudio, los modales y
+// /links usan LabelMarker (marcador cuadrado y texto menor).
 import eyebrowDot from '@/assets/ui/eyebrow-dot.svg';
 
 interface Props {
@@ -9,7 +12,6 @@ interface Props {
 const { text } = Astro.props;
 ---
 
-{/* Figma 16:70: punto lima de 14px + gap 10 + texto 12px en mayúsculas. Toma el tono fuerte de la superficie. */}
 <p class="flex items-center gap-2.5 font-heading text-eyebrow text-(color:--tone-strong) uppercase">
   <img src={eyebrowDot.src} width={eyebrowDot.width} height={eyebrowDot.height} alt="" class="block shrink-0" />
   {text}

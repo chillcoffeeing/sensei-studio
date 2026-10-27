@@ -1,4 +1,5 @@
 ---
+// Pieza interna de TeamCard (sin entrada propia en /componentes): capa de detalle.
 import plus from '@/assets/team/plus.svg';
 import TeamCardProfiles from './TeamCardProfiles.astro';
 import type { TeamCardData, TeamProfileLink } from './types';
@@ -11,9 +12,9 @@ interface Props {
 const { person, profiles } = Astro.props;
 ---
 
-{/* Capa de detalle de TeamCard: solo existe con hover (can-hover) y entra con card-active.
-    TEAM-CARD-LOOP: arriba solo el icono +; todos los datos (nombre, rol · empresa, bio a 3 líneas
-    y perfiles) en un único bloque anclado abajo, sobre su banda oscura (AA).
+{/* Solo existe con hover (can-hover) y entra con card-active. Arriba solo el icono +; todos los
+    datos (nombre, rol · empresa, bio a 3 líneas y perfiles) en un único bloque anclado abajo,
+    sobre su banda oscura (AA). line-clamp-typed-3 recorta también las capas del typewriter.
     data-team-type: textos que escribe el typewriter de modules/team/hover.ts. */}
 <div class="relative hidden flex-col justify-between gap-4 bg-(--team-card-veil) px-6 pt-6 pb-7.5 text-paper opacity-0 can-hover:flex can-hover:card-active:opacity-100 motion-safe:transition-opacity motion-safe:duration-(--duration-base) motion-safe:ease-standard">
   <span aria-hidden="true" class="flex size-6 shrink-0 items-center justify-center rounded-pill bg-ink">

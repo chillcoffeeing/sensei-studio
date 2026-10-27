@@ -1,4 +1,8 @@
 ---
+// Prueba social de la cabecera de testimonios: pila de avatares cerrada por un contador ink
+// (AvatarStack) y, al lado, estrellas (RatingStars) sobre un texto en dos tonos. Se leen el contador
+// (`count.label`), la valoración (`rating.label`) y el texto con su `lang`; avatares y cifra visible
+// son aria-hidden. La colocación la decide el consumidor; si no cabe, el texto baja de línea.
 import AvatarStack from './AvatarStack.astro';
 import RatingStars from './RatingStars.astro';
 import type { UiAvatar, UiCaption, UiCount, UiRating } from './types';
@@ -23,13 +27,6 @@ const toneClass = {
 } as const;
 ---
 
-{/*
-  Figma 38:319 ("image 27"): en Figma es un raster (imgImage27). Medidas en su píxel: pila de
-  4 avatares + contador ink "56+" (50 × 50, aro 3 avatar-ring, radio 12, paso 30 = solape 20; cada
-  una tapa a la anterior); a 15 de la pila, 5 estrellas (paso 13.75) sobre el texto en dos
-  tonos, centrados en vertical con la pila. Mobile: la pila escala a 40 (mismo solape
-  proporcional) y, si no cabe, el texto baja de línea (flex-wrap). Pila: AvatarStack; estrellas: RatingStars.
-*/}
 <div class="flex flex-wrap items-center gap-(--trust-badge-gap)">
   <AvatarStack avatars={avatars} count={count} />
   <div class="flex flex-col items-start gap-(--trust-badge-rating-gap)">

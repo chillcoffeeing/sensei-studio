@@ -1,4 +1,6 @@
 ---
+// Cabecera común de las secciones claras: Eyebrow + título en dos tonos + slot `aside` (descripción
+// o LinkMore), que en lg+ va abajo a la derecha y en mobile se apila.
 import type { ToneText as ToneTextValue } from '@/shared/lib/tone-text';
 import Eyebrow from './Eyebrow.astro';
 import ToneText from './ToneText.astro';
@@ -11,8 +13,8 @@ interface Props {
   eyebrow: string;
   title: ToneTextValue;
   /**
-   * SOLO el ancho máximo del h2 (`max-w-(--<sección>-title-max)`) para reproducir el corte de
-   * línea de Figma. Única excepción documentada a "sin clases de fuera" (docs/components.md).
+   * SOLO el ancho máximo del título (`max-w-(--<sección>-title-max)`) que fija su corte de línea.
+   * Única prop de clases de la librería: excepción a "sin class desde fuera".
    */
   titleClass?: string;
 }
@@ -23,13 +25,9 @@ const hasAside = Astro.slots.has('aside');
 ---
 
 {/*
-  Cabecera común de sección (INVENTORY §2; Figma 32:82, 29:251, 40:372…).
-  Columna izquierda 16:84 (w 764, gap 15): eyebrow 16:70 (punto lima 14px + gap 10 + texto
-  en mayúsculas) y h2 en dos tonos. Slot `aside`: descripción o CTA, alineado abajo y a la
-  derecha en lg+ (fila justify-between + items-end, como 32:82 y 29:251); en mobile se apila.
-  data-head-part (MOT-REVEAL): marca neutra de las dos partes; no hace nada por sí sola. Una
-  sección que quiera la entrada escalonada usa head-parts:reveal-up en su contenedor [data-reveal]
-  e incluye [data-head-part] en el selector de items (ver docs/components.md).
+  data-head-part: marca neutra de las dos partes, sin efecto propio. Una sección que quiera la
+  entrada escalonada pone head-parts:reveal-up en su contenedor [data-reveal] e incluye
+  [data-head-part] en el selector de items (shared/lib/motion). Sin eso, nada cambia.
 */}
 <div
   class:list={[

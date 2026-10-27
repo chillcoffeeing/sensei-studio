@@ -1,0 +1,30 @@
+---
+// Página 404 estática (DEPLOY-STATIC): Astro la emite como dist/404.html y Apache la sirve con
+// `ErrorDocument 404 /404.html` (public/.htaccess). Mismo chrome que el sitio; noindex.
+import notFound from '@/content/not-found';
+import site from '@/content/site';
+import BaseLayout from '@/layout/BaseLayout.astro';
+import Eyebrow from '@/shared/ui/Eyebrow.astro';
+import LinkCtaBrand from '@/shared/ui/LinkCtaBrand.svelte';
+
+export const prerender = true;
+
+const { seo, eyebrow, title, description, cta } = notFound;
+const icon = { src: cta.icon.src.src, width: cta.icon.src.width, height: cta.icon.src.height };
+---
+
+<BaseLayout seo={seo} site={site}>
+  <main>
+    {/* Relleno vertical generoso: la página es corta y el footer no debe pegarse al mensaje. */}
+    <section aria-labelledby="not-found-title" class="container-page py-24 md:py-40">
+      <div class="flex max-w-2xl flex-col items-start gap-6">
+        <Eyebrow text={eyebrow} />
+        <h1 id="not-found-title" class="text-h2 text-balance text-ink">{title}</h1>
+        <p class="font-body text-body-lg text-pretty text-ink-muted">{description}</p>
+        <div class="mt-2">
+          <LinkCtaBrand href={cta.href} label={cta.label} icon={icon} />
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

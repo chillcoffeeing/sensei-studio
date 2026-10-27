@@ -2,8 +2,9 @@
   import type { HTMLButtonAttributes } from 'svelte/elements';
   import type { UiIcon } from './types';
 
-  // Botón de pausa de lo que se mueve solo (WCAG 2.2.2). Sin estado propio: `pressed` lo decide
-  // el controlador de autoplay de la isla. Atributos nativos (onclick, data-*) pasan con ...rest.
+  // Pausar/reanudar algo que se mueve solo (WCAG 2.2.2) sobre fondo oscuro: la rueda de la galería
+  // del footer. `pressed` es estado (aria-pressed), no aspecto: lo decide el controlador de autoplay
+  // de la isla. Atributos nativos (onclick, data-*) pasan con ...rest.
   interface Props extends Omit<HTMLButtonAttributes, 'class' | 'children' | 'aria-pressed' | 'aria-label'> {
     /** Nombre accesible fijo; el estado va en aria-pressed. */
     label: string;
@@ -18,11 +19,7 @@
   const icon = $derived(pressed ? playIcon : pauseIcon);
 </script>
 
-<!--
-  Figma no dibuja controles: círculo glass de 44 (como la card de contacto 174:75:
-  fondo y borde glass) con el icono de 16 en paper. Para fondos oscuros (showcase, footer).
-  La visibilidad (p. ej. solo con foco) la decide el contenedor.
--->
+<!-- Círculo glass para fondos oscuros. La visibilidad (p. ej. solo con foco) la decide el contenedor. -->
 <button
   type="button"
   aria-label={label}

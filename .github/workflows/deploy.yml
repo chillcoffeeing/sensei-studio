@@ -1,0 +1,86 @@
+# Despliegue a cPanel en cada push a main (guía: docs/deploy-ci.md).
+# Verifica con init.ps1 (que también compila) y publica ese dist/ con scripts/deploy.sh --skip-build.
+# A mano (Actions → Deploy → Run workflow): redesplegar o restaurar el último respaldo.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Qué hacer
+        type: choice
+        options: [deploy, rollback]
+        default: deploy
+
+# Un despliegue a la vez; uno nuevo espera a que termine el anterior (no lo cancela a medias).
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.1.3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Clave SSH y huella del servidor
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+      - name: .env del despliegue
+        env:
+          HOST: ${{ secrets.DEPLOY_HOST }}
+          USER: ${{ secrets.DEPLOY_USER }}
+          PORT: ${{ secrets.DEPLOY_PORT }}
+          DOMAIN_ROOT: ${{ vars.DEPLOY_DOMAIN_ROOT }}
+          DOMAIN: ${{ vars.DEPLOY_DOMAIN }}
+          NOINDEX: ${{ vars.NOINDEX_FOR_DEPLOY }}
+        run: |
+          {
+            echo "IP_SSH_FOR_DEPLOY=$HOST"
+            echo "USER_SSH_FOR_DEPLOY=$USER"
+            echo "PORT_SSH_FOR_DEPLOY=${PORT:-21098}"
+            echo "KEY_SSH_FOR_DEPLOY=$HOME/.ssh/deploy_key"
+            echo "DOMAIN_ROOT_FOR_DEPLOY=${DOMAIN_ROOT:-/bysensei.com}"
+            echo "DOMAIN_FOR_DEPLOY=${DOMAIN:-bysensei.com}"
+            echo "NOINDEX_FOR_DEPLOY=${NOINDEX:-false}"
+          } > .env
+
+      - name: Verificación y build (init.ps1)
+        if: github.event_name == 'push' || inputs.mode == 'deploy'
+        shell: pwsh
+        run: ./init.ps1
+
+      - name: Publicar
+        if: github.event_name == 'push' || inputs.mode == 'deploy'
+        run: bash scripts/deploy.sh --skip-build
+
+      - name: Restaurar el último respaldo
+        if: inputs.mode == 'rollback'
+        run: bash scripts/deploy.sh --rollback
+
+      - name: Limpieza
+        if: always()
+        run: rm -f .env ~/.ssh/deploy_key

@@ -1,4 +1,7 @@
-// Lógica pura del modal de asesoría (validación y envío), sin DOM.
+// Lógica pura del modal de asesoría (validación y envío), sin DOM. `submitAdvice` es el ÚNICO punto
+// de envío: destino site.advice.endpoint, PENDIENTE mientras no haya backend (sin endpoint responde
+// 'unavailable' sin tocar la red); POST multipart con `stage`, `message`, `name` y `email`.
+// `?asesoria-simulada=sent|error|unavailable` revisa los estados sin enviar.
 import type { SiteAdvice } from '@/core/site';
 import { isEmail, simulatedResult, submitFormData, type SubmitResult } from '../dialog/dialog-form';
 
