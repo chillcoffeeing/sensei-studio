@@ -2201,6 +2201,25 @@
         "docs/content-gaps actualizado (ID de GTM/GA4 pendiente) y ./init.ps1 en verde"
       ],
       "verified": true
+    },
+    {
+      "id": "MODAL-UNIFY",
+      "name": "Un solo tipo de modal por breakpoint: hoja inferior en móvil y tarjeta centrada desde sm para todos los modales",
+      "status": "done",
+      "dependsOn": [
+        "LINKS-TWO-PATHS"
+      ],
+      "notes": "Pedido del usuario 2026-11-09: en móvil no puede haber más de un tipo de modal; el estilo móvil aplica a todos y el de desktop a todos. Hoy ModalDialog (src/shared/lib/dialog/ModalDialog.svelte) tiene prop mobile full|card|sheet: asesoría=full, cotización=card, diagnóstico=sheet. Decisión del orquestador: todos en sheet (hoja que sube desde abajo, tope 94dvh, scroll interno, esquinas superiores redondeadas), que es lo que pide el PDF de /links. Desktop (desde sm) ya es tarjeta centrada en los tres: se mantiene. El menú móvil (layout/MobileMenu.svelte) es navegación, no un modal: queda fuera.",
+      "acceptance": [
+        "ModalDialog deja de tener variantes móviles: se elimina la prop mobile (y los modos full/card con sus tokens si quedan sin uso); un único estilo móvil (hoja inferior) y uno desde sm (tarjeta centrada), iguales para cotización, asesoría y diagnóstico",
+        "Los tres modales comparten en móvil: posición, radio, sombra, tope de alto, animación de entrada (respetando prefers-reduced-motion), backdrop, ubicación y forma del botón de cerrar, y el relleno inferior con safe-area",
+        "Los tres comparten desde sm: tarjeta centrada, mismo radio, sombra, tope de alto, animación, backdrop y botón de cerrar (solo cambia el ancho según contenido: lg/md/sm)",
+        "Ningún contenido queda tapado ni cortado: scroll interno en la hoja, el botón de envío alcanzable, teclado móvil sin romper el layout (probar inputs del final del formulario)",
+        "Se conservan foco atrapado, Escape, clic en backdrop, vuelta del foco y bloqueo del scroll del body; sin regresiones en estados de envío (?simulate) ni en el flujo del diagnóstico",
+        "Revisado a 375, 390, 768, 1024 y 1440 con capturas de los tres modales en el informe; sin scroll horizontal",
+        "Comentarios de cabecera de ModalDialog y de cada diálogo actualizados; ./init.ps1 en verde"
+      ],
+      "verified": true
     }
   ]
 }

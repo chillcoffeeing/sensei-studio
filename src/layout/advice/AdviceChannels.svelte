@@ -11,8 +11,11 @@
   const titleId = 'advice-channels-title';
 </script>
 
-<!-- 272:8171: alternativa sin formulario. Mobile: canales apilados; desde sm, en una fila. -->
-<section aria-labelledby={titleId} class="flex flex-col gap-3 border-t border-stone-300 bg-stone-100 px-5 pt-5 pb-6 sm:px-8 sm:pb-5">
+<!--
+  272:8171: alternativa sin formulario. Mobile: canales apilados; desde sm, en una fila. Último
+  bloque del modal: en la hoja mobile lleva el aire inferior con safe-area.
+-->
+<section aria-labelledby={titleId} class="flex flex-col gap-3 border-t border-stone-300 bg-stone-100 px-5 pt-5 pb-(--dialog-sheet-pad-b) sm:px-8 sm:pb-5">
   <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
     <h3 id={titleId} class="font-heading text-label-sm font-semibold text-ink">{channels.title}</h3>
     <p class="font-body text-legal text-ink-muted">{channels.aside}</p>

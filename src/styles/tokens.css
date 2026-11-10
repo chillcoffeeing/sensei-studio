@@ -279,16 +279,15 @@
   /* Barra flotante (layout/FloatingBar.svelte): separación del borde inferior, sobre el safe-area de iOS. */
   --floating-bar-bottom: calc(var(--spacing) * 4 + env(safe-area-inset-bottom, 0px));
 
-  /* Modales (shared/lib/dialog/ModalDialog): tarjeta centrada desde sm, con 24px de aire alrededor. */
+  /* Modales (shared/lib/dialog/ModalDialog): un estilo por breakpoint para todos.
+     Desde sm, tarjeta centrada con 24px de aire alrededor; solo cambia el ancho. */
   --dialog-w-lg: min(100% - var(--spacing) * 12, var(--container-5xl));
   /* Asesoría: 640px de Figma 272:8117 (una columna). */
   --dialog-w-md: min(100% - var(--spacing) * 12, 40rem);
-  --dialog-max-h: calc(100dvh - var(--spacing) * 12);
-  /* Cotización en mobile: tarjeta con el gutter de página (16px) alrededor. */
-  --dialog-w-compact: calc(100% - var(--gutter-base) * 2);
-  --dialog-max-h-compact: calc(100dvh - var(--gutter-base) * 2);
-  /* Diagnóstico de /links: columna de lectura de 512px desde sm; en mobile, hoja inferior de hasta el 94 % del alto. */
+  /* Diagnóstico de /links: columna de lectura de 512px. */
   --dialog-w-sm: min(100% - var(--spacing) * 12, 32rem);
+  --dialog-max-h: calc(100dvh - var(--spacing) * 12);
+  /* Mobile: hoja inferior hasta el 94 % del alto (la utilidad dialog-sheet descuenta el teclado). */
   --dialog-max-h-sheet: 94dvh;
   /* Pie de la hoja: aire inferior sobre el safe-area de iOS (la hoja toca el borde de la pantalla). */
   --dialog-sheet-pad-b: calc(var(--spacing) * 5 + env(safe-area-inset-bottom, 0px));

@@ -41,6 +41,16 @@
   }
 }
 
+/*
+ * Hoja inferior de los modales en mobile (shared/lib/dialog/ModalDialog). --dialog-keyboard es el
+ * alto que tapa el teclado: lo escribe ModalDialog en el propio <dialog> mientras está abierto
+ * (sin teclado no existe y vale 0). La hoja sube sobre el teclado y encoge para seguir entera.
+ */
+@utility dialog-sheet {
+  margin-bottom: var(--dialog-keyboard, 0);
+  max-height: calc(var(--dialog-max-h-sheet) - var(--dialog-keyboard, 0px));
+}
+
 /* Contenedor de página: 1320px de contenido + gutter por breakpoint (60px en 2xl → 1440 exacto). */
 @utility container-page {
   --page-gutter: var(--gutter-base);

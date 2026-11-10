@@ -80,7 +80,7 @@ está en la cabecera del archivo.
 | `data-advice-open` | Abre el modal de asesoría | `layout/advice/AdviceDialog.svelte` |
 | `data-floating-bar-avoid` | Aparta la barra flotante mientras ocupa el 25 % inferior del viewport | `layout/FloatingBar.svelte` |
 
-- **Base de los modales:** comparten `shared/lib/dialog/ModalDialog.svelte` (`<dialog>` nativo): cotización y asesoría desde `layout/`, el diagnóstico de `/links` desde su módulo.
+- **Base de los modales:** comparten `shared/lib/dialog/ModalDialog.svelte` (`<dialog>` nativo): cotización y asesoría desde `layout/`, el diagnóstico de `/links` desde su módulo. Un solo estilo por breakpoint para todos (hoja inferior en mobile, tarjeta centrada desde sm) y la misma fila de rótulo + cierre (`ModalDialogBar.svelte`).
 - **Sin JS:** el `href` de cada disparador lleva a `/#contacto`.
 
 ## Islas Svelte

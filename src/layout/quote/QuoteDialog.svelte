@@ -10,6 +10,8 @@
   // Envío: submitQuote (quote-form.ts) a site.quote.endpoint (public/api/send.php), con campo
   // trampa InputHoneypot; estados simulables con `?cotizacion-simulada=sent|error|unavailable`.
   // Medición: `cotizacion_continuar` en window.dataLayer al enviar un formulario válido.
+  // Mobile: hoja inferior; desde sm: tarjeta centrada de 2 columnas (ModalDialog). El envío queda al
+  // final del scroll en la hoja y pegado abajo desde sm (QuoteFooter).
   // Superficie clara: usa los controles de layout/dialog/, no los de la librería (InputGlass,
   // ButtonInk… son para fondo oscuro).
   import { onMount, tick } from 'svelte';
@@ -120,7 +122,7 @@
 </script>
 
 <!-- Figma 220:867. Diálogo, foco, cierre y disparadores: shared/lib/dialog/ModalDialog.svelte. -->
-<ModalDialog trigger="data-quote-open" labelledby={titleId} width="lg" mobile="card" {onopen} {onclosed}>
+<ModalDialog trigger="data-quote-open" labelledby={titleId} width="lg" {onopen} {onclosed}>
   {#snippet children(close)}
       <form method="post" action={quote.endpoint} novalidate={hydrated} aria-busy={sending} class="flex flex-col" {onsubmit}>
         <QuoteHeader header={quote.header} {titleId} onclose={close} />

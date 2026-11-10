@@ -5,6 +5,7 @@
 import type { Links } from '@/app/links';
 import arrowUpRight from '@/assets/links/arrow-up-right.svg';
 import arrowUpRightSm from '@/assets/links/arrow-up-right-sm.svg';
+import closeIcon from '@/assets/links/close.svg';
 import compass from '@/assets/links/path-compass.svg';
 import documentIcon from '@/assets/links/path-document.svg';
 import atmosphere from '@/assets/images/cabecera-links/header-atmosphere.png';
@@ -53,7 +54,7 @@ const links: Links = {
   // Los CTA lima dibujan la flecha en su círculo: el "→" del PDF no se repite en el texto.
   diagnostic: {
     label: 'Diagnóstico gratis',
-    close: { label: 'Cerrar', marker: '✕' },
+    close: { label: 'Cerrar el diagnóstico' },
     footer: { text: 'Sin promesas vacías.', strong: 'Solo resultados.' },
     intro: {
       title: { text: '¿Qué necesita tu proyecto para', mark: 'despegar?' },
@@ -214,7 +215,7 @@ const links: Links = {
         message: 'Hola, hice el diagnóstico de Sensei Studio. Mi prioridad es {area}. Quiero ver qué opciones tengo para mi presupuesto.',
       },
     },
-    icons: { cta: { src: arrowUpRight, alt: '' }, open: { src: arrowUpRightSm, alt: '' }, whatsapp: whatsapp.icon },
+    icons: { cta: { src: arrowUpRight, alt: '' }, open: { src: arrowUpRightSm, alt: '' }, whatsapp: whatsapp.icon, close: { src: closeIcon, alt: '' } },
   },
   explore: {
     label: 'Un proyecto reciente',

@@ -19,7 +19,7 @@ const { paths, diagnostic } = Astro.props;
 const titleId = 'links-paths-title';
 // La isla solo recibe datos serializables: los iconos pasan a URL + dimensiones.
 const { icons, ...copy } = diagnostic;
-const islandIcons = { cta: uiIcon(icons.cta), open: uiIcon(icons.open), whatsapp: uiIcon(icons.whatsapp) };
+const islandIcons = { cta: uiIcon(icons.cta), open: uiIcon(icons.open), whatsapp: uiIcon(icons.whatsapp), close: uiIcon(icons.close) };
 ---
 
 {/* Banda ink de 48px detrás: la tarjeta empieza sobre la cabecera. */}

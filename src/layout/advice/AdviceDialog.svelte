@@ -6,6 +6,7 @@
   // JS, /#contacto. Ningún módulo importa el modal: solo escriben el atributo.
   // Envío: submitAdvice (advice-form.ts) a site.advice.endpoint (public/api/send.php), con campo
   // trampa InputHoneypot; estados simulables con `?asesoria-simulada=sent|error|unavailable`.
+  // Mobile: hoja inferior; desde sm: tarjeta centrada de una columna (ModalDialog).
   import { onMount, tick } from 'svelte';
   import { HONEYPOT_FIELD } from '@/core/forms';
   import InputHoneypot from '@/shared/ui/InputHoneypot.svelte';
@@ -83,7 +84,7 @@
 <!-- Figma 272:8117. Diálogo, foco, cierre y disparadores: shared/lib/dialog/ModalDialog.svelte. -->
 <ModalDialog trigger="data-advice-open" labelledby={titleId} width="md" {onclosed}>
   {#snippet children(close)}
-    <div class="flex min-h-full flex-col sm:min-h-0">
+    <div class="flex flex-col">
       <AdviceHeader header={advice.header} {titleId} onclose={close} />
 
       <form
@@ -91,7 +92,7 @@
         action={advice.endpoint}
         novalidate={hydrated}
         aria-busy={sending}
-        class="flex flex-1 flex-col gap-6 px-5 pt-6 pb-7 sm:flex-none sm:px-8"
+        class="flex flex-col gap-6 px-5 pt-6 pb-7 sm:px-8"
         {onsubmit}
       >
         <InputHoneypot name={HONEYPOT_FIELD} bind:value={honeypot} />

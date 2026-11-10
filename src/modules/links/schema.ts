@@ -99,16 +99,16 @@ export interface DiagnosticChoiceGroup<Option extends DiagnosticChoiceOption = D
 }
 
 /**
- * Diagnóstico gratis de /links: copy, preguntas, resultados y reglas. Se abre en una hoja (móvil) o
- * diálogo (desde sm) desde el tile "Diagnóstico gratuito". Todo es serializable salvo `icons`, que
+ * Diagnóstico gratis de /links: copy, preguntas, resultados y reglas. Se abre en el modal común (hoja
+ * en móvil, tarjeta centrada desde sm) desde el tile "Diagnóstico gratuito". Todo es serializable salvo `icons`, que
  * el Astro convierte a UiIcon antes de pasarlo a la isla.
  * Plantillas: `{n}`, `{total}`, `{area}`, `{score}`, `{max}`, `{name}`, `{stage}`, `{start}`, `{budget}`.
  */
 export interface LinksDiagnostic {
   /** Rótulo fijo del diálogo (LabelMarker): su nombre accesible en todos los pasos. */
   label: string;
-  /** Botón de cierre: `label` visible y `marker` decorativo delante ("✕"). */
-  close: { label: string; marker: string };
+  /** Botón de cierre (redondo, solo icono, igual que el de los otros modales): `label` es su nombre accesible. */
+  close: { label: string };
   /** Pie de todos los pasos: `text` + `strong` en tinta. */
   footer: { text: string; strong: string };
   intro: { title: DiagnosticHeading; text: string; start: string; meta: string };
@@ -174,6 +174,8 @@ export interface LinksDiagnostic {
     open: LocalImageRef;
     /** Logo del botón "Cotizar por WhatsApp" (4b). */
     whatsapp: LocalImageRef;
+    /** X del cierre del diálogo (el círculo lo dibuja ModalDialogBar). */
+    close: LocalImageRef;
   };
 }
 

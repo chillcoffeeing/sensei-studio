@@ -16,9 +16,10 @@
 
 <!--
   220:987: alternativa por WhatsApp a la izquierda y envío a la derecha; en mobile se apilan y el
-  botón ocupa el ancho. Desde sm queda pegado abajo para que el envío esté siempre a mano.
+  botón ocupa el ancho. Desde sm queda pegado abajo para que el envío esté siempre a mano. En la
+  hoja mobile es el último bloque: lleva el aire inferior con safe-area.
 -->
-<div class="flex flex-col gap-3 border-t border-stone-300 bg-stone-100 px-5 py-5 sm:sticky sm:bottom-0 sm:px-8">
+<div class="flex flex-col gap-3 border-t border-stone-300 bg-stone-100 px-5 pt-5 pb-(--dialog-sheet-pad-b) sm:sticky sm:bottom-0 sm:px-8 sm:pb-5">
   <DialogStatus message={status.message} tone={status.tone} />
   <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
     <div class="flex flex-col gap-0.5">
