@@ -263,6 +263,7 @@ export interface QuoteStatus {
   sending: string;
   sent: string;
   error: string;
+  /** Solo se ve con `?…-simulada=unavailable` (revisión de estados): el destino siempre existe. */
   unavailable: string;
 }
 
@@ -282,8 +283,8 @@ export interface SiteQuote {
   footer: QuoteFooter;
   validation: QuoteValidation;
   status: QuoteStatus;
-  /** Destino del envío. Sin él, el envío responde 'unavailable' (no se finge). PENDIENTE. */
-  endpoint?: string;
+  /** Destino del envío: FORM_ENDPOINT (core/forms.ts, public/api/send.php). */
+  endpoint: string;
 }
 
 /** Situación de partida (272:8134): tarjeta-radio con icono, nombre y descripción. */
@@ -320,6 +321,6 @@ export interface SiteAdvice {
   channels: { title: string; aside: string; arrowIcon: LocalImageRef; items: AdviceChannel[] };
   validation: { name: string; email: string; emailInvalid: string; summary: string };
   status: QuoteStatus;
-  /** Destino del envío. Sin él, el envío responde 'unavailable' (no se finge). PENDIENTE. */
-  endpoint?: string;
+  /** Destino del envío: FORM_ENDPOINT (core/forms.ts, public/api/send.php). */
+  endpoint: string;
 }

@@ -2,16 +2,21 @@
   // Modal de cotización (Figma 220:867): una sola isla global, montada en BaseLayout y
   // StandaloneLayout (client:idle, arranca cerrado). Lo abre cualquier elemento con el atributo
   // neutro `data-quote-open` (barra flotante, "Cotización" del nav y del menú mobile, CTA de cierre
-  // de cada caso, cabecera y selector de /links); su `href` (o el `action` de su formulario) es el
+  // de cada caso, tile "Cotizar proyecto" de /links); su `href` (o el `action` de su formulario) es el
   // destino sin JS, /#contacto. Ningún módulo importa el modal: solo escriben el atributo.
   // Preselección: si el disparador lleva `data-quote-services="branding ux-ui"` (valores de
   // site.quote.services.options), abre con exactamente esos servicios marcados; vacío, sin ninguno;
   // sin el atributo, no toca la selección (presetServices en quote-form.ts).
-  // Envío: submitQuote (quote-form.ts) a site.quote.endpoint, PENDIENTE; estados simulables con
-  // `?cotizacion-simulada=sent|error|unavailable`. Superficie clara: usa los controles de
-  // layout/dialog/, no los de la librería (InputGlass, ButtonInk… son para fondo oscuro).
+  // Envío: submitQuote (quote-form.ts) a site.quote.endpoint (public/api/send.php), con campo
+  // trampa InputHoneypot; estados simulables con `?cotizacion-simulada=sent|error|unavailable`.
+  // Medición: `cotizacion_continuar` en window.dataLayer al enviar un formulario válido.
+  // Superficie clara: usa los controles de layout/dialog/, no los de la librería (InputGlass,
+  // ButtonInk… son para fondo oscuro).
   import { onMount, tick } from 'svelte';
-  import ModalDialog from '../dialog/ModalDialog.svelte';
+  import { track } from '@/core/analytics';
+  import { HONEYPOT_FIELD } from '@/core/forms';
+  import InputHoneypot from '@/shared/ui/InputHoneypot.svelte';
+  import ModalDialog from '@/shared/lib/dialog/ModalDialog.svelte';
   import QuoteAttachment from './QuoteAttachment.svelte';
   import QuoteBudget from './QuoteBudget.svelte';
   import QuoteContact from './QuoteContact.svelte';
@@ -38,6 +43,7 @@
   let sending = $state(false);
   let result: QuoteSubmitResult | undefined = $state();
   let simulate: QuoteSubmitResult | undefined;
+  let honeypot = $state('');
 
   let servicesRef: HTMLInputElement | undefined = $state();
   let maxRef: HTMLInputElement | undefined = $state();
@@ -90,8 +96,10 @@
       focusField(first);
       return;
     }
+    // Medición (core/analytics.ts): el envío válido, en cualquier página (GA4 separa /links por la URL).
+    track('cotizacion_continuar');
     sending = true;
-    result = await submitQuote(values, file, quote.endpoint, simulate);
+    result = await submitQuote(values, file, quote.endpoint, honeypot, simulate);
     sending = false;
     if (result === 'sent') {
       values = emptyValues(quote.budget.currency.defaultCode);
@@ -111,11 +119,12 @@
   });
 </script>
 
-<!-- Figma 220:867. Diálogo, foco, cierre y disparadores: dialog/ModalDialog.svelte. -->
+<!-- Figma 220:867. Diálogo, foco, cierre y disparadores: shared/lib/dialog/ModalDialog.svelte. -->
 <ModalDialog trigger="data-quote-open" labelledby={titleId} width="lg" mobile="card" {onopen} {onclosed}>
   {#snippet children(close)}
       <form method="post" action={quote.endpoint} novalidate={hydrated} aria-busy={sending} class="flex flex-col" {onsubmit}>
         <QuoteHeader header={quote.header} {titleId} onclose={close} />
+        <InputHoneypot name={HONEYPOT_FIELD} bind:value={honeypot} />
 
         <div class="grid gap-8 px-5 pt-6 pb-7 sm:px-8 lg:grid-cols-2">
           <div class="flex min-w-0 flex-col gap-6">

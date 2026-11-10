@@ -1,3 +1,4 @@
+import { FORM_ENDPOINT } from '@/core/forms';
 import type { SiteChrome } from '@/core/site';
 import wheelPause from '@/assets/footer/wheel-pause.svg';
 import wheelPlay from '@/assets/footer/wheel-play.svg';
@@ -30,9 +31,9 @@ import quoteServiceUx from '@/assets/quote/service-ux.svg';
 import quoteUpload from '@/assets/quote/upload.svg';
 import quoteWhatsapp from '@/assets/quote/whatsapp-message.svg';
 
-// PENDIENTE: número del estudio. Formato wa.me con prefijo internacional y sin "+":
-// 'https://wa.me/34600000000'. Único sitio donde vive: lo usan la barra flotante y el modal.
-const whatsappHref = 'https://wa.me/';
+// WhatsApp del estudio (+58 412 723 8210), en formato wa.me: prefijo internacional, sin "+" ni espacios.
+// Único sitio donde vive: lo heredan la barra flotante, los modales de cotización y asesoría y /links.
+const whatsappHref = 'https://wa.me/584127238210';
 const newTabNotice = '(se abre en una pestaña nueva)';
 // Destino sin JS de los disparadores de cotización y asesoría: el formulario de contacto de la landing.
 const quoteFallbackHref = '/#contacto';
@@ -233,9 +234,8 @@ const site: SiteChrome = {
       error: 'No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos.',
       unavailable: `El envío de cotizaciones aún no está disponible: tu solicitud no se ha enviado. Escríbenos a ${studioEmail}.`,
     },
-    // PENDIENTE: destino real del envío (no hay backend; el contacto de la home tampoco lo tiene).
-    // Al definirlo, layout/quote/quote-form.ts hace POST multipart (con el adjunto) a esta URL.
-    endpoint: undefined,
+    // POST multipart (con el adjunto) desde layout/quote/quote-form.ts.
+    endpoint: FORM_ENDPOINT,
   },
   // Figma 272:8117 (archivo flzA0qnj6JdalFCgyB2PdI). Copy de Figma salvo donde se indica.
   advice: {
@@ -304,9 +304,8 @@ const site: SiteChrome = {
       error: 'No pudimos enviar tu solicitud. Inténtalo de nuevo en unos minutos.',
       unavailable: `El envío de solicitudes de asesoría aún no está disponible: tu solicitud no se ha enviado. Escríbenos a ${studioEmail}.`,
     },
-    // PENDIENTE: destino real del envío (mismo hueco que la cotización). Al definirlo,
-    // layout/advice/advice-form.ts hace POST multipart a esta URL.
-    endpoint: undefined,
+    // POST multipart desde layout/advice/advice-form.ts.
+    endpoint: FORM_ENDPOINT,
   },
   footer: {
     navLabel: 'Pie de página',

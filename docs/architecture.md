@@ -2,7 +2,8 @@
 
 - **Despliegue:** un solo deploy **100 % estático**, con Astro `output: 'static'` y sin adapter. `pnpm build` deja
   `dist/` listo para Apache: las reglas están en `public/.htaccess` y la 404 en `pages/404.astro`.
-- **Formularios:** envían a un `endpoint` externo configurable en `content/site.ts`.
+- **Formularios:** todos envían a `FORM_ENDPOINT` (`core/forms.ts`) = `public/api/send.php`, un PHP en el
+  propio hosting que manda el correo al estudio. Es la única pieza no estática.
 - **Fronteras:** las capas y los módulos se verifican con `pnpm check:arch` (`scripts/check-architecture.mjs`).
 
 ## Capas
@@ -11,7 +12,7 @@
 src/
 ├── assets/    imágenes (astro:assets): images/<uso>/ = fotos; <módulo>/ = SVG de interfaz
 ├── styles/    tokens.css (sistema de diseño) + global.css (utilidades)
-├── shared/    ui/ = librería (docs/components.md) · lib/ = media, motion/, slider/, accordion…
+├── shared/    ui/ = librería (docs/components.md) · lib/ = media, motion/, slider/, dialog/, accordion…
 ├── core/      modelo de contenido (content.ts), site.ts y seo.ts
 ├── modules/   un módulo por tipo de sección
 ├── layout/    chrome: layouts, header, footer, barra flotante, modales (dialog/, quote/, advice/)
@@ -79,7 +80,7 @@ está en la cabecera del archivo.
 | `data-advice-open` | Abre el modal de asesoría | `layout/advice/AdviceDialog.svelte` |
 | `data-floating-bar-avoid` | Aparta la barra flotante mientras ocupa el 25 % inferior del viewport | `layout/FloatingBar.svelte` |
 
-- **Base de los modales:** comparten `layout/dialog/ModalDialog.svelte` (`<dialog>` nativo).
+- **Base de los modales:** comparten `shared/lib/dialog/ModalDialog.svelte` (`<dialog>` nativo): cotización y asesoría desde `layout/`, el diagnóstico de `/links` desde su módulo.
 - **Sin JS:** el `href` de cada disparador lleva a `/#contacto`.
 
 ## Islas Svelte
@@ -99,7 +100,7 @@ está en la cabecera del archivo.
 | `contact` | 9 | `ContactForm.svelte`, `ContactInputField.svelte`, `ContactMessageField.svelte` | `Section`, `contactSectionSchema`, `ContactContent`, `ContactField`, `ContactFieldName`, `ContactLegalPart`, `ContactSection`, `ContactStatusMessages`, `ContactValidationMessages` |
 | `faq` | 3 | — | `Section`, `faqSectionSchema`, `FaqContent`, `FaqItem`, `FaqSection` |
 | `hero` | 5 | — | `Section`, `heroSectionSchema`, `HeroContent`, `HeroSection`, `HeroWordmark` |
-| `links` | 17 | `LinksQuoteSelector.svelte`, `LinksServiceOption.svelte` | `Section`, `Links`, `LinksClosing`, `LinksExplore`, `LinksFooterLink`, `LinksGuide`, `LinksGuideCover`, `LinksHeader`, `LinksIconLink`, `LinksProject`, `LinksQuote`, `LinksServicesAccess`, `LinksWhatsApp` |
+| `links` | 28 | `LinksDiagnostic.svelte`, `LinksDiagnosticBooking.svelte`, `LinksDiagnosticChip.svelte`, `LinksDiagnosticChoices.svelte`, `LinksDiagnosticDialog.svelte`, `LinksDiagnosticField.svelte`, `LinksDiagnosticHeading.svelte`, `LinksDiagnosticIntro.svelte`, `LinksDiagnosticLater.svelte`, `LinksDiagnosticLink.svelte`, `LinksDiagnosticQualify.svelte`, `LinksDiagnosticQuiz.svelte`, `LinksDiagnosticResult.svelte`, `LinksDiagnosticScore.svelte` | `Section`, `DiagnosticArea`, `DiagnosticAreaKey`, `DiagnosticBudgetOption`, `DiagnosticChoiceGroup`, `DiagnosticChoiceOption`, `DiagnosticHeading`, `DiagnosticOutcome`, `DiagnosticQuestion`, `Links`, `LinksClosing`, `LinksDiagnostic`, `LinksExplore`, `LinksFooterLink`, `LinksHeader`, `LinksIconLink`, `LinksProject`, `LinksPaths`, `LinksPathTile`, `LinksWhatsApp` |
 | `process` | 4 | — | `Section`, `processSectionSchema`, `ProcessContent`, `ProcessSection`, `ProcessStep` |
 | `project-conclusion` | 4 | — | `Section`, `projectConclusionSectionSchema`, `ProjectConclusionContent`, `ProjectConclusionSection` |
 | `project-contact` | 7 | — | `Section`, `projectContactSectionSchema`, `ProjectContactContent`, `ProjectContactSection`, `ProjectContactUi` |

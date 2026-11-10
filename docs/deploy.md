@@ -48,7 +48,12 @@ bash scripts/deploy.sh --rollback    # restaura el último respaldo del servidor
   `/.well-known/` queda fuera de los 301.
 - **Previews:** pasar la URL por opengraph.xyz, el Facebook Sharing Debugger y el LinkedIn Post
   Inspector.
-- **Formularios:** sin endpoint muestran el aviso con el correo (`design/content-gaps.md`).
+- **Formularios** (`public/api/send.php`, destino solo en ese archivo):
+  1. cPanel → *Email Deliverability*: SPF y DKIM de `bysensei.com` en verde (*Repair* si no).
+     El From es `no-reply@bysensei.com`.
+  2. Prueba tras desplegar (debe responder `{"ok":true}` y llegar el correo):
+     `curl -i -X POST https://bysensei.com/api/send.php -H "Content-Type: application/json" -d '{"form":"contact","name":"Prueba","company":"Sensei","email":"tu@correo.com","message":"Prueba de envío"}'`
+  3. Si el correo no llega: revisar spam en Gmail y *Track Delivery* en cPanel.
 
 ## Problemas habituales
 
@@ -60,3 +65,4 @@ bash scripts/deploy.sh --rollback    # restaura el último respaldo del servidor
 | `curl` da `000` | DNS sin propagar o sin certificado (AutoSSL) |
 | 500 | Directiva de `.htaccess` no permitida: comentar el bloque |
 | Las páginas internas dan 404 | `DOMAIN_ROOT_FOR_DEPLOY` no es el Document Root |
+| El envío de un formulario da error | `/api/send.php` responde JSON con el motivo (`403` origen, `422` campo, `429` límite por IP, `500` `mail()`); en local siempre falla (`astro dev` no ejecuta PHP) |

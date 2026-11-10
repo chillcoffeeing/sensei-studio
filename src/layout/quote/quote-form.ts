@@ -1,7 +1,7 @@
 // Lógica pura del modal de cotización (validación, preselección y envío): sin DOM salvo el `File`
-// del adjunto. `submitQuote` es el ÚNICO punto de envío: destino site.quote.endpoint, PENDIENTE
-// mientras no haya backend (sin endpoint responde 'unavailable' sin tocar la red); POST multipart
-// (`quoteFormData`). `?cotizacion-simulada=sent|error|unavailable` revisa los estados sin enviar.
+// del adjunto. `submitQuote` es el ÚNICO punto de envío: POST multipart (`quoteFormData`, con
+// `form=quote`) a site.quote.endpoint (public/api/send.php, que valida el adjunto: PDF o imagen,
+// hasta 10 MB). `?cotizacion-simulada=sent|error|unavailable` revisa los estados sin enviar.
 // `presetServices` traduce el `data-quote-services` del disparador.
 import type { QuoteCurrencyCode, QuoteValidation } from '@/core/site';
 import { isEmail, simulatedResult, submitFormData, type SubmitResult } from '../dialog/dialog-form';
@@ -100,21 +100,21 @@ export function presetServices(raw: string, options: readonly { value: string }[
 
 export type QuoteSubmitResult = SubmitResult;
 
-/** `?cotizacion-simulada=sent|error|unavailable`: revisa los estados sin backend (no envía nada). */
+/** `?cotizacion-simulada=sent|error|unavailable`: revisa los estados sin enviar nada. */
 export function simulatedQuoteResult(search: string): QuoteSubmitResult | undefined {
   return simulatedResult(search, 'cotizacion-simulada');
 }
 
-/** Cuerpo del envío: multipart para poder llevar el adjunto. */
+/** Cuerpo del envío: multipart para poder llevar el adjunto. Las listas van como `campo[]` (PHP las lee como array). */
 export function quoteFormData(values: QuoteValues, file: File | undefined): FormData {
   const data = new FormData();
-  for (const service of values.services) data.append('services', service);
+  for (const service of values.services) data.append('services[]', service);
   data.append('budgetMode', values.budgetMode);
   data.append('currency', values.currency);
   if (values.budgetMode === 'range' && values.range) data.append('range', values.range);
   if (values.budgetMode === 'max' && values.max.trim()) data.append('max', values.max.trim());
   data.append('idea', values.idea.trim());
-  for (const goal of values.goals) data.append('goals', goal);
+  for (const goal of values.goals) data.append('goals[]', goal);
   data.append('name', values.name.trim());
   data.append('email', values.email.trim());
   if (values.whatsapp.trim()) data.append('whatsapp', values.whatsapp.trim());
@@ -122,17 +122,16 @@ export function quoteFormData(values: QuoteValues, file: File | undefined): Form
   return data;
 }
 
-/**
- * ÚNICO punto de envío de la cotización. Destino PENDIENTE (no hay backend): sin `endpoint`
- * responde 'unavailable' sin tocar la red; con él, POST multipart (`quoteFormData`).
- */
+/** ÚNICO punto de envío de la cotización: POST multipart (`quoteFormData`) a `endpoint`. */
 export function submitQuote(
   values: QuoteValues,
   file: File | undefined,
-  endpoint: string | undefined,
+  endpoint: string,
+  /** Valor del campo trampa (InputHoneypot). */
+  honeypot: string,
   simulate?: QuoteSubmitResult,
 ): Promise<QuoteSubmitResult> {
-  return submitFormData(() => quoteFormData(values, file), endpoint, simulate);
+  return submitFormData(() => quoteFormData(values, file), { endpoint, form: 'quote', honeypot, simulate });
 }
 
 /** ids de un campo y de sus textos asociados (aria-describedby). */

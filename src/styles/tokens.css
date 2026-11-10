@@ -234,11 +234,6 @@
   --text-legal--line-height: 16px;
   --text-legal--font-weight: 400;
 
-  /* Portada tipográfica de la guía en /links (230:1053): ilustración de 102px de ancho. */
-  --text-guide-cover: 8px;
-  --text-guide-cover--line-height: 1.3;
-  --text-guide-cover--font-weight: 400;
-
   --text-metric: clamp(16px, 13.8873px + 0.56338vw, 22px);
   --text-metric--line-height: normal;
   --text-metric--font-weight: 400;
@@ -284,7 +279,7 @@
   /* Barra flotante (layout/FloatingBar.svelte): separación del borde inferior, sobre el safe-area de iOS. */
   --floating-bar-bottom: calc(var(--spacing) * 4 + env(safe-area-inset-bottom, 0px));
 
-  /* Modales (layout/dialog/ModalDialog): tarjeta centrada desde sm, con 24px de aire alrededor. */
+  /* Modales (shared/lib/dialog/ModalDialog): tarjeta centrada desde sm, con 24px de aire alrededor. */
   --dialog-w-lg: min(100% - var(--spacing) * 12, var(--container-5xl));
   /* Asesoría: 640px de Figma 272:8117 (una columna). */
   --dialog-w-md: min(100% - var(--spacing) * 12, 40rem);
@@ -292,6 +287,11 @@
   /* Cotización en mobile: tarjeta con el gutter de página (16px) alrededor. */
   --dialog-w-compact: calc(100% - var(--gutter-base) * 2);
   --dialog-max-h-compact: calc(100dvh - var(--gutter-base) * 2);
+  /* Diagnóstico de /links: columna de lectura de 512px desde sm; en mobile, hoja inferior de hasta el 94 % del alto. */
+  --dialog-w-sm: min(100% - var(--spacing) * 12, 32rem);
+  --dialog-max-h-sheet: 94dvh;
+  /* Pie de la hoja: aire inferior sobre el safe-area de iOS (la hoja toca el borde de la pantalla). */
+  --dialog-sheet-pad-b: calc(var(--spacing) * 5 + env(safe-area-inset-bottom, 0px));
 
   /* === Librería de componentes (shared/ui) === */
   /* Los campos llevan borde de 1px dentro de la medida: se descuenta del padding. */
@@ -473,6 +473,8 @@
   --delay-project-details-in: 250ms;
   --delay-project-return: 250ms;
   --duration-cta-liquid: 450ms;
+  /* Fundido entre pasos del diagnóstico de /links. */
+  --duration-step: 300ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-enter: cubic-bezier(0.19, 1, 0.22, 1);
   --ease-expand: cubic-bezier(0.65, 0, 0.35, 1);
@@ -489,6 +491,8 @@
   --animate-reveal-up: reveal-up var(--duration-reveal) var(--ease-enter) both;
   --animate-enter-from-left: reveal-left var(--duration-enter) var(--ease-enter) both;
   --animate-enter-from-right: reveal-right var(--duration-enter) var(--ease-enter) both;
+  /* Paso nuevo del diagnóstico de /links (con motion-safe:). */
+  --animate-step-in: step-in var(--duration-step) var(--ease-standard) both;
 
 
 
@@ -510,6 +514,11 @@
   @keyframes stepper-fill {
     from { scale: 0 1; }
     to { scale: 1 1; }
+  }
+
+  @keyframes step-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   @keyframes masonry-down {

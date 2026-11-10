@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { FIELD_MAX_LENGTH } from '@/core/forms';
   import FieldError from '@/shared/ui/FieldError.svelte';
   import LabelHidden from '@/shared/ui/LabelHidden.svelte';
   import TextareaGlass from '@/shared/ui/TextareaGlass.svelte';
@@ -31,6 +32,7 @@
     name="message"
     rows={4}
     minlength={field.minLength}
+    maxlength={FIELD_MAX_LENGTH.text}
     placeholder={field.label}
     required={field.required}
     aria-invalid={error ? 'true' : undefined}

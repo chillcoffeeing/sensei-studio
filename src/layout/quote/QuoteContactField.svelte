@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { FIELD_MAX_LENGTH } from '@/core/forms';
   import type { HTMLInputAttributes } from 'svelte/elements';
   import DialogFieldError from '../dialog/DialogFieldError.svelte';
   import DialogInput from '../dialog/DialogInput.svelte';
@@ -37,6 +38,7 @@
     id={ids.input}
     {name}
     placeholder={field.placeholder}
+    maxlength={FIELD_MAX_LENGTH[name]}
     required={field.required}
     aria-invalid={error ? 'true' : undefined}
     aria-describedby={describedBy(error && ids.error)}

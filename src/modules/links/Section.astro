@@ -1,9 +1,12 @@
 ---
+// Vista /links (bio de Instagram): solo cabecera, tarjeta con los dos caminos, un proyecto
+// reciente y el cierre con el pie mínimo. Diseño móvil (390px): desde sm se centra como una columna
+// de 448px sobre stone-100 (tarjeta redondeada), sin estirarlo a lo ancho.
+// Medición: los clics con `data-track` llegan a window.dataLayer (trackClicks, core/analytics.ts).
 import LinksClosing from './LinksClosing.astro';
 import LinksExplore from './LinksExplore.astro';
-import LinksGuide from './LinksGuide.astro';
 import LinksHeader from './LinksHeader.astro';
-import LinksQuote from './LinksQuote.astro';
+import LinksPathsCard from './LinksPathsCard.astro';
 import type { Links } from './schema';
 
 interface Props {
@@ -13,18 +16,19 @@ interface Props {
 const { links } = Astro.props;
 ---
 
-{/*
-  Figma 230:977 es un diseño móvil de 406px. Desde sm se centra como una columna de 448px sobre
-  stone-100 (tarjeta redondeada), sin estirar el diseño a lo ancho.
-*/}
 <div class="min-h-dvh bg-paper sm:bg-stone-100 sm:px-6 sm:py-10">
   <div class="mx-auto flex max-w-md flex-col overflow-clip bg-paper sm:rounded-3xl sm:shadow-xl">
     <LinksHeader header={links.header} />
     <main class="flex flex-col">
-      <LinksQuote quote={links.quote} />
-      <LinksGuide guide={links.guide} />
+      <LinksPathsCard paths={links.paths} diagnostic={links.diagnostic} />
       <LinksExplore explore={links.explore} />
     </main>
     <LinksClosing closing={links.closing} />
   </div>
 </div>
+
+<script>
+  import { trackClicks } from '@/core/analytics';
+
+  trackClicks();
+</script>

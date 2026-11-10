@@ -1,31 +1,26 @@
 ---
+// "¿Prefieres escribirnos?" del cierre de /links: el WhatsApp de la página y el acceso al sitio.
+import type { Link } from '@/core/content';
+import LinksWhatsAppLink from './LinksWhatsAppLink.astro';
 import type { LinksWhatsApp } from './schema';
 
 interface Props {
   title: string;
   whatsapp: LinksWhatsApp;
+  /** "Visitar bysensei.com". */
+  site: Link;
 }
 
-const { title, whatsapp } = Astro.props;
+const { title, whatsapp, site } = Astro.props;
 ---
 
-{/* 230:1086: "¿Lo conversamos?" + enlace externo a WhatsApp (mismo destino que el resto del sitio). */}
-<div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-  <h2 class="font-heading text-lg font-medium sm:text-xl">{title}</h2>
+<div class="flex flex-col items-center gap-4 text-center">
+  <h2 class="font-heading text-xl font-medium">{title}</h2>
+  <LinksWhatsAppLink whatsapp={whatsapp} />
   <a
-    href={whatsapp.href}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="group flex min-h-11 items-center gap-1.5 rounded-md font-heading text-xs font-semibold text-brand sm:text-button-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+    href={site.href}
+    class="flex min-h-11 items-center rounded-sm px-1 font-body text-sm text-line underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand motion-safe:transition-colors motion-safe:duration-(--duration-fast) motion-safe:ease-standard can-hover:hover:text-paper"
   >
-    <span class="underline-offset-4 can-hover:group-hover:underline">{whatsapp.label}</span>
-    <img
-      src={whatsapp.icon.src.src}
-      width={whatsapp.icon.src.width}
-      height={whatsapp.icon.src.height}
-      alt=""
-      class="block motion-safe:transition-transform motion-safe:duration-(--duration-fast) motion-safe:ease-standard can-hover:group-hover:translate-x-0.5 can-hover:group-hover:-translate-y-0.5"
-    />
-    <span class="sr-only">{whatsapp.newTab}</span>
+    {site.label}
   </a>
 </div>

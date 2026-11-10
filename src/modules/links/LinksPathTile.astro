@@ -1,0 +1,37 @@
+---
+// Tile de un camino en la tarjeta "Tu proyecto empieza aquí": un <button> que abre su diálogo por
+// atributo neutro (`trigger`), sin importar el chrome. Icono arriba a la izquierda, título y "para
+// quién es"; la etiqueta lima (si hay) va al pie, así los títulos de los dos tiles quedan alineados.
+// `featured` = borde tinta (el diagnóstico, camino principal). Medición: `data-track`.
+import type { ClickEvent } from '@/core/analytics';
+import type { LinksPathTile } from './schema';
+
+interface Props {
+  tile: LinksPathTile;
+  /** Atributo que abre el diálogo: `data-diagnostic-open` (LinksDiagnosticDialog) o `data-quote-open` (modal global). */
+  trigger: 'data-diagnostic-open' | 'data-quote-open';
+  /** Evento de `window.dataLayer` del clic (core/analytics.ts). */
+  track: ClickEvent;
+  /** Etiqueta lima con texto tinta ("Gratis · 2 min"). */
+  badge?: string;
+  featured?: boolean;
+}
+
+const { tile, trigger, track, badge, featured = false } = Astro.props;
+const attrs = { [trigger]: '', 'data-track': track };
+---
+
+<button
+  type="button"
+  aria-haspopup="dialog"
+  {...attrs}
+  class:list={[
+    'group flex size-full min-h-44 cursor-pointer flex-col items-start rounded-2xl border bg-stone-100 p-3.5 text-left text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink motion-safe:transition motion-safe:duration-(--duration-fast) motion-safe:ease-standard can-hover:hover:-translate-y-0.5 sm:p-4',
+    featured ? 'border-ink' : 'border-stone-300 can-hover:hover:border-stone-500',
+  ]}
+>
+  <img src={tile.icon.src.src} width={tile.icon.src.width} height={tile.icon.src.height} alt="" class="block size-7" />
+  <span class="mt-4 font-heading text-base/tight font-semibold text-balance sm:text-lg/tight">{tile.title}</span>
+  <span class="mt-1 font-body text-sm/snug text-ink-muted">{tile.text}</span>
+  {badge && <span class="mt-auto pt-3"><span class="block rounded-pill bg-brand px-2 py-1 font-heading text-overline tracking-wide text-ink uppercase">{badge}</span></span>}
+</button>

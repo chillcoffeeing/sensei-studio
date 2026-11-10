@@ -31,8 +31,6 @@ const contactStatusSchema = z.strictObject({
   sending: z.string().min(1),
   sent: z.string().min(1),
   error: z.string().min(1),
-  /** Sin `endpoint` configurado: se dice la verdad, no se finge un envío. */
-  unavailable: z.string().min(1),
 });
 
 export const contactContentSchema = z.strictObject({
@@ -45,8 +43,6 @@ export const contactContentSchema = z.strictObject({
   submitLabel: z.string().min(1),
   validation: contactValidationSchema,
   status: contactStatusSchema,
-  /** URL que recibe un POST JSON `{ name, company, email, message }`. Sin valor: el envío avisa de que no está disponible. */
-  endpoint: z.url().optional(),
   /** Texto legal 174:89: texto plano o enlace (se abren en una pestaña nueva, como en Figma). */
   legal: z.array(z.union([z.string(), linkSchema])).min(1),
   /** Aviso para lectores de pantalla en los enlaces que abren pestaña nueva. */

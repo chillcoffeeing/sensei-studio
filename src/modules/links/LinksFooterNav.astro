@@ -12,7 +12,7 @@ interface Props {
 const { wordmark, label, links } = Astro.props;
 ---
 
-{/* 230:1092: wordmark + enlaces secundarios. Sin href, el enlace se pinta como texto (pendiente). */}
+{/* Pie mínimo: wordmark + enlaces secundarios. Sin href, el enlace se pinta como texto (pendiente). */}
 <div class="flex items-center justify-between gap-4">
   <img src={wordmark.src.src} width={wordmark.src.width} height={wordmark.src.height} alt={wordmark.alt} class="block" />
   <nav aria-label={label}>

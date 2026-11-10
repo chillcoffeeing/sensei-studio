@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { FIELD_MAX_LENGTH } from '@/core/forms';
   import DialogSectionTitle from '../dialog/DialogSectionTitle.svelte';
   import type { AdviceData } from './advice-data';
   import { adviceIds } from './advice-form';
@@ -26,6 +27,7 @@
       id={ids.input}
       name="message"
       rows="2"
+      maxlength={FIELD_MAX_LENGTH.text}
       placeholder={message.placeholder}
       aria-describedby={ids.hint}
       class="min-h-12 w-full resize-y bg-transparent font-body text-body leading-snug text-ink placeholder:text-ink-muted focus:outline-none sm:text-body-sm"

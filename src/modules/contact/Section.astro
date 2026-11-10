@@ -1,5 +1,6 @@
 ---
 import { headingIdOf, sectionKey } from '@/core/content';
+import { FORM_ENDPOINT } from '@/core/forms';
 import ToneText from '@/shared/ui/ToneText.astro';
 import ContactBackdrop from './ContactBackdrop.astro';
 import ContactForm from './ContactForm.svelte';
@@ -11,7 +12,7 @@ interface Props {
 }
 
 const { section } = Astro.props;
-const { background, lang, fields, submitLabel, validation, status, endpoint, legal, newTabHint } = section.content;
+const { background, lang, fields, submitLabel, validation, status, legal, newTabHint } = section.content;
 const headingId = headingIdOf(section);
 ---
 
@@ -58,7 +59,7 @@ const headingId = headingIdOf(section);
           submitLabel={submitLabel}
           validation={validation}
           status={status}
-          endpoint={endpoint}
+          endpoint={FORM_ENDPOINT}
         />
       </div>
 

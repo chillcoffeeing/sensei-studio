@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { FIELD_MAX_LENGTH } from '@/core/forms';
   import FieldError from '@/shared/ui/FieldError.svelte';
   import InputGlass from '@/shared/ui/InputGlass.svelte';
   import LabelHidden from '@/shared/ui/LabelHidden.svelte';
@@ -36,6 +37,7 @@
     inputmode={type === 'email' ? 'email' : undefined}
     spellcheck={type === 'email' ? false : undefined}
     placeholder={field.label}
+    maxlength={FIELD_MAX_LENGTH[name]}
     required={field.required}
     aria-invalid={error ? 'true' : undefined}
     aria-describedby={error ? ids.error : undefined}

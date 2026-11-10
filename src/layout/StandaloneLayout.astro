@@ -7,9 +7,9 @@ import QuoteDialog from './quote/QuoteDialog.svelte';
 import { toQuoteData } from './quote/quote-data';
 import '@/styles/global.css';
 
-// Página que trae su propio chrome (LINKS-PAGE: la bio de Instagram tiene cabecera, CTA y pie
-// propios). Sin header, barra flotante ni footer del sitio, que duplicarían sus CTA; el modal
-// de cotización sí, porque la página lo abre con data-quote-open.
+// Página que trae su propio chrome (/links: la bio de Instagram tiene cabecera, caminos y pie
+// propios). Sin header, barra flotante ni footer del sitio, que duplicarían su WhatsApp y su
+// "Cotizar proyecto"; el modal de cotización sí, porque la página lo abre con data-quote-open.
 interface Props {
   seo: Seo;
   site: SiteChrome;

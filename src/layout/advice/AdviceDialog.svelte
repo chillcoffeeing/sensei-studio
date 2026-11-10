@@ -4,11 +4,13 @@
   // el atributo neutro `data-advice-open` ("Solicitar asesoría" de la barra flotante, "Agenda una
   // reunión" del header y del menú mobile y del cierre de cada caso); su `href` es el destino sin
   // JS, /#contacto. Ningún módulo importa el modal: solo escriben el atributo.
-  // Envío: submitAdvice (advice-form.ts) a site.advice.endpoint, PENDIENTE; estados simulables con
-  // `?asesoria-simulada=sent|error|unavailable`.
+  // Envío: submitAdvice (advice-form.ts) a site.advice.endpoint (public/api/send.php), con campo
+  // trampa InputHoneypot; estados simulables con `?asesoria-simulada=sent|error|unavailable`.
   import { onMount, tick } from 'svelte';
+  import { HONEYPOT_FIELD } from '@/core/forms';
+  import InputHoneypot from '@/shared/ui/InputHoneypot.svelte';
   import DialogStatus from '../dialog/DialogStatus.svelte';
-  import ModalDialog from '../dialog/ModalDialog.svelte';
+  import ModalDialog from '@/shared/lib/dialog/ModalDialog.svelte';
   import type { SubmitResult } from '../dialog/dialog-form';
   import AdviceChannels from './AdviceChannels.svelte';
   import AdviceContact from './AdviceContact.svelte';
@@ -34,6 +36,7 @@
   let sending = $state(false);
   let result: SubmitResult | undefined = $state();
   let simulate: SubmitResult | undefined;
+  let honeypot = $state('');
   let refs: Partial<Record<AdviceFieldName, HTMLInputElement>> = $state({});
 
   const errors: AdviceErrors = $derived(attempted ? validateAdvice(values, advice.validation) : {});
@@ -60,7 +63,7 @@
       return;
     }
     sending = true;
-    result = await submitAdvice(values, advice.endpoint, simulate);
+    result = await submitAdvice(values, advice.endpoint, honeypot, simulate);
     sending = false;
     if (result === 'sent') {
       values = emptyAdvice();
@@ -77,7 +80,7 @@
   });
 </script>
 
-<!-- Figma 272:8117. Diálogo, foco, cierre y disparadores: dialog/ModalDialog.svelte. -->
+<!-- Figma 272:8117. Diálogo, foco, cierre y disparadores: shared/lib/dialog/ModalDialog.svelte. -->
 <ModalDialog trigger="data-advice-open" labelledby={titleId} width="md" {onclosed}>
   {#snippet children(close)}
     <div class="flex min-h-full flex-col sm:min-h-0">
@@ -91,6 +94,7 @@
         class="flex flex-1 flex-col gap-6 px-5 pt-6 pb-7 sm:flex-none sm:px-8"
         {onsubmit}
       >
+        <InputHoneypot name={HONEYPOT_FIELD} bind:value={honeypot} />
         <AdviceStage stage={advice.stage} bind:value={values.stage} />
         <AdviceMessage message={advice.message} bind:value={values.message} />
         <AdviceContact

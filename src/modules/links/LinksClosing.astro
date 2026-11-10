@@ -1,4 +1,6 @@
 ---
+// Cierre de /links sobre ink con el ruido de marca: "¿Prefieres escribirnos?" (WhatsApp + sitio),
+// la firma "Sin promesas vacías. Solo resultados." y el pie mínimo (wordmark + Privacidad).
 import LinksContactReminder from './LinksContactReminder.astro';
 import LinksFooterNav from './LinksFooterNav.astro';
 import type { LinksClosing } from './schema';
@@ -10,9 +12,11 @@ interface Props {
 const { closing } = Astro.props;
 ---
 
-{/* 230:1085: invitación a escribir + línea + pie mínimo, sobre ink con el ruido de marca. */}
-<footer class="flex flex-col gap-5 bg-ink px-5 pt-6 pb-6 text-paper surface-noise">
-  <LinksContactReminder title={closing.title} whatsapp={closing.whatsapp} />
+<footer class="flex flex-col gap-6 bg-ink px-5 pt-9 pb-6 text-paper surface-noise">
+  <LinksContactReminder title={closing.title} whatsapp={closing.whatsapp} site={closing.site} />
+  <p class="text-center font-body text-sm text-line">
+    {closing.claim.text} <strong class="font-semibold text-paper">{closing.claim.strong}</strong>
+  </p>
   <hr class="border-neutral-800" />
   <LinksFooterNav wordmark={closing.wordmark} label={closing.navLabel} links={closing.links} />
 </footer>

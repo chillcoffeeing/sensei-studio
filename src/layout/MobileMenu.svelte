@@ -4,7 +4,7 @@
   import LinkCtaBrand from '@/shared/ui/LinkCtaBrand.svelte';
   import LinkLogo from '@/shared/ui/LinkLogo.svelte';
   import LinkMenu from '@/shared/ui/LinkMenu.svelte';
-  import { FOCUSABLE, wrapFocusIndex } from './focus-trap';
+  import { FOCUSABLE, wrapFocusIndex } from '@/shared/lib/dialog/focus-trap';
 
   interface NavItem {
     label: string;

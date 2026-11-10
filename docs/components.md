@@ -47,6 +47,7 @@ entra en esta tabla y en el catálogo.
 | Botones | `ButtonBrand` / `ButtonInk` | Píldora brand (menú) y píldora ink (envío) |
 | | `ButtonPauseGlass` | Pausar o reanudar algo que se mueve solo |
 | Formularios | `LabelHidden`, `InputGlass`, `TextareaGlass`, `FieldError` | Campos sobre glass oscuro (error = `aria-invalid`) |
+| | `InputHoneypot` | Campo trampa contra bots: invisible, sin foco ni lectura |
 | | `FormStatus` / `FormStatusError` | Estado o error del envío |
 | Cards | `ProjectCard` (+ `ProjectCardPill`, `-Category`, `-Metric`) | Card de proyecto con capa de detalle (solo CSS) |
 | | `TeamCard` (+ `TeamCardDetail`, `-Rest`, `-Profiles`) | Card de integrante |
@@ -74,6 +75,7 @@ con foco de teclado, al tocar, con la pestaña oculta, fuera del viewport y con
 
 Son composiciones de una sola sección: el hero, `StatItem`, `ProcessStep`, `ServiceRow`, el masonry
 de testimonios, la card de contacto, los `modules/project-*` y los bloques de `/links`. En `layout/`
-están la rueda del footer, la barra flotante y los modales (`quote/`, `advice/`, con su
-infraestructura común en `dialog/`). Los modales tienen superficie clara, por eso no usan los
+están la rueda del footer, la barra flotante y los modales (`quote/`, `advice/`, con sus controles
+comunes en `dialog/`). El comportamiento del `<dialog>` (disparadores, foco, cierre) es
+`shared/lib/dialog/ModalDialog.svelte`, que también usa el diagnóstico de `/links`. Los modales tienen superficie clara, por eso no usan los
 controles glass.

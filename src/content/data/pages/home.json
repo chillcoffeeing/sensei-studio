@@ -834,8 +834,7 @@
         "status": {
           "sending": "Enviando…",
           "sent": "¡Gracias! Recibimos tus datos y te escribiremos pronto.",
-          "error": "No pudimos enviar tus datos. Inténtalo de nuevo en unos minutos.",
-          "unavailable": "El envío del formulario aún no está disponible: tus datos no se han enviado. Escríbenos a hola@bysensei.com."
+          "error": "No pudimos enviar tus datos. Inténtalo de nuevo en unos minutos."
         },
         "legal": [
           "By contacting us, you accept our ",

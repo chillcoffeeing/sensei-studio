@@ -1,5 +1,5 @@
 <script lang="ts">
-  // Infraestructura común de los modales (cotización y asesoría): <dialog> nativo con showModal()
+  // Infraestructura común de los modales (cotización, asesoría y diagnóstico de /links): <dialog> nativo con showModal()
   // (capa superior del navegador: queda sobre header, barra flotante y menú sin z-index, y el resto
   // de la página queda inerte; el bloqueo de scroll es CSS, `html:has(dialog:modal)` en global.css).
   // Un solo listener delegado en `document` para el atributo disparador (`trigger`); respeta los
@@ -10,17 +10,21 @@
   // recibe `close`. Desde sm es una tarjeta centrada con su alto natural (tope --dialog-max-h y
   // scroll interno); en mobile, según `mobile`.
   import { onMount, type Snippet } from 'svelte';
-  import { wrapFocusIndex } from '../focus-trap';
+  import { wrapFocusIndex } from './focus-trap';
 
   interface Props {
     /** Atributo neutro de los disparadores (`data-quote-open`, `data-advice-open`): un solo listener delegado en `document`. */
     trigger: `data-${string}`;
     /** id del título del diálogo (nombre accesible). */
     labelledby: string;
-    /** Ancho de la tarjeta desde sm: `lg` (cotización, 2 columnas) o `md` (asesoría, 1 columna). */
-    width: 'lg' | 'md';
-    /** Mobile: `full` (por defecto) = pantalla completa (asesoría); `card` = tarjeta centrada con su alto natural y tope --dialog-max-h-compact (cotización). Desde sm, siempre tarjeta. */
-    mobile?: 'full' | 'card';
+    /** Ancho de la tarjeta desde sm: `lg` (cotización, 2 columnas), `md` (asesoría, 1 columna) o `sm` (diagnóstico de /links, columna de lectura). */
+    width: 'lg' | 'md' | 'sm';
+    /**
+     * Mobile: `full` (por defecto) = pantalla completa (asesoría); `card` = tarjeta centrada con su
+     * alto natural y tope --dialog-max-h-compact (cotización); `sheet` = hoja pegada abajo que sube
+     * al abrir, con su alto natural y tope --dialog-max-h-sheet (diagnóstico). Desde sm, siempre tarjeta.
+     */
+    mobile?: 'full' | 'card' | 'sheet';
     /** Se llama justo antes de abrir, con el disparador (p. ej. para leer sus `data-*`). */
     onopen?: (trigger: HTMLElement) => void;
     /** Se llama al cerrarse por cualquier vía (botón, Esc o backdrop). */
@@ -34,11 +38,14 @@
   // Todo lo que se puede enfocar dentro del diálogo (para cerrar el ciclo del Tab).
   const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled])';
   // Clases completas por ancho (Tailwind solo ve cadenas literales).
-  const WIDTH = { lg: 'sm:w-(--dialog-w-lg)', md: 'sm:w-(--dialog-w-md)' } as const;
+  const WIDTH = { lg: 'sm:w-(--dialog-w-lg)', md: 'sm:w-(--dialog-w-md)', sm: 'sm:w-(--dialog-w-sm)' } as const;
   // Dialog nativo con inset block 0 y height:auto llena el alto disponible: h-fit conserva el alto natural.
+  // La entrada (starting:open) también depende del modo: la hoja sube desde fuera de la pantalla.
   const MOBILE = {
-    full: 'm-0 h-dvh max-h-none w-full',
-    card: 'm-auto h-fit max-h-(--dialog-max-h-compact) w-(--dialog-w-compact) rounded-2xl shadow-2xl',
+    full: 'm-0 h-dvh max-h-none w-full motion-safe:starting:open:translate-y-4',
+    card: 'm-auto h-fit max-h-(--dialog-max-h-compact) w-(--dialog-w-compact) rounded-2xl shadow-2xl motion-safe:starting:open:translate-y-4',
+    sheet:
+      'mx-0 mt-auto mb-0 h-fit max-h-(--dialog-max-h-sheet) w-full rounded-t-3xl shadow-2xl motion-safe:starting:open:translate-y-full sm:motion-safe:starting:open:translate-y-4',
   } as const;
 
   let dialog: HTMLDialogElement | undefined = $state();
@@ -103,7 +110,7 @@
 <!--
   <dialog> nativo con showModal(): capa superior del navegador (por encima del header, la barra
   flotante y el menú, sin z-index), resto de la página inerte, Esc cierra.
-  Mobile: pantalla completa o tarjeta (prop `mobile`). Desde sm: tarjeta centrada con el alto de su
+  Mobile: pantalla completa, tarjeta u hoja inferior (prop `mobile`). Desde sm: tarjeta centrada con el alto de su
   contenido y scroll interno solo si no cabe.
   El bloqueo de scroll de la página es CSS (global.css: html:has(dialog:modal)).
 -->
@@ -118,7 +125,7 @@
     pressedOutside = false;
   }}
   class={[
-    'max-w-none overflow-y-auto overscroll-contain bg-paper p-0 text-ink backdrop:bg-scrim sm:m-auto sm:h-fit sm:max-h-(--dialog-max-h) sm:rounded-3xl sm:shadow-2xl motion-safe:transition motion-safe:duration-(--duration-base) motion-safe:ease-enter motion-safe:starting:open:translate-y-4 motion-safe:starting:open:opacity-0',
+    'max-w-none overflow-y-auto overscroll-contain bg-paper p-0 text-ink backdrop:bg-scrim sm:m-auto sm:h-fit sm:max-h-(--dialog-max-h) sm:rounded-3xl sm:shadow-2xl motion-safe:transition motion-safe:duration-(--duration-base) motion-safe:ease-enter motion-safe:starting:open:opacity-0',
     MOBILE[mobile],
     WIDTH[width],
   ]}

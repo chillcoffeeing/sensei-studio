@@ -11,8 +11,8 @@ const { all } = project;
 ---
 
 {/*
-  230:1069: foto del caso con su nombre y claim (enlace al detalle) + barra "Ver todos los
-  proyectos" (enlace al índice /proyectos/). Dos enlaces, cada uno con su foco.
+  Foto del caso con su nombre y claim (enlace al detalle) + barra "Ver todos los proyectos"
+  (enlace al índice /proyectos/, medido como clic_proyectos). Dos enlaces, cada uno con su foco.
 */}
 <article class="overflow-clip rounded-3xl bg-ink text-paper">
   <a
@@ -41,6 +41,7 @@ const { all } = project;
   </a>
   <a
     href={all.href}
+    data-track="clic_proyectos"
     class="group flex min-h-12.5 items-center justify-between gap-3 px-4 font-heading text-label-sm focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-brand"
   >
     <span class="underline-offset-4 can-hover:group-hover:underline">{all.label}</span>

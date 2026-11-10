@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { FIELD_MAX_LENGTH } from '@/core/forms';
   import DialogFieldError from '../dialog/DialogFieldError.svelte';
   import type { QuoteData } from './quote-data';
   import { describedBy, quoteIds } from './quote-form';
@@ -33,6 +34,7 @@
     rows="3"
     required
     minlength={field.minLength}
+    maxlength={FIELD_MAX_LENGTH.text}
     placeholder={field.placeholder}
     aria-invalid={error ? 'true' : undefined}
     aria-describedby={describedBy(ids.hint, helperId, error && ids.error)}

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { FIELD_MAX_LENGTH } from '@/core/forms';
   import DialogFieldError from '../dialog/DialogFieldError.svelte';
   import DialogInput from '../dialog/DialogInput.svelte';
   import type { QuoteData } from './quote-data';
@@ -29,6 +30,7 @@
     type="text"
     inputmode="decimal"
     autocomplete="off"
+    maxlength={FIELD_MAX_LENGTH.max}
     placeholder={field.placeholder}
     aria-invalid={error ? 'true' : undefined}
     aria-describedby={describedBy(error && ids.error)}

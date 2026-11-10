@@ -1,5 +1,5 @@
-// Contador con plural en español a partir de plantillas de contenido: lo comparten el modal de
-// cotización y la mini cotización de /links (mismos textos: site.quote.services.count).
+// Contador con plural en español a partir de plantillas de contenido: el modal de cotización
+// (site.quote.services.count).
 
 /** Plantillas del contador. `many` lleva `{n}`. */
 export interface CountLabels {

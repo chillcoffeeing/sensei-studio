@@ -1,5 +1,9 @@
 <script lang="ts">
+  // Formulario de contacto de la home: valida en cliente y envía JSON a `endpoint`
+  // (public/api/send.php) con campo trampa InputHoneypot. Sin JS el botón queda deshabilitado.
   import { onMount, tick } from 'svelte';
+  import { HONEYPOT_FIELD } from '@/core/forms';
+  import InputHoneypot from '@/shared/ui/InputHoneypot.svelte';
   import ButtonInk from '@/shared/ui/ButtonInk.svelte';
   import FormStatus from '@/shared/ui/FormStatus.svelte';
   import FormStatusError from '@/shared/ui/FormStatusError.svelte';
@@ -21,8 +25,8 @@
     submitLabel: string;
     validation: ContactValidationMessages;
     status: ContactStatusMessages;
-    /** Sin endpoint, el envío responde 'unavailable' (ver form.ts). */
-    endpoint?: string;
+    /** FORM_ENDPOINT (core/forms.ts): recibe un POST JSON (ver form.ts). */
+    endpoint: string;
   }
 
   let { baseId, fields, submitLabel, validation, status, endpoint }: Props = $props();
@@ -32,6 +36,7 @@
   let attempted = $state(false);
   let sending = $state(false);
   let result: SubmitResult | undefined = $state();
+  let honeypot = $state('');
   type InputFieldName = Exclude<ContactFieldName, 'message'>;
   const inputs: Partial<Record<InputFieldName, HTMLInputElement>> = $state({});
   let messageRef: HTMLTextAreaElement | undefined = $state();
@@ -57,7 +62,7 @@
       return;
     }
     sending = true;
-    result = await submitContact(values, endpoint);
+    result = await submitContact(values, endpoint, honeypot);
     sending = false;
     if (result === 'sent') {
       values = { ...EMPTY_VALUES };
@@ -75,6 +80,7 @@
   class="flex flex-col gap-6"
   onsubmit={onSubmit}
 >
+  <InputHoneypot name={HONEYPOT_FIELD} bind:value={honeypot} />
   <div class="flex flex-col gap-3">
     <div class="flex items-start gap-3">
       <ContactInputField

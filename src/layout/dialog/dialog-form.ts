@@ -1,5 +1,7 @@
 // Envío y ayudas de accesibilidad comunes a los formularios de los modales (cotización y asesoría).
+import { FORM_KIND_FIELD, HONEYPOT_FIELD, type FormKind } from '@/core/forms';
 
+/** 'unavailable' solo sale ya de `?…-simulada`: el destino siempre existe (core/forms FORM_ENDPOINT). */
 export type SubmitResult = 'sent' | 'error' | 'unavailable';
 
 const SIMULATED: readonly SubmitResult[] = ['sent', 'error', 'unavailable'];
@@ -14,24 +16,31 @@ export function simulatedResult(search: string, param: string): SubmitResult | u
   return SIMULATED.find((result) => result === value);
 }
 
+interface SubmitOptions {
+  /** site.quote.endpoint / site.advice.endpoint (= FORM_ENDPOINT, public/api/send.php). */
+  endpoint: string;
+  /** Formulario que identifica send.php (asunto y campos del correo). */
+  form: FormKind;
+  /** Valor del campo trampa (InputHoneypot); vacío en un envío humano. */
+  honeypot: string;
+  /** `?…-simulada`: espera un momento y devuelve ese resultado, sin red. */
+  simulate?: SubmitResult;
+}
+
 /**
- * Envío de un formulario de modal. Destino PENDIENTE mientras no haya backend:
- * - `simulate`: espera un momento y devuelve ese resultado, sin red.
- * - Sin `endpoint`: 'unavailable' sin tocar la red (no se finge un envío).
- * - Con `endpoint`: POST del `body`; 'sent' si responde 2xx, si no 'error'.
+ * Envío de un formulario de modal a `endpoint` (public/api/send.php): POST multipart del
+ * `body` más `form` y el honeypot; 'sent' si responde 2xx, si no 'error'.
  */
-export async function submitFormData(
-  body: () => FormData,
-  endpoint: string | undefined,
-  simulate?: SubmitResult,
-): Promise<SubmitResult> {
+export async function submitFormData(body: () => FormData, { endpoint, form, honeypot, simulate }: SubmitOptions): Promise<SubmitResult> {
   if (simulate) {
     await new Promise((resolve) => setTimeout(resolve, SIMULATED_DELAY_MS));
     return simulate;
   }
-  if (!endpoint) return 'unavailable';
   try {
-    const response = await fetch(endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body: body() });
+    const data = body();
+    data.append(FORM_KIND_FIELD, form);
+    data.append(HONEYPOT_FIELD, honeypot);
+    const response = await fetch(endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body: data });
     return response.ok ? 'sent' : 'error';
   } catch {
     return 'error';

@@ -2116,6 +2116,91 @@
         "./init.ps1 en verde"
       ],
       "verified": true
+    },
+    {
+      "id": "MAIL-ENDPOINT",
+      "name": "Envío real de formularios: endpoint PHP en cPanel que manda todo a bysenseistudio@gmail.com",
+      "status": "done",
+      "dependsOn": [],
+      "notes": "Pedido del usuario 2026-10-27. El sitio es estático en cPanel (Apache + PHP) y hoy NINGÚN formulario envía: site.quote.endpoint, site.advice.endpoint y el contacto de la home están sin destino. Decisión del usuario: script PHP propio en el hosting (no FormSubmit ni Formspree) y TODOS los formularios (cotización, asesoría, contacto de la home y el diagnóstico de /links, que llega en LINKS-DIAGNOSTIC) envían al correo del estudio bysenseistudio@gmail.com. El correo destino vive SOLO en el servidor (el PHP), nunca en el HTML/JS. scripts/deploy.sh empaqueta dist/ completo, así que public/api/*.php llega al Document Root. `astro dev` no ejecuta PHP: en local el envío responderá error (los parámetros ?simulate de los modales siguen sirviendo para revisar estados).",
+      "acceptance": [
+        "Un único script en public/api/ (p. ej. public/api/send.php) recibe POST tanto JSON (contacto, diagnóstico) como multipart/form-data (cotización con adjunto, asesoría); un campo identifica el formulario y define el asunto del correo",
+        "Destinatario fijo en el servidor: bysenseistudio@gmail.com; no aparece en ningún archivo de src/ ni en el HTML generado",
+        "From con dirección del propio dominio (p. ej. no-reply@bysensei.com) para SPF/DKIM y Reply-To = correo de la persona, validado; CR/LF eliminados de todo lo que entre en cabeceras (sin inyección de cabeceras)",
+        "Cuerpo legible en texto plano UTF-8 con todos los campos del formulario; el adjunto de la cotización llega como adjunto real (multipart/mixed) respetando el límite de tamaño y los tipos que ya valida quote-form.ts",
+        "Protección básica: solo POST (405 si no), Origin/Referer de bysensei.com (y www) o ausente, honeypot oculto en los formularios, límites de longitud por campo y límite simple de envíos por IP; respuesta JSON con 2xx si mail() acepta y 4xx/5xx si no, para que submitFormData/submitContact distingan 'sent' de 'error'",
+        "site.quote.endpoint, site.advice.endpoint y el endpoint del contacto de la home apuntan a esa ruta desde una sola constante; el estado 'unavailable' deja de mostrarse en producción",
+        "Las respuestas de /api/ no se cachean (.htaccess) y el resto de reglas de public/.htaccess siguen igual",
+        "docs/deploy.md recoge en pocas líneas: comprobar Email Deliverability (SPF/DKIM) en cPanel y una prueba con curl tras desplegar",
+        "Reutiliza dialog-form.ts / form.ts existentes; sin dependencias nuevas; ./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "LINKS-DIAGNOSTIC",
+      "name": "/links: diagnóstico gratis (wizard de 16 preguntas) dentro de la tarjeta \"¿Qué tienes en mente?\" y sin la guía",
+      "status": "done",
+      "dependsOn": [
+        "MAIL-ENDPOINT"
+      ],
+      "notes": "Pedido del usuario 2026-10-27. Especificación: Linktree-Diagnostico-gratis-Sensei.pdf (raíz del repo; texto con `pdftotext -layout Linktree-Diagnostico-gratis-Sensei.pdf -`). Referencia funcional con TODO el copy y la lógica: diagnostico-sensei.html (raíz del repo). El copy va palabra por palabra como en el PDF (cualquier cambio se consulta con Natalia). El wizard es el contenido real de la tarjeta blanca de LinksQuote (hoy selector de servicios): reemplaza la selección de servicios. El HTML de referencia es oscuro; aquí se adapta al estilo del linktree (tarjeta paper, tipografías, radios y shared/ui del proyecto), NO a sus colores. Lima nunca como color de texto sobre blanco: los realces que en la referencia son texto lima se resuelven de otra forma (p. ej. tinta + marcador/subrayado lima). Envío del lead: POST JSON al endpoint de MAIL-ENDPOINT con los campos del PDF (nombre, email, resultado, puntajes, etapa, inicio, inversion, califica, respuestas); si falla, el flujo sigue sin mostrar error. Cal.com: https://cal.com/sensei-studio-8sto43/agenda-20-minutos-con-nosotros, embebido con iframe ?embed=true y name/email/notes precargados (notes: `Diagnóstico: [área] · [etapa] · Inicio: [cuándo] · Inversión: [rango]`). WhatsApp de 4b = el mismo href del header (site.floatingBar.whatsapp). El header de /links no cambia y su \"Cotizar proyecto\" sigue abriendo el modal de cotización.",
+      "acceptance": [
+        "Paso 0 (entrada) en la tarjeta: etiqueta LabelMarker \"DIAGNÓSTICO GRATIS\", título \"¿Qué necesita tu proyecto para despegar?\", texto, botón \"Empezar mi diagnóstico →\" y microtexto \"Gratis · 2 minutos · Resultado al instante\"",
+        "Paso 1: 16 preguntas en el orden del PDF, una por pantalla, barra de progreso lima, contador \"n / 16\" y nombre del área; botones Sí/No en dos columnas iguales de ≥48 px que avanzan sin botón continuar; enlace \"← Pregunta anterior\" (oculto en la 1.ª) y la nueva respuesta reemplaza la anterior; la pregunta tiene altura mínima para que los botones no salten",
+        "Paso 2: \"Tu prioridad: [área]\" + título y texto del área ganadora; mini gráfico \"Tu diagnóstico\" con las 4 áreas y x/4, ganadora resaltada en lima; empate gana en orden Branding, UX/UI, Desarrollo, Email; cero sí muestra \"Tu proyecto tiene una base sólida\" (etiqueta \"Buen punto de partida\") y mantiene la invitación \"Definámoslo juntos\" con su botón",
+        "Paso 3: \"Cuéntanos de tu proyecto\" con 3 grupos de chips de selección única (radios accesibles, estilo de las tarjetas de servicio actuales, seleccionado en lima), nombre y correo obligatorios; no avanza sin las 3 respuestas, el nombre y un correo válido y muestra \"Completa las tres preguntas, tu nombre y un correo válido.\"; botón \"Continuar →\" con estado de envío",
+        "Califica solo por presupuesto con una única constante MIN_BUDGET = 400 en content; < $400 va a 4b (\"Gracias, [nombre]\" + WhatsApp) y nunca ve Cal.com; ≥ $400 va a 4a (\"Elige tu horario\", \"[Nombre], reserva tus 20 minutos…\", iframe Cal.com ≥650 px de alto en móvil con name/email/notes y botón secundario \"Abrir la agenda en otra pestaña\" en pestaña nueva)",
+        "El lead se envía siempre (califique o no) al endpoint de MAIL-ENDPOINT; un fallo no bloquea ni muestra error",
+        "Pie \"Sin promesas vacías. Solo resultados.\" en todos los pasos (sustituye la nota actual de la tarjeta)",
+        "Pasos dentro de la tarjeta sin recargar ni abrir ventanas; fundido de ~0,3 s entre pasos que respeta prefers-reduced-motion; al cambiar de paso scroll al inicio de la tarjeta y foco al título del paso (anunciado a lectores de pantalla); foco visible en botones y chips; contraste AA",
+        "Se elimina por completo el bloque de la guía \"7 claves para una web que convierte\" (LinksGuide, LinksGuideCover, su contenido, tipos, guideHref y assets que queden sin uso) y la descripción SEO de /links deja de mencionar la guía; el selector de servicios de /links y lo que quede sin uso se elimina",
+        "Copy, preguntas, áreas, resultados y constantes (MIN_BUDGET, enlace Cal.com) viven en content/links.ts con tipos en el schema del módulo; la lógica de puntaje en un .ts del módulo; isla Svelte para el wizard; reutiliza shared/ui y tokens, nada sobrescribe el tema de Tailwind",
+        "Mobile first diseñado a 390 px; revisado a 375, 768, 1024 y 1440 sin scroll horizontal",
+        "./init.ps1 en verde"
+      ],
+      "verified": true
+    },
+    {
+      "id": "WHATSAPP-NUMBER",
+      "name": "Número real de WhatsApp del estudio (+58 412 723 8210)",
+      "status": "done",
+      "notes": "Pedido del usuario 2026-11-09: número +58 4127238210. Formato wa.me sin + ni espacios: https://wa.me/584127238210. Vive solo en src/content/site.ts (whatsappHref); lo heredan barra flotante, modales de cotización y asesoría y /links (cabecera, cierre y paso 4b del diagnóstico).",
+      "acceptance": [
+        "whatsappHref = 'https://wa.me/584127238210' en src/content/site.ts, sin duplicar el número en otro archivo",
+        "Comentario PENDIENTE de site.ts actualizado",
+        "En dist/ todos los enlaces de WhatsApp (home, /proyectos/*, /links, /componentes) apuntan a https://wa.me/584127238210 y ninguno queda como https://wa.me/ vacío",
+        "design/content-gaps.md: hueco 3 y fila P1 whatsappHref marcados RESUELTO",
+        "./init.ps1 en verde"
+      ],
+      "verified": true,
+      "dependsOn": []
+    },
+    {
+      "id": "LINKS-TWO-PATHS",
+      "name": "/links: dos caminos (tiles Diagnóstico gratuito + Cotizar proyecto) con el diagnóstico en popup/hoja y página simplificada",
+      "status": "done",
+      "dependsOn": [
+        "LINKS-DIAGNOSTIC",
+        "WHATSAPP-NUMBER"
+      ],
+      "notes": "Pedido del usuario 2026-11-09. Referencia final (manda sobre LINKS-DIAGNOSTIC): design/links/linktree-sensei.html (prototipo móvil con todo el copy, la lógica y los eventos; ignorar sus imágenes base64 y su modal de cotización de prototipo) y la especificación design/links/Linktree-Diagnostico-gratis-Sensei.pdf (texto extraído en design/links/Linktree-Diagnostico-gratis-Sensei.txt). La opción 2 (Cotizar proyecto) es el modal de cotización que YA existe en el sitio, sin cambios. La opción 1 es el wizard actual (LinksDiagnostic*) con el nuevo diseño: deja de estar incrustado en la tarjeta y se abre en un popup con el estilo del linktree. Reutilizar la lógica y el contenido existentes (diagnostic.ts, content/links.ts) y ajustar solo lo que difiera del PDF/HTML. El HTML es de tema propio: se adapta a tokens, tipografías, radios y shared/ui del proyecto, no a sus colores literales. Lima nunca como texto sobre blanco. El copy va palabra por palabra como en el PDF. Medición: push a window.dataLayer (no se instala GTM/GA4 en esta feature: el ID está pendiente, anotarlo en content-gaps). WhatsApp: site.floatingBar.whatsapp (wa.me/584127238210).",
+      "acceptance": [
+        "Encabezado: logo + \"De la idea al resultado.\" + \"Diseño, desarrollo y automatización para marcas que quieren crecer.\" SIN botones (se quitan Cotizar proyecto y WhatsApp del header)",
+        "Tarjeta: eyebrow \"Tu proyecto empieza aquí\" (cuadrito lima + mayúsculas), h2 \"¿Por dónde empezamos?\", \"Elige el camino que va contigo.\", 2 tiles en 2 columnas también a 375/390 px, pie \"Lo esencial primero. El alcance lo definimos juntos.\"",
+        "Tile izquierdo (botón): ícono brújula, \"Diagnóstico gratuito\", \"No tengo claro qué necesito\", etiqueta \"Gratis · 2 min\" (lima con texto ink), borde oscuro; abre el popup del diagnóstico. Tile derecho (botón): ícono documento, \"Cotizar proyecto\", \"Ya sé lo que necesito\"; abre el modal de cotización existente tal cual",
+        "Popup del diagnóstico: en móvil hoja que sube desde abajo, hasta 94 % del alto, scroll propio; en desktop diálogo centrado; se cierra con \"✕ Cerrar\", tocando fuera y Escape; foco atrapado y devuelto al tile; bloquea scroll del body; mismo patrón accesible que los modales existentes (reutilizar layout/dialog si encaja)",
+        "Pasos dentro del popup sin recargar: 0 entrada (etiqueta DIAGNÓSTICO GRATIS, título, texto, \"Empezar mi diagnóstico →\", microtexto), 1 quiz de 16 (progreso lima, \"n / 16\", nombre del área, Sí/No en 2 columnas iguales ≥48 px, avanza al tocar, \"← Pregunta anterior\", altura mínima estable), 2 resultado (Tu prioridad: [área], título, texto, mini gráfico 4 áreas x/4 con ganadora en lima, invitación \"Definámoslo juntos\" + \"Quiero definir mi proyecto →\"), 3 preclasificación (3 grupos de chips, nombre y correo obligatorios, error del PDF, \"Continuar →\" con \"Enviando…\"), 4a Cal.com (iframe ?embed=true con name/email/notes, ≥650 px móvil, \"Abrir la agenda en otra pestaña\"), 4b (\"Gracias, [nombre]. Tu proyecto tiene por dónde empezar.\", los 3 pasos de su resultado en tarjetas grises con número en círculo lima, \"¿Quieres que te ayudemos?\", texto y botón lima \"Cotizar por WhatsApp →\" que abre wa.me/584127238210 con el mensaje prellenado que incluye el área)",
+        "Puntaje, empate (Branding, UX/UI, Desarrollo, Email), caso cero \"sí\" (Buen punto de partida / base sólida, mantiene invitación), MIN_BUDGET = 400 como única constante, < 400 nunca ve Cal.com, lead enviado siempre al endpoint de MAIL-ENDPOINT y un fallo no bloquea. Los 3 pasos por resultado (incluido ninguno) en content/links.ts",
+        "Fundido ~0,3 s entre pasos con prefers-reduced-motion; al cambiar de paso el popup vuelve arriba y el foco va al título del paso",
+        "Pie \"Sin promesas vacías. Solo resultados.\"",
+        "Se eliminan el bloque \"Conoce nuestros servicios\" y lo que quede sin uso. Portafolio: una sola pieza, eyebrow \"Un proyecto reciente\" + tarjeta Yupa (datos derivados del proyecto) + \"Ver todos los proyectos →\" a /proyectos/",
+        "Cierre: \"¿Prefieres escribirnos?\" + botón WhatsApp + \"Visitar bysensei.com\". WhatsApp aparece UNA sola vez en la página (más el de 4b); la barra flotante global no se muestra en /links si duplica WhatsApp/Cotizar (justificar)",
+        "La página muestra solo: encabezado, tarjeta con dos tiles, Yupa y cierre (más el pie mínimo legal si existe)",
+        "Medición vía window.dataLayer.push({event}): clic_diagnostico, clic_cotizar, diagnostico_iniciado, diagnostico_completado (con resultado), lead_enviado (con califica), clic_whatsapp, clic_proyectos, clic_whatsapp_cotizar, cotizacion_continuar (\"Continuar cotización\" del modal de cotización solo si se abrió desde /links o en general; justificar). Helper tipado en shared/lib o core, sin dependencia de GTM",
+        "Mobile first a 390 px; revisado a 375, 768, 1024 y 1440 sin scroll horizontal; foco visible, contraste AA",
+        "docs/content-gaps actualizado (ID de GTM/GA4 pendiente) y ./init.ps1 en verde"
+      ],
+      "verified": true
     }
   ]
 }

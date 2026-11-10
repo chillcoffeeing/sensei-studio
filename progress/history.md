@@ -768,3 +768,26 @@ Code, Palette, Monitor, Cube, PenNib, Browser, DeviceMobile, PaintBrush, Layout,
 
 - Cabecera y JSDoc en todo `src/shared/ui/`, sliders, `shared/lib/motion` y `shared/lib/slider`, y contratos de barra flotante y modales en `layout/`. Solo comentarios. Informes: `progress/impl_DOCS-INTO-CODE.md`, `progress/verify_DOCS-INTO-CODE.md` (VERDE). init.ps1 verde.
 - Orquestador: docs comprimidos (components 777→~90 líneas, architecture 227→120, conventions 204→~70; content-model, seo, deploy y verification reescritos). Regla nueva en CLAUDE.md: la documentación de detalle va en el código. README propio. Borrado de obsoletos preparado (lo ejecuta el usuario).
+
+## 2026-10-27 · MAIL-ENDPOINT · done (2 vueltas)
+
+- `public/api/send.php`: script único para JSON y multipart. `form` puede ser contact, quote, advice o diagnostic. Envía a bysenseistudio@gmail.com, y esa dirección solo aparece en el PHP. Usa From no-reply@bysensei.com con `-f` y Reply-To validado, sin inyección de cabeceras. El adjunto ≤ 10 MB va en multipart/mixed. Tiene honeypot, control de Origin, límites por campo y 5 envíos cada 10 min por IP. Se añaden `public/api/.htaccess` (no-store) y `.user.ini` (límites de subida).
+- `src/core/forms.ts` define `FORM_ENDPOINT`, que usan cotización, asesoría y contacto. Shared/ui suma `InputHoneypot`. En producción ya no se muestra 'unavailable'.
+- Vuelta 1 en ROJO: el servidor exigía empresa en el contacto. Se corrigió en la vuelta 2.
+- Pendiente en producción: revisar Email Deliverability (SPF/DKIM) en cPanel y hacer la prueba con curl (`docs/deploy.md`).
+- `./init.ps1`: VERDE (ejecutado por el orquestador). Informes: `progress/impl_MAIL-ENDPOINT.md`, `progress/verify_MAIL-ENDPOINT.md`.
+
+## 2026-10-27 · LINKS-DIAGNOSTIC · done (2 vueltas)
+
+- /links: la tarjeta «¿Qué tienes en mente?» pasa a ser el diagnóstico gratis, una isla `LinksDiagnostic.svelte` con estos pasos: entrada → 16 preguntas → resultado → preclasificación → 4a agenda en Cal.com / 4b WhatsApp. El copy sale del PDF y vive en `content/links.ts`, con `MIN_BUDGET = 400` y `CAL_LINK`. La lógica pura va en `modules/links/diagnostic.ts`. El lead se envía siempre a `send.php` (`form: diagnostic`) y, si falla, no avisa a la persona.
+- Se eliminan la guía «7 claves» y el selector de servicios de /links (LinksQuote, LinksGuide y sus assets/tipos). El header y «Cotizar proyecto» no cambian.
+- Vuelta 1 en ROJO: la altura mínima de la pregunta no se generaba. Se corrigió con `min-h-28`.
+- Desviación pendiente de que la confirme Natalia: los CTA no repiten «→» en el texto porque el círculo de `ButtonCtaBrand` ya dibuja la flecha.
+- La verificación en el navegador la hizo el implementer. El verifier comprobó por código y `dist/`, porque el sandbox bloqueó localhost.
+- `./init.ps1`: VERDE (ejecutado por el orquestador). Informes: `progress/impl_LINKS-DIAGNOSTIC.md`, `progress/verify_LINKS-DIAGNOSTIC.md`.
+
+## 2026-11-09 · WHATSAPP-NUMBER — done
+Número real del estudio (+58 412 723 8210): `whatsappHref = 'https://wa.me/584127238210'` en `src/content/site.ts` (única fuente). Lo heredan la barra flotante, los modales de cotización y asesoría y /links (cabecera, cierre y paso 4b). content-gaps: hueco 3 y P1 RESUELTOS. Verifier VERDE; `./init.ps1` VERDE (Node v22.20.0). Informes: `progress/impl_WHATSAPP-NUMBER.md`, `progress/verify_WHATSAPP-NUMBER.md`.
+
+## 2026-11-09 · LINKS-TWO-PATHS — done
+/links con dos caminos según design/links/ (linktree-sensei.html + PDF). Cabecera sin botones; tarjeta con 2 tiles: "Diagnóstico gratuito" abre el wizard en popup (hoja inferior en móvil, ModalDialog movido a shared/lib/dialog/) y "Cotizar proyecto" abre el modal de cotización existente. 4b con 3 pasos por resultado y "Cotizar por WhatsApp" con mensaje prellenado. Fuera "Conoce nuestros servicios"; portafolio solo Yupa; WhatsApp una vez (cierre) + 4b; sin barra flotante (StandaloneLayout). Eventos a window.dataLayer (ID de GTM/GA4 pendiente en content-gaps). Verifier VERDE; ./init.ps1 VERDE. Informes: progress/impl_LINKS-TWO-PATHS.md, progress/verify_LINKS-TWO-PATHS.md.

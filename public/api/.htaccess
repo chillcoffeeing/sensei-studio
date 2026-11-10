@@ -1,0 +1,19 @@
+# Sensei Studio · /api/ (MAIL-ENDPOINT). Se suma a las reglas de la raíz (public/.htaccess), que
+# siguen aplicando aquí (HTTPS, dominio canónico, cabeceras de seguridad).
+
+# Respuestas del envío: nunca en caché (pisa el "max-age=86400" por defecto de la raíz).
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-store"
+  Header unset Expires
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive Off
+</IfModule>
+
+# Sin listado de la carpeta y sin servir la configuración de PHP (.user.ini).
+Options -Indexes
+<Files ".user.ini">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+</Files>

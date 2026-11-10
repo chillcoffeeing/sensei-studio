@@ -1,6 +1,6 @@
 // Lógica pura del modal de asesoría (validación y envío), sin DOM. `submitAdvice` es el ÚNICO punto
-// de envío: destino site.advice.endpoint, PENDIENTE mientras no haya backend (sin endpoint responde
-// 'unavailable' sin tocar la red); POST multipart con `stage`, `message`, `name` y `email`.
+// de envío: POST multipart con `stage`, `message`, `name`, `email` y `form=advice` a
+// site.advice.endpoint (public/api/send.php).
 // `?asesoria-simulada=sent|error|unavailable` revisa los estados sin enviar.
 import type { SiteAdvice } from '@/core/site';
 import { isEmail, simulatedResult, submitFormData, type SubmitResult } from '../dialog/dialog-form';
@@ -36,7 +36,7 @@ export function firstInvalidAdvice(errors: AdviceErrors): AdviceFieldName | unde
   return ADVICE_FIELDS.find((name) => errors[name] !== undefined);
 }
 
-/** `?asesoria-simulada=sent|error|unavailable`: revisa los estados sin backend (no envía nada). */
+/** `?asesoria-simulada=sent|error|unavailable`: revisa los estados sin enviar nada. */
 export function simulatedAdviceResult(search: string): SubmitResult | undefined {
   return simulatedResult(search, 'asesoria-simulada');
 }
@@ -52,11 +52,11 @@ export function adviceFormData(values: AdviceValues): FormData {
 }
 
 /**
- * ÚNICO punto de envío de la asesoría. Destino PENDIENTE (no hay backend): sin `endpoint`
- * responde 'unavailable' sin tocar la red; con él, POST multipart (`adviceFormData`).
+ * ÚNICO punto de envío de la asesoría: POST multipart (`adviceFormData`) a `endpoint`.
+ * `honeypot` es el valor del campo trampa (InputHoneypot).
  */
-export function submitAdvice(values: AdviceValues, endpoint: string | undefined, simulate?: SubmitResult): Promise<SubmitResult> {
-  return submitFormData(() => adviceFormData(values), endpoint, simulate);
+export function submitAdvice(values: AdviceValues, endpoint: string, honeypot: string, simulate?: SubmitResult): Promise<SubmitResult> {
+  return submitFormData(() => adviceFormData(values), { endpoint, form: 'advice', honeypot, simulate });
 }
 
 /** ids de un campo y de sus textos asociados (aria-describedby). */

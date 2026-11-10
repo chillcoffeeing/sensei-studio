@@ -1,4 +1,5 @@
 // Lógica pura del formulario de contacto (validación y envío): sin DOM.
+import { FORM_KIND_FIELD, HONEYPOT_FIELD } from '@/core/forms';
 import type { ContactField, ContactFieldName, ContactValidationMessages } from './schema';
 
 export type ContactValues = Record<ContactFieldName, string>;
@@ -55,22 +56,24 @@ export function fieldIds(baseId: string, name: ContactFieldName): { input: strin
   return { input: `${baseId}-${name}`, error: `${baseId}-${name}-error` };
 }
 
-export type SubmitResult = 'sent' | 'error' | 'unavailable';
+export type SubmitResult = 'sent' | 'error';
 
 type FetchLike = (input: string, init: RequestInit) => Promise<{ ok: boolean }>;
 
 /**
- * Handler de envío. PUNTO A CONFIRMAR: el proyecto no tiene backend de contacto.
- * - Sin `endpoint`: devuelve 'unavailable' sin tocar la red (no se finge un envío).
- * - Con `endpoint`: POST JSON con los valores recortados; 'sent' si responde 2xx.
+ * Envío a `endpoint` (FORM_ENDPOINT, public/api/send.php): POST JSON con los valores recortados,
+ * `form: 'contact'` y el campo trampa; 'sent' si responde 2xx, si no 'error'.
+ * `honeypot` es el valor de InputHoneypot (vacío en un envío humano).
  */
 export async function submitContact(
   values: ContactValues,
-  endpoint: string | undefined,
+  endpoint: string,
+  honeypot: string,
   fetchImpl: FetchLike = fetch,
 ): Promise<SubmitResult> {
-  if (!endpoint) return 'unavailable';
   const body = JSON.stringify({
+    [FORM_KIND_FIELD]: 'contact',
+    [HONEYPOT_FIELD]: honeypot,
     name: values.name.trim(),
     company: values.company.trim(),
     email: values.email.trim(),

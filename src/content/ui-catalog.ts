@@ -93,6 +93,7 @@ const uiCatalog = {
         { name: 'FieldError', usage: 'Mensaje de error bajo un campo (aria-describedby).' },
         { name: 'FormStatus', usage: 'Estado del envío (enviando, enviado).' },
         { name: 'FormStatusError', usage: 'Error del envío.' },
+        { name: 'InputHoneypot', usage: 'Campo trampa contra bots: invisible y fuera del teclado y de los lectores de pantalla (aquí no se ve nada).' },
       ],
     },
     cards: {

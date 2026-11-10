@@ -8,8 +8,9 @@ export const prerender = true;
 ---
 
 {/*
-  LINKS-PAGE: destino del enlace de la bio de Instagram. Sin header, barra flotante ni footer del
-  sitio (la página trae su cabecera con los mismos CTA y su pie mínimo); sí el modal de cotización.
+  Destino del enlace de la bio de Instagram. Sin header, barra flotante ni footer del sitio: la
+  página trae su cabecera, sus dos caminos (diagnóstico y cotización) y un único WhatsApp en el
+  cierre, que la barra flotante duplicaría. Sí el modal de cotización, que abre el tile "Cotizar proyecto".
 */}
 <StandaloneLayout seo={links.seo} site={site}>
   <LinksView links={links} />
